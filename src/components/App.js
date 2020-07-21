@@ -1,5 +1,5 @@
 import React from "react";
-import SpotifySearch from "./SpotifySearch";
+import SpotifySearch from "./spotify/SpotifySearch"
 
 const App = () => {
   return (
