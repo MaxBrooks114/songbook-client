@@ -1,7 +1,12 @@
 import React from "react";
+import SpotifySearch from "./SpotifySearch";
 
 const App = () => {
-  return <div>Songbook</div>;
+  return (
+    <div>
+      <SpotifySearch />
+    </div>
+  );
 };
 
 export default App;
