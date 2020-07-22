@@ -1,32 +1,27 @@
-import React, { Component } from "react";
-import { connect } from 'react-redux'
-import { fetchSpotifyTracks } from '../../actions/spotify'
+import React, {useEffect, useCallBack} from 'react'
+import {useSelector, connect } from 'react-redux'
+import SpotifySearchBar from './SpotifySearchBar'
+import SpotifyTrackList from './SpotifyTrackList'
+import { fetchSpotifyTracks } from '../../actions/spotify/index'
 
-class SpotifySearch extends Component {
-  state = { search: "", token: null };
 
+const SpotifySearch = ({fetchSpotifyTracks}) => {
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.fetchSpotifyTracks(this.state.search)
+    const tracks = useSelector(state => state.spotifyTracks)
+   
 
-  };
+ 
 
-  render() {
+    const renderTracklist = () => {
+      return  Object.keys(tracks).length > 0 ? <SpotifyTrackList tracks={Object.values(tracks)} /> : ""
+    }
+
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            <h1>Spotify Search</h1>
-          </label><br />
-          <input type="text" value={this.state.search} onChange={(e) => this.setState({ search: e.target.value })} />
-          <button>Submit</button>
-        </form>
-      </div>
-    );
-  }
+        <div>
+            <SpotifySearchBar onFormSubmit={fetchSpotifyTracks}/>        
+            {renderTracklist()}
+        </div>
+    )
 }
 
-
-
-export default connect(null, {fetchSpotifyTracks})(SpotifySearch);
+export default connect(null, {fetchSpotifyTracks})(SpotifySearch)
