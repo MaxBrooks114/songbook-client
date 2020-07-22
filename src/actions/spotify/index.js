@@ -1,8 +1,8 @@
 import spotify from '../../apis/spotify'
 import {getToken}from '../../apis/spotifyToken'
-import { FETCH_SPOTIFY_TRACKS } from './types'
+import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS } from './types'
 
-export const fetchSpotifyTracks = (search) => async (dispatch) => {
+export const fetchSpotifyTracks = (query) => async (dispatch) => {
 
     const token = await getToken()
 
@@ -14,15 +14,22 @@ export const fetchSpotifyTracks = (search) => async (dispatch) => {
           "Content-Type": "application/json",
         },
         params: {
-          q: search,
+          q: query,
           type: "track",
         },
       });
-
-      console.log(response)
+    
+    dispatch({type: CLEAR_SPOTIFY_TRACKS})
   
     dispatch({
       type: FETCH_SPOTIFY_TRACKS,
       payload: response.data.tracks.items,
     });
   };
+
+
+export const clearSpotifyTracks = () => {
+    return {
+      type: CLEAR_SPOTIFY_TRACKS
+    }
+  }
