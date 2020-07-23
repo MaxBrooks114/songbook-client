@@ -11,7 +11,7 @@ import Slide from "@material-ui/core/Slide";
 const SpotifyTrack = ({ track, transitionDuration }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
-      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 80%)",
+      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 100%)",
       color: "black",
       height: "100%",
       display: "flex",
@@ -29,12 +29,21 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
     },
 
     button: {
-      background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+      background: "linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)",
+      "&:hover": {
+        background: "rgba(8,199,251,1)",
+        color: "rgba(86,3,114,1)",
+      },
     },
 
     cardContent: {
       flexGrow: 1,
       color: "black",
+    },
+
+    trackTitle: {
+      fontWeight: "bold",
+      textShadow: "-1px -1px 0 rgb(254,123,235, 1)",
     },
   }));
 
@@ -45,10 +54,10 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
       <Card className={classes.root}>
         <CardMedia className={classes.media} title={track.album.name} image={track.album.images[0].url} />
         <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography className={classes.trackTitle} gutterBottom variant="h5">
             {track.name}
           </Typography>
-          <Typography>{track.artists[0].name}</Typography>
+          <Typography className>{track.artists[0].name}</Typography>
           <Typography>
             {track.album.name}, {track.album.release_date}
           </Typography>
