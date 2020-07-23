@@ -7,5 +7,8 @@ const theme = createMuiTheme({
     info: { main: "#560372" },
     background: { default: "#001E29" },
   },
+  typography: {
+    fontFamily: "Nunito",
+  },
 });
 export default theme;
