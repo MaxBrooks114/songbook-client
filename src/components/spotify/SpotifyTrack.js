@@ -16,8 +16,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      boxShadow: theme.shadows[10],
-      transition: theme.transitions.easeIn,
+      boxShadow: theme.shadows[24],
     },
     media: {
       height: 200,
