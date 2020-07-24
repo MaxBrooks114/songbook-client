@@ -9,7 +9,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/styles";
 
 const SpotifySearch = ({ fetchSpotifyTracks }) => {
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(() => ({
     root: {
       color: "white",
     },
