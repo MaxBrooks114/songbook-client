@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, formValues } from "redux-form";
 import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -10,7 +10,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { makeStyles } from "@material-ui/styles";
 import genres from "./genres";
 import keys from "./keys";
-import "./SongForm.css";
+import modes from "./modes";
 
 const renderTextField = ({ rows, multiline, inputAdornment, classes, input, label, ...custom }) => {
   return (
@@ -38,7 +38,7 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
   return (
     <Autocomplete
       options={options}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option) => option[Object.keys(option)[0]]}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
       renderInput={(params) => (
         <TextField
@@ -68,13 +68,13 @@ const renderCheckbox = ({ classes, input, label }) => (
   />
 );
 
-const SongForm = () => {
+const SongForm = ({ onSubmit, handleSubmit }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       color: "#D31DEA",
       width: "85%",
       marginTop: "2rem",
-      marginLeft: "1rem",
+      marginLeft: "4rem",
 
       "& .MuiOutlinedInput-root": {
         width: 250,
@@ -136,10 +136,14 @@ const SongForm = () => {
   }));
 
   const classes = useStyles();
+
+  const onFormSubmit = (formValues) => {
+    onSubmit(formValues);
+  };
   return (
     <div>
       <Grid container spacing={2} direction="row">
-        <form className={classes.root}>
+        <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
           <Grid item>
             <Field classes={classes} name="title" component={renderTextField} label="Title" />
           </Grid>
@@ -162,19 +166,19 @@ const SongForm = () => {
             <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" />
           </Grid>
           <Grid item>
-            <Field
-              options={[{ name: "major" }, { name: "minor" }]}
-              classes={classes}
-              name="mode"
-              component={renderAutoCompleteField}
-              label="Mode"
-            />
+            <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
           </Grid>
           <Grid item>
             <Field classes={classes} name="tempo" inputAdornment="BPM" component={renderTextField} label="Tempo" />
           </Grid>
           <Grid item>
-            <Field classes={classes} name="time_signature" component={renderTextField} label="Time Signature" />
+            <Field
+              classes={classes}
+              name="time_signature"
+              inputAdornment="/4"
+              component={renderTextField}
+              label="Time Signature"
+            />
           </Grid>
           <Grid item>
             <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
@@ -192,8 +196,8 @@ const SongForm = () => {
             />
           </Grid>
           <Grid item>
-            <Button className={classes.button} variant="contained">
-              Create Song
+            <Button type="submit" className={classes.button} variant="contained">
+              Submit
             </Button>
           </Grid>
         </form>
@@ -202,8 +206,6 @@ const SongForm = () => {
   );
 };
 
-const reduxSongForm = reduxForm({
-  form: "SongForm",
+export default reduxForm({
+  form: "SongCreate",
 })(SongForm);
-
-export default reduxSongForm;
