@@ -16,7 +16,7 @@ const SpotifyTrackList = ({ tracks }) => {
   let transitionDuration = 50;
 
   const renderedList = tracks.map((track) => {
-    transitionDuration += 500;
+    transitionDuration += 450;
     return (
       <Grid key={track.id} item xs={12} sm={6} md={4} lg={3}>
         <SpotifyTrack track={track} transitionDuration={transitionDuration} />
