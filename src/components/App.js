@@ -1,7 +1,8 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import SpotifySearch from "./spotify/SpotifySearch";
-import SongForm from "./songs/SongForm";
+import SongCreate from "./songs/SongCreate";
+import SongList from "./songs/SongList";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme";
@@ -14,12 +15,14 @@ const App = () => {
       <CssBaseline />
       <Router history={history}>
         <div>
-          <Switch>
-            <Route path="/search" exact component={SpotifySearch} />
-            <MuiThemeProvider>
-              <Route path="/songs/new" exact component={SongForm} />
-            </MuiThemeProvider>
-          </Switch>
+          <MuiThemeProvider>
+            <Switch>
+              <Route path="/search" exact component={SpotifySearch} />
+              <Route path="/songs/new" exact component={SongCreate} />
+              <Route exact path="/songs" component={SongList} />
+              <Route exact path="/songs/:id" component={SongList} />
+            </Switch>
+          </MuiThemeProvider>
         </div>
       </Router>
     </ThemeProvider>
