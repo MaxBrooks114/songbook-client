@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -7,6 +8,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
+import { importSpotifyTrack } from "../../actions/spotify";
 
 const SpotifyTrack = ({ track, transitionDuration }) => {
   const useStyles = makeStyles((theme) => ({
@@ -22,6 +24,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
       height: 200,
       width: "100%",
       backgroundSize: "cover",
+      backgroundPosition: "center",
     },
     title: {
       color: theme.palette.primary.main,
@@ -47,11 +50,16 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
   }));
 
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card className={classes.root}>
-        <CardMedia className={classes.media} title={track.album.name} image={track.album.images[0].url} />
+        <CardMedia
+          className={classes.media}
+          title={track.album.name}
+          image={track.album.images.length > 0 ? track.album.images[0].url : null}
+        />
         <CardContent className={classes.cardContent}>
           <Typography className={classes.trackTitle} gutterBottom variant="h5">
             {track.name}
@@ -62,7 +70,12 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button className={classes.button} size="small" variant="contained" color="primary">
+          <Button
+            className={classes.button}
+            size="small"
+            variant="contained"
+            onClick={() => dispatch(importSpotifyTrack(track.id))}
+          >
             Import Song
           </Button>
         </CardActions>
