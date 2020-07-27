@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm, formValues } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -12,14 +12,28 @@ import genres from "./genres";
 import keys from "./keys";
 import modes from "./modes";
 
-const renderTextField = ({ rows, multiline, inputAdornment, classes, input, label, ...custom }) => {
+const renderTextField = ({
+  helperText,
+  meta: { touched, error },
+  rows,
+  multiline,
+  inputAdornment,
+  classes,
+  input,
+  label,
+  required,
+  ...custom
+}) => {
   return (
     <TextField
       label={label}
       size="small"
+      helperText={touched && error}
+      error={touched && error}
       color="secondary"
       variant="outlined"
       margin="dense"
+      required={required}
       multiline={multiline}
       rows={rows}
       autoComplete="off"
@@ -38,8 +52,10 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
   return (
     <Autocomplete
       options={options}
-      getOptionLabel={(option) => option[Object.keys(option)[0]]}
+      getOptionLabel={(option) => (typeof option === "string" ? option : option[Object.keys(option)[0]])}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
+      freeSolo
+      value={input.value}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -47,8 +63,8 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
           size="small"
           color="secondary"
           variant="outlined"
-          value={value}
           margin="dense"
+          value={input.value}
           InputProps={{ ...params.InputProps, className: classes.autoComplete }}
           InputLabelProps={{ className: classes.label }}
           {...input}
@@ -87,6 +103,9 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
       },
       "& .MuiInputAdornment-root .MuiTypography-colorTextSecondary": {
         color: "#D31DEA",
+      },
+      " & .MuiFormHelperText-contained": {
+        color: "red",
       },
     },
 
@@ -145,7 +164,7 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
       <Grid container spacing={2} direction="row">
         <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
           <Grid item>
-            <Field classes={classes} name="title" component={renderTextField} label="Title" />
+            <Field classes={classes} required name="title" component={renderTextField} label="Title" />
           </Grid>
           <Grid item>
             <Field classes={classes} name="artist" component={renderTextField} label="Artist" />
@@ -206,6 +225,18 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
   );
 };
 
+const validate = (formValues) => {
+  const errors = {};
+  const requiredFields = ["title", "artist"];
+  requiredFields.forEach((field) => {
+    if (!formValues[field]) {
+      errors[field] = "Required";
+    }
+  });
+  return errors;
+};
+
 export default reduxForm({
   form: "SongCreate",
+  validate,
 })(SongForm);
