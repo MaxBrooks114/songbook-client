@@ -1,5 +1,5 @@
 import history from "../../history";
-import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG } from "./types";
+import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG } from "./types";
 import songbook from "../../apis/songbook";
 
 export const createSong = (formValues) => async (dispatch) => {
@@ -33,8 +33,9 @@ export const fetchSong = (id) => async (dispatch) => {
     type: FETCH_SONG,
     payload: response.data,
   });
-
-  history.push(`/songs/${id}`);
+  if (!history.location.pathname.includes("edit")) {
+    history.push(`/songs/${id}`);
+  }
 };
 
 export const deleteSong = (id) => async (dispatch) => {
@@ -46,4 +47,15 @@ export const deleteSong = (id) => async (dispatch) => {
   });
 
   history.push("/songs");
+};
+
+export const editSong = (id, formValues) => async (dispatch) => {
+  const response = await songbook.patch(`/songs/${id}/`, formValues);
+
+  dispatch({
+    type: EDIT_SONG,
+    payload: response.data,
+  });
+
+  history.push(`/songs/${id}`);
 };
