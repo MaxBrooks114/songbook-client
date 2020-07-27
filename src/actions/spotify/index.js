@@ -2,6 +2,7 @@ import spotify from "../../apis/spotify";
 import { getToken } from "../../apis/spotifyToken";
 import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS } from "./types";
 import { createSong } from "../songs/index";
+import { showSuccessSnackbar } from "../ui/index";
 
 export const fetchSpotifyTracks = (query) => async (dispatch) => {
   const token = await getToken();
@@ -88,4 +89,5 @@ export const importSpotifyTrack = (id) => async (dispatch) => {
   };
 
   dispatch(createSong(songData));
+  dispatch(showSuccessSnackbar("Song Imported"));
 };
