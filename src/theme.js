@@ -8,7 +8,7 @@ const theme = createMuiTheme({
     background: { default: "#001E29" },
   },
   typography: {
-    fontFamily: "Nunito",
+    fontFamily: "Spartan",
   },
 });
 export default theme;
