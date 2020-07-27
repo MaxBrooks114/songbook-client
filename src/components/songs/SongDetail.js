@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteSong } from "../../actions/songs";
 import Paper from "@material-ui/core/Paper";
@@ -12,17 +12,18 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Link } from "react-router-dom";
 
 const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
 
   const useStyles = makeStyles((theme) => ({
     root: {
-      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 150%)",
-      marginLeft: 100,
+      background: "#294C77",
       textTransform: "capitalize",
       color: theme.palette.primary.main,
-      position: "fixed",
+      position: "sticky",
+      width: "100%",
     },
 
     media: {
@@ -30,14 +31,13 @@ const SongDetail = ({ song }) => {
       backgroundSize: "cover",
     },
     details: {
-      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 150%)",
-      color: "white",
+      color: "black",
       marginLeft: 2,
     },
 
     accordion: {
-      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 150%)",
-      color: "white",
+      background: "#294C77",
+      color: "black",
     },
 
     delete: {
@@ -46,6 +46,14 @@ const SongDetail = ({ song }) => {
         background: "rgba(8,199,251,1)",
         color: "rgba(86,3,114,1)",
         display: "absolute",
+      },
+    },
+
+    button: {
+      background: "linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)",
+      "&:hover": {
+        background: "rgba(8,199,251,1)",
+        color: "rgba(86,3,114,1)",
       },
     },
 
@@ -75,6 +83,25 @@ const SongDetail = ({ song }) => {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
 
+  const audioFeaturesToText = (feature) => {
+    switch (true) {
+      case feature === null:
+        return "N/A";
+
+      case feature <= 0.35:
+        return "low";
+
+      case feature > 0.35 && feature <= 0.7:
+        return "medium";
+
+      case feature > 0.7:
+        return "high";
+
+      default:
+        return "N/A";
+    }
+  };
+
   return song ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
       <Paper variant="outlined" className={classes.root} elevation={3}>
@@ -93,24 +120,49 @@ const SongDetail = ({ song }) => {
           <Typography>Explicit?: {renderBool(song.explicit)}</Typography>
           <Accordion className={classes.accordion}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography>Advanced</Typography>
+              <Typography>Song Features</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>Acousticness: {song.acousticness}</Typography>
-              <Typography>Danceability: {song.danceability}</Typography>
-              <Typography>Energy: {song.energy}</Typography>
-              <Typography>Instrumentalness: {song.instrumentalness}</Typography>
-              <Typography>Liveness: {song.liveness}</Typography>
+              <Typography>Acousticness: {audioFeaturesToText(song.acousticness)}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
+              <Typography>Danceability: {audioFeaturesToText(song.danceability)}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
+              <Typography>Energy: {audioFeaturesToText(song.energy)}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
+              <Typography>Instrumentalness: {audioFeaturesToText(song.instrumentalness)}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
+              <Typography>Liveness: {audioFeaturesToText(song.liveness)}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
               <Typography>Loudness: {song.loudness}</Typography>
-              <Typography>Speechiness: {song.speechiness}</Typography>
-              <Typography>Valence: {song.loudness}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
+              <Typography>Speechiness: {audioFeaturesToText(song.speechiness)}</Typography>
+            </AccordionDetails>
+            <AccordionDetails>
+              <Typography>Valence: {audioFeaturesToText(song.loudness)}</Typography>
             </AccordionDetails>
           </Accordion>
-          <Typography>{song.lyrics}</Typography>
+          <Accordion className={classes.accordion}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+              <Typography>Lyrics</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>{song.lyrics}</Typography>
+            </AccordionDetails>
+          </Accordion>
 
           <Button className={classes.delete} onClick={() => dispatch(deleteSong(song.id))}>
             Delete
           </Button>
+
+          <Link to={`edit/${song.id}`}>
+            <Button className={classes.button}>Edit </Button>
+          </Link>
         </div>
       </Paper>
     </Slide>
