@@ -13,7 +13,7 @@ import { importSpotifyTrack } from "../../actions/spotify";
 const SpotifyTrack = ({ track, transitionDuration }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
-      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 100%)",
+      background: "#294C77",
       color: "black",
       height: "100%",
       display: "flex",
@@ -31,7 +31,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
     },
 
     button: {
-      background: "linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)",
+      background: "linear-gradient(90deg, rgba(8,199,251,1) 0%,  rgb(254,123,235, 1) 150%)",
       "&:hover": {
         background: "rgba(8,199,251,1)",
         color: "rgba(86,3,114,1)",
@@ -45,7 +45,6 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
 
     trackTitle: {
       fontWeight: "bold",
-      textShadow: "-1px -1px 0 rgb(254,123,235, 1)",
     },
   }));
 

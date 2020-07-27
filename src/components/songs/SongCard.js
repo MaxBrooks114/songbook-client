@@ -9,45 +9,22 @@ import Slide from "@material-ui/core/Slide";
 const SongCard = ({ song, transitionDuration, handleClick }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
-      background: "linear-gradient(360deg, rgba(86,3,114,1) 0%,  rgba(8,199,251,1) 150%)",
+      background: "#294C77",
       display: "flex",
-      width: 450,
+      width: "100%",
       height: "auto",
       boxShadow: theme.shadows[24],
-      marginBottom: 5,
       "&:hover": {
         cursor: "pointer",
       },
-    },
-
-    details: {
-      display: "flex",
-      flexDirection: "row",
     },
     media: {
       width: 151,
       backgroundSize: "cover",
     },
-    title: {
-      color: theme.palette.primary.main,
-    },
-
-    delete: {
-      background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
-      "&:hover": {
-        background: "rgba(8,199,251,1)",
-        color: "rgba(86,3,114,1)",
-        display: "absolute",
-      },
-    },
-
-    cardContent: {
-      flex: "1 0",
-    },
-
     songTitle: {
+      color: "black",
       fontWeight: "bold",
-      textShadow: "-1px -1px 0 rgb(254,123,235, 1)",
     },
   }));
 
@@ -60,14 +37,13 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
           className={classes.media}
           image={song.image ? song.image : "https://coverfiles.alphacoders.com/796/79685.jpg"}
         />
-        <div classes={classes.details}>
-          <CardContent className={classes.cardContent}>
-            <Typography className={classes.songTitle} gutterBottom>
-              {song.title}
-            </Typography>
-            <Typography className={classes.songTitle}>{song.artist}</Typography>
-          </CardContent>
-        </div>
+
+        <CardContent className={classes.cardContent}>
+          <Typography className={classes.songTitle} gutterBottom>
+            {song.title}
+          </Typography>
+          <Typography className={classes.songTitle}>{song.artist}</Typography>
+        </CardContent>
       </Card>
     </Slide>
   );

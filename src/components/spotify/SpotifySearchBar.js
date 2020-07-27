@@ -21,7 +21,7 @@ const SpotifySearchBar = () => {
 
     button: {
       color: "white",
-      background: "linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)",
+      background: "linear-gradient(90deg, rgba(8,199,251,1) 0%,  rgb(254,123,235, 1) 150%)",
       width: "100%",
       "&:hover": {
         background: "rgba(8,199,251,1)",
