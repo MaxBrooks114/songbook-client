@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchSongs, fetchSong } from "../../actions/songs";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/styles";
-import SongCard from "./SongCard";
-import SongDetail from "./SongDetail";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Typography from "@material-ui/core/Typography";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { createSelector } from 'reselect';
+import { fetchSongs, fetchSong } from '../../actions/songs';
+import { getFilteredSongs } from '../../selectors/selectors';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/styles';
+import SongCard from './SongCard';
+import SongDetail from './SongDetail';
+import FilterControl from '../FilterControl';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
 
 const SongList = ({ match }) => {
-  const songs = useSelector((state, filter, sort = "artist") =>
-    Object.values(state.songs).sort((a, b) => (a[sort] > b[sort] ? 1 : -1))
-  );
+  const songs = useSelector(getFilteredSongs);
+
   const song = useSelector((state) => state.songs[match.params.id]);
 
   const dispatch = useDispatch();
@@ -29,8 +31,8 @@ const SongList = ({ match }) => {
     },
 
     list: {
-      height: "100%",
-      overflow: "auto",
+      height: '100%',
+      overflow: 'auto',
     },
   }));
 
@@ -43,14 +45,16 @@ const SongList = ({ match }) => {
 
   const renderedList =
     Object.values(songs).length > 0
-      ? Object.values(songs).map((song) => {
-          transitionDuration += 50;
-          return (
-            <ListItem key={song.id}>
-              <SongCard song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
-            </ListItem>
-          );
-        })
+      ? Object.values(songs)
+          .sort((a, b) => (a['artist'] > b['artist'] ? 1 : -1))
+          .map((song) => {
+            transitionDuration += 50;
+            return (
+              <ListItem key={song.id}>
+                <SongCard song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
+              </ListItem>
+            );
+          })
       : null;
 
   const renderDetail = () => {
@@ -60,9 +64,7 @@ const SongList = ({ match }) => {
   return (
     <Grid container direction="row" className={classes.cardGrid}>
       <Grid item lg={4} className={classes.list}>
-        <Typography variant="h4" className={classes.title}>
-          Songs
-        </Typography>
+        <FilterControl />
         <List dense>{renderedList}</List>
       </Grid>
       <Grid item lg={1}>
