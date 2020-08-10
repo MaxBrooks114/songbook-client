@@ -11,26 +11,30 @@ const vaporSkyBlue = '#08C7FB';
 const vaporDarkPurple = '#560372';
 const vaporRed = '#FF2A75';
 const vaporYellow = '#FFD416';
+const vaporNavy = '#001E29';
+const vaporLightNavy = '#085B7E';
 
 const theme = createMuiTheme({
   palette: {
     common: {
-      NeonBlue: `${vaporNeonBlue}`,
-      BabyBlue: `${vaporBabyBlue}`,
-      Indigo: `${vaporIndigo}`,
-      DeepPurple: `${vaporDeepPurple}`,
-      HotPink: `${vaporHotPink}`,
-      Orange: `${vaporOrange}`,
-      PastelPurple: `${vaporPastelPurple}`,
-      SkyBlue: `${vaporSkyBlue}`,
-      DarkPurple: `${vaporDarkPurple}`,
-      Red: `${vaporRed}`,
-      Yellow: `${vaporYellow}`,
+      neonBlue: `${vaporNeonBlue}`,
+      babyBlue: `${vaporBabyBlue}`,
+      indigo: `${vaporIndigo}`,
+      deepPurple: `${vaporDeepPurple}`,
+      hotPink: `${vaporHotPink}`,
+      orange: `${vaporOrange}`,
+      pastelPurple: `${vaporPastelPurple}`,
+      skyBlue: `${vaporSkyBlue}`,
+      darkPurple: `${vaporDarkPurple}`,
+      red: `${vaporRed}`,
+      yellow: `${vaporYellow}`,
+      navy: `${vaporNavy}`,
+      lightNavy: vaporLightNavy,
     },
-    primary: { main: `${vaporDarkPurple}` },
+    primary: { main: `${vaporLightNavy}` },
     secondary: { main: `${vaporNeonBlue}` },
     info: { main: '#560372' },
-    background: { default: '#001E29' },
+    background: { default: `${vaporNavy}` },
   },
   typography: {
     fontFamily: 'Spartan',
