@@ -48,7 +48,7 @@ export const getFilteredSongs = (state) => {
   return Object.values(songs).filter((song) => {
     switch (true) {
       case typeof song[filterAttribute] === 'string':
-        return song[filterAttribute].toLowerCase().includes(filterValue);
+        return song[filterAttribute].toLowerCase().includes(filterValue.toLowerCase());
       case filterAttribute === 'tempo':
         return parseInt(song[filterAttribute]) === parseInt(filterValue);
       case filterAttribute === 'key':
