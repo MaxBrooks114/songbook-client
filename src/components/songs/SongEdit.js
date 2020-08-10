@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { editSong, fetchSong } from "../../actions/songs";
-import { makeStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
-import SongForm from "./SongForm";
-import keys from "./keys";
-import modes from "./modes";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editSong, fetchSong } from '../../actions/songs';
+import { makeStyles } from '@material-ui/styles';
+import Typography from '@material-ui/core/Typography';
+import SongForm from './SongForm';
+import keys from './keys';
+import modes from './modes';
+
+const useStyles = makeStyles(() => ({
+  root: {
+    color: 'white',
+  },
+}));
 
 const SongEdit = ({ match }) => {
   const dispatch = useDispatch();
@@ -15,7 +21,6 @@ const SongEdit = ({ match }) => {
   }, [dispatch, match.params.id]);
 
   const song = useSelector((state) => state.songs[match.params.id]);
-  console.log(song);
 
   const onSubmit = (formValues) => {
     dispatch(
@@ -26,12 +31,6 @@ const SongEdit = ({ match }) => {
       })
     );
   };
-
-  const useStyles = makeStyles(() => ({
-    root: {
-      color: "white",
-    },
-  }));
 
   const classes = useStyles();
 

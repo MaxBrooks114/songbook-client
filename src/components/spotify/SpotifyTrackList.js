@@ -1,17 +1,17 @@
-import React from "react";
-import SpotifyTrack from "./SpotifyTrack";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/styles";
+import React from 'react';
+import SpotifyTrack from './SpotifyTrack';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  cardGrid: {
+    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(4),
+  },
+}));
 
 const SpotifyTrackList = ({ tracks }) => {
-  const useStyles = makeStyles((theme) => ({
-    cardGrid: {
-      paddingTop: theme.spacing(5),
-      paddingBottom: theme.spacing(4),
-    },
-  }));
-
   const classes = useStyles();
   let transitionDuration = 50;
 

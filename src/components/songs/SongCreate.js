@@ -1,11 +1,28 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { createSong } from "../../actions/songs";
-import { makeStyles } from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
-import SongForm from "./SongForm";
-import keys from "./keys";
-import modes from "./modes";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { createSong } from '../../actions/songs';
+import { makeStyles } from '@material-ui/styles';
+import Typography from '@material-ui/core/Typography';
+import SongForm from './SongForm';
+import keys from './keys';
+import modes from './modes';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    color: 'white',
+  },
+
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    // marginBottom: '3em',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '2em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '1.25em',
+    },
+  },
+}));
 
 const SongCreate = () => {
   const dispatch = useDispatch();
@@ -24,21 +41,18 @@ const SongCreate = () => {
     );
   };
 
-  const useStyles = makeStyles(() => ({
-    root: {
-      color: "white",
-    },
-  }));
-
   const classes = useStyles();
 
   return (
-    <div>
-      <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
-        Create a Song
-      </Typography>
-      <SongForm onSubmit={onSubmit} />
-    </div>
+    <>
+      <div className={classes.toolbarMargin}></div>
+      <div>
+        <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
+          Create a Song
+        </Typography>
+        <SongForm onSubmit={onSubmit} />
+      </div>
+    </>
   );
 };
 

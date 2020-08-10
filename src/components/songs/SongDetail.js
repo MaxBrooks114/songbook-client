@@ -1,76 +1,78 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { deleteSong } from "../../actions/songs";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/styles";
-import modes from "./modes";
-import keys from "./keys";
-import Slide from "@material-ui/core/Slide";
-import Button from "@material-ui/core/Button";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteSong } from '../../actions/songs';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
+import modes from './modes';
+import keys from './keys';
+import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Link } from 'react-router-dom';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    background: theme.palette.primary.light,
+    textTransform: 'capitalize',
+    color: theme.palette.primary.main,
+    position: 'sticky',
+    width: '98.5%',
+    marginTop: 11,
+    marginBottom: '3em',
+  },
+
+  media: {
+    width: 151,
+    backgroundSize: 'cover',
+  },
+  details: {
+    color: 'black',
+    marginLeft: 2,
+  },
+
+  accordion: {
+    background: theme.palette.primary.light,
+    color: 'black',
+  },
+
+  delete: {
+    background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
+    '&:hover': {
+      background: 'rgba(8,199,251,1)',
+      color: 'rgba(86,3,114,1)',
+      display: 'absolute',
+    },
+  },
+
+  button: {
+    background: 'linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)',
+    '&:hover': {
+      background: 'rgba(8,199,251,1)',
+      color: 'rgba(86,3,114,1)',
+    },
+  },
+
+  cardContent: {
+    flex: '1 0',
+  },
+
+  songTitle: {
+    fontWeight: 'bold',
+    textShadow: '-1px -1px 0 rgb(254,123,235, 1)',
+  },
+}));
 
 const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      background: "#294C77",
-      textTransform: "capitalize",
-      color: theme.palette.primary.main,
-      position: "sticky",
-      width: "100%",
-    },
-
-    media: {
-      width: 151,
-      backgroundSize: "cover",
-    },
-    details: {
-      color: "black",
-      marginLeft: 2,
-    },
-
-    accordion: {
-      background: "#294C77",
-      color: "black",
-    },
-
-    delete: {
-      background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
-      "&:hover": {
-        background: "rgba(8,199,251,1)",
-        color: "rgba(86,3,114,1)",
-        display: "absolute",
-      },
-    },
-
-    button: {
-      background: "linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)",
-      "&:hover": {
-        background: "rgba(8,199,251,1)",
-        color: "rgba(86,3,114,1)",
-      },
-    },
-
-    cardContent: {
-      flex: "1 0",
-    },
-
-    songTitle: {
-      fontWeight: "bold",
-      textShadow: "-1px -1px 0 rgb(254,123,235, 1)",
-    },
-  }));
-
   const classes = useStyles();
 
   const renderBool = (bool) => {
-    return song.bool ? "Yes" : "No";
+    return song.bool ? 'Yes' : 'No';
   };
 
   const renderText = (list, v) => {
@@ -80,25 +82,25 @@ const SongDetail = ({ song }) => {
   const millisToMinutesAndSeconds = (millis) => {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
   };
 
   const audioFeaturesToText = (feature) => {
     switch (true) {
       case feature === null:
-        return "N/A";
+        return 'N/A';
 
       case feature <= 0.35:
-        return "low";
+        return 'low';
 
       case feature > 0.35 && feature <= 0.7:
-        return "medium";
+        return 'medium';
 
       case feature > 0.7:
-        return "high";
+        return 'high';
 
       default:
-        return "N/A";
+        return 'N/A';
     }
   };
 

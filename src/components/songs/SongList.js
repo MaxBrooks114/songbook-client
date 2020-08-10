@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSelector } from 'reselect';
 import { fetchSongs, fetchSong } from '../../actions/songs';
 import { getFilteredSongs } from '../../selectors/selectors';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +9,22 @@ import SongDetail from './SongDetail';
 import FilterControl from '../FilterControl';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles((theme) => ({
+  cardGrid: {
+    height: 550,
+  },
+
+  list: {
+    height: '100%',
+    overflow: 'auto',
+  },
+
+  filter: {
+    marginRight: 14,
+    background: theme.palette.primary.light,
+  },
+}));
 
 const SongList = ({ match }) => {
   const songs = useSelector(getFilteredSongs);
@@ -22,19 +36,6 @@ const SongList = ({ match }) => {
   useEffect(() => {
     dispatch(fetchSongs());
   }, [dispatch]);
-
-  const useStyles = makeStyles((theme) => ({
-    cardGrid: {
-      paddingTop: theme.spacing(4),
-      paddingBottom: theme.spacing(2),
-      height: 1200,
-    },
-
-    list: {
-      height: '100%',
-      overflow: 'auto',
-    },
-  }));
 
   const classes = useStyles();
   let transitionDuration = 50;
@@ -50,7 +51,7 @@ const SongList = ({ match }) => {
           .map((song) => {
             transitionDuration += 50;
             return (
-              <ListItem key={song.id}>
+              <ListItem key={song.id} dense>
                 <SongCard song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             );
@@ -62,16 +63,14 @@ const SongList = ({ match }) => {
   };
 
   return (
-    <Grid container direction="row" className={classes.cardGrid}>
-      <Grid item lg={4} className={classes.list}>
+    <Grid container className={classes.cardGrid}>
+      <Grid item xs={12} className={classes.filter}>
         <FilterControl />
-        <List dense>{renderedList}</List>
       </Grid>
-      <Grid item lg={1}>
-        <></>
+      <Grid item xs={4} className={classes.list}>
+        <List>{renderedList}</List>
       </Grid>
-
-      <Grid item lg={7}>
+      <Grid item xs={8} className={classes.list}>
         {renderDetail()}
       </Grid>
     </Grid>
