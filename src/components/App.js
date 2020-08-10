@@ -6,6 +6,7 @@ import SongList from './songs/SongList';
 import SongEdit from './songs/SongEdit';
 import SuccessSnackBar from './ui/SuccessSnackBar';
 import Navbar from './ui/Navbar';
+import Footer from './ui/Footer';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './ui/theme';
@@ -18,7 +19,7 @@ const App = () => {
       <CssBaseline />
       <SuccessSnackBar />
       <Router history={history}>
-        <div>
+        <div >
           <Navbar />
           <MuiThemeProvider>
             <Switch>
@@ -29,6 +30,7 @@ const App = () => {
               <Route exact path="/songs/:id" component={SongList} />
             </Switch>
           </MuiThemeProvider>
+          <Footer />
         </div>
       </Router>
     </ThemeProvider>
