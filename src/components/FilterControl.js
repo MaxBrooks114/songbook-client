@@ -51,63 +51,63 @@ const FilterControl = () => {
   return (
     <>
       <form
+        className={classes.formControl}
         onSubmit={(e) => {
           e.preventDefault();
           dispatch(setFilter(attribute, value));
         }}
       >
-        <FormControl className={classes.formControl}>
-          <Grid container justify="flex-start" spacing={0} alignItems="flex-end">
-            <Grid item xs={12} sm={2}>
-              <FormControl variant="outlined">
-                <InputLabel>Filter By</InputLabel>
-                <Select
-                  fullWidth
-                  native
-                  color="secondary"
-                  value={attribute}
-                  label="Filter By"
-                  onChange={(e) => setAttribute(e.target.value)}
-                >
-                  <option aria-label="None" value="" />
-                  <option value="title">Title</option>
-                  <option value="artist">Artist</option>
-                  <option value="album">Album</option>
-                  <option value="year">Release Year</option>
-                  <option value="genre">Genre</option>
-                  <option value="duration">Duration (min)</option>
-                  <option value="key">Key</option>
-                  <option value="mode">Mode</option>
-                  <option value="time_signature">Time Signature</option>
-                  <option value="tempo">Tempo</option>
-                  <option value="acousticness">Acousticness</option>
-                  <option value="danceability">Danceability</option>
-                  <option value="energy">Energy</option>
-                  <option value="instrumentalness">Instrumentalness</option>
-                  <option value="liveness">Liveness</option>
-                  <option value="speechiness">Speechiness</option>
-                  <option value="valence">Valence</option>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={2}>
-              <TextField
-                label="Filter"
+        <Grid container justify="flex-start" spacing={2} alignContent="center" alignItems="flex-end">
+          <Grid item>
+            <FormControl variant="outlined">
+              <InputLabel margin="dense">Filter By</InputLabel>
+              <Select
+                native
+                className={classes.select}
                 color="secondary"
-                variant="outlined"
-                type="text"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                autoComplete="off"
-              />
-            </Grid>
-            <Grid item sm={4}>
-              <Button className={classes.button} type="submit" variant="contained">
-                Filter
-              </Button>
-            </Grid>
+                value={attribute}
+                label="Filter By"
+                onChange={(e) => setAttribute(e.target.value)}
+              >
+                <option aria-label="None" value="" />
+                <option value="title">Title</option>
+                <option value="artist">Artist</option>
+                <option value="album">Album</option>
+                <option value="year">Release Year</option>
+                <option value="genre">Genre</option>
+                <option value="duration">Duration (min)</option>
+                <option value="key">Key</option>
+                <option value="mode">Mode</option>
+                <option value="time_signature">Time Signature</option>
+                <option value="tempo">Tempo</option>
+                <option value="acousticness">Acousticness</option>
+                <option value="danceability">Danceability</option>
+                <option value="energy">Energy</option>
+                <option value="instrumentalness">Instrumentalness</option>
+                <option value="liveness">Liveness</option>
+                <option value="speechiness">Speechiness</option>
+                <option value="valence">Valence</option>
+              </Select>
+            </FormControl>
           </Grid>
-        </FormControl>
+          <Grid item>
+            <TextField
+              label="Filter"
+              color="secondary"
+              variant="outlined"
+              size="small"
+              type="text"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              autoComplete="off"
+            />
+          </Grid>
+          <Grid item sm={4}>
+            <Button className={classes.button} type="submit" variant="contained">
+              Filter
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     </>
   );
