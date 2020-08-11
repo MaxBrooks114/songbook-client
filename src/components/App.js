@@ -20,7 +20,7 @@ const App = () => {
       <CssBaseline />
       <SuccessSnackBar />
       <Router history={history}>
-        <div >
+        <div>
           <Navbar />
           <Progressbar />
           <MuiThemeProvider>
