@@ -90,9 +90,11 @@ const Navbar = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const routes = [
-    { name: 'Songs', link: '/songs', activeIndex: 0 },
-    { name: 'New Song', link: '/songs/new', activeIndex: 1 },
-    { name: 'Spotify Search', link: '/search', activeIndex: 2 },
+    { name: 'Instruments', link: '/instruments', activeIndex: 0 },
+    { name: 'New Instrument', link: '/instruments/new', activeIndex: 1 },
+    { name: 'Songs', link: '/songs', activeIndex: 2 },
+    { name: 'New Song', link: '/songs/new', activeIndex: 3 },
+    { name: 'Spotify Search', link: '/search', activeIndex: 4 },
   ];
 
   useEffect(() => {
