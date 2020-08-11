@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  input: {
+    textTransform: 'capitalize',
+  },
+
   label: {
     color: '#D31DEA',
   },
@@ -75,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   option: {
     color: '#D31DEA',
     textTransform: 'capitalize',
-    // Hover
+
     '&[data-focus="true"]': {
       background: 'rgba(8,199,251,1)',
     },
@@ -124,8 +128,7 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
       options={options}
       getOptionLabel={(option) => (typeof option === 'string' ? option : option[Object.keys(option)[0]])}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      freeSolo
-      value={input.value}
+      inputValue={input.value}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -134,8 +137,7 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
           color="secondary"
           variant="outlined"
           margin="dense"
-          value={input.value}
-          InputProps={{ ...params.InputProps, className: classes.autoComplete }}
+          InputProps={{ ...params.InputProps, className: classes.autoComplete, input: classes.input }}
           InputLabelProps={{ className: classes.label }}
           {...input}
           {...custom}
