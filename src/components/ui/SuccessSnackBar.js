@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import { Icon } from '@material-ui/core';
+
 import { clearSnackbar } from '../../actions/ui';
 import { makeStyles } from '@material-ui/styles';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -23,7 +22,7 @@ export default function SuccessSnackbar() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { successSnackbarMessage, successSnackbarOpen } = useSelector((state) => state.ui);
+  const { successSnackbarMessage, successSnackbarOpen } = useSelector((state) => state.snackbar);
 
   function handleClose() {
     dispatch(clearSnackbar());
