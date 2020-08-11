@@ -1,5 +1,7 @@
 import history from '../../history';
 import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG } from './types';
+import { loading, notLoading } from '../ui/index';
+
 import songbook from '../../apis/songbook';
 
 export const createSong = (formValues) => async (dispatch) => {
@@ -16,12 +18,14 @@ export const createSong = (formValues) => async (dispatch) => {
 };
 
 export const fetchSongs = () => async (dispatch) => {
+  dispatch(loading());
   const response = await songbook.get('/songs');
 
   dispatch({
     type: FETCH_SONGS,
     payload: response.data,
   });
+  dispatch(notLoading());
 };
 
 export const fetchSong = (id) => async (dispatch) => {
