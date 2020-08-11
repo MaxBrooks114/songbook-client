@@ -5,6 +5,7 @@ import SongCreate from './songs/SongCreate';
 import SongList from './songs/SongList';
 import SongEdit from './songs/SongEdit';
 import SuccessSnackBar from './ui/SuccessSnackBar';
+import Progressbar from './ui/Progressbar';
 import Navbar from './ui/Navbar';
 import Footer from './ui/Footer';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -21,6 +22,7 @@ const App = () => {
       <Router history={history}>
         <div >
           <Navbar />
+          <Progressbar />
           <MuiThemeProvider>
             <Switch>
               <Route path="/search" exact component={SpotifySearch} />
