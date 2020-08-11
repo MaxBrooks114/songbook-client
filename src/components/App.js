@@ -4,6 +4,9 @@ import SpotifySearch from './spotify/SpotifySearch';
 import SongCreate from './songs/SongCreate';
 import SongList from './songs/SongList';
 import SongEdit from './songs/SongEdit';
+import InstrumentCreate from './instruments/InstrumentCreate';
+import InstrumentEdit from './instruments/InstrumentEdit';
+import InstrumentList from './instruments/InstrumentList';
 import SuccessSnackBar from './ui/SuccessSnackBar';
 import Progressbar from './ui/Progressbar';
 import Navbar from './ui/Navbar';
@@ -31,6 +34,10 @@ const App = () => {
               <Route exact path="/songs" component={SongList} />
               <Route exact path="/songs/:attribute/:value" component={SongList} />
               <Route exact path="/songs/:id" component={SongList} />
+              <Route exact path="/instruments/new" component={InstrumentCreate} />
+              <Route exact path="/instruments" component={InstrumentList} />
+              <Route exact path="/instruments/edit/:id" component={InstrumentEdit} />
+              <Route exact path="/instruments/:id" component={InstrumentList} />
             </Switch>
           </MuiThemeProvider>
           <Footer />
