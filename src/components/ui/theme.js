@@ -13,6 +13,7 @@ const vaporRed = '#FF2A75';
 const vaporYellow = '#FFD416';
 const vaporNavy = '#001E29';
 const vaporLightNavy = '#085B7E';
+const vaporBlue = '#294C77';
 
 const theme = createMuiTheme({
   palette: {
@@ -30,6 +31,7 @@ const theme = createMuiTheme({
       yellow: `${vaporYellow}`,
       navy: `${vaporNavy}`,
       lightNavy: vaporLightNavy,
+      blue: vaporBlue,
     },
     primary: { main: `${vaporLightNavy}` },
     secondary: { main: `${vaporNeonBlue}` },
