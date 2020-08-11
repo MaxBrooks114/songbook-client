@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  select: {
+    height: 40,
+  },
+
   button: {
     color: 'white',
     background: 'linear-gradient(90deg, rgba(8,199,251,1) 0%,  rgb(254,123,235, 1) 150%)',
