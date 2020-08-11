@@ -9,9 +9,15 @@ import keys from './keys';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import Accordion from '@material-ui/core/Accordion';
+import Grid from '@material-ui/core/Grid';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,23 +26,33 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
     position: 'sticky',
-    width: '98.5%',
     marginTop: 11,
     marginBottom: '3em',
   },
 
+  lyrics: {
+    textTransform: 'none',
+  },
+
   media: {
-    width: 151,
-    backgroundSize: 'cover',
+    backgroundSize: 'stretch',
+    borderRadius: '8px',
+    border: `1px solid ${theme.palette.common.pastelPurple}`,
+    padding: '5px',
   },
   details: {
-    color: 'black',
-    marginLeft: 2,
+    color: 'white',
+    paddingTop: theme.spacing(2),
   },
 
   accordion: {
     background: theme.palette.primary.light,
-    color: 'black',
+    color: 'white',
+  },
+
+  buttonContainer: {
+    marginTop: theme.spacing(2),
+    margin: theme.spacing(1),
   },
 
   delete: {
@@ -54,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgba(8,199,251,1)',
       color: 'rgba(86,3,114,1)',
     },
+    textDecoration: 'none',
+  },
+
+  link: {
+    textDecoration: 'none',
   },
 
   cardContent: {
@@ -62,12 +83,22 @@ const useStyles = makeStyles((theme) => ({
 
   songTitle: {
     fontWeight: 'bold',
-    textShadow: '-1px -1px 0 rgb(254,123,235, 1)',
+    textShadow: '-1px -1px 0 #000',
   },
 }));
 
 const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const classes = useStyles();
 
@@ -106,66 +137,107 @@ const SongDetail = ({ song }) => {
 
   return song ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
-      <Paper variant="outlined" className={classes.root} elevation={3}>
-        <div className={classes.details}>
-          <Typography>{song.title}</Typography>
-          <Typography>{song.artist}</Typography>
-          <Typography>{song.album}</Typography>
-          <Typography>{song.year}</Typography>
-          <Typography>Genre: {song.genre}</Typography>
-          <Typography>Tempo: {song.tempo} BPM</Typography>
-          <Typography>Key: {renderText(keys, song.key)}</Typography>
-          <Typography>Mode: {renderText(modes, song.mode)}</Typography>
-          <Typography>Time Signature: {song.time_signature}/4</Typography>
-          <Typography>Duration: {millisToMinutesAndSeconds(song.duration)}</Typography>
-          <Typography>Original?: {renderBool(song.original)}</Typography>
-          <Typography>Explicit?: {renderBool(song.explicit)}</Typography>
-          <Accordion className={classes.accordion}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography>Song Features</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Acousticness: {audioFeaturesToText(song.acousticness)}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Danceability: {audioFeaturesToText(song.danceability)}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Energy: {audioFeaturesToText(song.energy)}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Instrumentalness: {audioFeaturesToText(song.instrumentalness)}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Liveness: {audioFeaturesToText(song.liveness)}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Loudness: {song.loudness}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Speechiness: {audioFeaturesToText(song.speechiness)}</Typography>
-            </AccordionDetails>
-            <AccordionDetails>
-              <Typography>Valence: {audioFeaturesToText(song.loudness)}</Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion className={classes.accordion}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Typography>Lyrics</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>{song.lyrics}</Typography>
-            </AccordionDetails>
-          </Accordion>
+      <Paper className={classes.root} elevation={3}>
+        <Grid container justify="space-evenly" className={classes.details}>
+          <Grid item xs={4}>
+            <Typography>Title: {song.title}</Typography>
+            <Typography>Artist: {song.artist}</Typography>
+            <Typography>Album: {song.album}</Typography>
+            <Typography>Release Date: {song.year}</Typography>
+            <Typography>Genre: {song.genre}</Typography>
+            <Typography>Tempo: {song.tempo} BPM</Typography>
+            <Typography>Key: {renderText(keys, song.key)}</Typography>
+            <Typography>Mode: {renderText(modes, song.mode)}</Typography>
+            <Typography>Time Signature: {song.time_signature}/4</Typography>
+            <Typography>Duration: {millisToMinutesAndSeconds(song.duration)}</Typography>
+            <Typography>Original?: {renderBool(song.original)}</Typography>
+            <Typography>Explicit?: {renderBool(song.explicit)}</Typography>
+          </Grid>
 
-          <Button className={classes.delete} onClick={() => dispatch(deleteSong(song.id))}>
-            Delete
-          </Button>
+          <Grid item xs={5}>
+            <img
+              alt={song.album}
+              className={classes.media}
+              src={song.image ? song.image : 'https://coverfiles.alphacoders.com/796/79685.jpg'}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Song Features</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>Acousticness: {audioFeaturesToText(song.acousticness)}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Danceability: {audioFeaturesToText(song.danceability)}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Energy: {audioFeaturesToText(song.energy)}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Instrumentalness: {audioFeaturesToText(song.instrumentalness)}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Liveness: {audioFeaturesToText(song.liveness)}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Loudness: {song.loudness}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Speechiness: {audioFeaturesToText(song.speechiness)}</Typography>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Typography>Valence: {audioFeaturesToText(song.loudness)}</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Lyrics</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography className={classes.lyrics}>{song.lyrics}</Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+          <Grid container justify="space-between" className={classes.buttonContainer}>
+            <Link className={classes.link} to={`edit/${song.id}`}>
+              <Button className={classes.button}>Edit </Button>
+            </Link>
 
-          <Link to={`edit/${song.id}`}>
-            <Button className={classes.button}>Edit </Button>
-          </Link>
-        </div>
+            <Button className={classes.delete} onClick={handleClickOpen}>
+              Delete
+            </Button>
+          </Grid>
+        </Grid>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this song?'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              By deleting this song you will also delete all affiliated elements.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              No
+            </Button>
+            <Button
+              onClick={() => {
+                handleClose();
+                dispatch(deleteSong(song.id));
+              }}
+              color="primary"
+              autoFocus
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </Slide>
   ) : null;
