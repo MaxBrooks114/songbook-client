@@ -12,17 +12,20 @@ import ListItem from '@material-ui/core/ListItem';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
-    height: 550,
+    height: 640,
+    paddingBottom: theme.spacing(4),
   },
 
   list: {
     height: '100%',
-    overflow: 'auto',
+    overflow: 'scroll',
   },
 
   filter: {
     marginRight: 14,
+    marginLeft: 14,
     background: theme.palette.primary.light,
+    borderRadius: '0 0 8px 8px',
   },
 }));
 
@@ -70,9 +73,11 @@ const SongList = ({ match }) => {
       <Grid item xs={4} className={classes.list}>
         <List>{renderedList}</List>
       </Grid>
-      <Grid item xs={8} className={classes.list}>
+      <Grid item xs={1}></Grid>
+      <Grid item xs={6} className={classes.list}>
         {renderDetail()}
       </Grid>
+      <Grid item xs={1}></Grid>
     </Grid>
   );
 };

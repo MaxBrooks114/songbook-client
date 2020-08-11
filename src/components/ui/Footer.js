@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.common.lightNavy,
+    backgroundColor: theme.palette.primary.dark,
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    marginTop: 'auto',
+    marginTop: theme.spacing(4),
   },
 }));
 
