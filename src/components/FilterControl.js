@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 14,
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#294C77',
+        borderColor: theme.palette.common.pastelPurple,
       },
       '&:hover fieldset': {
         borderColor: theme.palette.common.neonBlue,
