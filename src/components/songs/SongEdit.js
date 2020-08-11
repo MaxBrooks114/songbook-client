@@ -7,9 +7,20 @@ import SongForm from './SongForm';
 import keys from './keys';
 import modes from './modes';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     color: 'white',
+  },
+
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    // marginBottom: '3em',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '2em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '1.25em',
+    },
   },
 }));
 
@@ -45,12 +56,13 @@ const SongEdit = ({ match }) => {
   console.log(initialValues);
 
   return (
-    <div>
+    <>
+      <div className={classes.toolbarMargin}></div>
       <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
         Edit a Song
       </Typography>
       <SongForm initialValues={initialValues} onSubmit={onSubmit} />
-    </div>
+    </>
   );
 };
 
