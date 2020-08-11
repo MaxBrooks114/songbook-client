@@ -4,9 +4,6 @@ const getFilterAttribute = (state) => state.filter.attribute;
 const getFilterValue = (state) => state.filter.value;
 const getSongs = (state) => state.songs;
 
-const normalize = (list, v) => {
-  return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null;
-};
 const renderText = (list, v) => {
   return v || v === 0 ? list.find((k) => k[v])[v] : null;
 };
@@ -17,25 +14,6 @@ const millisToMinutesAndSeconds = (millis) => {
   return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 };
 
-const audioFeaturesToText = (feature) => {
-  switch (true) {
-    case feature === null:
-      return 'N/A';
-
-    case feature <= 0.35:
-      return 'low';
-
-    case feature > 0.35 && feature <= 0.7:
-      return 'medium';
-
-    case feature > 0.7:
-      return 'high';
-
-    default:
-      return 'N/A';
-  }
-};
-
 export const getFilteredSongs = (state) => {
   const filterAttribute = getFilterAttribute(state);
   const filterValue = getFilterValue(state);
@@ -44,7 +22,7 @@ export const getFilteredSongs = (state) => {
   if (!filterAttribute || !filterValue) {
     return songs;
   }
-  // // apply your filter the way you need it
+
   return Object.values(songs).filter((song) => {
     switch (true) {
       case typeof song[filterAttribute] === 'string':
