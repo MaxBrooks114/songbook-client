@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
+    color: '#fff',
     marginLeft: 14,
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
