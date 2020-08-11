@@ -29,6 +29,7 @@ const App = () => {
               <Route path="/songs/new" exact component={SongCreate} />
               <Route exact path="/songs/edit/:id" component={SongEdit} />
               <Route exact path="/songs" component={SongList} />
+              <Route exact path="/songs/:attribute/:value" component={SongList} />
               <Route exact path="/songs/:id" component={SongList} />
             </Switch>
           </MuiThemeProvider>

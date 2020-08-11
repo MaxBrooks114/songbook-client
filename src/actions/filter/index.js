@@ -2,6 +2,9 @@ import history from '../../history';
 import { SET_FILTER, CLEAR_FILTER } from './types';
 
 export const setFilter = (attribute, value) => {
+  if (attribute && value) {
+    history.push(`/songs/${attribute}/${value}`);
+  }
   return {
     type: SET_FILTER,
     payload: { attribute, value },
