@@ -53,7 +53,6 @@ const SongEdit = ({ match }) => {
   };
 
   const initialValues = song ? { ...song, key: renderText(keys, song.key), mode: renderText(modes, song.mode) } : null;
-  console.log(initialValues);
 
   return (
     <>
