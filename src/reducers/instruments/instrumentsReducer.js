@@ -4,7 +4,7 @@ import {
   FETCH_INSTRUMENT,
   EDIT_INSTRUMENT,
   DELETE_INSTRUMENT,
-} from '../../actions/instruments/types';
+} from '../../actions/types';
 import _ from 'lodash';
 
 export default (state = {}, action) => {
