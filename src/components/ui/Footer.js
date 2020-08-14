@@ -7,7 +7,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     position: 'absolute',
     bottom: 0,
+    left: 0,
+    right: 0,
     marginTop: theme.spacing(4),
+    marginBottom: 0,
   },
 }));
 
