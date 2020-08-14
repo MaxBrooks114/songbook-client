@@ -1,14 +1,16 @@
-const loadingReducer = (state = { progressbarOpen: false }, action) => {
+import { LOADING, NOT_LOADING } from '../../actions/types';
+
+const loadingReducer = (state = { loading: false }, action) => {
   switch (action.type) {
-    case 'LOADING':
+    case LOADING:
       return {
         ...state,
-        progressbarOpen: true,
+        loading: true,
       };
-    case 'NOT_LOADING':
+    case NOT_LOADING:
       return {
         ...state,
-        progressbarOpen: false,
+        loading: false,
       };
     default:
       return state;
