@@ -165,8 +165,8 @@ const Navbar = () => {
           ))}
         </List>
       </SwipeableDrawer>
-      <IconButton className={classes.drawerIconContainer}>
-        <MenuIcon className={classes.drawerIcon} onClick={() => setOpenDrawer(!openDrawer)} />
+      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+        <MenuIcon className={classes.drawerIcon} />
       </IconButton>
     </>
   );
