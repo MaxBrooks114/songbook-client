@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
+import Login from './auth/Login';
+import Logout from './auth/Logout';
+import Register from './auth/Register';
 import SpotifySearch from './spotify/SpotifySearch';
 import SongCreate from './songs/SongCreate';
 import SongList from './songs/SongList';
@@ -27,6 +32,7 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -37,19 +43,21 @@ const App = () => {
           <Progressbar />
           <MuiThemeProvider>
             <Switch>
-              <Route path="/search" exact component={SpotifySearch} />
-              <Route path="/songs/new" exact component={SongCreate} />
-              <Route exact path="/songs/edit/:id" component={SongEdit} />
-              <Route exact path="/songs" component={SongList} />
-              <Route exact path="/songs/:attribute/:value" component={SongList} />
-              <Route exact path="/songs/:id" component={SongList} />
-              <Route exact path="/instruments/new" component={InstrumentCreate} />
-              <Route exact path="/instruments" component={InstrumentList} />
-              <Route exact path="/instruments/edit/:id" component={InstrumentEdit} />
-              <Route exact path="/instruments/:id" component={InstrumentList} />
+              <Route path="/register" exact component={Register} />
+              <Route path="/login" exact component={Login} />
+              <PrivateRoute exact path="/logout" component={Logout} />
+              <PrivateRoute exact path="/search" component={SpotifySearch} />
+              <PrivateRoute exact path="/songs/new" component={SongCreate} />
+              <PrivateRoute exact path="/songs/edit/:id" component={SongEdit} />
+              <PrivateRoute exact path="/songs" component={SongList} />
+              <PrivateRoute exact path="/songs/:attribute/:value" component={SongList} />
+              <PrivateRoute exact path="/songs/:id" component={SongList} />
+              <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
+              <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
+              <PrivateRoute exact path="/instruments" component={InstrumentList} />
+              <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
             </Switch>
           </MuiThemeProvider>
-          <Footer />
         </div>
       </Router>
     </ThemeProvider>
