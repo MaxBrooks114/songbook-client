@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import { Link as RouterLink } from 'react-router-dom';
 import Tab from '@material-ui/core/Tab';
@@ -88,17 +89,27 @@ const Navbar = () => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [openDrawer, setOpenDrawer] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
-  const routes = [
+  const authRoutes = [
     { name: 'Instruments', link: '/instruments', activeIndex: 0 },
     { name: 'New Instrument', link: '/instruments/new', activeIndex: 1 },
     { name: 'Songs', link: '/songs', activeIndex: 2 },
     { name: 'New Song', link: '/songs/new', activeIndex: 3 },
     { name: 'Spotify Search', link: '/search', activeIndex: 4 },
+    { name: 'Log out', link: '/logout', activeIndex: 5 },
   ];
 
+  const guestRoutes = [
+    { name: 'Register', link: '/register', activeIndex: 0 },
+    { name: 'Log In', link: '/login', activeIndex: 1 },
+  ];
+
+  let routes = isAuthenticated && user ? authRoutes : guestRoutes;
+
   useEffect(() => {
-    [...routes].forEach((route) => {
+    routes.forEach((route) => {
       switch (window.location.pathname) {
         case `${route.link}`:
           if (value !== route.activeIndex) {
