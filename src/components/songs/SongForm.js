@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
 
 const renderTextField = ({
   helperText,
-  meta: { touched, error },
+  meta: { touched, error, invalid },
   rows,
   multiline,
   inputAdornment,
@@ -103,7 +103,7 @@ const renderTextField = ({
       label={label}
       size="small"
       helperText={touched && error}
-      error={touched && error}
+      error={touched && invalid}
       color="secondary"
       variant="outlined"
       margin="dense"
@@ -128,7 +128,6 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
       options={options}
       getOptionLabel={(option) => (typeof option === 'string' ? option : option[Object.keys(option)[0]])}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      value={input.value}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -137,7 +136,11 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
           color="secondary"
           variant="outlined"
           margin="dense"
-          InputProps={{ ...params.InputProps, className: classes.autoComplete, input: classes.input }}
+          InputProps={{
+            ...params.InputProps,
+            className: classes.autoComplete,
+            input: classes.input,
+          }}
           InputLabelProps={{ className: classes.label }}
           {...input}
           {...custom}
@@ -170,7 +173,7 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
             <Field classes={classes} required name="title" component={renderTextField} label="Title" />
           </Grid>
           <Grid item>
-            <Field classes={classes} name="artist" component={renderTextField} label="Artist" />
+            <Field classes={classes} required name="artist" component={renderTextField} label="Artist" />
           </Grid>
           <Grid item>
             <Field classes={classes} name="album" component={renderTextField} label="Album" />
