@@ -6,9 +6,10 @@ import { returnErrors } from './messages';
 import songbook from '../apis/songbook';
 
 export const createSong = (formValues) => async (dispatch) => {
+  dispatch(loading());
   try {
     const response = await songbook.post('/songs/', { ...formValues });
-    dispatch(loading());
+
     dispatch({
       type: CREATE_SONG,
       payload: response.data,
@@ -24,9 +25,10 @@ export const createSong = (formValues) => async (dispatch) => {
 };
 
 export const fetchSongs = () => async (dispatch) => {
+  dispatch(loading());
   try {
-    const response = await songbook.get('/songs');
-    dispatch(loading());
+    const response = await songbook.get('/songs/');
+
     dispatch({
       type: FETCH_SONGS,
       payload: response.data,
@@ -38,9 +40,10 @@ export const fetchSongs = () => async (dispatch) => {
 };
 
 export const fetchSong = (id) => async (dispatch) => {
+  dispatch(loading());
   try {
-    const response = await songbook.get(`/songs/${id}`);
-    dispatch(loading());
+    const response = await songbook.get(`/songs/${id}/`);
+
     dispatch({
       type: FETCH_SONG,
       payload: response.data,
