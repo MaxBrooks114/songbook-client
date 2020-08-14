@@ -1,12 +1,14 @@
+import { SNACKBAR_SUCCESS, SNACKBAR_CLEAR } from '../../actions/types';
+
 const snackbarReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'SNACKBAR_SUCCESS':
+    case SNACKBAR_SUCCESS:
       return {
         ...state,
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
       };
-    case 'SNACKBAR_CLEAR':
+    case SNACKBAR_CLEAR:
       return {
         ...state,
         successSnackbarOpen: false,
