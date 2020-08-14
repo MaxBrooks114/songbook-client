@@ -4,8 +4,6 @@ import { Autocomplete } from '@material-ui/lab';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-
 import { makeStyles } from '@material-ui/styles';
 import { instrumentList, instrumentFamilies, instrumentTonalities } from './instruments';
 
@@ -109,7 +107,6 @@ const renderTextField = ({
       rows={rows}
       autoComplete="off"
       InputProps={{
-        endAdornment: <InputAdornment position="end">{inputAdornment}</InputAdornment>,
         className: classes.value,
       }}
       InputLabelProps={{ className: classes.label }}
