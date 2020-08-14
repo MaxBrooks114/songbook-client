@@ -11,6 +11,7 @@ import SuccessSnackBar from './ui/SuccessSnackBar';
 import Progressbar from './ui/Progressbar';
 import Navbar from './ui/Navbar';
 import Footer from './ui/Footer';
+import { fetchUser } from '../actions/auth';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './ui/theme';
@@ -18,6 +19,14 @@ import history from '../history';
 import { MuiThemeProvider } from 'material-ui/styles';
 
 const App = () => {
+  const dispatch = useDispatch();
+  useMemo(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
