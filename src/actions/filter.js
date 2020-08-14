@@ -1,4 +1,4 @@
-import history from '../../history';
+import history from '../history';
 import { SET_FILTER, CLEAR_FILTER } from './types';
 
 export const setFilter = (attribute, value) => {
