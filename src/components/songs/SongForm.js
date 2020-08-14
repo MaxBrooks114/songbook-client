@@ -112,7 +112,7 @@ const renderTextField = ({
       rows={rows}
       autoComplete="off"
       InputProps={{
-        endAdornment: <InputAdornment position="end">{inputAdornment}</InputAdornment>,
+        endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
         className: classes.value,
       }}
       InputLabelProps={{ className: classes.label }}
