@@ -1,4 +1,4 @@
-import { SET_FILTER, CLEAR_FILTER } from '../../actions/filter/types';
+import { SET_FILTER, CLEAR_FILTER } from '../../actions/types';
 
 const initialState = {
   attribute: '',
