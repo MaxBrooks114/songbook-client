@@ -8,6 +8,7 @@ import {
   LOGIN_FAIL,
   REGISTER_USER,
   REGISTER_FAIL,
+  CLEAR_ALL,
 } from './types';
 import { loading, notLoading } from './ui';
 import { returnErrors } from './messages';
@@ -76,5 +77,6 @@ export const register = (formValues) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   songbook.post('auth/logout');
 
+  dispatch({ type: CLEAR_ALL });
   dispatch({ type: LOGOUT_USER });
 };

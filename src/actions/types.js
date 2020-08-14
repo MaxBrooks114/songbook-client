@@ -28,3 +28,4 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
+export const CLEAR_ALL = 'CLEAR_ALL';

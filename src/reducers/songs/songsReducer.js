@@ -1,7 +1,9 @@
-import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, EDIT_SONG, DELETE_SONG } from '../../actions/types';
-import _ from 'lodash';
+import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, EDIT_SONG, DELETE_SONG, CLEAR_ALL } from '../../actions/types';
+import _, { initial } from 'lodash';
 
-export default (state = {}, action) => {
+const initialState = {};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_SONGS:
       return { ...state, ..._.mapKeys(action.payload, 'id') };
@@ -13,6 +15,8 @@ export default (state = {}, action) => {
       return { ...state, [action.payload.id]: action.payload };
     case DELETE_SONG:
       return _.omit(state, action.payload);
+    case CLEAR_ALL:
+      return initialState;
     default:
       return state;
   }
