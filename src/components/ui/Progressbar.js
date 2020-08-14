@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Progressbar = () => {
   const classes = useStyles();
-  const progressbarOpen = useSelector((state) => state.loading.progressbarOpen);
+  const loading = useSelector((state) => state.loading.loading);
 
   const renderBar = () => {
-    return progressbarOpen ? <LinearProgress variant="indeterminate" color="secondary" /> : '';
+    return loading ? <LinearProgress variant="indeterminate" color="secondary" /> : '';
   };
 
   return <div className={classes.root}>{renderBar()}</div>;
