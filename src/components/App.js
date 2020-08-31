@@ -62,6 +62,7 @@ const App = () => {
             </Switch>
           </MuiThemeProvider>
         </div>
+        <Footer />
       </Router>
     </ThemeProvider>
   );
