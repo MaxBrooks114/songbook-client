@@ -1,7 +1,7 @@
 import { SET_TOKEN } from '../../actions/types';
 
 const initialState = {
-  accesToken: localStorage.getItem('accessToken'),
+  accessToken: localStorage.getItem('accessToken'),
 };
 
 export default function(state = initialState, action) {
@@ -10,7 +10,6 @@ export default function(state = initialState, action) {
       localStorage.setItem('accessToken', action.payload);
       return {
         ...state,
-        token: localStorage.getItem('accessToken'),
       };
 
     default:
