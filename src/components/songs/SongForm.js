@@ -122,12 +122,13 @@ const renderTextField = ({
   );
 };
 
-const renderAutoCompleteField = ({ value, options, classes, input, label, ...custom }) => {
+const renderAutoCompleteField = ({ options, classes, input, label, ...custom }) => {
   return (
     <Autocomplete
-      options={options}
-      getOptionLabel={(option) => (typeof option === 'string' ? option : option[Object.keys(option)[0]])}
+      options={options || ''}
+      getOptionLabel={(option) => option[Object.keys(option)] || ''}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
+      value={options.find((option) => option[Object.keys(option)] === input.value) || ''}
       renderInput={(params) => (
         <TextField
           {...params}
