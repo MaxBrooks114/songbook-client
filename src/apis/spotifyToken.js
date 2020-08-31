@@ -1,5 +1,5 @@
-import axios from "axios";
-import qs from "qs";
+import axios from 'axios';
+import qs from 'qs';
 
 export const getToken = async () => {
   const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -7,8 +7,8 @@ export const getToken = async () => {
 
   const headers = {
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     auth: {
       username: clientId,
@@ -16,11 +16,11 @@ export const getToken = async () => {
     },
   };
   const data = {
-    grant_type: "client_credentials",
+    grant_type: 'client_credentials',
   };
 
   try {
-    const response = await axios.post("https://accounts.spotify.com/api/token", qs.stringify(data), headers);
+    const response = await axios.post('https://accounts.spotify.com/api/token', qs.stringify(data), headers);
     return response.data.access_token;
   } catch (error) {
     console.log(error);
