@@ -1,6 +1,6 @@
 import spotify from '../apis/spotify';
 import { getToken } from '../apis/spotifyToken';
-import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS } from './types';
+import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, SET_TOKEN } from './types';
 import { loading, notLoading } from './ui';
 import { createSong } from './songs';
 import { returnErrors } from './messages';
@@ -115,4 +115,11 @@ export const importSpotifyTrack = (id) => async (dispatch) => {
     dispatch(notLoading());
   }
   dispatch(notLoading());
+};
+
+export const setToken = (accessToken) => {
+  return {
+    type: SET_TOKEN,
+    payload: accessToken,
+  };
 };
