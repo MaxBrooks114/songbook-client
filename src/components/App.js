@@ -22,6 +22,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './ui/theme';
 import history from '../history';
 import { MuiThemeProvider } from 'material-ui/styles';
+import UserShow from './auth/UserShow';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ const App = () => {
             <Switch>
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
+              <PrivateRoute exact path="/users/:id/:accessToken/:refreshToken" component={UserShow} />
+              <PrivateRoute exact path="/users/:id" component={UserShow} />
               <PrivateRoute exact path="/logout" component={Logout} />
               <PrivateRoute exact path="/search" component={SpotifySearch} />
               <PrivateRoute exact path="/songs/new" component={SongCreate} />
