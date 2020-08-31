@@ -121,8 +121,8 @@ const renderAutoCompleteField = ({ value, options, classes, input, label, ...cus
     <Autocomplete
       options={options}
       getOptionLabel={(option) => option}
+      value={options.find((option) => option === input.value) || ''}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      value={input.value}
       renderInput={(params) => (
         <TextField
           {...params}
