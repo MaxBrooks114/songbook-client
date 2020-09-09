@@ -59,7 +59,7 @@ export const fetchSong = (id) => async (dispatch) => {
 
 export const deleteSong = (id) => async (dispatch) => {
   try {
-    await songbook.delete(`/songs/${id}`);
+    await songbook.delete(`/songs/${id}/`);
 
     dispatch({
       type: DELETE_SONG,
