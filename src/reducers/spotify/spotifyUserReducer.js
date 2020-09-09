@@ -1,4 +1,4 @@
-import { SET_TOKEN } from '../../actions/types';
+import { SET_TOKENS, GET_TOKENS, CLEAR_ALL, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN } from '../../actions/types';
 
 const initialState = {
   accessToken: localStorage.getItem('accessToken'),
