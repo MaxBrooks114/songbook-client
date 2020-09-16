@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import { setToken } from '../../actions/spotify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,15 +22,14 @@ const useStyles = makeStyles((theme) => ({
 const UserShow = ({ match }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.auth.user);
-  const accessToken = useSelector((state) => state.spotifyUser.accessToken);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setToken(match.params.accessToken));
-  }, [dispatch, match.params.accessToken]);
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
 
   const spotifyLoginButton = () => {
-    return accessToken ? '' : <a href="http://localhost:8000/spotify/login">Integrate with Spotify</a>;
+    return accessToken && accessToken !== 'undefined' ? (
+      ''
+    ) : (
+      <a href="http://localhost:8000/api/spotify/login">Integrate with Spotify</a>
+    );
   };
 
   return (

@@ -9,14 +9,12 @@ import loadingReducer from './ui/loadingReducer';
 import authReducer from './auth/authReducer';
 import messagesReducer from './messagesReducer';
 import errorsReducer from './errorsReducer';
-import spotifyUserReducer from './spotify/spotifyUserReducer';
 
 export default combineReducers({
   auth: authReducer,
   errors: errorsReducer,
   messages: messagesReducer,
   spotifyTracks: spotifyTracksReducer,
-  spotifyUser: spotifyUserReducer,
   form: formReducer,
   songs: songsReducer,
   instruments: instrumentsReducer,

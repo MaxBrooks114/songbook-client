@@ -46,7 +46,6 @@ const App = () => {
             <Switch>
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
-              <PrivateRoute exact path="/users/:id/:accessToken/:refreshToken" component={UserShow} />
               <PrivateRoute exact path="/users/:id" component={UserShow} />
               <PrivateRoute exact path="/logout" component={Logout} />
               <PrivateRoute exact path="/search" component={SpotifySearch} />

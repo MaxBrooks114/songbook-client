@@ -1,6 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteSong } from '../../actions/songs';
+import { playSong } from '../../actions/spotify';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -89,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
 
 const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
+  const deviceId = useSelector((state) => state.auth.user.spotify_info.deviceId);
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
 
   const [open, setOpen] = React.useState(false);
 
@@ -133,6 +137,10 @@ const SongDetail = ({ song }) => {
       default:
         return 'N/A';
     }
+  };
+
+  const handleSongPlayClick = () => {
+    dispatch(playSong(accessToken, song.spotify_url, refreshToken));
   };
 
   return song ? (
@@ -204,6 +212,7 @@ const SongDetail = ({ song }) => {
             <Link className={classes.link} to={`edit/${song.id}`}>
               <Button className={classes.button}>Edit </Button>
             </Link>
+            <Button onClick={handleSongPlayClick}>Hear This Song</Button>
 
             <Button className={classes.delete} onClick={handleClickOpen}>
               Delete
