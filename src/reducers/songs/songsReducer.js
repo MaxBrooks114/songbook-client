@@ -1,5 +1,5 @@
 import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, EDIT_SONG, DELETE_SONG, CLEAR_ALL } from '../../actions/types';
-import _, { initial } from 'lodash';
+import _ from 'lodash';
 
 const initialState = {};
 
