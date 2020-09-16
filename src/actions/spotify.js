@@ -1,14 +1,7 @@
 import spotify from '../apis/spotify';
 import songbook from '../apis/songbook';
 import { getToken } from '../apis/spotifyToken';
-import {
-  FETCH_SPOTIFY_TRACKS,
-  CLEAR_SPOTIFY_TRACKS,
-  SET_TOKENS,
-  GET_TOKENS,
-  GET_DEVICE_ID,
-  REFRESH_ACCESS_TOKEN,
-} from './types';
+import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN } from './types';
 import { loading, notLoading } from './ui';
 import history from '../history';
 import { createSong } from './songs';
@@ -126,22 +119,9 @@ export const importSpotifyTrack = (id) => async (dispatch) => {
   dispatch(notLoading());
 };
 
-export const setTokens = (accessToken, refreshToken) => {
-  return {
-    type: SET_TOKENS,
-    payload: { accessToken, refreshToken },
-  };
-};
-export const getTokens = () => {
-  return {
-    type: GET_TOKENS,
-  };
-};
-
 export const refreshAccessToken = (refreshToken) => async (dispatch) => {
   try {
     const response = await songbook.get(`/spotify/callback?refresh_token=${refreshToken}`);
-    console.log(response.data);
     dispatch({
       type: REFRESH_ACCESS_TOKEN,
       payload: response.data,
@@ -170,8 +150,9 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
   }
 };
 
-export const playSong = (accessToken, songUri) => async (dispatch) => {
+export const playSong = (accessToken, songUri, refreshToken) => async (dispatch) => {
   try {
+    dispatch(refreshAccessToken(refreshToken));
     const response = await spotify.put(
       '/me/player/play',
       { uris: [songUri] },
@@ -183,9 +164,23 @@ export const playSong = (accessToken, songUri) => async (dispatch) => {
         },
       }
     );
-
-    console.log(response);
   } catch (error) {
     dispatch(returnErrors(error));
+
+    if (error.response.status === 401) {
+      await dispatch(refreshAccessToken(refreshToken));
+
+      await spotify.put(
+        '/me/player/play',
+        { uris: [songUri] },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    }
   }
 };
