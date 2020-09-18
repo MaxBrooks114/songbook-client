@@ -7,6 +7,7 @@ import {
   USER_LOADING,
   REGISTER_USER,
   REGISTER_FAIL,
+  REFRESH_ACCESS_TOKEN,
 } from '../../actions/types';
 
 const initialState = {
@@ -39,6 +40,18 @@ export default function(state = initialState, action) {
         ...action.payload,
         isAuthenticated: true,
         isLoading: false,
+      };
+
+    case REFRESH_ACCESS_TOKEN:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          spotify_info: {
+            ...state.user.spotify_info,
+            access_token: action.payload,
+          },
+        },
       };
     case LOGOUT_USER:
     case AUTH_ERROR:
