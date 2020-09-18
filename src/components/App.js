@@ -12,6 +12,9 @@ import SongEdit from './songs/SongEdit';
 import InstrumentCreate from './instruments/InstrumentCreate';
 import InstrumentEdit from './instruments/InstrumentEdit';
 import InstrumentList from './instruments/InstrumentList';
+// import ElementCreate from './elements/ElementCreate';
+// import ElementEdit from './elements/ElementEdit';
+import ElementList from './elements/ElementList';
 import SuccessSnackBar from './ui/SuccessSnackBar';
 import Progressbar from './ui/Progressbar';
 import Navbar from './ui/Navbar';
@@ -63,6 +66,11 @@ const App = () => {
               <PrivateRoute exact path="/songs" component={SongList} />
               <PrivateRoute exact path="/songs/:attribute/:value" component={SongList} />
               <PrivateRoute exact path="/songs/:id" component={SongList} />
+              {/* <PrivateRoute exact path="/elements/new" component={SongCreate} />
+              <PrivateRoute exact path="/elements/edit/:id" component={SongEdit} /> */}
+              <PrivateRoute exact path="/elements" component={ElementList} />
+              <PrivateRoute exact path="/elements/:attribute/:value" component={ElementList} />
+              <PrivateRoute exact path="/elements/:id" component={ElementList} />
               <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
               <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
               <PrivateRoute exact path="/instruments" component={InstrumentList} />
