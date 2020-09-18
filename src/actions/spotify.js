@@ -109,7 +109,28 @@ export const importSpotifyTrack = (id) => async (dispatch) => {
       spotify_url: trackData.data.uri,
       spotify_id: trackData.data.id,
     };
-    dispatch(createSong(songData));
+    await dispatch(createSong(songData));
+
+    for (const [i, section] of audioAnalysisData.data.sections.entries()) {
+      const state = getState();
+      console.log(state.songs);
+      const song_id = Math.max(Object.keys(state.songs));
+      let sectionData = {
+        name: `section ${i + 1}`,
+        start: section.start,
+        duration: section.duration,
+        loudness: section.loudness,
+        tempo: section.tempo,
+        key: section.key,
+        mode: section.mode,
+        lyrics: '',
+        learned: false,
+        time_signature: section.time_signature,
+        song: song_id,
+        instrument_id: null,
+      };
+      await dispatch(createElement(sectionData));
+    }
     dispatch(notLoading());
     dispatch(showSuccessSnackbar('Song Imported'));
   } catch (error) {
