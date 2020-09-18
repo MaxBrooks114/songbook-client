@@ -34,10 +34,6 @@ const InstrumentList = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchInstruments());
-  }, [dispatch]);
-
   const classes = useStyles();
   let transitionDuration = 50;
 

@@ -37,10 +37,6 @@ const SongList = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchSongs());
-  }, [dispatch]);
-
   const classes = useStyles();
   let transitionDuration = 50;
 

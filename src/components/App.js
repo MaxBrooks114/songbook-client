@@ -23,15 +23,24 @@ import theme from './ui/theme';
 import history from '../history';
 import { MuiThemeProvider } from 'material-ui/styles';
 import UserShow from './auth/UserShow';
+import { fetchInstruments } from '../actions/instruments';
+import { fetchSongs } from '../actions/songs';
+import { fetchElements } from '../actions/elements';
 
 const App = () => {
   const dispatch = useDispatch();
   useMemo(() => {
     dispatch(fetchUser());
+    dispatch(fetchInstruments());
+    dispatch(fetchSongs());
+    dispatch(fetchElements());
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchUser());
+    dispatch(fetchInstruments());
+    dispatch(fetchSongs());
+    dispatch(fetchElements());
   }, [dispatch]);
 
   return (
