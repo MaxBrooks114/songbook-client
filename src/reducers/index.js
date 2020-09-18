@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import spotifyTracksReducer from './spotify/spotifyTracksReducer';
 import songsReducer from './songs/songsReducer';
+import elementsReducer from './elements/elementsReducer';
 import instrumentsReducer from './instruments/instrumentsReducer';
 import snackbarReducer from './ui/snackbarReducer';
 import filterReducer from './ui/filterReducer';
@@ -18,6 +19,7 @@ export default combineReducers({
   form: formReducer,
   songs: songsReducer,
   instruments: instrumentsReducer,
+  elements: elementsReducer,
   snackbar: snackbarReducer,
   loading: loadingReducer,
   filter: filterReducer,
