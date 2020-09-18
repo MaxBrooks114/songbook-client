@@ -196,7 +196,7 @@ const SongDetail = ({ song }) => {
                 <Typography>Speechiness: {audioFeaturesToText(song.speechiness)}</Typography>
               </AccordionDetails>
               <AccordionDetails>
-                <Typography>Valence: {audioFeaturesToText(song.loudness)}</Typography>
+                <Typography>Valence: {audioFeaturesToText(song.valence)}</Typography>
               </AccordionDetails>
             </Accordion>
             <Accordion className={classes.accordion}>
