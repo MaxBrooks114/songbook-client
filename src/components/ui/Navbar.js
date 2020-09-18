@@ -97,8 +97,10 @@ const Navbar = () => {
     { name: 'New Instrument', link: '/instruments/new', activeIndex: 1 },
     { name: 'Songs', link: '/songs', activeIndex: 2 },
     { name: 'New Song', link: '/songs/new', activeIndex: 3 },
-    { name: 'Spotify Search', link: '/search', activeIndex: 4 },
-    { name: 'Log out', link: '/logout', activeIndex: 5 },
+    { name: 'Elements', link: '/elements', activeIndex: 4 },
+    { name: 'New Element', link: '/elements/new', activeIndex: 5 },
+    { name: 'Spotify Search', link: '/search', activeIndex: 6 },
+    { name: 'Log out', link: '/logout', activeIndex: 7 },
   ];
 
   const guestRoutes = [
