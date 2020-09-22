@@ -238,7 +238,7 @@ const SongDetail = ({ song }) => {
             <Button
               onClick={() => {
                 handleClose();
-                dispatch(deleteSong(song.id));
+                dispatch(deleteSong(song.id, song));
               }}
               color="primary"
               autoFocus

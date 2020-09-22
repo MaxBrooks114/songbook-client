@@ -1,8 +1,7 @@
 import history from '../history';
-import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG } from './types';
+import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG, DELETE_ELEMENT } from './types';
 import { loading, notLoading } from './ui';
 import { returnErrors } from './messages';
-
 import songbook from '../apis/songbook';
 
 export const createSong = (formValues) => async (dispatch) => {
@@ -57,10 +56,15 @@ export const fetchSong = (id) => async (dispatch) => {
   dispatch(notLoading());
 };
 
-export const deleteSong = (id) => async (dispatch) => {
+export const deleteSong = (id, song) => async (dispatch) => {
   try {
     await songbook.delete(`/songs/${id}/`);
-
+    for (let element of song.elements) {
+      dispatch({
+        type: DELETE_ELEMENT,
+        payload: element,
+      });
+    }
     dispatch({
       type: DELETE_SONG,
       payload: id,
