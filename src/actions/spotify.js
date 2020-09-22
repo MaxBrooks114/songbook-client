@@ -5,6 +5,7 @@ import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCE
 import { loading, notLoading } from './ui';
 import history from '../history';
 import { createSong } from './songs';
+import { createElement } from './elements';
 import { returnErrors } from './messages';
 import { showSuccessSnackbar } from './ui';
 
@@ -45,7 +46,7 @@ export const clearSpotifyTracks = () => {
   };
 };
 
-export const importSpotifyTrack = (id) => async (dispatch) => {
+export const importSpotifyTrack = (id) => async (dispatch, getState) => {
   dispatch(loading());
 
   try {
@@ -108,13 +109,14 @@ export const importSpotifyTrack = (id) => async (dispatch) => {
       original: false,
       spotify_url: trackData.data.uri,
       spotify_id: trackData.data.id,
+      elements: [],
     };
     await dispatch(createSong(songData));
-
+    let state;
+    let song_id;
     for (const [i, section] of audioAnalysisData.data.sections.entries()) {
-      const state = getState();
-      console.log(state.songs);
-      const song_id = Math.max(Object.keys(state.songs));
+      state = getState();
+      song_id = Object.keys(state.songs).pop();
       let sectionData = {
         name: `section ${i + 1}`,
         start: section.start,
@@ -173,7 +175,6 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
 
 export const playSong = (accessToken, songUri, refreshToken) => async (dispatch) => {
   try {
-    dispatch(refreshAccessToken(refreshToken));
     const response = await spotify.put(
       '/me/player/play',
       { uris: [songUri] },
@@ -194,6 +195,41 @@ export const playSong = (accessToken, songUri, refreshToken) => async (dispatch)
       await spotify.put(
         '/me/player/play',
         { uris: [songUri] },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    }
+  }
+};
+
+export const playElement = (accessToken, songUri, refreshToken, start) => async (dispatch) => {
+  try {
+    await spotify.put(
+      '/me/player/play',
+      { position_ms: start * 1000, uris: [songUri] },
+
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  } catch (error) {
+    dispatch(returnErrors(error));
+
+    if (error.response.status === 401) {
+      await dispatch(refreshAccessToken(refreshToken));
+
+      await spotify.put(
+        '/me/player/play',
+        { uris: [songUri], position_ms: start * 1000 },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
