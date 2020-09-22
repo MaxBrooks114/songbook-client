@@ -1,4 +1,3 @@
-import history from '../history';
 import {
   LOGIN_USER,
   FETCH_USER,
