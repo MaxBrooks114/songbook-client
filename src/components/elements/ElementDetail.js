@@ -133,7 +133,7 @@ const ElementDetail = ({ element }) => {
   };
 
   const handleSongPlayClick = () => {
-    dispatch(playElement(accessToken, song.spotify_url, refreshToken, element.start));
+    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start));
   };
 
   return element ? (
@@ -142,7 +142,7 @@ const ElementDetail = ({ element }) => {
         <Grid container className={classes.details}>
           <Grid item xs={4}>
             <Typography>
-              Section: {element.name} of {song.title}
+              Section: {element.name} of {element.song.title}
             </Typography>
             <Typography>Start: {sec2time(element.start)}</Typography>
             <Typography>Duration: {sec2time(element.duration)}</Typography>

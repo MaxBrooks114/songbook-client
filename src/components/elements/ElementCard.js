@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 const ElementCard = ({ element, transitionDuration, handleClick }) => {
   const classes = useStyles();
-  const song = useSelector((state) => state.songs[element.song]);
+
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card className={classes.root} onClick={() => handleClick(element.id)}>
         <CardContent className={classes.cardContent}>
           <Typography variant="subtitle1">{element.name}</Typography>
-          <Typography variant="subtitle1">{song.title}</Typography>
+          <Typography variant="subtitle1">{element.song.title}</Typography>
         </CardContent>
       </Card>
     </Slide>
