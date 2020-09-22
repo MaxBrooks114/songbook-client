@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchElements, fetchElement } from '../../actions/elements';
-import { fetchSongs } from '../../actions/songs';
-// import { getFilteredSongs } from '../../selectors/selectors';
+import { fetchElement } from '../../actions/elements';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import ElementCard from './ElementCard';
