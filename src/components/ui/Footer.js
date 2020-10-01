@@ -5,11 +5,11 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: theme.palette.primary.dark,
     width: '100%',
-    position: 'absolute',
+    position: 'fixed',
     bottom: 0,
     left: 0,
     right: 0,
-    marginTop: theme.spacing(4),
+    // marginTop: theme.spacing(4),
     marginBottom: 0,
   },
 }));
