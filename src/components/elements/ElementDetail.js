@@ -93,7 +93,6 @@ const ElementDetail = ({ element }) => {
   const deviceId = useSelector((state) => state.auth.user.spotify_info.deviceId);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
-  const song = useSelector((state) => state.songs[element.song]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -179,10 +178,10 @@ const ElementDetail = ({ element }) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this song?'}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this Element?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              By deleting this song you will also delete all affiliated elements.
+              You will no longer have access to any of its data, you can always create it again.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
