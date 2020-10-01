@@ -10,10 +10,6 @@ import { instrumentList, instrumentFamilies, instrumentTonalities } from './inst
 const useStyles = makeStyles((theme) => ({
   root: {
     color: '#D31DEA',
-    width: '85%',
-    marginTop: '2rem',
-    marginLeft: '4rem',
-    marginBottom: '10rem',
 
     '& .MuiOutlinedInput-root': {
       width: 250,
@@ -38,10 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
   autoComplete: {
     color: '#D31DEA',
-    width: '20%',
-    '& .MuiAutocomplete-root': {
-      width: 250,
-    },
   },
 
   button: {
@@ -60,12 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
   label: {
     color: '#D31DEA',
-  },
-
-  lyrics: {
-    '& .MuiInputBase-root': {
-      width: 800,
-    },
   },
 
   listbox: {
@@ -149,7 +135,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
   };
   return (
     <div>
-      <Grid container spacing={2} direction="row">
+      <Grid container alignItems="center" justify="center" spacing={2} direction="row">
         <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
           <Grid item>
             <Field
