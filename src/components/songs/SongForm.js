@@ -15,11 +15,7 @@ import modes from './modes';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: '#D31DEA',
-    width: '85%',
-    marginTop: '2rem',
-    marginLeft: '4rem',
-    marginBottom: '10rem',
-
+    marginBottom: 6,
     '& .MuiOutlinedInput-root': {
       width: 250,
       '& fieldset': {
@@ -43,15 +39,12 @@ const useStyles = makeStyles((theme) => ({
 
   autoComplete: {
     color: '#D31DEA',
-    width: '20%',
-    '& .MuiAutocomplete-root': {
-      width: 250,
-    },
   },
 
   button: {
     color: 'white',
     marginTop: '1rem',
+    marginBottom: 28,
     background: 'linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)',
     '&:hover': {
       background: 'rgba(8,199,251,1)',
@@ -168,7 +161,7 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
   };
   return (
     <div>
-      <Grid container spacing={2} direction="row">
+      <Grid container alignItems="center" justify="center" spacing={2} direction="row">
         <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
           <Grid item>
             <Field classes={classes} required name="title" component={renderTextField} label="Title" />
@@ -176,10 +169,10 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
           <Grid item>
             <Field classes={classes} required name="artist" component={renderTextField} label="Artist" />
           </Grid>
-          <Grid item>
+          <Grid item xs={4}>
             <Field classes={classes} name="album" component={renderTextField} label="Album" />
           </Grid>
-          <Grid item>
+          <Grid item xs={4}>
             <Field
               options={genres.sort((a, b) => (a.name > b.name ? 1 : -1))}
               classes={classes}
@@ -188,10 +181,10 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
               label="Genre"
             />
           </Grid>
-          <Grid item>
+          <Grid>
             <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" />
           </Grid>
-          <Grid item>
+          <Grid>
             <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
           </Grid>
           <Grid item>
