@@ -45,7 +45,7 @@ const ElementList = ({ match }) => {
   const renderedList =
     Object.values(elements).length > 0
       ? Object.values(elements)
-          .sort((a, b) => (a['artist'] > b['artist'] ? 1 : -1))
+          .sort((a, b) => (a['song'] > b['song'] ? 1 : -1))
           .map((element) => {
             transitionDuration += 50;
             return (
