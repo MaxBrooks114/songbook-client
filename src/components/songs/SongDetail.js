@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSong } from '../../actions/songs';
-import { playSong } from '../../actions/spotify';
+import { playSong, playElement } from '../../actions/spotify';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     position: 'sticky',
     marginTop: 11,
-    marginBottom: '3em',
+    marginBottom: '3rem',
   },
 
   lyrics: {
@@ -90,10 +90,12 @@ const useStyles = makeStyles((theme) => ({
 
 const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
-  const deviceId = useSelector((state) => state.auth.user.spotify_info.deviceId);
+  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
-
+  const elements = useSelector((state) =>
+    Object.values(state.elements).filter((element) => song.elements.includes(element.id))
+  );
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -139,8 +141,27 @@ const SongDetail = ({ song }) => {
     }
   };
 
+  const renderElements = (elements) => {
+    return elements
+      ? elements.map((element) => {
+          return (
+            <>
+              <AccordionDetails>
+                <Typography>{element.name}</Typography>
+                <Button onClick={() => handleElementPlayClick(element)}>Hear This Element</Button> <br />
+              </AccordionDetails>
+            </>
+          );
+        })
+      : null;
+  };
+
   const handleSongPlayClick = () => {
-    dispatch(playSong(accessToken, song.spotify_url, refreshToken));
+    dispatch(playSong(accessToken, song.spotify_url, refreshToken, deviceId));
+  };
+  
+  const handleElementPlayClick = (element) => {
+    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
   };
 
   return song ? (
@@ -206,6 +227,12 @@ const SongDetail = ({ song }) => {
               <AccordionDetails>
                 <Typography className={classes.lyrics}>{song.lyrics}</Typography>
               </AccordionDetails>
+            </Accordion>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Elements</Typography>
+              </AccordionSummary>
+              {renderElements(elements)}
             </Accordion>
           </Grid>
           <Grid container justify="space-between" className={classes.buttonContainer}>
