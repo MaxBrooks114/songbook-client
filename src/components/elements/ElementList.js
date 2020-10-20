@@ -11,7 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
-    height: 640,
+    height: '90vh',
     paddingBottom: theme.spacing(4),
     marginBottom: theme.spacing(4),
   },
