@@ -145,10 +145,11 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
 export const refreshAccessToken = (refreshToken) => async (dispatch) => {
   try {
     const response = await songbook.get(`/spotify/callback?refresh_token=${refreshToken}`);
-    dispatch({
+    await dispatch({
       type: REFRESH_ACCESS_TOKEN,
       payload: response.data,
     });
+    return response.data;
   } catch (error) {
     dispatch(returnErrors(error));
   }
@@ -156,27 +157,28 @@ export const refreshAccessToken = (refreshToken) => async (dispatch) => {
 
 export const getDeviceId = (accessToken) => async (dispatch) => {
   try {
-    const response = await spotify.get('/me/player/', {
+    const response = await spotify.get('/me/player/devices', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     });
-    console.log(response);
     dispatch({
       type: GET_DEVICE_ID,
-      payload: response.data.device.id,
+      payload: response.data.devices[0].id,
     });
+    return response.data.devices[0].id;
   } catch (error) {
     dispatch(returnErrors(error));
   }
 };
 
-export const playSong = (accessToken, songUri, refreshToken) => async (dispatch) => {
+export const playSong = (accessToken, songUri, refreshToken, deviceId) => async (dispatch) => {
   try {
-    const response = await spotify.put(
-      '/me/player/play',
+    const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
+    await spotify.put(
+      url,
       { uris: [songUri] },
       {
         headers: {
@@ -188,29 +190,22 @@ export const playSong = (accessToken, songUri, refreshToken) => async (dispatch)
     );
   } catch (error) {
     dispatch(returnErrors(error));
-
     if (error.response.status === 401) {
-      await dispatch(refreshAccessToken(refreshToken));
-
-      await spotify.put(
-        '/me/player/play',
-        { uris: [songUri] },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
+      dispatch(playSong(newAccessToken, songUri, refreshToken, deviceId));
+    }
+    if (error.response.status === 404) {
+      const newDeviceId = await dispatch(getDeviceId(accessToken));
+      dispatch(playSong(accessToken, songUri, refreshToken, newDeviceId));
     }
   }
 };
 
-export const playElement = (accessToken, songUri, refreshToken, start) => async (dispatch) => {
+export const playElement = (accessToken, songUri, refreshToken, start, deviceId) => async (dispatch) => {
   try {
+    const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
     await spotify.put(
-      '/me/player/play',
+      url,
       { position_ms: start * 1000, uris: [songUri] },
 
       {
@@ -223,21 +218,13 @@ export const playElement = (accessToken, songUri, refreshToken, start) => async 
     );
   } catch (error) {
     dispatch(returnErrors(error));
-
     if (error.response.status === 401) {
-      await dispatch(refreshAccessToken(refreshToken));
-
-      await spotify.put(
-        '/me/player/play',
-        { uris: [songUri], position_ms: start * 1000 },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
+      dispatch(playElement(newAccessToken, songUri, refreshToken, start, deviceId));
+    }
+    if (error.response.status === 404) {
+      const newDeviceId = await dispatch(getDeviceId(accessToken));
+      dispatch(playElement(accessToken, songUri, refreshToken, start, newDeviceId));
     }
   }
 };

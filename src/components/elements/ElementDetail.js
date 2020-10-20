@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ElementDetail = ({ element }) => {
   const dispatch = useDispatch();
-  const deviceId = useSelector((state) => state.auth.user.spotify_info.deviceId);
+  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
 
@@ -107,7 +107,7 @@ const ElementDetail = ({ element }) => {
   const classes = useStyles();
 
   const renderBool = (bool) => {
-    return element.bool ? 'Yes' : 'No';
+    return bool ? 'Yes' : 'No';
   };
 
   const renderText = (list, v) => {
@@ -131,8 +131,8 @@ const ElementDetail = ({ element }) => {
     return pad(minutes, 2) + ':' + pad(seconds, 2);
   };
 
-  const handleSongPlayClick = () => {
-    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start));
+  const handleElementPlayClick = () => {
+    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
   };
 
   return element ? (
@@ -166,7 +166,7 @@ const ElementDetail = ({ element }) => {
           <Link className={classes.link} to={`edit/${element.id}`}>
             <Button className={classes.button}>Edit </Button>
           </Link>
-          <Button onClick={handleSongPlayClick}>Hear This Element</Button>
+          <Button onClick={handleElementPlayClick}>Hear This Element</Button>
 
           <Button className={classes.delete} onClick={handleClickOpen}>
             Delete

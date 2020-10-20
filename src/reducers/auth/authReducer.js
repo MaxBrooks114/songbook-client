@@ -8,6 +8,7 @@ import {
   REGISTER_USER,
   REGISTER_FAIL,
   REFRESH_ACCESS_TOKEN,
+  GET_DEVICE_ID,
 } from '../../actions/types';
 
 const initialState = {
@@ -50,6 +51,18 @@ export default function(state = initialState, action) {
           spotify_info: {
             ...state.user.spotify_info,
             access_token: action.payload,
+          },
+        },
+      };
+
+    case GET_DEVICE_ID:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          spotify_info: {
+            ...state.user.spotify_info,
+            device_id: action.payload,
           },
         },
       };
