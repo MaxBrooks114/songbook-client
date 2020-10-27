@@ -175,6 +175,7 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
 };
 
 export const playSong = (accessToken, songUri, refreshToken, deviceId) => async (dispatch) => {
+  dispatch(loading());
   try {
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
     await spotify.put(
@@ -199,9 +200,11 @@ export const playSong = (accessToken, songUri, refreshToken, deviceId) => async 
       dispatch(playSong(accessToken, songUri, refreshToken, newDeviceId));
     }
   }
+  dispatch(notLoading());
 };
 
 export const playElement = (accessToken, songUri, refreshToken, start, deviceId) => async (dispatch) => {
+  dispatch(loading());
   try {
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
     await spotify.put(
@@ -227,4 +230,7 @@ export const playElement = (accessToken, songUri, refreshToken, start, deviceId)
       dispatch(playElement(accessToken, songUri, refreshToken, start, newDeviceId));
     }
   }
+
+  dispatch(notLoading());
+
 };
