@@ -33,6 +33,7 @@ const ElementEdit = ({ match }) => {
 
   const element = useSelector((state) => state.elements[match.params.id]);
   const songs = useSelector((state) => state.songs);
+  const instruments = useSelector((state) => state.instruments);
 
   const onSubmit = (formValues) => {
     dispatch(
@@ -41,6 +42,7 @@ const ElementEdit = ({ match }) => {
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
         song: songId(formValues.song),
+        learned: !!formValues.learned
       })
     );
   };
@@ -73,7 +75,7 @@ const ElementEdit = ({ match }) => {
       <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
         Edit an Element
       </Typography>
-      <ElementForm initialValues={initialValues} songs={songs} onSubmit={onSubmit} />
+      <ElementForm initialValues={initialValues} instruments={instruments} songs={songs} onSubmit={onSubmit} />
     </>
   );
 };

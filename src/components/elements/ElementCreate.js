@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const ElementCreate = () => {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.songs);
+  const instruments = useSelector((state)=> state.instruments)
   const normalize = (list, v) => {
     return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null;
   };
@@ -42,8 +43,11 @@ const ElementCreate = () => {
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
         song: songId(formValues.song),
+        learned: !!formValues.learned
+      
       })
     );
+    
   };
 
   const classes = useStyles();
@@ -55,7 +59,7 @@ const ElementCreate = () => {
         <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
           Create an Element
         </Typography>
-        <ElementForm songs={songs} onSubmit={onSubmit} />
+        <ElementForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
     </>
   );

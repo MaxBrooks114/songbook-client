@@ -144,7 +144,7 @@ const renderAutoCompleteField = ({ options, classes, input, label, ...custom }) 
   );
 };
 
-const renderAutoCompleteSongField = ({ options, classes, input, label, ...custom }) => {
+const renderAutoCompleteDataField = ({ options, classes, input, label, ...custom }) => {
   return (
     <Autocomplete
       options={options || ''}
@@ -181,7 +181,35 @@ const renderCheckbox = ({ classes, input, label }) => (
   />
 );
 
-const ElementForm = ({ songs, onSubmit, handleSubmit }) => {
+const renderCheckboxGroup = ({ name, options, input, meta, ...custom}) => {
+  let $options = Object.values(options).map((option, i) => (
+    <div key={i}>
+      <Checkbox
+        name={`${name}[${i}]`}
+        checked={input.value.indexOf(option.id) !== -1}
+        label={option.label}
+        onChange = {(e, checked) => {
+          let newValue = [...input.value];
+          if (checked){
+            newValue.push(option.id);
+          } else {
+            newValue.splice(newValue.indexOf(option.id), 1);
+          }
+          return input.onChange(newValue);
+        }}
+        {...custom}
+      />
+      {option.name}
+    </div>
+  ));
+  return (
+    <div>
+      {$options}
+    </div>
+  );
+};
+
+const ElementForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
   const classes = useStyles();
 
   const onFormSubmit = (formValues) => {
@@ -219,10 +247,23 @@ const ElementForm = ({ songs, onSubmit, handleSubmit }) => {
               options={Object.values(songs)}
               classes={classes}
               name="song"
-              component={renderAutoCompleteSongField}
+              component={renderAutoCompleteDataField}
               label="Song"
             />
           </Grid>
+          <Grid item>
+          
+          <fieldset>
+          <legend>Instruments</legend>
+            <Field
+              name="instruments"
+              component={renderCheckboxGroup}
+              options={instruments}
+             />
+            </fieldset>
+          </Grid>
+     
+       
           <Grid>
             <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" />
           </Grid>
@@ -281,4 +322,5 @@ const validate = (formValues) => {
 export default reduxForm({
   form: 'ElementCreate',
   validate,
+  initialValues: {prescribed: true},
 })(ElementForm);
