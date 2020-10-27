@@ -14,11 +14,12 @@ const millisToMinutesAndSeconds = (millis) => {
   return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 };
 
-export const getFilteredSongs = (state) => {
+export const getFilteredSongs = (state)  => {
   const filterAttribute = getFilterAttribute(state);
   const filterValue = getFilterValue(state);
   const songs = getSongs(state);
-
+ 
+  
   if (!filterAttribute || !filterValue) {
     return songs;
   }

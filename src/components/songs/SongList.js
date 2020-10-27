@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
-import { getFilteredSongs } from '../../selectors/selectors';
+import { getFilteredSongs } from '../../selectors/songSelectors';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import SongCard from './SongCard';
@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SongList = ({ match }) => {
-  const songs = useSelector(getFilteredSongs);
-
+  
+  const filteredSongs = useSelector(getFilteredSongs);
+  const songs = useSelector((state) => state.songs);
   const song = useSelector((state) => state.songs[match.params.id]);
 
   const dispatch = useDispatch();
@@ -44,9 +45,12 @@ const SongList = ({ match }) => {
     dispatch(fetchSong(id));
   };
 
+  const renderFilter = 
+    Object.values(songs).length > 0 ? <FilterControl objectType='songs' attributes={Object.getOwnPropertyNames(Object.values(songs)[0])} /> : null 
+
   const renderedList =
     Object.values(songs).length > 0
-      ? Object.values(songs)
+      ? Object.values(filteredSongs)
           .sort((a, b) => (a['artist'] > b['artist'] ? 1 : -1))
           .map((song) => {
             transitionDuration += 50;
@@ -65,7 +69,7 @@ const SongList = ({ match }) => {
   return (
     <Grid container className={classes.cardGrid}>
       <Grid item xs={12} className={classes.filter}>
-        <FilterControl />
+        {renderFilter}
       </Grid>
       <Grid item xs={4} className={classes.list}>
         <List>{renderedList}</List>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchElement } from '../../actions/elements';
+import { getFilteredElements } from '../../selectors/elementSelectors';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import ElementCard from './ElementCard';
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ElementList = ({ match }) => {
+  const filteredElements = useSelector(getFilteredElements);
   const elements = useSelector((state) => state.elements);
   const element = useSelector((state) => state.elements[match.params.id]);
 
@@ -41,10 +43,12 @@ const ElementList = ({ match }) => {
   const handleClick = (id) => {
     dispatch(fetchElement(id));
   };
+  const renderFilter = 
+  Object.values(elements).length > 0 ? <FilterControl objectType='elements' attributes={Object.getOwnPropertyNames(Object.values(elements)[0])} /> : null
 
   const renderedList =
     Object.values(elements).length > 0
-      ? Object.values(elements)
+      ? Object.values(filteredElements)
           .sort((a, b) => (a['song'] > b['song'] ? 1 : -1))
           .map((element) => {
             transitionDuration += 50;
@@ -63,7 +67,7 @@ const ElementList = ({ match }) => {
   return (
     <Grid container className={classes.cardGrid}>
       <Grid item xs={12} className={classes.filter}>
-        <FilterControl />
+        {renderFilter}
       </Grid>
       <Grid item xs={4} className={classes.list}>
         <List>{renderedList}</List>

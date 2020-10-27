@@ -41,11 +41,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FilterControl = () => {
+const FilterControl = ({attributes, objectType}) => {
   const dispatch = useDispatch();
   const [attribute, setAttribute] = useState('');
   const [value, setValue] = useState('');
-
+  const titleCase = (s) => { 
+    return s
+        .replace(/([^A-Z])([A-Z])/g, '$1 $2') // split cameCase
+        .replace(/[_\-]+/g, ' ') // split snake_case and lisp-case
+        .toLowerCase()
+        .replace(/(^\w|\b\w)/g, function(m) { return m.toUpperCase(); }) // title case words
+        .replace(/\s+/g, ' ') // collapse repeated whitespace
+        .replace(/^\s+|\s+$/, ''); // remove leading/trailing whitespace
+}
+  const renderAttributes = () => {
+    let blockedAttrs = ['id', 'spotify_url', 'spotify_id', 'elements', 'lyrics']
+    let options = attributes.filter((attribute) => !blockedAttrs.includes(attribute)).map((attribute)=> 
+      
+      <option value={attribute}>{titleCase(attribute)}</option>
+      
+      )
+    return options
+  }
   const classes = useStyles();
 
   return (
@@ -54,7 +71,7 @@ const FilterControl = () => {
         className={classes.formControl}
         onSubmit={(e) => {
           e.preventDefault();
-          dispatch(setFilter(attribute, value));
+          dispatch(setFilter(attribute, value, objectType ));
         }}
       >
         <Grid container justify="flex-start" spacing={2} alignContent="center" alignItems="flex-end">
@@ -68,25 +85,9 @@ const FilterControl = () => {
                 value={attribute}
                 label="Filter By"
                 onChange={(e) => setAttribute(e.target.value)}
-              >
+              > 
                 <option aria-label="None" value="" />
-                <option value="title">Title</option>
-                <option value="artist">Artist</option>
-                <option value="album">Album</option>
-                <option value="year">Release Year</option>
-                <option value="genre">Genre</option>
-                <option value="duration">Duration (min)</option>
-                <option value="key">Key</option>
-                <option value="mode">Mode</option>
-                <option value="time_signature">Time Signature</option>
-                <option value="tempo">Tempo</option>
-                <option value="acousticness">Acousticness</option>
-                <option value="danceability">Danceability</option>
-                <option value="energy">Energy</option>
-                <option value="instrumentalness">Instrumentalness</option>
-                <option value="liveness">Liveness</option>
-                <option value="speechiness">Speechiness</option>
-                <option value="valence">Valence</option>
+                {renderAttributes()}
               </Select>
             </FormControl>
           </Grid>
