@@ -1,7 +1,9 @@
 import history from '../history';
 import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG, DELETE_ELEMENT } from './types';
-import { loading, notLoading } from './ui';
+import { loading, notLoading, showSuccessSnackbar } from './ui';
+
 import { returnErrors } from './messages';
+
 import songbook from '../apis/songbook';
 
 export const createSong = (formValues) => async (dispatch) => {
@@ -16,6 +18,8 @@ export const createSong = (formValues) => async (dispatch) => {
 
     if (!history.location.pathname.includes('search')) {
       history.push('/songs');
+      dispatch(showSuccessSnackbar('Song Created'))
+
     }
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
@@ -71,6 +75,8 @@ export const deleteSong = (id, song) => async (dispatch) => {
     });
 
     history.push('/songs');
+    dispatch(showSuccessSnackbar('Song Deleted'))
+
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -86,6 +92,8 @@ export const editSong = (id, formValues) => async (dispatch) => {
     });
 
     history.push(`/songs/${id}`);
+    dispatch(showSuccessSnackbar('Song Updated Succesfully'))
+
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }

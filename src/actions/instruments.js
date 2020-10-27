@@ -1,6 +1,6 @@
 import history from '../history';
 import { CREATE_INSTRUMENT, FETCH_INSTRUMENTS, FETCH_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT } from './types';
-import { loading, notLoading } from './ui';
+import { loading, notLoading, showSuccessSnackbar } from './ui';
 import { returnErrors } from './messages';
 import songbook from '../apis/songbook';
 
@@ -14,6 +14,8 @@ export const createInstrument = (formValues) => async (dispatch) => {
       payload: response.data,
     });
     history.push('/instruments');
+    dispatch(showSuccessSnackbar('Instrument Added'))
+
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -65,6 +67,8 @@ export const deleteInstrument = (id) => async (dispatch) => {
     });
 
     history.push('/instruments');
+    dispatch(showSuccessSnackbar('Instrument Deleted'))
+
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -80,6 +84,8 @@ export const editInstrument = (id, formValues) => async (dispatch) => {
     });
 
     history.push(`/instruments/${id}`);
+    dispatch(showSuccessSnackbar('Instrument Updated Succesfully'))
+
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }

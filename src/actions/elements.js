@@ -2,6 +2,7 @@ import history from '../history';
 import { CREATE_ELEMENT, FETCH_ELEMENTS, FETCH_ELEMENT, DELETE_ELEMENT, EDIT_ELEMENT } from './types';
 import { loading, notLoading } from './ui';
 import { returnErrors } from './messages';
+import { showSuccessSnackbar } from './ui';
 import songbook from '../apis/songbook';
 
 export const createElement = (formValues) => async (dispatch) => {
@@ -14,8 +15,10 @@ export const createElement = (formValues) => async (dispatch) => {
       payload: response.data,
     });
     if (!history.location.pathname.includes('search')) {
-      history.push('/songs');
+      history.push('/elements');
+      dispatch(showSuccessSnackbar('Element Created'))
     }
+    
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -67,6 +70,7 @@ export const deleteElement = (id) => async (dispatch) => {
     });
 
     history.push('/elements');
+    dispatch(showSuccessSnackbar('Element Deleted'))
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -82,6 +86,8 @@ export const editElement = (id, formValues) => async (dispatch) => {
     });
 
     history.push(`/elements/${id}`);
+    dispatch(showSuccessSnackbar('Element updated successfully'))
+
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
