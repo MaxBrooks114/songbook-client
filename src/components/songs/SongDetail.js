@@ -147,7 +147,9 @@ const SongDetail = ({ song }) => {
           return (
             <>
               <AccordionDetails>
-                <Typography>{element.name}</Typography>
+                <Typography>
+                  <Link to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
+                  </Typography>
                 <Button onClick={() => handleElementPlayClick(element)}>Hear This Element</Button> <br />
               </AccordionDetails>
             </>

@@ -9,8 +9,8 @@ import modes from '../songs/modes';
 import keys from '../songs/keys';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
-import Accordion from '@material-ui/core/Accordion';
 import Grid from '@material-ui/core/Grid';
+import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -93,7 +93,9 @@ const ElementDetail = ({ element }) => {
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
-
+  const instruments = useSelector((state) =>
+  Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id))
+);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -130,6 +132,20 @@ const ElementDetail = ({ element }) => {
 
     return pad(minutes, 2) + ':' + pad(seconds, 2);
   };
+  const renderInstruments = (instruments) => {
+    return instruments
+      ? instruments.map((instrument) => {
+          return (
+            <>
+              <AccordionDetails>
+                <Typography></Typography>
+                <Link to={`/instruments/${instrument.id}`}>{instrument.name}</Link>
+              </AccordionDetails>
+            </>
+          );
+        })
+      : null;
+  };
 
   const handleElementPlayClick = () => {
     dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
@@ -141,7 +157,8 @@ const ElementDetail = ({ element }) => {
         <Grid container className={classes.details}>
           <Grid item xs={4}>
             <Typography>
-              Section: {element.name} of {element.song.title}
+              Section: {element.name} of <Link to={`/songs/${element.song.id}`}>{element.song.title}</Link>
+              
             </Typography>
             <Typography>Start: {sec2time(element.start)}</Typography>
             <Typography>Duration: {sec2time(element.duration)}</Typography>
@@ -159,6 +176,12 @@ const ElementDetail = ({ element }) => {
               <AccordionDetails>
                 <Typography className={classes.lyrics}>{element.lyrics}</Typography>
               </AccordionDetails>
+            </Accordion> 
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Instruments</Typography>
+              </AccordionSummary>
+              {renderInstruments(instruments)}
             </Accordion>
           </Grid>
         </Grid>

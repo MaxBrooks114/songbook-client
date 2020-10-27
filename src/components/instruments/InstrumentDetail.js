@@ -1,11 +1,16 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteInstrument } from '../../actions/instruments';
+import {playElement} from '../../actions/spotify'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -74,6 +79,31 @@ const useStyles = makeStyles((theme) => ({
 
 const InstrumentDetail = ({ instrument }) => {
   const dispatch = useDispatch();
+  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
+
+  const handleElementPlayClick = (element) => {
+    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
+  };
+
+  const renderElements = (elements) => {
+    return elements
+      ? elements.map((element) => {
+          return (
+            <>
+              <AccordionDetails>
+                <Typography>
+                  <Link to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
+                  
+                </Typography>
+                <Button onClick={() => handleElementPlayClick(element)}>Hear This Element</Button> <br />
+              </AccordionDetails>
+            </>
+          );
+        })
+      : null;
+  };
 
   const [open, setOpen] = React.useState(false);
 
@@ -84,6 +114,9 @@ const InstrumentDetail = ({ instrument }) => {
   const handleClose = () => {
     setOpen(false);
   };
+  const elements = useSelector((state) =>
+  Object.values(state.elements).filter((element) => instrument.elements.includes(element.id))
+);
 
   const classes = useStyles();
 
@@ -98,6 +131,14 @@ const InstrumentDetail = ({ instrument }) => {
             <Typography>Year: {instrument.year}</Typography>
             <Typography>Family: {instrument.family}</Typography>
             <Typography>Tonality: {instrument.tonal_range}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Elements</Typography>
+              </AccordionSummary>
+              {renderElements(elements)}
+            </Accordion>
           </Grid>
         </Grid>
         <Grid container justify="space-evenly" className={classes.buttonContainer}>
