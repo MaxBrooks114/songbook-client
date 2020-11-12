@@ -118,6 +118,7 @@ const renderTextField = ({
 const LoginForm = ({ onSubmit, handleSubmit }) => {
   const classes = useStyles();
   const credentialErrors = useSelector((state) => state.errors.msg);
+  const user = useSelector(state => state.auth.user)
   const onFormSubmit = (formValues) => {
     onSubmit(formValues);
   };
@@ -136,7 +137,7 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
 
           <Grid item>
             <Button type="submit" className={classes.button} variant="contained">
-              Log in
+              {user ? "Update Information" : "Login"}
             </Button>
           </Grid>
           {credentialErrors.non_field_errors}
