@@ -1,18 +1,11 @@
 import keys from '../components/songs/keys';
 import modes from '../components/songs/modes';
+import {renderText, millisToMinutesAndSeconds, renderBool} from '../helpers/detailHelpers'
 const getFilterAttribute = (state) => state.filter.attribute;
 const getFilterValue = (state) => state.filter.value;
 const getSongs = (state) => state.songs;
 
-const renderText = (list, v) => {
-  return v || v === 0 ? list.find((k) => k[v])[v] : null;
-};
 
-const millisToMinutesAndSeconds = (millis) => {
-  var minutes = Math.floor(millis / 60000);
-  var seconds = ((millis % 60000) / 1000).toFixed(0);
-  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-};
 
 export const getFilteredSongs = (state)  => {
   const filterAttribute = getFilterAttribute(state);
@@ -38,6 +31,9 @@ export const getFilteredSongs = (state)  => {
         return song[filterAttribute] === parseInt(filterValue);
       case filterAttribute === 'duration':
         return millisToMinutesAndSeconds(song[filterAttribute]).split(':')[0] === filterValue;
+      case filterAttribute === 'original':
+      case filterAttribute === 'explicit':
+        return renderBool(song[filterAttribute]).toLowerCase() === filterValue.toLowerCase
       case filterAttribute === 'acousticness' ||
         filterAttribute === 'danceability' ||
         filterAttribute === 'instrumentalness' ||
