@@ -82,10 +82,20 @@ const InstrumentDetail = ({ instrument }) => {
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
+  const user = useSelector((state) => state.auth.user);
+
 
   const handleElementPlayClick = (element) => {
     dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
   };
+
+  const renderSpotifyOption = (mediaType) => {
+
+    return accessToken && !accessToken === "" ?
+      <Button onClick={handleElementPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+  }
+  
+
 
   const renderElements = (elements) => {
     return elements
@@ -95,16 +105,14 @@ const InstrumentDetail = ({ instrument }) => {
               <AccordionDetails>
                 <Typography>
                   <Link to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
-                  
-                </Typography>
-                <Button onClick={() => handleElementPlayClick(element)}>Hear This Element</Button> <br />
+                  </Typography>
+                {renderSpotifyOption()}
               </AccordionDetails>
             </>
           );
         })
       : null;
   };
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

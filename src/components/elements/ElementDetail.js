@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteElement } from '../../actions/elements';
 import { playElement } from '../../actions/spotify';
+import {renderText, sec2time, renderBool} from '../../helpers/detailHelpers'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -108,30 +109,6 @@ const ElementDetail = ({ element }) => {
 
   const classes = useStyles();
 
-  const renderBool = (bool) => {
-    return bool ? 'Yes' : 'No';
-  };
-
-  const renderText = (list, v) => {
-    return v || v === 0 ? list.find((k) => k[v])[v] : null;
-  };
-
-  const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  };
-
-  const sec2time = (timeInSeconds) => {
-    var pad = function(num, size) {
-        return ('000' + num).slice(size * -1);
-      },
-      time = parseFloat(timeInSeconds).toFixed(3),
-      minutes = Math.floor(time / 60) % 60,
-      seconds = Math.floor(time - minutes * 60);
-
-    return pad(minutes, 2) + ':' + pad(seconds, 2);
-  };
   const renderInstruments = (instruments) => {
     return instruments
       ? instruments.map((instrument) => {

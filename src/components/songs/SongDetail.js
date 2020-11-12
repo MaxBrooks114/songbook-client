@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSong } from '../../actions/songs';
 import { playSong, playElement } from '../../actions/spotify';
+import {renderBool, audioFeaturesToText, millisToMinutesAndSeconds, renderText} from '../../helpers/detailHelpers'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -93,6 +94,7 @@ const SongDetail = ({ song }) => {
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
+  const user = useSelector((state) => state.auth.user);
   const elements = useSelector((state) =>
     Object.values(state.elements).filter((element) => song.elements.includes(element.id))
   );
@@ -108,38 +110,15 @@ const SongDetail = ({ song }) => {
 
   const classes = useStyles();
 
-  const renderBool = (bool) => {
-    return song.bool ? 'Yes' : 'No';
-  };
+  
+  const renderSpotifyOption = (mediaType) => {
+    const playerFunction = mediaType === 'song' ? handleSongPlayClick : handleElementPlayClick
 
-  const renderText = (list, v) => {
-    return v || v === 0 ? list.find((k) => k[v])[v] : null;
-  };
+    return accessToken && !accessToken === "" ?
+      <Button onClick={playerFunction}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+  }
+  
 
-  const millisToMinutesAndSeconds = (millis) => {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-  };
-
-  const audioFeaturesToText = (feature) => {
-    switch (true) {
-      case feature === null:
-        return 'N/A';
-
-      case feature <= 0.35:
-        return 'low';
-
-      case feature > 0.35 && feature <= 0.7:
-        return 'medium';
-
-      case feature > 0.7:
-        return 'high';
-
-      default:
-        return 'N/A';
-    }
-  };
 
   const renderElements = (elements) => {
     return elements
@@ -150,7 +129,7 @@ const SongDetail = ({ song }) => {
                 <Typography>
                   <Link to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
                   </Typography>
-                <Button onClick={() => handleElementPlayClick(element)}>Hear This Element</Button> <br />
+                {renderSpotifyOption()}
               </AccordionDetails>
             </>
           );
@@ -241,7 +220,7 @@ const SongDetail = ({ song }) => {
             <Link className={classes.link} to={`edit/${song.id}`}>
               <Button className={classes.button}>Edit </Button>
             </Link>
-            <Button onClick={handleSongPlayClick}>Hear This Song</Button>
+              {renderSpotifyOption('song')}
 
             <Button className={classes.delete} onClick={handleClickOpen}>
               Delete
