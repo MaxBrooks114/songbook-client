@@ -114,7 +114,7 @@ const SongDetail = ({ song }) => {
   const renderSpotifyOption = (mediaType) => {
     const playerFunction = mediaType === 'song' ? handleSongPlayClick : handleElementPlayClick
 
-    return accessToken && !accessToken === "" ?
+    return accessToken && accessToken !== "" ?
       <Button onClick={playerFunction}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   

@@ -112,7 +112,7 @@ const ElementDetail = ({ element }) => {
 
     
 const renderSpotifyOption = () => {
-    return accessToken && !accessToken === "" ?
+    return accessToken && accessToken !== "" ?
       <Button onClick={handleElementPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   const renderInstruments = (instruments) => {
