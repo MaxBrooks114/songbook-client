@@ -5,6 +5,7 @@ import PrivateRoute from './PrivateRoute';
 import Login from './auth/Login';
 import Logout from './auth/Logout';
 import Register from './auth/Register';
+import UserEdit from './auth/UserEdit'
 import SpotifySearch from './spotify/SpotifySearch';
 import SongCreate from './songs/SongCreate';
 import SongList from './songs/SongList';
@@ -45,6 +46,7 @@ const App = () => {
     dispatch(fetchSongs());
     dispatch(fetchElements());
   }, [dispatch]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -58,6 +60,7 @@ const App = () => {
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
               <PrivateRoute exact path="/users/:id" component={UserShow} />
+              <PrivateRoute exact path="/users/:id/edit" component={UserEdit} />
               <PrivateRoute exact path="/logout" component={Logout} />
               <PrivateRoute exact path="/search" component={SpotifySearch} />
               <PrivateRoute exact path="/songs/new" component={SongCreate} />

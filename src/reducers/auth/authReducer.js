@@ -9,6 +9,8 @@ import {
   REGISTER_FAIL,
   REFRESH_ACCESS_TOKEN,
   GET_DEVICE_ID,
+  EDIT_USER,
+  DELETE_USER
 } from '../../actions/types';
 
 const initialState = {
@@ -35,6 +37,7 @@ export default function(state = initialState, action) {
       };
     case REGISTER_USER:
     case LOGIN_USER:
+   
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
@@ -42,7 +45,14 @@ export default function(state = initialState, action) {
         isAuthenticated: true,
         isLoading: false,
       };
+    case EDIT_USER:
 
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: true,
+        isLoading: false,
+      };
     case REFRESH_ACCESS_TOKEN:
       return {
         ...state,
@@ -70,6 +80,7 @@ export default function(state = initialState, action) {
     case AUTH_ERROR:
     case REGISTER_FAIL:
     case LOGIN_FAIL:
+    case DELETE_USER:
       localStorage.removeItem('token');
       return {
         token: null,
