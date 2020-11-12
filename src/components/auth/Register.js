@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Register = () => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const onSubmit = (formValues) => {
     dispatch(
@@ -39,7 +40,7 @@ const Register = () => {
   const classes = useStyles();
 
   return isAuthenticated ? (
-    <Redirect to="/songs/new" />
+    <Redirect to={`/users/${user.Id}`} />
   ) : (
     <>
       <div className={classes.toolbarMargin}></div>
