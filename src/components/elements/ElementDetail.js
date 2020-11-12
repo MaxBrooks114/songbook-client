@@ -97,6 +97,7 @@ const ElementDetail = ({ element }) => {
   const instruments = useSelector((state) =>
   Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id))
 );
+  const user = useSelector((state) => state.auth.user);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -109,6 +110,11 @@ const ElementDetail = ({ element }) => {
 
   const classes = useStyles();
 
+    
+const renderSpotifyOption = () => {
+    return accessToken && !accessToken === "" ?
+      <Button onClick={handleElementPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+  }
   const renderInstruments = (instruments) => {
     return instruments
       ? instruments.map((instrument) => {
@@ -166,7 +172,7 @@ const ElementDetail = ({ element }) => {
           <Link className={classes.link} to={`edit/${element.id}`}>
             <Button className={classes.button}>Edit </Button>
           </Link>
-          <Button onClick={handleElementPlayClick}>Hear This Element</Button>
+            {renderSpotifyOption()}
 
           <Button className={classes.delete} onClick={handleClickOpen}>
             Delete
