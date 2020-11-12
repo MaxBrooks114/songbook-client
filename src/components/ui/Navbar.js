@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import { Link as RouterLink } from 'react-router-dom';
 import Tab from '@material-ui/core/Tab';
@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import {fetchUser} from '../../actions/auth'
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -87,12 +88,14 @@ const Navbar = () => {
   const [value, setValue] = useState(0);
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-
+  const dispatch = useDispatch()
   const [openDrawer, setOpenDrawer] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
-  const authRoutes = [
+  let authRoutes = user ?
+
+  [
     { name: 'Instruments', link: '/instruments', activeIndex: 0 },
     { name: 'New Instrument', link: '/instruments/new', activeIndex: 1 },
     { name: 'Songs', link: '/songs', activeIndex: 2 },
@@ -100,8 +103,9 @@ const Navbar = () => {
     { name: 'Elements', link: '/elements', activeIndex: 4 },
     { name: 'New Element', link: '/elements/new', activeIndex: 5 },
     { name: 'Spotify Search', link: '/search', activeIndex: 6 },
-    { name: 'Log out', link: '/logout', activeIndex: 7 },
-  ];
+    { name: user.username, link: `/users/${user.id}`, activeIndex: 7},
+    { name: 'Log out', link: '/logout', activeIndex: 8},
+  ] : null 
 
   const guestRoutes = [
     { name: 'Register', link: '/register', activeIndex: 0 },
