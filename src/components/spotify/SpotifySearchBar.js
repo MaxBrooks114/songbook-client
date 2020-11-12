@@ -63,7 +63,7 @@ const SpotifySearchBar = () => {
             />
           </Grid>
           <Grid item>
-            <Button className={classes.button} variant="contained">
+            <Button type="submit" className={classes.button} variant="contained">
               Search
             </Button>
           </Grid>

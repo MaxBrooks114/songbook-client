@@ -45,11 +45,11 @@ const SpotifySearch = ({ fetchSpotifyTracks }) => {
         <Typography variant="h5" align="center" paragraph>
           Search a song, learn a song.
         </Typography>
-        <SpotifySearchBar onFormSubmit={fetchSpotifyTracks} />
+        <SpotifySearchBar />
       </Container>
       {renderTracklist()}
     </div>
   );
 };
 
-export default connect(null, { fetchSpotifyTracks })(SpotifySearch);
+export default SpotifySearch;
