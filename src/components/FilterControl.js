@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setFilter } from '../actions/filter';
+import { setFilter, clearFilter } from '../actions/filter';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -106,6 +106,9 @@ const FilterControl = ({attributes, objectType}) => {
           <Grid item sm={4}>
             <Button className={classes.button} type="submit" variant="contained">
               Filter
+            </Button>
+            <Button className={classes.button} onClick={e => dispatch(clearFilter(objectType))} variant="contained">
+              clear
             </Button>
           </Grid>
         </Grid>
