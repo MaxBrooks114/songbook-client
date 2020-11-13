@@ -111,12 +111,16 @@ const SongDetail = ({ song }) => {
   const classes = useStyles();
 
   
-  const renderSpotifyOption = (mediaType) => {
-    const playerFunction = mediaType === 'song' ? handleSongPlayClick : handleElementPlayClick
-
+  const renderSpotifyOptionSong = () => {
     return accessToken && accessToken !== "" ?
-      <Button onClick={playerFunction}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+      <Button onClick={handleSongPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
+
+  const renderSpotifyOptionElement = (element) => {
+    return accessToken && accessToken !== "" ?
+      <Button onClick={() => handleElementPlayClick(element)}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+  }
+  
   
 
 
@@ -129,7 +133,7 @@ const SongDetail = ({ song }) => {
                 <Typography>
                   <Link to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
                   </Typography>
-                {renderSpotifyOption()}
+                {renderSpotifyOptionElement(element)}
               </AccordionDetails>
             </>
           );
@@ -142,7 +146,7 @@ const SongDetail = ({ song }) => {
   };
   
   const handleElementPlayClick = (element) => {
-    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
+        dispatch(playElement(accessToken, song.spotify_url, refreshToken, element.start, element.duration, deviceId));
   };
 
   return song ? (
@@ -220,7 +224,7 @@ const SongDetail = ({ song }) => {
             <Link className={classes.link} to={`edit/${song.id}`}>
               <Button className={classes.button}>Edit </Button>
             </Link>
-              {renderSpotifyOption('song')}
+              {renderSpotifyOptionSong()}
 
             <Button className={classes.delete} onClick={handleClickOpen}>
               Delete
