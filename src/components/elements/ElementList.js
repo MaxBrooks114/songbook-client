@@ -60,8 +60,9 @@ const ElementList = ({ match }) => {
           })
       : null;
 
+
   const renderDetail = () => {
-    return element ? <ElementDetail element={element} /> : null;
+    return element ? <ElementDetail  element={element} /> : null;
   };
 
   return (

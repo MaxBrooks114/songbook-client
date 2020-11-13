@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteElement } from '../../actions/elements';
 import { playElement } from '../../actions/spotify';
@@ -20,7 +20,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Metronome from '@kevinorriss/react-metronome'
 import { Link } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +100,8 @@ const ElementDetail = ({ element }) => {
   Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id))
 );
   const user = useSelector((state) => state.auth.user);
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -109,8 +112,10 @@ const ElementDetail = ({ element }) => {
   };
 
   const classes = useStyles();
+ 
 
-    
+
+
 const renderSpotifyOption = () => {
     return accessToken && accessToken !== "" ?
       <Button onClick={handleElementPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
@@ -131,8 +136,9 @@ const renderSpotifyOption = () => {
   };
 
   const handleElementPlayClick = () => {
-    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
+    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, element.duration, deviceId));
   };
+
 
   return element ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
@@ -166,6 +172,12 @@ const renderSpotifyOption = () => {
               </AccordionSummary>
               {renderInstruments(instruments)}
             </Accordion>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Metronome</Typography>
+              </AccordionSummary>
+                <Metronome key={element.id} startBpm= {element.tempo}/>
+            </Accordion>
           </Grid>
         </Grid>
         <Grid container justify="space-between" className={classes.buttonContainer}>
@@ -173,7 +185,6 @@ const renderSpotifyOption = () => {
             <Button className={classes.button}>Edit </Button>
           </Link>
             {renderSpotifyOption()}
-
           <Button className={classes.delete} onClick={handleClickOpen}>
             Delete
           </Button>
