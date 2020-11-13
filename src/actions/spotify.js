@@ -1,3 +1,4 @@
+import React from 'react'
 import spotify from '../apis/spotify';
 import songbook from '../apis/songbook';
 import { getToken } from '../apis/spotifyToken';
@@ -8,6 +9,7 @@ import { createSong } from './songs';
 import { createElement } from './elements';
 import { returnErrors } from './messages';
 import { showSuccessSnackbar } from './ui';
+import { Link } from 'react-router-dom';
 
 export const fetchSpotifyTracks = (query) => async (dispatch) => {
   dispatch(loading());
@@ -134,7 +136,7 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       await dispatch(createElement(sectionData));
     }
     dispatch(notLoading());
-    dispatch(showSuccessSnackbar('Song Imported'));
+    dispatch(showSuccessSnackbar(`Song Imported`));
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
     dispatch(notLoading());
@@ -203,9 +205,33 @@ export const playSong = (accessToken, songUri, refreshToken, deviceId) => async 
   dispatch(notLoading());
 };
 
-export const playElement = (accessToken, songUri, refreshToken, start, deviceId) => async (dispatch) => {
+export const pausePlayer = (accessToken, refreshToken, deviceId) =>  async (dispatch) => {
+  try { 
+    const url = deviceId === '' ? '/me/player/pause' : `/me/player/pause?device_id=${deviceId}`;
+    await spotify.put( 
+      url,
+      {}, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    } catch (error) {
+      dispatch(returnErrors(error));
+      if (error.response.status === 401) {
+        const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
+        dispatch(pausePlayer(newAccessToken, deviceId));
+      }
+      if (error.response.status === 404) {
+        const newDeviceId = await dispatch(getDeviceId(accessToken));
+        dispatch(pausePlayer(accessToken, newDeviceId));
+      }
+    }
+}
+
+export const playElement = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
   dispatch(loading());
-  try {
+  try { 
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
     await spotify.put(
       url,
@@ -219,18 +245,20 @@ export const playElement = (accessToken, songUri, refreshToken, start, deviceId)
         },
       }
     );
+    
+
   } catch (error) {
     dispatch(returnErrors(error));
     if (error.response.status === 401) {
       const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
-      dispatch(playElement(newAccessToken, songUri, refreshToken, start, deviceId));
+      dispatch(playElement(newAccessToken, songUri, refreshToken, start, duration, deviceId));
     }
     if (error.response.status === 404) {
       const newDeviceId = await dispatch(getDeviceId(accessToken));
-      dispatch(playElement(accessToken, songUri, refreshToken, start, newDeviceId));
+      dispatch(playElement(accessToken, songUri, refreshToken, start, duration, newDeviceId));
     }
   }
-
+  setTimeout(function() {dispatch(pausePlayer(accessToken, refreshToken, deviceId))}, duration*1000);
   dispatch(notLoading());
 
 };
