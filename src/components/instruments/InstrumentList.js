@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchInstruments, fetchInstrument } from '../../actions/instruments';
+import {checkIfPlaying} from '../../actions/spotify'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import InstrumentCard from './InstrumentCard';
@@ -31,7 +32,8 @@ const InstrumentList = ({ match }) => {
   const instruments = useSelector((state) => state.instruments);
 
   const instrument = useSelector((state) => state.instruments[match.params.id]);
-
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -40,6 +42,13 @@ const InstrumentList = ({ match }) => {
   const handleClick = (id) => {
     dispatch(fetchInstrument(id));
   };
+  useEffect(() => {
+    let intervalId = setInterval(function (){dispatch(checkIfPlaying(accessToken, refreshToken))}, 3000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [accessToken, refreshToken, dispatch])
 
   const renderedList =
     Object.values(instruments).length > 0

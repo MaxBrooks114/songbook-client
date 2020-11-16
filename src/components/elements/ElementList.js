@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchElement } from '../../actions/elements';
 import { getFilteredElements } from '../../selectors/elementSelectors';
+import {checkIfPlaying} from '../../actions/spotify'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import ElementCard from './ElementCard';
@@ -34,9 +35,18 @@ const ElementList = ({ match }) => {
   const filteredElements = useSelector(getFilteredElements);
   const elements = useSelector((state) => state.elements);
   const element = useSelector((state) => state.elements[match.params.id]);
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    let intervalId = setInterval(function (){dispatch(checkIfPlaying(accessToken, refreshToken))}, 3000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [accessToken, refreshToken, dispatch])
   const classes = useStyles();
   let transitionDuration = 50;
 

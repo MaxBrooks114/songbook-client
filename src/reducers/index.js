@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import spotifyTracksReducer from './spotify/spotifyTracksReducer';
+import spotifyPlayerReducer from './spotify/spotifyPlayerReducer';
 import songsReducer from './songs/songsReducer';
 import elementsReducer from './elements/elementsReducer';
 import instrumentsReducer from './instruments/instrumentsReducer';
@@ -16,6 +17,7 @@ export default combineReducers({
   errors: errorsReducer,
   messages: messagesReducer,
   spotifyTracks: spotifyTracksReducer,
+  spotifyPlayer: spotifyPlayerReducer,
   form: formReducer,
   songs: songsReducer,
   instruments: instrumentsReducer,

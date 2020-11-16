@@ -9,6 +9,7 @@ import SongDetail from './SongDetail';
 import FilterControl from '../FilterControl';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import { checkIfPlaying } from '../../actions/spotify';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -35,7 +36,8 @@ const SongList = ({ match }) => {
   const filteredSongs = useSelector(getFilteredSongs);
   const songs = useSelector((state) => state.songs);
   const song = useSelector((state) => state.songs[match.params.id]);
-
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -45,6 +47,13 @@ const SongList = ({ match }) => {
     dispatch(fetchSong(id));
   };
 
+  useEffect(() => {
+    let intervalId = setInterval(function (){dispatch(checkIfPlaying(accessToken, refreshToken))}, 3000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [accessToken, refreshToken, dispatch])
   const renderFilter = 
     Object.values(songs).length > 0 ? <FilterControl objectType='songs' attributes={Object.getOwnPropertyNames(Object.values(songs)[0])} /> : null 
 
