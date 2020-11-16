@@ -15,7 +15,7 @@ export const getFilteredSongs = (state)  => {
   
   if (!filterAttribute || !filterValue) {
     return songs;
-  }
+  } 
 
   return Object.values(songs).filter((song) => {
     switch (true) {
@@ -48,8 +48,9 @@ export const getFilteredSongs = (state)  => {
         } else if (filterValue === 'low') {
           return song[filterAttribute] < 0.3;
         }
+      case filterValue !== '' && song[filterAttribute] !== filterValue:
+        return null
 
-      // eslint-disable-next-line no-fallthrough
       default:
         return songs;
     }
