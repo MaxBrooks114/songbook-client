@@ -55,7 +55,7 @@ const FilterControl = ({attributes, objectType}) => {
         .replace(/^\s+|\s+$/, ''); // remove leading/trailing whitespace
 }
   const renderAttributes = () => {
-    let blockedAttrs = ['id', 'spotify_url', 'spotify_id', 'elements', 'lyrics']
+    let blockedAttrs = ['id', 'spotify_url', 'spotify_id', 'elements', 'lyrics', 'image']
     let options = attributes.filter((attribute) => !blockedAttrs.includes(attribute)).map((attribute)=> 
       
       <option value={attribute}>{titleCase(attribute)}</option>
