@@ -1,5 +1,6 @@
 import React from 'react'
 import spotify from '../apis/spotify';
+import * as workerTimers from 'worker-timers'
 import songbook from '../apis/songbook';
 import { getToken } from '../apis/spotifyToken';
 import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN, CHECK_IF_PLAYING, PLAY, PAUSE } from './types';
@@ -180,7 +181,9 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
 
 export const playSong = (accessToken, songUri, refreshToken, deviceId) => async (dispatch) => {
   dispatch(loading());
-  clearTimeout(timeoutId)
+  if(timeoutId){
+    workerTimers.clearTimeout(timeoutId)
+  }
 
   try {
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
@@ -210,11 +213,12 @@ export const playSong = (accessToken, songUri, refreshToken, deviceId) => async 
 };
 
 export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  async (dispatch, getState) => {
+  
   try { 
     let state = getState();
     const url = deviceId === '' ? '/me/player/pause' : `/me/player/pause?device_id=${deviceId}`;
     if (state.spotifyPlayer.playing && state.spotifyPlayer.controlledPlay && state.spotifyPlayer.song === songUri) { 
-      await spotify.put( 
+      spotify.put( 
         url,
         {}, {
           headers: {
@@ -223,10 +227,7 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
         }
       )
   }
-    dispatch({
-      type: PAUSE,
-      payload: false
-    })
+   
 
     } catch (error) {
       dispatch(returnErrors(error));
@@ -239,13 +240,30 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
         dispatch(pausePlayer(accessToken, newDeviceId));
       }
     }
+    dispatch({
+    type: PAUSE,
+    payload: false
+  })
 }
 
 export const playElement = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
   dispatch(loading());
-  clearTimeout(timeoutId)
+  if(timeoutId){
+    workerTimers.clearTimeout(timeoutId)
+  }
+  timeoutId = workerTimers.setTimeout(() => {
+    dispatch(pausePlayer(accessToken, refreshToken, deviceId, songUri))
+   
+    
+  }, duration*1000)
+  dispatch({
+    type: PLAY,
+    playing: true,
+  })
+ 
   try { 
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
+
     await spotify.put(
       url,
       { position_ms: start * 1000, uris: [songUri] },
@@ -258,11 +276,10 @@ export const playElement = (accessToken, songUri, refreshToken, start, duration,
         },
       }
     );
+
+   
     
-    dispatch({
-      type: PLAY,
-      playing: true,
-    })
+    
   } catch (error) {
     dispatch(returnErrors(error));
     if (error.response.status === 401) {
@@ -275,15 +292,12 @@ export const playElement = (accessToken, songUri, refreshToken, start, duration,
     }
   }
   
-  timeoutId = setTimeout(function() {
-    dispatch(pausePlayer(accessToken, refreshToken, deviceId, songUri))
-  }, duration*1000)
   dispatch(notLoading());
 
 };
 
 
-export const checkIfPlaying = (accessToken, refreshToken) => async (dispatch) => {
+export const checkIfPlaying = (accessToken, refreshToken ) => async (dispatch) => {
   try {
     const response = await spotify.get(
       '/me/player',
@@ -295,18 +309,18 @@ export const checkIfPlaying = (accessToken, refreshToken) => async (dispatch) =>
         },
       }
     )
-
+    if (response.data){
     dispatch({
       type: CHECK_IF_PLAYING,
       playing: response.data.is_playing,
       song: response.data.item.uri
     });
-
+  }
   } catch (error) {
     dispatch(returnErrors(error));
     if (error.response.status === 401) {
       const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
-      dispatch(checkIfPlaying(newAccessToken, refreshToken));
+      await dispatch(checkIfPlaying(newAccessToken, refreshToken));
     }
   }
 }

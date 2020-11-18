@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
 import { getFilteredSongs } from '../../selectors/songSelectors';
+import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import SongCard from './SongCard';
@@ -48,10 +49,10 @@ const SongList = ({ match }) => {
   };
 
   useEffect(() => {
-    let intervalId = setInterval(function (){dispatch(checkIfPlaying(accessToken, refreshToken))}, 3000)
+    const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
 
     return () => {
-      clearInterval(intervalId)
+      workerTimers.clearInterval(intervalId)
     }
   }, [accessToken, refreshToken, dispatch])
   const renderFilter = 

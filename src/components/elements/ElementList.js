@@ -1,5 +1,6 @@
 import React, {useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import * as workerTimers from 'worker-timers';
 import { fetchElement } from '../../actions/elements';
 import { getFilteredElements } from '../../selectors/elementSelectors';
 import {checkIfPlaying} from '../../actions/spotify'
@@ -39,12 +40,13 @@ const ElementList = ({ match }) => {
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
 
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
-    let intervalId = setInterval(function (){dispatch(checkIfPlaying(accessToken, refreshToken))}, 3000)
+    const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
 
     return () => {
-      clearInterval(intervalId)
+      workerTimers.clearInterval(intervalId)
     }
   }, [accessToken, refreshToken, dispatch])
   const classes = useStyles();
