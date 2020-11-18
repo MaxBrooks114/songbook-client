@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import * as workerTimers from 'worker-timers'
 import { deleteElement } from '../../actions/elements';
 import { playElement } from '../../actions/spotify';
 import {renderText, sec2time, renderBool} from '../../helpers/detailHelpers'
@@ -20,6 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import BackDrop from '../ui/BackDrop';
 import Metronome from '@kevinorriss/react-metronome'
 import { Link } from 'react-router-dom';
 
@@ -52,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
   accordion: {
     background: theme.palette.primary.light,
     color: 'white',
+  },
+
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
   },
 
   buttonContainer: {
@@ -93,15 +100,17 @@ const useStyles = makeStyles((theme) => ({
 
 const ElementDetail = ({ element }) => {
   const dispatch = useDispatch();
-  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
-  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
-  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
+  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id, shallowEqual);
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token, shallowEqual);
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token, shallowEqual);
   const instruments = useSelector((state) =>
-  Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id))
+  Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id)), shallowEqual
 );
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user, shallowEqual);
 
   const [open, setOpen] = useState(false);
+
+  const [show, setShow] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -134,20 +143,30 @@ const renderSpotifyOption = () => {
         })
       : null;
   };
-
+ 
+  let timeout
   const handleElementPlayClick = () => {
-    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, element.duration, deviceId));
+    if(timeout){
+      workerTimers.clearTimeout(timeout)
+    }
+    setShow(true)
+    timeout = workerTimers.setTimeout(function(){
+      dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, element.duration, deviceId))
+      setShow(false)  
+    }, 3000);
+    
   };
 
 
   return element ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
+      
       <Paper className={classes.root} elevation={3}>
+        <BackDrop className={classes.backdrop} count={4} show={show}/>
         <Grid container className={classes.details}>
           <Grid item xs={4}>
             <Typography>
               Section: {element.name} of <Link to={`/songs/${element.song.id}`}>{element.song.title}</Link>
-              
             </Typography>
             <Typography>Start: {sec2time(element.start)}</Typography>
             <Typography>Duration: {sec2time(element.duration)}</Typography>
