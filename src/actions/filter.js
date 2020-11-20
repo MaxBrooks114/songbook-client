@@ -1,18 +1,15 @@
 import history from '../history';
 import { SET_FILTER, CLEAR_FILTER } from './types';
 
-export const setFilter = (attribute, value, objectType) => {
-  if (attribute && value) {
-    history.push(`/${objectType}/${attribute}/${value}`);
-  }
+export const setFilter = (formValues) => {
+ 
   return {
     type: SET_FILTER,
-    payload: { attribute, value },
+    payload: {...formValues },
   };
 };
 
 export const clearFilter = (objectType) => {
-  history.push(`/${objectType}`);
   return {
     type: CLEAR_FILTER,
   };

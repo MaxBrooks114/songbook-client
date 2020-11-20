@@ -48,15 +48,15 @@ const SongList = ({ match }) => {
     dispatch(fetchSong(id));
   };
 
-  useEffect(() => {
-    const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
+  // useEffect(() => {
+  //   // const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
 
-    return () => {
-      workerTimers.clearInterval(intervalId)
-    }
-  }, [accessToken, refreshToken, dispatch])
+  //   return () => {
+  //     workerTimers.clearInterval(intervalId)
+  //   }
+  // }, [accessToken, refreshToken, dispatch])
   const renderFilter = 
-    Object.values(songs).length > 0 ? <FilterControl objectType='songs' attributes={Object.getOwnPropertyNames(Object.values(songs)[0])} /> : null 
+    Object.values(songs).length > 0 ? <FilterControl songs={Object.values(songs)} objectType='songs' attributes={Object.getOwnPropertyNames(Object.values(songs)[0])} /> : null 
 
   const renderedList =
     Object.values(songs).length > 0

@@ -23,6 +23,10 @@ export const sec2time = (timeInSeconds) => {
   return pad(minutes, 2) + ':' + pad(seconds, 2);
 };
 
+export const normalize = (list, v) => {
+    return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null;
+  };
+
 export const audioFeaturesToText = (feature) => {
   switch (true) {
     case feature === null:
@@ -39,5 +43,23 @@ export const audioFeaturesToText = (feature) => {
 
     default:
       return 'N/A';
+  }
+}
+  export const audioFeaturesToNumbers = (feature) => {
+    switch (true) {
+      case feature === null:
+        return 'N/A';
+
+      case feature <= 0.35:
+        return 1;
+
+      case feature > 0.35 && feature <= 0.7:
+        return 2;
+
+      case feature > 0.7:
+        return 3;
+
+      default:
+        return 'N/A';
   }
 };
