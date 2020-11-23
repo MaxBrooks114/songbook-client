@@ -336,7 +336,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           </Grid>
           <Grid item>
           <Field
-              options={songs.filter(song => song.key !== null).map((song) => renderText(keys,song.key))}
+              options={_.uniq(songs.filter(song => song.key !== null).map((song) => renderText(keys,song.key)))}
               classes={classes}
               name="key"
               component={renderAutoCompleteDataField}
