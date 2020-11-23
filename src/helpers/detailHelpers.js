@@ -1,5 +1,5 @@
-export const renderBool = (song, bool) => {
-  return song[`${bool}`] ? 'Yes' : 'No';
+export const renderBool = (bool) => {
+  return bool ? 'Yes' : 'No';
 };
 
 export const renderText = (list, v) => {

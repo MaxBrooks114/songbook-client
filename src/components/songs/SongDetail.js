@@ -172,7 +172,7 @@ const SongDetail = ({ song }) => {
             <img
               alt={song.album}
               className={classes.media}
-              src={song.image ? song.image : 'https://coverfiles.alphacoders.com/796/79685.jpg'}
+              src={song.image ? song.image : ''}
             />
           </Grid>
           <Grid item xs={12}>

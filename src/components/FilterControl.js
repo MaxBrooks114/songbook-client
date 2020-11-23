@@ -224,7 +224,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
                 initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
               }
               if (!initialValues.tempo.length){
-                initialValues.tempo = [Math.min(...songs.map((song) => parseInt(song.tempo))), Math.max(...songs.map((song) => parseInt(song.tempo)))]
+                initialValues.tempo = [Math.min(...songs.map((song) => parseInt(song.tempo))), Math.max(...songs.map((song) => parseInt(song.tempo+1)))]
               }
             }
 
@@ -309,7 +309,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
          
           <Grid item>
           <Field
-              options={songs.map((song) => song.artist)}
+              options={_.uniq(songs.map((song) => song.artist))}
               classes={classes}
               name="artist"
               component={renderAutoCompleteDataField}
@@ -318,7 +318,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           </Grid>
           <Grid item>
           <Field
-              options={songs.map((song) => song.album)}
+              options={_.uniq(songs.map((song) => song.album))}
               classes={classes}
               name="album"
               component={renderAutoCompleteDataField}
@@ -327,7 +327,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           </Grid>
           <Grid item>
           <Field
-              options={songs.map((song) => song.genre)}
+              options={_.uniq(songs.map((song) => song.genre))}
               classes={classes}
               name="genre"
               component={renderAutoCompleteDataField}
@@ -336,7 +336,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           </Grid>
           <Grid item>
           <Field
-              options={songs.map((song) => renderText(keys,song.key))}
+              options={songs.filter(song => song.key !== null).map((song) => renderText(keys,song.key))}
               classes={classes}
               name="key"
               component={renderAutoCompleteDataField}
@@ -360,6 +360,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
                  min={0}
                  max={Math.max(...songs.map((song) => parseInt((song.duration/ 1000)/60)+1))} 
                  name="duration" 
+                 valueLabelDisplay={true}
                  component={renderSlider} 
                  label="Duration" 
                  />
@@ -368,8 +369,9 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           </Grid>
           <Grid item>
           <Field classes={classes} 
-                 min={Math.min(...songs.map((song) => parseInt(song.year.split('-')[0])))}
-                 max={Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))} 
+                 min={Math.min(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))}
+                 max={Math.max(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))} 
+                 valueLabelDisplay={true}
                  name="year" 
                  component={renderSlider} 
                  label="Year Released" 
@@ -379,9 +381,10 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           </Grid>
             <Grid item>
               <Field classes={classes} 
-                    min={Math.min(...songs.map((song) => parseInt(song.tempo)))}
-                    max={Math.max(...songs.map((song) => parseInt(song.tempo)))} 
+                    min={Math.min(...songs.filter(song => song.tempo !== null).map((song) => parseInt(song.tempo)))}
+                    max={Math.max(...songs.filter(song => song.tempo !== null).map((song) => parseInt(song.tempo)+1))} 
                     name="tempo" 
+                    valueLabelDisplay={true}
                     component={renderSlider} 
                     label="Tempo" 
                     />
