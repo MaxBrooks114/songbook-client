@@ -124,8 +124,8 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       song_id = Object.keys(state.songs).pop();
       let sectionData = {
         name: `section ${i + 1}`,
-        start: section.start,
-        duration: section.duration,
+        start: section.start*1000,
+        duration: section.duration*1000,
         loudness: section.loudness,
         tempo: section.tempo,
         key: section.key,

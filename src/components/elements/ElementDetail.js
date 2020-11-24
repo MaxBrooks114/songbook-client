@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import * as workerTimers from 'worker-timers'
 import { deleteElement } from '../../actions/elements';
 import { playElement } from '../../actions/spotify';
-import {renderText, sec2time, renderBool} from '../../helpers/detailHelpers'
+import {renderText, millisToMinutesAndSeconds, renderBool} from '../../helpers/detailHelpers'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -168,8 +168,8 @@ const renderSpotifyOption = () => {
             <Typography>
               Section: {element.name} of <Link to={`/songs/${element.song.id}`}>{element.song.title}</Link>
             </Typography>
-            <Typography>Start: {sec2time(element.start)}</Typography>
-            <Typography>Duration: {sec2time(element.duration)}</Typography>
+            <Typography>Start: {millisToMinutesAndSeconds(element.start)}</Typography>
+            <Typography>Duration: {millisToMinutesAndSeconds(element.duration)}</Typography>
             <Typography>Tempo: {element.tempo} BPM</Typography>
             <Typography>Key: {renderText(keys, element.key)}</Typography>
             <Typography>Mode: {renderText(modes, element.mode)}</Typography>

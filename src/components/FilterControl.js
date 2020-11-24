@@ -59,153 +59,92 @@ const initialValues = {
     valence: [1,3],
   
   }
-const FilterControl = ({attributes, objectType, songs, elements, handleSubmit }) => {
-              
-              const dispatch = useDispatch();
+const FilterControl = ({objectType, songs, elements, instruments, handleSubmit }) => {
+    const items = objectType === 'songs' ? songs : elements
+    const dispatch = useDispatch();
 
-            const initializeSliders = () => {
-              if (!initialValues.duration.length){
-                initialValues.duration = [0, Math.max(...songs.map((song) => parseInt((song.duration/ 1000)/60)+1))]
-              }
-              if (!initialValues.year.length){
-                initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
-              }
-              if (!initialValues.tempo.length){
-                initialValues.tempo = [Math.min(...songs.map((song) => parseInt(song.tempo))), Math.max(...songs.map((song) => parseInt(song.tempo+1)))]
-              }
-            }
+    const initializeSliders = () => {
+      if (!initialValues.duration.length){
+        initialValues.duration = [0, Math.max(...items.map((item) => parseInt((item.duration/ 1000)/60)+1))]
+      }
+      if (!initialValues.year.length && objectType === 'songs'){
+        initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
+      }
+      if (!initialValues.tempo.length){
+        initialValues.tempo = [Math.min(...items.map((item) => parseInt(item.tempo))), Math.max(...items.map((item) => parseInt(item.tempo+1)))]
+      }
+    }
 
-            useEffect(() => {
-              initializeSliders()
-            })
+    useEffect(() => {
+      initializeSliders()
+    })
 
-            const renderAdvancedFilters = () => {
-              const advancedOptions = ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"]
-             return advancedOptions.map(option => {
-                return (
-                <Grid item>
-                  <Field classes={classes} 
-                      min={1}
-                      max={3} 
-                      marks={[{value: 1, label: "Low" }, {value: 2, label: "Medium"}, {value: 3, label: "High"}]}
-                      valueLabelDisplay={'off'}
-                      name= {option}
-                      component={renderSlider} 
-                      label={titleCase(option)}
-                      />
-                      </Grid>
-                      )
-                
-              })
-            }
-            
-              
-              const renderOptions = (attr) => {
-                let options = songs.map((song)=> 
-                
-                <option value={song[attr]}>{titleCase(song[attr])}</option>
-                
+    const renderAdvancedFilters = () => {
+       
+       const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
+      return advancedOptions.length ? 
+        advancedOptions.map(option => {
+          return (
+          <Grid item>
+            <Field classes={classes} 
+                min={1}
+                max={3} 
+                marks={[{value: 1, label: "Low" }, {value: 2, label: "Medium"}, {value: 3, label: "High"}]}
+                valueLabelDisplay={'off'}
+                name= {option}
+                component={renderSlider} 
+                label={titleCase(option)}
+                />
+                </Grid>
                 )
-                return options
-              }
-              
-              const renderModality = (keys) => {
-                
-                let options = keys.map((key) => 
-                <option value={Object.values(key)[0]}>{Object.values(key)[0]}</option>)
-                return options
-              }
-              
+          
+        }) : null
+    }
 
-              const onFormSubmit = (formValues) => {
-                      onSubmit(formValues);
-               };
-              
-              
-              const onSubmit = (formValues) => {
-                dispatch(
-                  setFilter({
-                    ...formValues,
-                    key: normalize(keys, formValues.key),
-                    mode: normalize(modes, formValues.mode),
-                    filter: true
-                  })
-                );
-            }    
-              const classes = useStyles();
-              
-              return (
-                <>
-      <form
-        className={classes.formControl}
-        onSubmit={handleSubmit(onFormSubmit)}
-        >
-        <Grid container justify="flex-start" spacing={2} alignContent="center" alignItems="flex-end">
-          <Grid item>
-            <Field  classes={classes} name="title" label="Title"  component={renderTextField} />
+    const renderTextFields = () => {
+      const fields = objectType === 'songs' ? ['title'] : ['name']
+
+      return fields.length > 0 ? fields.map(field => {
+        return (
+           <Grid item>
+              <Field  classes={classes} name={field} label={titleCase(field)}  component={renderTextField} />
+           </Grid>
+        )
+      }) : null
+    }
+    
+    const renderStringFields = () => {
+      const fields = objectType === 'songs' ? ['artist', 'album', 'genre'] : []
+      return fields.length > 0 ? fields.map(field => {
+        return (
+           <Grid item>
+              <Field
+                  options={_.uniq(songs.map((song) => song[field]))}
+                  classes={classes}
+                  name={field}
+                  component={renderAutoCompleteDataField}
+                  label={titleCase(field)}
+                  /> 
+              </Grid>
+        )
+      }) : null
+    }
+
+    
+    const renderCheckBoxFields = () => {
+      const fields = objectType === 'songs' ? ['original', 'explicit'] : ['learned']
+      return fields.length > 0 ? fields.map(field => {
+        return (
+           <Grid item>
+            <Field classes={classes} name={field} component={renderCheckbox} label={titleCase(field)} />
           </Grid>
-         
-          <Grid item>
-          <Field
-              options={_.uniq(songs.map((song) => song.artist))}
-              classes={classes}
-              name="artist"
-              component={renderAutoCompleteDataField}
-              label="Artist"
-              /> 
-          </Grid>
-          <Grid item>
-          <Field
-              options={_.uniq(songs.map((song) => song.album))}
-              classes={classes}
-              name="album"
-              component={renderAutoCompleteDataField}
-              label="Album"
-              />
-          </Grid>
-          <Grid item>
-          <Field
-              options={_.uniq(songs.map((song) => song.genre))}
-              classes={classes}
-              name="genre"
-              component={renderAutoCompleteDataField}
-              label="Genre"
-              />
-          </Grid>
-          <Grid item>
-          <Field
-              options={_.uniq(songs.filter(song => song.key !== null).map((song) => renderText(keys,song.key)))}
-              classes={classes}
-              name="key"
-              component={renderAutoCompleteDataField}
-              label="Key"
-              />
-          </Grid>
-          <Grid item>
-              <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
-          </Grid>
-          <Grid item>
-              <Field options={_.uniq(songs.map((song) => `${song.time_signature}/4`))} classes={classes} name="time_signature" component={renderAutoCompleteDataField} label="Time Signature" />
-          </Grid>
-          <Grid item>
-            <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
-          </Grid>
-          <Grid item>
-            <Field classes={classes} name="explicit" component={renderCheckbox} label="Explicit" />
-          </Grid>
-          <Grid item>
-          <Field classes={classes} 
-                 min={0}
-                 max={Math.max(...songs.map((song) => parseInt((song.duration/ 1000)/60)+1))} 
-                 name="duration" 
-                 valueLabelDisplay={true}
-                 component={renderSlider} 
-                 label="Duration" 
-                 />
-          
-          
-          </Grid>
-          <Grid item>
+        )
+      }) : null
+    }
+
+    const renderYearField = () => {
+      return objectType === 'songs' ? (
+         <Grid item>
           <Field classes={classes} 
                  min={Math.min(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))}
                  max={Math.max(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))} 
@@ -217,20 +156,90 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
           
           
           </Grid>
+      ) : null
+    }
+
+    const renderSongAndInstrumentFields = () => {
+      const fields = ['song', 'instrument']
+      return objectType === 'elements' ? 
+        fields.map((field) => {
+          const fieldProp = field === 'song' ? 'title' : 'name'
+          const items = field === 'song' ? songs : instruments
+          return (
+            <Grid item>
+              <Field classes={classes} name={field} label={titleCase(field)} component={renderAutoCompleteDataField}   options={items.map(item => item[fieldProp])}/>
+          </Grid>
+          )
+        }) : null
+      
+    }
+
+    const onFormSubmit = (formValues) => {
+            onSubmit(formValues);
+     };
+    
+    
+    const onSubmit = (formValues) => {
+      dispatch(
+        setFilter({
+          ...formValues,
+          key: normalize(keys, formValues.key),
+          mode: normalize(modes, formValues.mode),
+          filter: true
+        })
+      );
+    }    
+    const classes = useStyles();
+    
+   
+    return (
+     <>
+      <form
+        className={classes.formControl}
+        onSubmit={handleSubmit(onFormSubmit)}
+        >
+        <Grid container justify="flex-start" spacing={2} alignContent="center" alignItems="flex-end">
+          {renderTextFields()}
+          {renderStringFields()}
+          <Grid item>
+            <Field
+                options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
+                classes={classes}
+                name="key"
+                component={renderAutoCompleteDataField}
+                label="Key"
+                />
+          </Grid>
+          <Grid item>
+              <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
+          </Grid>
+          <Grid item>
+              <Field options={_.uniq(items.map((item) => `${item.time_signature}/4`))} classes={classes} name="time_signature" component={renderAutoCompleteDataField} label="Time Signature" />
+          </Grid>
+          {renderCheckBoxFields()}
+          <Grid item>
+          <Field classes={classes} 
+                 min={0}
+                 max={Math.max(...items.map((item) => parseInt((item.duration/ 1000)/60)+1))} 
+                 name="duration" 
+                 valueLabelDisplay={true}
+                 component={renderSlider} 
+                 label="Duration" 
+                 />
+          </Grid>
+            {renderYearField()}
             <Grid item>
               <Field classes={classes} 
-                    min={Math.min(...songs.filter(song => song.tempo !== null).map((song) => parseInt(song.tempo)))}
-                    max={Math.max(...songs.filter(song => song.tempo !== null).map((song) => parseInt(song.tempo)+1))} 
+                    min={Math.min(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)))}
+                    max={Math.max(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)+1))} 
                     name="tempo" 
                     valueLabelDisplay={true}
                     component={renderSlider} 
                     label="Tempo" 
                     />
-          
-          
           </Grid>
              {renderAdvancedFilters()}
-          
+            {renderSongAndInstrumentFields()}
          
           <Grid item sm={4}>
             <Button className={classes.button} type="submit" variant="contained">

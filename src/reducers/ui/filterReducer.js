@@ -19,7 +19,9 @@ const initialState = {
   instrumentalness: [],
   valence: [],
   loudness: [],
-  song: [],
+  song: '',
+  instrument: '',
+  learned: '',
   filter: false
 };
 

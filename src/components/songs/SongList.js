@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
-import { getFilteredSongs } from '../../selectors/songSelectors';
+import { getFilteredItems } from '../../selectors/songSelectors';
 import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
@@ -33,8 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SongList = ({ match }) => {
-  
-  const filteredSongs = useSelector(getFilteredSongs);
+  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'));
   const songs = useSelector((state) => state.songs);
   const song = useSelector((state) => state.songs[match.params.id]);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -56,7 +55,7 @@ const SongList = ({ match }) => {
   //   }
   // }, [accessToken, refreshToken, dispatch])
   const renderFilter = 
-    Object.values(songs).length > 0 ? <FilterControl songs={Object.values(songs)} objectType='songs' attributes={Object.getOwnPropertyNames(Object.values(songs)[0])} /> : null 
+    Object.values(songs).length > 0 ? <FilterControl songs={Object.values(songs)} objectType='songs' /> : null 
 
   const renderedList =
     Object.values(songs).length > 0

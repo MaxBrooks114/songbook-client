@@ -2,7 +2,7 @@ import React, {useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as workerTimers from 'worker-timers';
 import { fetchElement } from '../../actions/elements';
-import { getFilteredElements } from '../../selectors/elementSelectors';
+import { getFilteredItems } from '../../selectors/songSelectors';
 import {checkIfPlaying} from '../../actions/spotify'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
@@ -33,8 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ElementList = ({ match }) => {
-  const filteredElements = useSelector(getFilteredElements);
+  const filteredElements = useSelector(state => getFilteredItems(state, 'elements'));
   const elements = useSelector((state) => state.elements);
+  const instruments = useSelector((state) => state.instruments);
+  const songs = useSelector((state) => state.songs )
   const element = useSelector((state) => state.elements[match.params.id]);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
@@ -42,13 +44,13 @@ const ElementList = ({ match }) => {
   const dispatch = useDispatch();
   
 
-  useEffect(() => {
-    const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
+  // useEffect(() => {
+  //   const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
 
-    return () => {
-      workerTimers.clearInterval(intervalId)
-    }
-  }, [accessToken, refreshToken, dispatch])
+  //   return () => {
+  //     workerTimers.clearInterval(intervalId)
+  //   }
+  // }, [accessToken, refreshToken, dispatch])
   const classes = useStyles();
   let transitionDuration = 50;
 
@@ -56,7 +58,7 @@ const ElementList = ({ match }) => {
     dispatch(fetchElement(id));
   };
   const renderFilter = 
-  Object.values(elements).length > 0 ? <FilterControl objectType='elements' attributes={Object.getOwnPropertyNames(Object.values(elements)[0])} /> : null
+  Object.values(elements).length > 0 ? <FilterControl instruments={Object.values(instruments)} songs={Object.values(songs)} elements={Object.values(elements)} objectType='elements'  /> : null
 
   const renderedList =
     Object.values(elements).length > 0
