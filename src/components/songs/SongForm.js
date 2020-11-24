@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {renderTextField, renderAutoCompleteField, renderCheckbox} from '../../helpers/MaterialUiReduxFormFields'
 import { makeStyles } from '@material-ui/styles';
 import genres from './genres';
 import keys from './keys';
@@ -79,79 +80,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderTextField = ({
-  helperText,
-  meta: { touched, error, invalid },
-  rows,
-  multiline,
-  inputAdornment,
-  classes,
-  input,
-  label,
-  required,
-  ...custom
-}) => {
-  return (
-    <TextField
-      label={label}
-      size="small"
-      helperText={touched && error}
-      error={touched && invalid}
-      color="secondary"
-      variant="outlined"
-      margin="dense"
-      required={required}
-      multiline={multiline}
-      rows={rows}
-      autoComplete="off"
-      InputProps={{
-        endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
-        className: classes.value,
-      }}
-      InputLabelProps={{ className: classes.label }}
-      {...input}
-      {...custom}
-    />
-  );
-};
-
-const renderAutoCompleteField = ({ options, classes, input, label, ...custom }) => {
-  return (
-    <Autocomplete
-      options={options || ''}
-      getOptionLabel={(option) => option[Object.keys(option)] || ''}
-      classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      value={options.find((option) => option[Object.keys(option)] === input.value) || ''}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          size="small"
-          color="secondary"
-          variant="outlined"
-          margin="dense"
-          InputProps={{
-            ...params.InputProps,
-            className: classes.autoComplete,
-            input: classes.input,
-          }}
-          InputLabelProps={{ className: classes.label }}
-          {...input}
-          {...custom}
-        />
-      )}
-    />
-  );
-};
-
-const renderCheckbox = ({ classes, input, label }) => (
-  <FormControlLabel
-    className={classes.label}
-    label={label}
-    labelPlacement="start"
-    control={<Checkbox checked={input.value ? true : false} onChange={input.onChange} name="original" />}
-  />
-);
 
 const SongForm = ({ onSubmit, handleSubmit }) => {
   const classes = useStyles();

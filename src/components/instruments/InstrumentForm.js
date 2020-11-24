@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import { instrumentList, instrumentFamilies, instrumentTonalities } from './instruments';
+import {renderTextField, renderAutoCompleteField} from '../../helpers/MaterialUiReduxFormFields'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,65 +69,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderTextField = ({
-  helperText,
-  meta: { touched, error },
-  rows,
-  multiline,
-  inputAdornment,
-  classes,
-  input,
-  label,
-  required,
-  ...custom
-}) => {
-  return (
-    <TextField
-      label={label}
-      size="small"
-      helperText={touched && error}
-      error={touched && error}
-      color="secondary"
-      variant="outlined"
-      margin="dense"
-      required={required}
-      multiline={multiline}
-      rows={rows}
-      autoComplete="off"
-      InputProps={{
-        className: classes.value,
-      }}
-      InputLabelProps={{ className: classes.label }}
-      {...input}
-      {...custom}
-    />
-  );
-};
-
-const renderAutoCompleteField = ({ value, options, classes, input, label, ...custom }) => {
-  return (
-    <Autocomplete
-      options={options}
-      getOptionLabel={(option) => option}
-      value={options.find((option) => option === input.value) || ''}
-      classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          size="small"
-          color="secondary"
-          variant="outlined"
-          margin="dense"
-          InputProps={{ ...params.InputProps, className: classes.autoComplete, input: classes.input }}
-          InputLabelProps={{ className: classes.label }}
-          {...input}
-          {...custom}
-        />
-      )}
-    />
-  );
-};
 
 const InstrumentForm = ({ onSubmit, handleSubmit }) => {
   const classes = useStyles();

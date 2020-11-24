@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setFilter, clearFilter } from '../actions/filter';
-import { Field, reduxForm, clearFields, reset } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
+import { Field, reduxForm, reset } from 'redux-form';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import RangedSlider from './ui/RangedSlider';
-import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
 import modes from '../components/songs/modes'
-import InputLabel from '@material-ui/core/InputLabel';
-import { Autocomplete } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
-import {renderText, normalize} from '../helpers/detailHelpers'
+import {renderText, normalize, titleCase} from '../helpers/detailHelpers'
+import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderSlider} from '../helpers/MaterialUiReduxFormFields'
 import _ from 'lodash'
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -52,166 +44,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderTextField = ({
-  helperText,
-  meta: { touched, error, invalid },
-  rows,
-  multiline,
-  inputAdornment,
-  classes,
-  input,
-  label,
-  required,
-  ...custom
-}) => {
-  return (
-    <TextField
-    
-      label={label}
-      size="small"
-      helperText={touched && error}
-      error={touched && invalid}
-      color="secondary"
-      variant="outlined"
-      margin="dense"
-      required={required}
-      multiline={multiline}
-      rows={rows}
-      autoComplete="off"
-      InputProps={{
-        endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
-        className: classes.value,
-      }}
-      InputLabelProps={{ className: classes.label }}
-      {...input}
-      {...custom}
-    />
-  );
-};
 
-const renderSlider = ({
-  helperText,
-  meta: { touched, error, invalid },
-  inputAdornment,
-  classes,
-  input,
-  label,
-  min,
-  max,
-  marks,
-  valueLabelDisplay,
-  onChange,
-  ...custom
-}) => {
-  onChange=input.onChange
-  return (
-    <RangedSlider
-    helperText={touched && error}
-    error={touched && invalid}
-    
-    value={input.value}
-    onChange={(e,v) => {
-      input.onChange(v.value) // update redux-form value
-      onChange(v.value)       // call your additional listener
-    }}
-    label={label}
-    min={min}
-    max={max}
-    valueLabelDisplay={valueLabelDisplay}
-    marks={marks}
-    InputProps={{
-      endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
-      className: classes.value,
-    }}
-    InputLabelProps={{ className: classes.label }}
-    
-    {...input}
-    {...custom}      
-    />    
-    )
+            
+const initialValues = {
+    duration: [],
+    year: [],
+    tempo: [],
+    acousticness: [1,3],
+    danceability: [1,3],
+    energy: [1,3],
+    instrumentalness: [1,3],
+    liveness: [1,3],
+    speechiness: [1,3],
+    valence: [1,3],
+  
   }
-  const renderAutoCompleteField = ({ options, classes, input, label, ...custom }) => {
-    return (
-      <Autocomplete
-      options={options || ''}
-      getOptionLabel={(option) => option[Object.keys(option)] || ''}
-      classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      value={options.find((option) => option[Object.keys(option)] === input.value) || ''}
-      onBlur={e => input.onBlur(undefined)}
-      renderInput={(params) => (
-        <TextField
-        {...params}
-        label={label}
-        size="small"
-        color="secondary"
-        variant="outlined"
-        margin="dense"
-        InputProps={{
-          ...params.InputProps,
-          className: classes.autoComplete,
-          input: classes.input,
-        }}
-        InputLabelProps={{ className: classes.label }}
-        {...input}
-        {...custom}
-        />
-        )}
-        />
-        );
-      };
-      
-      const renderAutoCompleteDataField = ({ options, classes, input, label, ...custom }) => {
-        return (
-          <Autocomplete
-          options={options || ''}
-          getOptionLabel={(option) => option}
-          classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-          value={options.find((option) => option === input.value) || ''}
-          renderInput={(params) => (
-            <TextField
-            {...params}
-            label={label}
-         
-            size="small"
-            color="secondary"
-            variant="outlined"
-            margin="dense"
-            InputProps={{
-              ...params.InputProps,
-              className: classes.autoComplete,
-              input: classes.input,
-            }}
-            InputLabelProps={{ className: classes.label }}
-            {...input}
-            {...custom}
-            />
-            )}
-            />
-            );
-          };
-          
-          const renderCheckbox = ({ classes, input, label }) => (
-            <FormControlLabel
-            className={classes.label}
-            label={label}
-            labelPlacement="start"
-            control={<Checkbox checked={input.value ? true : false} onChange={input.onChange} name="original" />}
-            />
-            );
-            
-            const initialValues = {
-              duration: [],
-              year: [],
-              tempo: [],
-              acousticness: [1,3],
-              danceability: [1,3],
-              energy: [1,3],
-              instrumentalness: [1,3],
-              liveness: [1,3],
-              speechiness: [1,3],
-              valence: [1,3],
-            
-            }
 const FilterControl = ({attributes, objectType, songs, elements, handleSubmit }) => {
               
               const dispatch = useDispatch();
@@ -251,16 +98,7 @@ const FilterControl = ({attributes, objectType, songs, elements, handleSubmit })
                 
               })
             }
-              const titleCase = (s) => { 
-                return s
-                .replace(/([^A-Z])([A-Z])/g, '$1 $2') // split cameCase
-                .replace(/[_\-]+/g, ' ') // split snake_case and lisp-case
-                .toLowerCase()
-                .replace(/(^\w|\b\w)/g, function(m) { return m.toUpperCase(); }) // title case words
-                .replace(/\s+/g, ' ') // collapse repeated whitespace
-                .replace(/^\s+|\s+$/, ''); // remove leading/trailing whitespace
-              }
-              
+            
               
               const renderOptions = (attr) => {
                 let options = songs.map((song)=> 
