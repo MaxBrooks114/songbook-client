@@ -114,7 +114,7 @@ const ElementForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
           </Grid>
           <Grid item>
             <Field
-              options={Object.values(songs)}
+              options={Object.values(songs).map(song => song.title)}
               classes={classes}
               name="song"
               component={renderAutoCompleteDataField}

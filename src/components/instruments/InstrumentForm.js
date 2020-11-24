@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import { instrumentList, instrumentFamilies, instrumentTonalities } from './instruments';
-import {renderTextField, renderAutoCompleteField} from '../../helpers/MaterialUiReduxFormFields'
+import {renderTextField, renderAutoCompleteDataField} from '../../helpers/MaterialUiReduxFormFields'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +86,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               required
               options={instrumentList.sort()}
               name="name"
-              component={renderAutoCompleteField}
+              component={renderAutoCompleteDataField}
               label="Name"
             />
           </Grid>
@@ -101,7 +101,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               options={instrumentFamilies.sort()}
               classes={classes}
               name="family"
-              component={renderAutoCompleteField}
+              component={renderAutoCompleteDataField}
               label="Family"
             />
           </Grid>
@@ -110,7 +110,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               options={instrumentTonalities.sort()}
               classes={classes}
               name="tonal_range"
-              component={renderAutoCompleteField}
+              component={renderAutoCompleteDataField}
               label="Tonality"
             />
           </Grid>
