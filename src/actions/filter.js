@@ -1,5 +1,5 @@
 import history from '../history';
-import { SET_FILTER, CLEAR_FILTER } from './types';
+import { SET_FILTER, CLEAR_FILTER} from './types';
 
 export const setFilter = (formValues) => {
  
@@ -13,4 +13,5 @@ export const clearFilter = (objectType) => {
   return {
     type: CLEAR_FILTER,
   };
-};
+}
+

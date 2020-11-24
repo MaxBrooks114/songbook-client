@@ -57,9 +57,9 @@ const ElementList = ({ match }) => {
   const handleClick = (id) => {
     dispatch(fetchElement(id));
   };
-  const renderFilter = 
-  Object.values(elements).length > 0 ? <FilterControl instruments={Object.values(instruments)} songs={Object.values(songs)} elements={Object.values(elements)} objectType='elements'  /> : null
-
+  const renderFilter = () => {
+    return Object.values(elements).length > 0 ? <FilterControl items={Object.values(elements)} instruments={Object.values(instruments)}  songs={Object.values(songs)}  objectType='elements'  /> : null
+  }
   const renderedList =
     Object.values(elements).length > 0
       ? Object.values(filteredElements)
@@ -82,7 +82,7 @@ const ElementList = ({ match }) => {
   return (
     <Grid container className={classes.cardGrid}>
       <Grid item xs={12} className={classes.filter}>
-        {renderFilter}
+        {renderFilter()}
       </Grid>
       <Grid item xs={4} className={classes.list}>
         <List>{renderedList}</List>

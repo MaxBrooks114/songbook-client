@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setFilter, clearFilter } from '../actions/filter';
-import { Field, reduxForm, reset } from 'redux-form';
+import { useDispatch, useSelector} from 'react-redux';
+import { setFilter, clearFilter, loadFilter} from '../actions/filter';
+import { Field, reduxForm, reset, initialize } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
@@ -44,41 +44,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// const initialValues = {
+//   title: '',
+//   artist: '',
+//   album: '',
+//   genre: '',
+//   original: '',
+//   key: '',
+//   mode: '',
+//   time_signature: '',
+//   explicit: '',
+//   duration: [],
+//   year: [],
+//   tempo: [],
+//   acousticness: [1,3],
+//   danceability: [1,3],
+//   energy: [1,3],
+//   instrumentalness: [1,3],
+//   speechiness: [1,3],
+//   liveness: [1,3],
+//   valence: [1,3],
+//   song: '',
+//   instrument: '',
+//   learned: '',
+//   filter: false
+// }
 
-            
-const initialValues = {
-    duration: [],
-    year: [],
-    tempo: [],
-    acousticness: [1,3],
-    danceability: [1,3],
-    energy: [1,3],
-    instrumentalness: [1,3],
-    liveness: [1,3],
-    speechiness: [1,3],
-    valence: [1,3],
-  
-  }
-const FilterControl = ({objectType, songs, elements, instruments, handleSubmit }) => {
-    const items = objectType === 'songs' ? songs : elements
+const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) => {
     const dispatch = useDispatch();
-
+    const filterForm = useSelector(state => state.form.FilterForm)
+    const initialValues = useSelector(state => state.filter)
     const initializeSliders = () => {
-      if (!initialValues.duration.length){
-        initialValues.duration = [0, Math.max(...items.map((item) => parseInt((item.duration/ 1000)/60)+1))]
-      }
+        initialValues.duration = [0, Math.max(...items.map((item) => parseInt((item.duration/ 1000)/60)+1))] 
       if (!initialValues.year.length && objectType === 'songs'){
         initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
       }
-      if (!initialValues.tempo.length){
         initialValues.tempo = [Math.min(...items.map((item) => parseInt(item.tempo))), Math.max(...items.map((item) => parseInt(item.tempo+1)))]
-      }
     }
-
     useEffect(() => {
+    
+      
+      if (filterForm && !filterForm.values) {
+        dispatch(initialize('FilterForm', initialValues))
+     
+      }
       initializeSliders()
     })
-
     const renderAdvancedFilters = () => {
        
        const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
@@ -230,7 +241,7 @@ const FilterControl = ({objectType, songs, elements, instruments, handleSubmit }
             {renderYearField()}
             <Grid item>
               <Field classes={classes} 
-                    min={Math.min(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)))}
+                    min={Math.min(...items.filter(item => item.tempo !== '').map((item) => parseInt(item.tempo)))}
                     max={Math.max(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)+1))} 
                     name="tempo" 
                     valueLabelDisplay={true}
@@ -239,7 +250,7 @@ const FilterControl = ({objectType, songs, elements, instruments, handleSubmit }
                     />
           </Grid>
              {renderAdvancedFilters()}
-            {renderSongAndInstrumentFields()}
+             {renderSongAndInstrumentFields()}
          
           <Grid item sm={4}>
             <Button className={classes.button} type="submit" variant="contained">
@@ -258,9 +269,7 @@ const FilterControl = ({objectType, songs, elements, instruments, handleSubmit }
   );
 };
 
-
 export default reduxForm({
   form: 'FilterForm',
-  initialValues: initialValues
 })(FilterControl);
 

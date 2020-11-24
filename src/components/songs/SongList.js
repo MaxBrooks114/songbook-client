@@ -54,9 +54,9 @@ const SongList = ({ match }) => {
   //     workerTimers.clearInterval(intervalId)
   //   }
   // }, [accessToken, refreshToken, dispatch])
-  const renderFilter = 
-    Object.values(songs).length > 0 ? <FilterControl songs={Object.values(songs)} objectType='songs' /> : null 
-
+  const renderFilter = () => {
+    return Object.values(songs).length > 0 ? <FilterControl items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
+  }
   const renderedList =
     Object.values(songs).length > 0
       ? Object.values(filteredSongs)
@@ -78,7 +78,7 @@ const SongList = ({ match }) => {
   return (
     <Grid container className={classes.cardGrid}>
       <Grid item xs={12} className={classes.filter}>
-        {renderFilter}
+        {renderFilter()}
       </Grid>
       <Grid item xs={4} className={classes.list}>
         <List>{renderedList}</List>
