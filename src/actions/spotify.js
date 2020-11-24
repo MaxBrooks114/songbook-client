@@ -255,7 +255,7 @@ export const playElement = (accessToken, songUri, refreshToken, start, duration,
     dispatch(pausePlayer(accessToken, refreshToken, deviceId, songUri))
    
     
-  }, duration*1000)
+  }, duration)
   dispatch({
     type: PLAY,
     playing: true,
@@ -266,7 +266,7 @@ export const playElement = (accessToken, songUri, refreshToken, start, duration,
 
     await spotify.put(
       url,
-      { position_ms: start * 1000, uris: [songUri] },
+      { position_ms: start, uris: [songUri] },
 
       {
         headers: {
