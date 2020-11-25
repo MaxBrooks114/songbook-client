@@ -2,7 +2,7 @@ import React, {useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as workerTimers from 'worker-timers';
 import { fetchElement } from '../../actions/elements';
-import { getFilteredItems } from '../../selectors/songSelectors';
+import { getFilteredItems } from '../../selectors/filterSelectors';
 import {checkIfPlaying} from '../../actions/spotify'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';

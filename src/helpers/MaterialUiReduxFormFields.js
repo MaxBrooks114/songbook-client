@@ -62,6 +62,7 @@ export const renderSlider = ({
   max,
   marks,
   valueLabelDisplay,
+  valueLabelFormat,
   onChange,
   ...custom
 }) => {
@@ -80,6 +81,7 @@ export const renderSlider = ({
     min={min}
     max={max}
     valueLabelDisplay={valueLabelDisplay}
+    valueLabelFormat={valueLabelFormat}
     marks={marks}
     InputProps={{
       endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,

@@ -36,13 +36,19 @@ const ElementEdit = ({ match }) => {
   const instruments = useSelector((state) => state.instruments);
 
   const onSubmit = (formValues) => {
+    if(!formValues.tempo) {
+      formValues.tempo = 0
+    }
     dispatch(
       editElement(match.params.id, {
         ...formValues,
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
         song: songId(formValues.song),
+        duration: formValues.duration * 1000,
+        start: formValues.start * 1000,
         learned: !!formValues.learned
+
       })
     );
   };
@@ -66,7 +72,7 @@ const ElementEdit = ({ match }) => {
   };
 
   const initialValues = element
-    ? { ...element, key: renderText(keys, element.key), mode: renderText(modes, element.mode), song: renderTitle() }
+    ? { ...element, start: element.start/1000, duration: element.duration/1000, key: renderText(keys, element.key), mode: renderText(modes, element.mode), song: renderTitle() }
     : null;
 
   return (

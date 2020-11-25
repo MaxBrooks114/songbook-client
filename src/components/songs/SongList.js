@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
-import { getFilteredItems } from '../../selectors/songSelectors';
+import { getFilteredItems } from '../../selectors/filterSelectors';
 import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '0 0 8px 8px',
   },
 }));
-
 const SongList = ({ match }) => {
   const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'));
   const songs = useSelector((state) => state.songs);
@@ -57,8 +56,8 @@ const SongList = ({ match }) => {
   const renderFilter = () => {
     return Object.values(songs).length > 0 ? <FilterControl items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
   }
-  const renderedList =
-    Object.values(songs).length > 0
+  const renderedList = () => {
+   return Object.values(songs).length > 0
       ? Object.values(filteredSongs)
           .sort((a, b) => (a['artist'] > b['artist'] ? 1 : -1))
           .map((song) => {
@@ -70,7 +69,7 @@ const SongList = ({ match }) => {
             );
           })
       : null;
-
+    }
   const renderDetail = () => {
     return song ? <SongDetail song={song} /> : null;
   };
@@ -81,7 +80,7 @@ const SongList = ({ match }) => {
         {renderFilter()}
       </Grid>
       <Grid item xs={4} className={classes.list}>
-        <List>{renderedList}</List>
+        <List>{renderedList()}</List>
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={6} className={classes.list}>

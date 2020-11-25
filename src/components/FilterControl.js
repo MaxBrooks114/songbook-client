@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import { setFilter, clearFilter, loadFilter} from '../actions/filter';
+import { setFilter, clearFilter } from '../actions/filter';
 import { Field, reduxForm, reset, initialize } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
 import modes from '../components/songs/modes'
 import { makeStyles } from '@material-ui/styles';
-import {renderText, normalize, titleCase} from '../helpers/detailHelpers'
+import {renderText, normalize, titleCase, millisToMinutesAndSeconds} from '../helpers/detailHelpers'
 import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderSlider} from '../helpers/MaterialUiReduxFormFields'
 import _ from 'lodash'
 
@@ -44,51 +44,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const initialValues = {
-//   title: '',
-//   artist: '',
-//   album: '',
-//   genre: '',
-//   original: '',
-//   key: '',
-//   mode: '',
-//   time_signature: '',
-//   explicit: '',
-//   duration: [],
-//   year: [],
-//   tempo: [],
-//   acousticness: [1,3],
-//   danceability: [1,3],
-//   energy: [1,3],
-//   instrumentalness: [1,3],
-//   speechiness: [1,3],
-//   liveness: [1,3],
-//   valence: [1,3],
-//   song: '',
-//   instrument: '',
-//   learned: '',
-//   filter: false
-// }
 
 const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) => {
     const dispatch = useDispatch();
     const filterForm = useSelector(state => state.form.FilterForm)
     const initialValues = useSelector(state => state.filter)
-    const initializeSliders = () => {
-        initialValues.duration = [0, Math.max(...items.map((item) => parseInt((item.duration/ 1000)/60)+1))] 
-      if (!initialValues.year.length && objectType === 'songs'){
-        initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
-      }
-        initialValues.tempo = [Math.min(...items.map((item) => parseInt(item.tempo))), Math.max(...items.map((item) => parseInt(item.tempo+1)))]
-    }
-    useEffect(() => {
+    const divisor = objectType === 'songs' ? 60000 : 1000
+    
+    
+   
     
       
-      if (filterForm && !filterForm.values) {
+    useEffect(() => {
+    
+  
+      if (!initialValues.filter && filterForm && !filterForm.values) {
         dispatch(initialize('FilterForm', initialValues))
      
       }
-      initializeSliders()
+
+      if(!initialValues.filter){
+        initialValues.duration = [0,  Math.max(...items.map((item) => parseInt((item.duration))+1))] 
+
+        initialValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
+      }
+      
+        
+      if (!initialValues.year.length && objectType === 'songs'){
+        initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
+      }
+
+
+      
     })
     const renderAdvancedFilters = () => {
        
@@ -102,6 +89,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 max={3} 
                 marks={[{value: 1, label: "Low" }, {value: 2, label: "Medium"}, {value: 3, label: "High"}]}
                 valueLabelDisplay={'off'}
+
                 name= {option}
                 component={renderSlider} 
                 label={titleCase(option)}
@@ -193,7 +181,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     const onSubmit = (formValues) => {
       dispatch(
         setFilter({
-          ...formValues,
+          ...formValues, 
           key: normalize(keys, formValues.key),
           mode: normalize(modes, formValues.mode),
           filter: true
@@ -231,9 +219,10 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           <Grid item>
           <Field classes={classes} 
                  min={0}
-                 max={Math.max(...items.map((item) => parseInt((item.duration/ 1000)/60)+1))} 
+                 max={Math.max(...items.map((item) => parseInt((item.duration))+1))} 
                  name="duration" 
                  valueLabelDisplay={true}
+                 valueLabelFormat={x => millisToMinutesAndSeconds(x) }	
                  component={renderSlider} 
                  label="Duration" 
                  />

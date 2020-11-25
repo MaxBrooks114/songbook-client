@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
- const RangedSlider = ({min, max, label, marks, valueLabelDisplay, onChange, ...other}) => {
+ const RangedSlider = ({min, max, label, marks, valueLabelDisplay, valueLabelFormat, onChange, ...other}) => {
   const classes = useStyles();
   const [value, setValue] = React.useState([min, max]);
   const handleChange = (event, newValue, other) => {
@@ -26,6 +26,7 @@ const useStyles = makeStyles({
         {...other}
         onChange={handleChange}
         valueLabelDisplay={valueLabelDisplay}
+        valueLabelFormat={valueLabelFormat}
         min={min}
         max={max}
         marks={marks}

@@ -37,12 +37,17 @@ const ElementCreate = () => {
     return song.id;
   };
   const onSubmit = (formValues) => {
+    if(!formValues.tempo) {
+      formValues.tempo = 0
+    }
     dispatch(
       createElement({
         ...formValues,
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
         song: songId(formValues.song),
+        duration: formValues.duration * 1000,
+        start: formValues.start * 1000,
         learned: !!formValues.learned
       
       })
