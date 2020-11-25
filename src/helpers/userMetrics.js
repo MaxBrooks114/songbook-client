@@ -10,11 +10,11 @@ export const favoriteInstrument = (elements, instruments) => {
         return element.instruments
       }
     }).map((element) => element.instruments).flat()
-  const instrumentId = _.head(_(instrumentMap)
+  const instrumentId = _.head(_(instrumentMap) 
   .countBy()
   .entries()
   .maxBy(_.last));
- const fav_instrument = instruments.find(instrument => instrument.id === parseInt(instrumentId))
+ const fav_instrument = instruments.find(instrument => instrument.id === parseInt(instrumentId)) || instruments[0]
 
  return fav_instrument.name
 }
