@@ -123,11 +123,12 @@ export const renderAutoCompleteField = ({ options, classes, input, label, ...cus
         );
       };
       
-export const renderAutoCompleteDataField = ({ options, classes, input, label, ...custom }) => {
+export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, label, ...custom }) => {
         return (
           <Autocomplete
           options={options || ''}
-          getOptionLabel={(option) => option}
+          getOptionLabel={getOptionLabel}
+          renderOption= {renderOption}
           classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
           value={options.find((option) => option === input.value) || ''}
           renderInput={(params) => (

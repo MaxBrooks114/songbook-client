@@ -4,6 +4,7 @@ import * as workerTimers from 'worker-timers';
 import { fetchElement } from '../../actions/elements';
 import { getFilteredItems } from '../../selectors/filterSelectors';
 import {checkIfPlaying} from '../../actions/spotify'
+import {clearFilter} from '../../actions/filter'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import ElementCard from './ElementCard';
@@ -44,13 +45,13 @@ const ElementList = ({ match }) => {
   const dispatch = useDispatch();
   
 
-  // useEffect(() => {
-  //   const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
-
-  //   return () => {
-  //     workerTimers.clearInterval(intervalId)
-  //   }
-  // }, [accessToken, refreshToken, dispatch])
+  useEffect(() => {
+    const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
+    dispatch(clearFilter())
+    return () => {
+      workerTimers.clearInterval(intervalId)
+    }
+  }, [accessToken, refreshToken, dispatch])
   const classes = useStyles();
   let transitionDuration = 50;
 
@@ -63,7 +64,6 @@ const ElementList = ({ match }) => {
   const renderedList =
     Object.values(elements).length > 0
       ? Object.values(filteredElements)
-          .sort((a, b) => (a['song'] > b['song'] ? 1 : -1))
           .map((element) => {
             transitionDuration += 50;
             return (

@@ -49,15 +49,14 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     const dispatch = useDispatch();
     const filterForm = useSelector(state => state.form.FilterForm)
     const initialValues = useSelector(state => state.filter)
-    const divisor = objectType === 'songs' ? 60000 : 1000
-    
-    
+    const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'elements', 'instruments', 'lyrics']
+    const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k))
    
     
       
     useEffect(() => {
     
-  
+
       if (!initialValues.filter && filterForm && !filterForm.values) {
         dispatch(initialize('FilterForm', initialValues))
      
@@ -74,6 +73,9 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
         initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
       }
 
+      if(!initialValues.sort && !initialValues.filter){
+        initialValues.sort = objectType === 'songs' ? 'artist' : 'song'
+      }
 
       
     })
@@ -240,7 +242,24 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           </Grid>
              {renderAdvancedFilters()}
              {renderSongAndInstrumentFields()}
-         
+         <Grid item>
+              <Field classes={classes} 
+                    name="sort" 
+                    options={itemProps.map(prop => prop)}
+                    getOptionLabel = {x => x}
+                    renderOption={option => <span>{titleCase(option)}</span>}
+                    component={renderAutoCompleteDataField} 
+                    label="Sort" 
+                    />
+          </Grid>
+           <Grid item>
+              <Field classes={classes} 
+                    name="order" 
+                    options={["ASC", "DSC"]}
+                    component={renderAutoCompleteDataField} 
+                    label="Order" 
+                    />
+          </Grid>
           <Grid item sm={4}>
             <Button className={classes.button} type="submit" variant="contained">
               Filter

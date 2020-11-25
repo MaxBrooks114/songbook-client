@@ -6,15 +6,16 @@ const getInstruments = (state) => state.instruments
 const getSongs = (state) => state.songs;
 
 
-
 export const getFilteredItems = (state, objectType)  => {
   const filterProperties =getFilters(state);
   const songs = getSongs(state);
   const elements = getElements(state)
   const instruments = getInstruments(state)
-  let filterKeys = Object.keys(filterProperties).filter(key => key !== "filter" && key !== "loudness" )
-  
-  let filterables = objectType === 'songs' ? songs : elements
+  const filterKeys = Object.keys(filterProperties).filter(key => key !== "filter" && key !== "loudness" )
+  const orderArray = filterProperties.order === "ASC" ? [ 1 , -1] : [-1, 1]
+
+
+  const filterables = objectType === 'songs' ? songs : elements
   if (filterProperties.filter) {
     return Object.values(filterables).filter(f => {
       let fk = filterKeys.filter(k => (k === "learned" && filterProperties[k] !== "") || (k === "original" && filterProperties[k] !== "") || (k === "explicit"  && filterProperties[k] !== "") || (filterProperties[k] && f[k]) || (filterProperties[k] && f[k]===0) || (objectType === 'elements' && k === "instrument" && filterProperties[k] !== "")  )
@@ -58,8 +59,8 @@ export const getFilteredItems = (state, objectType)  => {
               return false
           }
         })
-      })
+      }).sort((a, b) => (a[filterProperties.sort] > b[filterProperties.sort] ? orderArray[0] : orderArray[1]))
     } else {
-      return filterables
+      return Object.values(filterables).sort((a, b) => (a[filterProperties.sort] > b[filterProperties.sort] ? 1 : -1))
     }
 }

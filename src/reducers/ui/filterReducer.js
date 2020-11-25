@@ -23,7 +23,9 @@ const initialState = {
   song: '',
   instrument: '',
   learned: '',
-  filter: false
+  filter: false,
+  sort: '',
+  order: 'ASC'
 };
 
 export default (state = initialState, action) => {

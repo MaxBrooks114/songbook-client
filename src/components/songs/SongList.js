@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
+import {clearFilter} from '../../actions/filter'
 import { getFilteredItems } from '../../selectors/filterSelectors';
 import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
@@ -46,21 +47,19 @@ const SongList = ({ match }) => {
     dispatch(fetchSong(id));
   };
 
-  // useEffect(() => {
-  //   // const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
-
-  //   return () => {
-  //     workerTimers.clearInterval(intervalId)
-  //   }
-  // }, [accessToken, refreshToken, dispatch])
+  useEffect(() => {
+    let intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
+    dispatch(clearFilter())
+    return () => {
+      workerTimers.clearInterval(intervalId)
+    }
+  }, [accessToken, refreshToken, dispatch])
   const renderFilter = () => {
     return Object.values(songs).length > 0 ? <FilterControl items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
   }
   const renderedList = () => {
    return Object.values(songs).length > 0
-      ? Object.values(filteredSongs)
-          .sort((a, b) => (a['artist'] > b['artist'] ? 1 : -1))
-          .map((song) => {
+      ? filteredSongs.map((song) => {
             transitionDuration += 50;
             return (
               <ListItem key={song.id} dense>
