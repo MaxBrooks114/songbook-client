@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
     case CHECK_IF_PLAYING:
       return { ...state, playing: action.playing, song: action.song }
     case PLAY: 
-      return {...state, controlledPlay: true}
+      return {...state, controlledPlay: action.controlledPlay, playing: action.playing}
     case PAUSE:
       return {...state, controlledPlay: false}
     default:

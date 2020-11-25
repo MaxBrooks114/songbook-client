@@ -181,9 +181,7 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
 
 export const playSong = (accessToken, songUri, refreshToken, deviceId) => async (dispatch) => {
   dispatch(loading());
-  if(timeoutId){
-    workerTimers.clearTimeout(timeoutId)
-  }
+ 
 
   try {
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
@@ -198,6 +196,11 @@ export const playSong = (accessToken, songUri, refreshToken, deviceId) => async 
         },
       }
     );
+
+    dispatch({
+      type: PLAY,
+      controlledPlay: false
+    })
   } catch (error) {
     dispatch(returnErrors(error));
     if (error.response.status === 401) {
@@ -248,17 +251,17 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
 
 export const playElement = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
   dispatch(loading());
-  if(timeoutId){
-    workerTimers.clearTimeout(timeoutId)
-  }
+  
+  
   timeoutId = workerTimers.setTimeout(() => {
     dispatch(pausePlayer(accessToken, refreshToken, deviceId, songUri))
    
-    
+    workerTimers.clearTimeout(timeoutId)
   }, duration)
   dispatch({
     type: PLAY,
     playing: true,
+    controlledPlay: true
   })
  
   try { 

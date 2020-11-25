@@ -144,15 +144,13 @@ const renderSpotifyOption = () => {
       : null;
   };
  
-  let timeout
+
   const handleElementPlayClick = () => {
-    if(timeout){
-      workerTimers.clearTimeout(timeout)
-    }
     setShow(true)
-    timeout = workerTimers.setTimeout(function(){
+    const timeout = workerTimers.setTimeout(() => {
       dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, element.duration, deviceId))
       setShow(false)  
+      workerTimers.clearTimeout(timeout)
     }, 3000);
     
   };
