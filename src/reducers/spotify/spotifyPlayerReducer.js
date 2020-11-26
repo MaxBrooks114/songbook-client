@@ -2,7 +2,7 @@ import { CHECK_IF_PLAYING, PLAY, PAUSE } from '../../actions/types';
 
 const initialState = {
   playing: false, 
-  controlledPlay: false,
+  elementPlay: false,
   song: ''
 };
 
@@ -11,9 +11,9 @@ export default (state = initialState, action) => {
     case CHECK_IF_PLAYING:
       return { ...state, playing: action.playing, song: action.song }
     case PLAY: 
-      return {...state, controlledPlay: action.controlledPlay, playing: action.playing}
+      return {...state, elementPlay: action.elementPlay, playing: action.playing}
     case PAUSE:
-      return {...state, controlledPlay: false}
+      return {...state, elementPlay: false}
     default:
       return state;
   }
