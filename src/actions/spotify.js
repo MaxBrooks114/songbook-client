@@ -221,7 +221,7 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
     let state = getState();
     const url = deviceId === '' ? '/me/player/pause' : `/me/player/pause?device_id=${deviceId}`;
     
-    if ( state.spotifyPlayer.playing && state.spotifyPlayer.controlledPlay && state.spotifyPlayer.song === songUri) { 
+    if ( state.spotifyPlayer.playing && state.spotifyPlayer.elementPlay && state.spotifyPlayer.song === songUri) { 
       spotify.put( 
         url,
         {}, {
