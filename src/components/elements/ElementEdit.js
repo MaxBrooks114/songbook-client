@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editElement, fetchElement } from '../../actions/elements';
+import {createFile} from '../../actions/files'
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import ElementForm from './ElementForm';
@@ -51,6 +52,10 @@ const ElementEdit = ({ match }) => {
 
       })
     );
+    if (formValues.recording) {
+        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+    }
+    
   };
 
   const classes = useStyles();

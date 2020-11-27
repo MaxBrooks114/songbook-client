@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import Login from './auth/Login';
@@ -30,14 +30,17 @@ import UserShow from './auth/UserShow';
 import { fetchInstruments } from '../actions/instruments';
 import { fetchSongs } from '../actions/songs';
 import { fetchElements } from '../actions/elements';
+import { fetchFiles } from '../actions/files';
 
 const App = () => {
   const dispatch = useDispatch();
+  
   useMemo(() => {
     dispatch(fetchUser());
     dispatch(fetchInstruments());
     dispatch(fetchSongs());
     dispatch(fetchElements());
+    dispatch(fetchFiles())
   }, [dispatch]);
 
   useEffect(() => {
@@ -45,8 +48,9 @@ const App = () => {
     dispatch(fetchInstruments());
     dispatch(fetchSongs());
     dispatch(fetchElements());
+    dispatch(fetchFiles())
   }, [dispatch]);
-
+ 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

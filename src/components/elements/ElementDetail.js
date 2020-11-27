@@ -24,6 +24,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import BackDrop from '../ui/BackDrop';
 import Metronome from '@kevinorriss/react-metronome'
 import { Link } from 'react-router-dom';
+import RecordView from '../RecordView'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -122,7 +124,7 @@ const ElementDetail = ({ element }) => {
 
   const classes = useStyles();
  
-
+ 
 
 
 const renderSpotifyOption = () => {
@@ -198,10 +200,12 @@ const renderSpotifyOption = () => {
           </Grid>
         </Grid>
         <Grid container justify="space-between" className={classes.buttonContainer}>
+
           <Link className={classes.link} to={`edit/${element.id}`}>
             <Button className={classes.button}>Edit </Button>
           </Link>
             {renderSpotifyOption()}
+            <RecordView key={element.id} />
           <Button className={classes.delete} onClick={handleClickOpen}>
             Delete
           </Button>

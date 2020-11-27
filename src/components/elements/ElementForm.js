@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import keys from '../songs/keys';
 import modes from '../songs/modes';
-import {renderTextField, renderAutoCompleteField, renderAutoCompleteDataField, renderCheckbox, renderCheckboxGroup} from '../../helpers/MaterialUiReduxFormFields'
+import {FileInput, renderUploadButton, renderTextField, renderAutoCompleteField, renderAutoCompleteDataField, renderCheckbox, renderCheckboxGroup} from '../../helpers/MaterialUiReduxFormFields'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +83,7 @@ const ElementForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
   const classes = useStyles();
 
   const onFormSubmit = (formValues) => {
+    console.log(formValues)
     onSubmit(formValues);
   };
   return (
@@ -166,6 +167,16 @@ const ElementForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
               component={renderTextField}
               label="Lyrics"
             />
+          </Grid>
+          <Grid item>
+              <Field
+                component={FileInput}
+                name="recording"
+                label="Upload Recording"
+                classes={classes}
+                accept="audio/*"
+                type='file'
+              />
           </Grid>
           <Grid item>
             <Button type="submit" className={classes.button} variant="contained">

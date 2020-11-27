@@ -13,6 +13,60 @@ import { Autocomplete } from '@material-ui/lab';
 
 
 
+const adaptFileEventToValue = delegate => e => {
+  delegate(e.target.files[0])
+};
+
+export const FileInput = ({ 
+  input: { value: omitValue, onChange, onBlur, ...inputProps }, 
+  meta: omitMeta, 
+  ...props 
+}) => {
+  return (
+    <input
+      onChange={adaptFileEventToValue(onChange)}
+      onBlur={adaptFileEventToValue(onBlur)}
+      type="file"
+      {...props.input}
+      {...props}
+    />
+  );
+};
+
+export const renderUploadButton = ({
+  helperText,
+  variant,
+  type,
+  classes,
+  input,
+  label,
+  value,
+  required,
+  hidden,
+  accept,
+  meta: omitMeta, 
+  input: { value: omitValue, onChange, onBlur, ...inputProps }, 
+  ...custom
+}) => {
+  return (
+    <Button
+    
+      label={label}
+      size="small"
+      color="secondary"
+      variant="outlined"
+      margin="dense"
+      
+      InputProps={{
+        className: classes.value,
+      }}
+      InputLabelProps={{ className: classes.label }}
+      {...input}
+      {...custom}>{label}<input onChange={adaptFileEventToValue(onChange)}
+      onBlur={adaptFileEventToValue(onBlur)} accept={accept} hidden={hidden} type={type}></input></Button>
+  );
+};
+
 
 export const renderTextField = ({
   helperText,
@@ -23,6 +77,7 @@ export const renderTextField = ({
   classes,
   input,
   label,
+  type,
   required,
   ...custom
 }) => {
@@ -38,6 +93,7 @@ export const renderTextField = ({
       margin="dense"
       required={required}
       multiline={multiline}
+      type={type}
       rows={rows}
       autoComplete="off"
       InputProps={{
