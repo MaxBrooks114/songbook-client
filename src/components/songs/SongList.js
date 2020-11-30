@@ -48,12 +48,14 @@ const SongList = ({ match }) => {
   };
 
   useEffect(() => {
-    let intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
-    dispatch(clearFilter())
-    return () => {
-      workerTimers.clearInterval(intervalId)
+    const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null
+     if (accessToken) {
+      return () => {
+      workerTimers.clearInterval(intervalId) 
     }
+   }
   }, [accessToken, refreshToken, dispatch])
+
   const renderFilter = () => {
     return Object.values(songs).length > 0 ? <FilterControl items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
   }

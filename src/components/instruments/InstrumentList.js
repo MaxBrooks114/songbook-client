@@ -46,11 +46,13 @@ const InstrumentList = ({ match }) => {
   };
 
   useEffect(() => {
-    const intervalId = workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000)
+   const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null
 
-    return () => {
-      workerTimers.clearInterval(intervalId)
+    if (accessToken) {
+      return () => {
+      workerTimers.clearInterval(intervalId) 
     }
+   }
   }, [accessToken, refreshToken, dispatch])
 
   const renderedList =
