@@ -9,7 +9,7 @@ export const setFilter = (formValues) => {
   };
 };
 
-export const clearFilter = (objectType) => {
+export const clearFilter = () => {
   return {
     type: CLEAR_FILTER,
   };
