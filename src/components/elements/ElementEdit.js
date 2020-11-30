@@ -55,6 +55,9 @@ const ElementEdit = ({ match }) => {
     if (formValues.recording) {
         dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
     }
+    if (formValues.tab) {
+        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+    }
     
   };
 

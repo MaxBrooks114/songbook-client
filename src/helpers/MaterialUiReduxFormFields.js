@@ -18,11 +18,14 @@ const adaptFileEventToValue = delegate => e => {
 };
 
 export const FileInput = ({ 
+  label,
   input: { value: omitValue, onChange, onBlur, ...inputProps }, 
   meta: omitMeta, 
   ...props 
 }) => {
   return (
+    <>
+    {label}
     <input
       onChange={adaptFileEventToValue(onChange)}
       onBlur={adaptFileEventToValue(onBlur)}
@@ -30,6 +33,7 @@ export const FileInput = ({
       {...props.input}
       {...props}
     />
+    </>
   );
 };
 

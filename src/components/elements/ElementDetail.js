@@ -4,6 +4,7 @@ import * as workerTimers from 'worker-timers'
 import { deleteElement } from '../../actions/elements';
 import { playElement } from '../../actions/spotify';
 import {renderText, millisToMinutesAndSeconds, renderBool} from '../../helpers/detailHelpers'
+import {deleteFile} from '../../actions/files'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -24,6 +25,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import BackDrop from '../ui/BackDrop';
 import Metronome from '@kevinorriss/react-metronome'
 import { Link } from 'react-router-dom';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import AudioPlayer from 'material-ui-audio-player';
 import RecordView from '../RecordView'
 
 
@@ -108,6 +111,9 @@ const ElementDetail = ({ element }) => {
   const instruments = useSelector((state) =>
   Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id)), shallowEqual
 );
+  const files = useSelector((state) => state.files)
+  const recordings = Object.values(files).filter(file => (file.extension === 'wav' || file.extension === 'mp3') && file.element === element.id )
+  const tabs = Object.values(files).filter(file => (file.extension === 'pdf' || file.extension === 'png' || file.extension === 'jpeg') && file.element === element.id )
   const user = useSelector((state) => state.auth.user, shallowEqual);
 
   const [open, setOpen] = useState(false);
@@ -146,7 +152,27 @@ const renderSpotifyOption = () => {
       : null;
   };
  
+  const renderRecordings = () => {
+   return recordings.map(recording => {
+      return (
+        <>
+          <AudioPlayer src={recording.file}/>
+          <DeleteForeverRoundedIcon onClick={() => dispatch(deleteFile(recording.id))}/>
+        </>
+      )
+    })
+  }
 
+  const renderTabs = () => {
+  return tabs.map(tab => {
+    return (
+      <>
+      <img alt={tab.name} src={tab.file}/>
+      <DeleteForeverRoundedIcon onClick={() => dispatch(deleteFile(tab.id))}/>
+      </>
+  )
+    })
+  }
   const handleElementPlayClick = () => {
     setShow(true)
     const timeout = workerTimers.setTimeout(() => {
@@ -197,6 +223,18 @@ const renderSpotifyOption = () => {
               </AccordionSummary>
                 <Metronome key={element.id} startBpm= {element.tempo}/>
             </Accordion>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Recordings</Typography>
+              </AccordionSummary>
+                {renderRecordings()}
+            </Accordion>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Sheet Music/ Tabs</Typography>
+              </AccordionSummary>
+                {renderTabs()}
+            </Accordion>
           </Grid>
         </Grid>
         <Grid container justify="space-between" className={classes.buttonContainer}>
@@ -219,7 +257,7 @@ const renderSpotifyOption = () => {
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this Element?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              You will no longer have access to any of its data, you can always create it again.
+              You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

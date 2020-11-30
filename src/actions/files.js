@@ -37,22 +37,7 @@ export const fetchFiles = () => async (dispatch) => {
   dispatch(notLoading());
 };
 
-export const fetchFile = (id) => async (dispatch) => {
-  dispatch(loading());
 
-  try {
-    const response = await songbook.get(`/files/${id}/`);
-    dispatch({
-      type: FETCH_FILE,
-      payload: response.data,
-    });
-   
-  } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
-  }
-
-  dispatch(notLoading());
-};
 
 export const deleteFile = (id) => async (dispatch) => {
   try {
@@ -69,17 +54,3 @@ export const deleteFile = (id) => async (dispatch) => {
   }
 };
 
-export const editFile = (id, formValues) => async (dispatch) => {
-  try {
-    const response = await songbook.patch(`/files/${id}/`, formValues);
-
-    dispatch({
-      type: EDIT_FILE,
-      payload: response.data,
-    });
-
-
-  } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
-  }
-};

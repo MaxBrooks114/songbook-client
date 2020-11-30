@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createElement } from '../../actions/elements';
+import {createFile} from '../../actions/files'
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import ElementForm from './ElementForm';
@@ -52,6 +53,12 @@ const ElementCreate = () => {
       
       })
     );
+    if (formValues.recording) {
+        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+    }
+    if (formValues.tab) {
+        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+    }
     
   };
 

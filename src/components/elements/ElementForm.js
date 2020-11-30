@@ -179,6 +179,16 @@ const ElementForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
               />
           </Grid>
           <Grid item>
+              <Field
+                component={FileInput}
+                name="tab"
+                label="Upload Sheet Music/ Tabs"
+                classes={classes}
+                accept="image/*, application/pdf"
+                type='file'
+              />
+          </Grid>
+          <Grid item>
             <Button type="submit" className={classes.button} variant="contained">
               Submit
             </Button>
