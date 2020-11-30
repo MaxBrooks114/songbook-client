@@ -1,13 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
+import { useDispatch, useSelector } from 'react-redux';
+import { createMessage } from '../../actions/messages';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
-import { Link } from 'react-router-dom';
-
 import {renderTextField} from '../../helpers/MaterialUiReduxFormFields'
+import {resetPassword} from '../../actions/auth'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,27 +83,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-const LoginForm = ({ onSubmit, handleSubmit }) => {
+const PasswordReset = ({ onSubmit, handleSubmit }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const messages = useSelector((state) => state.messages);
-  const errorMessages = useSelector((state) => state.errors.msg);  const user = useSelector(state => state.auth.user)
-  const onFormSubmit = (formValues) => {
-    onSubmit(formValues);
-  };
-
-  const renderPasswordField = () => {
-    return !user ? 
-      (<Grid item>
-            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" />
-          </Grid>) : (<Link to="/passwordReset">Reset your Password</Link>)
-  }
-
+  const user = useSelector((state) => state.auth.user)
+  const errorMessages = useSelector((state) => state.errors.msg);
   const renderErrorMessages = () => {
     for (let msg in messages) {
       return messages[msg];
     }
-    if (Object.keys(errorMessages).includes('username') || Object.keys(errorMessages).includes('email')) {
+    if (Object.keys(errorMessages).includes('password')) {
       for (let key in errorMessages) {
         for (let msg of errorMessages[key]) {
           return msg;
@@ -111,20 +101,34 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
       }
     }
   };
-
+  const onFormSubmit = (formValues) => {
+    const { password, password2 } = formValues;
+    if (password !== password2) {
+      dispatch(createMessage({ passwordNotMatch: 'Passwords must match' }));
+    } else {
+      dispatch(resetPassword(user.id, formValues));
+    }
+  };
   return (
     <div>
       <Grid container justify="center" spacing={2}>
         <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
           <Grid item>
-            <Field classes={classes} name="username" component={renderTextField} label="Username" />
+            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" />
           </Grid>
-              {renderPasswordField()}
-          
+          <Grid item>
+            <Field
+              classes={classes}
+              type="password"
+              name="password2"
+              component={renderTextField}
+              label="Confirm Password"
+            />
+          </Grid>
 
           <Grid item>
             <Button type="submit" className={classes.button} variant="contained">
-              {user ? "Update Information" : "Login"}
+              Reset Password
             </Button>
           </Grid>
           {renderErrorMessages()}
@@ -136,7 +140,7 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
 
 const validate = (formValues) => {
   const errors = {};
-  const requiredFields = ['username', 'password'];
+  const requiredFields = [ 'password', 'password2'];
   requiredFields.forEach((field) => {
     if (!formValues[field]) {
       errors[field] = 'Required';
@@ -146,6 +150,6 @@ const validate = (formValues) => {
 };
 
 export default reduxForm({
-  form: 'Login',
+  form: 'PasswordReset',
   validate,
-})(LoginForm);
+})(PasswordReset);

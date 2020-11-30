@@ -29,6 +29,7 @@ export const SET_FILTER = 'SET_FILTER';
 export const CLEAR_FILTER = 'CLEAR_FILTER';
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN_USER = 'LOGIN_USER';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const FETCH_USER = 'FETCH_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const USER_LOADING = 'USER_LOADING';

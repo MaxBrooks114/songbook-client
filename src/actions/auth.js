@@ -9,6 +9,7 @@ import {
   REGISTER_FAIL,
   EDIT_USER,
   DELETE_USER,
+  RESET_PASSWORD,
   CLEAR_ALL,
 } from './types';
 import history from '../history';
@@ -87,10 +88,28 @@ export const register = (formValues) => async (dispatch) => {
 
 export const editUser = (userId, formValues) => async (dispatch) => {
   try {
-    const response = await songbook.put(`/auth/user/edit`, formValues);
+    const response = await songbook.patch(`/auth/user/edit/${userId}/`, formValues);
 
     dispatch({
       type: EDIT_USER,
+      payload: response.data,
+    });
+
+    dispatch(fetchUser())
+    dispatch(showSuccessSnackbar('Your Profile Was Updated Successfully'))
+    history.push(`/users/${userId}`)
+  } catch (error) {
+    dispatch(returnErrors(error.response.data, error.response.status));
+  }
+};
+
+
+export const resetPassword = (userId, formValues) => async (dispatch) => {
+  try {
+    const response = await songbook.patch(`/auth/user/passwordreset/${userId}/`, formValues);
+
+    dispatch({
+      type: RESET_PASSWORD,
       payload: response.data,
     });
 

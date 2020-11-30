@@ -6,6 +6,7 @@ import Login from './auth/Login';
 import Logout from './auth/Logout';
 import Register from './auth/Register';
 import UserEdit from './auth/UserEdit'
+import PasswordReset from './auth/PasswordReset'
 import SpotifySearch from './spotify/SpotifySearch';
 import SongCreate from './songs/SongCreate';
 import SongList from './songs/SongList';
@@ -63,6 +64,7 @@ const App = () => {
             <Switch>
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
+              <Route path='/passwordReset' exact component={PasswordReset} />
               <PrivateRoute exact path="/users/:id" component={UserShow} />
               <PrivateRoute exact path="/users/:id/edit" component={UserEdit} />
               <PrivateRoute exact path="/logout" component={Logout} />

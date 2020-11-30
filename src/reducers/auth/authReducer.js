@@ -8,6 +8,7 @@ import {
   REGISTER_USER,
   REGISTER_FAIL,
   REFRESH_ACCESS_TOKEN,
+  RESET_PASSWORD,
   GET_DEVICE_ID,
   EDIT_USER,
   DELETE_USER
@@ -46,7 +47,7 @@ export default function(state = initialState, action) {
         isLoading: false,
       };
     case EDIT_USER:
-
+    case RESET_PASSWORD:
       return {
         ...state,
         ...action.payload,
