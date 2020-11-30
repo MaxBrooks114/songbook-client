@@ -120,7 +120,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
         return (
            <Grid item>
               <Field
-                  options={_.uniq(songs.map((song) => song[field]))}
+                  options={_.uniq(songs.map((song) => titleCase(song[field])))}
                   classes={classes}
                   name={field}
                   component={renderAutoCompleteDataField}
