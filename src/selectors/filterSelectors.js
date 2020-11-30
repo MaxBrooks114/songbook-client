@@ -46,6 +46,7 @@ export const getFilteredItems = (state, objectType)  => {
             case 'title':
             case 'artist':
             case 'album':
+            case 'genre':
             case 'name':
               return f[prop].toLowerCase().includes(filterProperties[prop].toLowerCase());
             case 'instrument':
