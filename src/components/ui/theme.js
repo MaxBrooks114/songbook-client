@@ -14,6 +14,10 @@ const vaporYellow = '#FFD416';
 const vaporNavy = '#001E29';
 const vaporLightNavy = '#085B7E';
 const vaporBlue = '#294C77';
+const backgroundBlue =  '#131D47'
+const logolightblue = '#9AECED' 
+const logopink = '#E592B5'  
+const logoblue = '#2C3B96'
 
 const theme = createMuiTheme({
   palette: {
@@ -32,14 +36,31 @@ const theme = createMuiTheme({
       navy: `${vaporNavy}`,
       lightNavy: vaporLightNavy,
       blue: vaporBlue,
+      backgroundBlue: backgroundBlue,
+      logolightblue,
+      logopink,
+      logoblue
     },
-    primary: { main: `${vaporLightNavy}` },
-    secondary: { main: `${vaporNeonBlue}` },
-    info: { main: '#560372' },
-    background: { default: `${vaporNavy}` },
+    primary: { main: `${logoblue}` },
+    secondary: { main: `${logolightblue}` },
+    info: { main: logopink },
+    background: { default: `${backgroundBlue}` },
   },
   typography: {
     fontFamily: 'Spartan',
+    tab: {
+      textTransform: 'none',
+      fontSize: "1rem",
+      fontWeight:700
+    }
   },
+    button: {
+      color: 'white',
+      background: `linear-gradient(90deg, ${logolightblue} 0%,  ${logopink} 150%)`,
+      '&:hover': {
+        background: logolightblue,
+        color: logopink,
+    }
+   }
 });
 export default theme;

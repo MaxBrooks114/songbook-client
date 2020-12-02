@@ -6,35 +6,40 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import logo_svg from '../../assets/logo_svg.svg'
 import {fetchUser} from '../../actions/auth'
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '2em',
+      marginBottom: '.65rem',
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em',
+      marginBottom: '.5rem',
     },
   },
 
   logo: {
     color: theme.palette.secondary.main,
-    marginLeft: 4,
+    marginLeft: 10,
     [theme.breakpoints.down('md')]: {
-      font: 2,
+      height:"3rem",
     },
+    height: "3.5rem"
   },
 
   tabContainer: {
@@ -42,9 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   tab: {
-    color: theme.palette.secondary.main,
+    ...theme.typography.tab,
+    color: '#f1f1f1',
     minWidth: 10,
     marginLeft: '25px',
+    
   },
 
   drawerIconContainer: {
@@ -57,6 +64,18 @@ const useStyles = makeStyles((theme) => ({
   drawerIcon: {
     height: '50px',
     width: '50px',
+  },
+
+  button: {
+    ...theme.button,
+    color: theme.palette.primary.main,
+    marginLeft: "50px",
+    marginRight: "25px",
+  },
+
+  listButton: {
+    ...theme.button,
+  
   },
 
   drawer: {
@@ -78,9 +97,37 @@ const useStyles = makeStyles((theme) => ({
 
   appBar: {
     background: theme.palette.primary.dark,
-    zIndex: theme.zIndex.modal + 1,
+    zIndex: theme.zIndex.modal + 1
   },
+
+  menu: {
+    backgroundColor: theme.palette.primary.dark,
+    color: "white",
+    zIndex: 1302
+  },
+
+  menuItem: {
+    ...theme.typography.tab,
+    zIndex: 1302
+    
+  }
 }));
+
+function ElevationScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
 
 const Navbar = () => {
   const classes = useStyles();
@@ -92,19 +139,45 @@ const Navbar = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
+  const [selectedIndex, setSelectedIndex] = useState(0)
+   const [anchorEl, setAnchorEl] = React.useState(null);
+   const [open, setOpen] = React.useState(false)
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpen(true)
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+      setOpen(false)
+    };
+
+    const handleMenuItemClick = (e, i) => {
+      setAnchorEl(null);
+      setOpen(false)
+      setSelectedIndex(i)
+
+    }
+  const menuOptions = user ? [
+    { name: 'Instruments', link: '/instruments', activeIndex: 0, selectedIndex: 0 },
+    { name: 'New Instrument', link: '/instruments/new', activeIndex: 0, selectedIndex: 1},
+    { name: 'Songs', link: '/songs', activeIndex: 1, selectedIndex: 2},
+    { name: 'New Song', link: '/songs/new', activeIndex: 1, selectedIndex: 3},
+    { name: 'Elements', link: '/elements', activeIndex: 2, selectedIndex: 4},
+    { name: 'New Element', link: '/elements/new', activeIndex: 2, selectedIndex: 5},
+    { name: user.username, link: `/users/${user.id}`, activeIndex: 3, selectedIndex: 6},
+    { name: 'Log out', link: '/logout', activeIndex: 3, selectedIndex: 7},
+  ] : []
 
   let authRoutes = user ?
-
+  
   [
     { name: 'Instruments', link: '/instruments', activeIndex: 0 },
-    { name: 'New Instrument', link: '/instruments/new', activeIndex: 1 },
-    { name: 'Songs', link: '/songs', activeIndex: 2 },
-    { name: 'New Song', link: '/songs/new', activeIndex: 3 },
-    { name: 'Elements', link: '/elements', activeIndex: 4 },
-    { name: 'New Element', link: '/elements/new', activeIndex: 5 },
-    { name: 'Spotify Search', link: '/search', activeIndex: 6 },
-    { name: user.username, link: `/users/${user.id}`, activeIndex: 7},
-    { name: 'Log out', link: '/logout', activeIndex: 8},
+    { name: 'Songs', link: '/songs', activeIndex: 1 },
+    { name: 'Elements', link: '/elements', activeIndex: 2 },
+    { name: user.username, link: `/users/${user.id}`, activeIndex: 3},
+    {name: 'Spotify Search', link: '/search', activeIndex: 4, component: 'button'}
   ] : null 
 
   const guestRoutes = [
@@ -115,18 +188,21 @@ const Navbar = () => {
   let routes = isAuthenticated && user ? authRoutes : guestRoutes;
 
   useEffect(() => {
-    routes.forEach((route) => {
+    [...menuOptions, ...routes].forEach((route) => {
       switch (window.location.pathname) {
         case `${route.link}`:
           if (value !== route.activeIndex) {
             setValue(route.activeIndex);
+            if (route.selectedIndex && route.selectedIndex !== selectedIndex){
+              setSelectedIndex(route.selectedIndex)
+            }
           }
           break;
         default:
           break;
       }
     });
-  }, [value, routes]);
+  }, [value, menuOptions, selectedIndex, routes]);
 
   const tabs = (
     <>
@@ -136,9 +212,20 @@ const Navbar = () => {
         onChange={(e, value) => setValue(value)}
         indicatorColor="secondary"
       >
-        {routes.map((route, index) => (
-          <Tab
-            key={`${route}${index}`}
+        {routes.map((route) => (
+          route.component ? 
+          <Button variant="contained" key={`${route.name}${route.activeIndex}`}
+            className={classes.button}
+            component={RouterLink}
+            onClick={(e, value) => setValue(value)}
+            to={route.link}
+            label={route.name}>{route.name}</Button>
+          : <Tab
+            tabIndex={route.activeIndex}
+            aria-owns={anchorEl ? "simple-menu" : undefined}
+            aria-haspopup={anchorEl ? "true" : undefined}
+            onMouseOver={e => handleClick(e)}
+            key={`${route.name}${route.activeIndex}`}
             className={classes.tab}
             component={RouterLink}
             to={route.link}
@@ -161,9 +248,14 @@ const Navbar = () => {
       >
         <div className={classes.toolbarMargin} />
         <List disablePadding>
-          {routes.map((route) => (
+          {menuOptions.map((route) => (
+            route.component ? <Button styles={{marginLeft: 0}} variant="contained" key={`${route.name}${route.activeIndex}`}
+            className={classes.listButton}
+            component={RouterLink}
+            to={route.link}
+            label={route.name}>{route.name}</Button> :
             <ListItem
-              key={`${route}${route.activeIndex}`}
+              key={`${route.name}${route.activeIndex}`}
               onClick={() => {
                 setOpenDrawer(false);
                 setValue(route.activeIndex);
@@ -189,15 +281,32 @@ const Navbar = () => {
   );
   return (
     <>
+     <ElevationScroll>
       <AppBar className={classes.appBar} position="fixed" elevation={0}>
+       
         <Toolbar disableGutters>
-          <Typography variant="h6" className={classes.logo}>
-            SongBook
-          </Typography>
+           <Button component={RouterLink} to="/songs" onClick={e=> setValue(2)} >
+              <img alt="logo" src={logo_svg} variant="h6" className={classes.logo}/>
+            </Button>
           {matches ? drawer : tabs}
+          <Menu elevation={0} style={{zIndex: 1302}} classes={{paper: classes.menu}} MenuListProps={{onMouseLeave: handleClose}} id="simple-menu" anchorEl={anchorEl} transformOrigin={{ vertical: 'top', horizontal: 'center', }} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={open} onClose={handleClose}>
+            {menuOptions && anchorEl ? menuOptions.filter(option => option.activeIndex === anchorEl.tabIndex ).map((option, i) => (
+              <MenuItem 
+                key={option.name}
+                classes={{paper: classes.menuItem}} 
+                onClick={(e, i) => { handleMenuItemClick(e, i); setValue(option.activeIndex); handleClose()}}
+                selected={i === selectedIndex && value === option.activeIndex}
+                component={RouterLink} 
+                to={option.link}>
+                {option.name}
+              </MenuItem>
+            )) : null}
+          </Menu>
         </Toolbar>
       </AppBar>
+    </ElevationScroll>
       <div className={classes.toolbarMargin} />
+
     </>
   );
 };
