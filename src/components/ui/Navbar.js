@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '.65rem',
+      marginBottom: '.7rem',
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '.5rem',
+      marginBottom: '.7rem',
     },
   },
 
@@ -48,10 +48,11 @@ const useStyles = makeStyles((theme) => ({
 
   tab: {
     ...theme.typography.tab,
-    color: '#f1f1f1',
+    color: "white",
     minWidth: 10,
     marginLeft: '25px',
-    
+    opacity: 1,
+    alignText: 'left'
   },
 
   drawerIconContainer: {
@@ -71,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     marginLeft: "50px",
     marginRight: "25px",
+    marginBottom: ".2rem"
   },
 
   listButton: {
@@ -103,13 +105,14 @@ const useStyles = makeStyles((theme) => ({
   menu: {
     backgroundColor: theme.palette.primary.dark,
     color: "white",
-    zIndex: 1302
+
   },
 
   menuItem: {
     ...theme.typography.tab,
-    zIndex: 1302
-    
+    '& .MuiMenuItem-root': {
+      justifyContent: 'center',
+    }
   }
 }));
 
@@ -210,7 +213,7 @@ const Navbar = () => {
         className={classes.tabContainer}
         value={value}
         onChange={(e, value) => setValue(value)}
-        indicatorColor="secondary"
+        indicatorColor={value > 3 ? "primary" : "secondary"}
       >
         {routes.map((route) => (
           route.component ? 
@@ -289,11 +292,23 @@ const Navbar = () => {
               <img alt="logo" src={logo_svg} variant="h6" className={classes.logo}/>
             </Button>
           {matches ? drawer : tabs}
-          <Menu elevation={0} style={{zIndex: 1302}} classes={{paper: classes.menu}} MenuListProps={{onMouseLeave: handleClose}} id="simple-menu" anchorEl={anchorEl} transformOrigin={{ vertical: 'top', horizontal: 'center', }} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={open} onClose={handleClose}>
+          <Menu 
+            elevation={0} 
+            style={{zIndex: 1302}} 
+            classes={{paper: classes.menu}} 
+            MenuListProps={{onMouseLeave: handleClose}} 
+            id="simple-menu" 
+            anchorEl={anchorEl} 
+            getContentAnchorEl={null}
+            transformOrigin={{ vertical: 'top', horizontal: 'center', }} 
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+            open={open} 
+            onClose={handleClose}>
             {menuOptions && anchorEl ? menuOptions.filter(option => option.activeIndex === anchorEl.tabIndex ).map((option, i) => (
               <MenuItem 
                 key={option.name}
                 classes={{paper: classes.menuItem}} 
+                style={{justifyContent: "center"}}
                 onClick={(e, i) => { handleMenuItemClick(e, i); setValue(option.activeIndex); handleClose()}}
                 selected={i === selectedIndex && value === option.activeIndex}
                 component={RouterLink} 
