@@ -17,16 +17,16 @@ const useStyles = makeStyles((theme) => ({
 
   button: {
     color: 'white',
-    background: 'linear-gradient(90deg, rgba(8,199,251,1) 0%,  rgb(254,123,235, 1) 150%)',
+    background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
     width: '100%',
     '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
+      background: theme.palette.secondary.main,
+      color: theme.palette.info.main,
     },
   },
 
   label: {
-    color: '#D31DEA',
+    color: theme.palette.info.main,
   },
 }));
 
@@ -47,7 +47,7 @@ const SpotifySearchBar = () => {
         >
           <Grid item>
             <TextField
-              label="Spotify Song Search"
+              label="Artist, Song, Album..."
               size="small"
               color="secondary"
               variant="outlined"

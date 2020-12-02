@@ -11,6 +11,22 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: 'white',
+    height: "6500px",
+
+    [theme.breakpoints.down('lg')]: {
+        height: "7500px"
+    },
+
+    [theme.breakpoints.down('md')]: {
+        height: "8500px"
+    },
+
+    [theme.breakpoints.down('sm')]: {
+        height: "12000px"
+    },
+    [theme.breakpoints.down('xs')]: {
+        height: "23000px"
+    }
   },
 
   toolbarMargin: {
@@ -35,10 +51,10 @@ const SpotifySearch = ({ fetchSpotifyTracks }) => {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
       <CssBaseline />
-      <Container maxWidth="sm" className={classes.root}>
+      <Container  >
         <Typography component="h1" variant="h2" align="center" gutterBottom>
           Spotify Search
         </Typography>
@@ -46,8 +62,8 @@ const SpotifySearch = ({ fetchSpotifyTracks }) => {
           Search a song, learn a song.
         </Typography>
         <SpotifySearchBar />
-      </Container>
       {renderTracklist()}
+      </Container>
     </div>
   );
 };

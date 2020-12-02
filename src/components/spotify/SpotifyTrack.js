@@ -12,7 +12,7 @@ import { importSpotifyTrack } from '../../actions/spotify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: '#294C77',
+    background: theme.palette.primary.main,
     color: 'black',
     height: '100%',
     display: 'flex',
@@ -22,28 +22,30 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 200,
     width: '100%',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    objectFit: "cover"
   },
   title: {
-    color: theme.palette.primary.main,
+    
   },
 
   button: {
-    background: 'linear-gradient(90deg, rgba(8,199,251,1) 0%,  rgb(254,123,235, 1) 150%)',
+    color: 'white',
+    background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
+    width: '100%',
     '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.dark,
     },
   },
 
   cardContent: {
     flexGrow: 1,
-    color: 'black',
+    color: 'white',
   },
 
   trackTitle: {
     fontWeight: 'bold',
+    color: 'white',
   },
 }));
 
@@ -63,7 +65,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
           <Typography className={classes.trackTitle} gutterBottom variant="h5">
             {track.name}
           </Typography>
-          <Typography className>{track.artists[0].name}</Typography>
+          <Typography >{track.artists[0].name}</Typography>
           <Typography>
             {track.album.name}, {track.album.release_date}
           </Typography>

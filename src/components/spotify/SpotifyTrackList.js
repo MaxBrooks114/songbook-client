@@ -5,6 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
+
+ 
+
   cardGrid: {
     paddingTop: theme.spacing(5),
     paddingBottom: theme.spacing(4),
@@ -25,11 +28,12 @@ const SpotifyTrackList = ({ tracks }) => {
   });
 
   return (
-    <Container className={classes.cardGrid} maxWidth="lg">
-      <Grid container spacing={6}>
+
+    <div className={classes.root}>
+      <Grid container className={classes.cardGrid} spacing={6}>
         {renderedList}
       </Grid>
-    </Container>
+    </div>
   );
 };
 
