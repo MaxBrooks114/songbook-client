@@ -4,11 +4,14 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
+    marginTop: theme.spacing(1)
   },
-});
+
+
+}));
 
  const RangedSlider = ({min, max, label, marks, valueLabelDisplay, valueLabelFormat, onChange, ...other}) => {
   const classes = useStyles();
@@ -18,10 +21,10 @@ const useStyles = makeStyles({
     onChange(newValue)
   };
   return (
-    <>
+    <div className={classes.root}>
      <Typography id="range-slider" gutterBottom>{label}</Typography>
       <Slider
-        className={classes.root}
+        className={classes.slider}
         value={value}
         {...other}
         onChange={handleChange}
@@ -32,10 +35,8 @@ const useStyles = makeStyles({
         marks={marks}
         defaultValue={[min, max]}
         aria-labelledby="range-slider"
-        
-   
       />
-    </>
+    </div>
   );
 }
 
