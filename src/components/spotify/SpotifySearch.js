@@ -5,33 +5,19 @@ import SpotifyTrackList from './SpotifyTrackList';
 import { fetchSpotifyTracks } from '../../actions/spotify';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     color: 'white',
-    height: "6500px",
-
-    [theme.breakpoints.down('lg')]: {
-        height: "7500px"
-    },
-
-    [theme.breakpoints.down('md')]: {
-        height: "8500px"
-    },
-
-    [theme.breakpoints.down('sm')]: {
-        height: "12000px"
-    },
-    [theme.breakpoints.down('xs')]: {
-        height: "23000px"
-    }
+    minHeight: '100vh',
+  
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -39,9 +25,15 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '1.25em',
     },
   },
+
+   cardGrid: {
+    marginBottom: theme.spacing(8),
+  },
+
+
 }));
 
-const SpotifySearch = ({ fetchSpotifyTracks }) => {
+const SpotifySearch = () => {
   const classes = useStyles();
 
   const tracks = useSelector((state) => state.spotifyTracks);
@@ -53,17 +45,26 @@ const SpotifySearch = ({ fetchSpotifyTracks }) => {
   return (
     <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
+
       <CssBaseline />
-      <Container  >
+      <Grid container justify="center" className={classes.cardGrid} >
+        <Grid item  xs={12}>
         <Typography component="h1" variant="h2" align="center" gutterBottom>
           Spotify Search
         </Typography>
+      </Grid>
+      <Grid item xs={12}>
         <Typography variant="h5" align="center" paragraph>
           Search a song, learn a song.
         </Typography>
+      </Grid>
+      <Grid item  xs={12}>
         <SpotifySearchBar />
+      </Grid>
+      <Grid item xs={10} >
       {renderTracklist()}
-      </Container>
+      </Grid>
+      </Grid>
     </div>
   );
 };

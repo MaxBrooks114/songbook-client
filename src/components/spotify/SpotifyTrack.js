@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 200,
+    objectFit: "fill",
     width: '100%',
-    objectFit: "cover"
   },
   title: {
     
   },
 
   button: {
-    color: 'white',
+    color: theme.palette.primary.dark,
     background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
     width: '100%',
     '&:hover': {
@@ -57,10 +57,10 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card className={classes.root}>
         <CardMedia
-          className={classes.media}
-          title={track.album.name}
-          image={track.album.images.length > 0 ? track.album.images[0].url : null}
-        />
+          
+          // title={track.album.name}
+          // pic={track.album.images.length > 0 ? track.album.images[0].url : null}
+        ><img className={classes.media} alt={track.album.name} src={track.album.images.length > 0 ? track.album.images[0].url : null}/></CardMedia>
         <CardContent className={classes.cardContent}>
           <Typography className={classes.trackTitle} gutterBottom variant="h5">
             {track.name}
