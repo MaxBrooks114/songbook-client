@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     ...theme.button,
     color: theme.palette.primary.main,
-    marginLeft: "50px",
+    marginLeft: "35px",
     marginRight: "25px",
     marginBottom: ".2rem"
   },
