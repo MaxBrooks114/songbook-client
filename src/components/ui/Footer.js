@@ -1,16 +1,17 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+
 import footer_logo from '../../assets/footer_logo.png'
 
 const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: theme.palette.primary.dark,
     width: '100%',
-    position: 'relative',
-    marginTop: 'calc(5% + 60px)',
+    position: 'absolute',
+    marginTop:"calc(5% +60px)",
     bottom: 0,
-    color: "white"
-    
+    color: "white",
+    zIndex: theme.zIndex.modal+1
   
   },
 
