@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as workerTimers from 'worker-timers';
 import { fetchElement } from '../../actions/elements';
@@ -12,12 +12,28 @@ import ElementDetail from './ElementDetail';
 import FilterControl from '../FilterControl';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
-    height: '90vh',
-    paddingBottom: theme.spacing(4),
-    marginBottom: theme.spacing(4),
+    
+    marginBottom: theme.spacing(8),
+  },
+
+   toolbarMargin: {
+    ...theme.mixins.toolbar,
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '.7rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '1rem',
+    },
   },
 
   list: {
@@ -26,10 +42,33 @@ const useStyles = makeStyles((theme) => ({
   },
 
   filter: {
-    marginRight: 14,
-    marginLeft: 14,
+ 
     background: theme.palette.primary.light,
     borderRadius: '0 0 8px 8px',
+  },
+
+   drawer: {
+    background: theme.palette.primary.dark,
+    color: theme.palette.secondary.main,
+   
+    width: '80%',
+    margin: 'auto',
+    marginBottom: 'theme.spacing(6)',
+    height: '80%',
+    
+   }, 
+
+   drawerIconContainer: {
+    backgroundColor: theme.palette.primary.light,
+    height: '32px',
+    width: '32px',
+    marginLeft: 0,
+    position: 'fixed',
+    right: 0,
+  
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -43,6 +82,11 @@ const ElementList = ({ match }) => {
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
 
   const dispatch = useDispatch();
+  const theme = useTheme();
+
+  const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const [openDrawer, setOpenDrawer] = useState(false);
   
 
   useEffect(() => {
@@ -71,7 +115,7 @@ const ElementList = ({ match }) => {
           .map((element) => {
             transitionDuration += 50;
             return (
-              <ListItem key={element.id} dense>
+              <ListItem key={element.id} disableGutters dense>
                 <ElementCard element={element} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             );
@@ -83,20 +127,48 @@ const ElementList = ({ match }) => {
     return element ? <ElementDetail  element={element} /> : null;
   };
 
-  return (
-    <Grid container className={classes.cardGrid}>
-      <Grid item xs={12} className={classes.filter}>
-        {renderFilter()}
-      </Grid>
-      <Grid item xs={4} className={classes.list}>
+  const drawer = (
+    <>
+      <SwipeableDrawer
+        classes={{ paper: classes.drawer }}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        anchor="bottom"
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+      >
         <List>{renderedList}</List>
-      </Grid>
-      <Grid item xs={1}></Grid>
-      <Grid item xs={6} className={classes.list}>
-        {renderDetail()}
-      </Grid>
-      <Grid item xs={1}></Grid>
-    </Grid>
+      </SwipeableDrawer>
+      <IconButton  className={classes.drawerIconContainer}>
+        <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+      </IconButton>
+    </>
+  );
+
+  return (
+    <div className={classes.root}>
+     
+        <Grid container justify="center" >
+          <Grid item xs={10} className={classes.filter}>
+            {renderFilter()}
+          </Grid>
+          <Grid item xs={10}>
+            <Grid container justify='space-between' className={classes.cardGrid}>
+              {!matches ? <Grid item xs={3} md={3} lg={3} className={classes.list}>
+                <Box style={{maxHeight: '100vh', overflow: 'auto'}}>
+                  <List>{renderedList}</List>
+                </Box>
+              </Grid> : drawer}
+            
+            <Grid item lg={1} md={1} sm={0} xs={0}/>
+            <Grid item xs={12} sm={8} lg={8} className={classes.list}>
+              {renderDetail()}
+            </Grid>
+          </Grid>
+        </Grid>
+        </Grid>
+    </div>
   );
 };
 

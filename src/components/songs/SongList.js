@@ -17,7 +17,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { checkIfPlaying } from '../../actions/spotify';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +83,7 @@ const SongList = ({ match }) => {
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -163,8 +162,8 @@ const SongList = ({ match }) => {
             <List>{renderedList()}</List>
           </Box>
         </Grid> : drawer}
-        <Grid item lg={1} md={0} sm={0} xs={0}/>
-        <Grid item xs={10} lg={6} className={classes.list}>
+        <Grid item lg={1} md={1} sm={0} xs={0}/>
+        <Grid item xs={10} md={6} lg={6} className={classes.list}>
           {renderDetail()}
         </Grid>
     

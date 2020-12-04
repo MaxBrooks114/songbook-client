@@ -26,9 +26,9 @@ import {fetchUser} from '../../actions/auth'
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '.7rem',
-    },
+    // [theme.breakpoints.down('md')]: {
+    //   marginBottom: '.7rem',
+    // },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '.7rem',
     },
@@ -140,7 +140,7 @@ const Navbar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const dispatch = useDispatch()
   const [openDrawer, setOpenDrawer] = useState(false);

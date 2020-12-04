@@ -58,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiAccordionSummary-root': {
       justifyContent: 'flex-end'
     },
-    
-    '& .MuiGrid-item': {
-      [theme.breakpoints.down('md')]: {
-        marginLeft: '0px !important'
+     '& .MuiGrid-item': {
+    //   [theme.breakpoints.down('md')]: {
+    //     marginLeft: '0px !important'
 
-    },
+    // },
+   
 
     [theme.breakpoints.down('xs')]: {
       marginLeft: '0px !important'
@@ -106,11 +106,11 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.dark,
     },
     
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-      marginBottom: '1em',
+    // [theme.breakpoints.down('md')]: {
+    //   width: '100%',
+    //   marginBottom: '1em',
 
-    },
+    // },
 
     [theme.breakpoints.down('xs')]: {
       width: '100%',
@@ -128,10 +128,10 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.dark,
     },
 
-     [theme.breakpoints.down('md')]: {
-      width: '100%',
-      marginBottom: '1em',
-    },
+    //  [theme.breakpoints.down('md')]: {
+    //   width: '100%',
+    //   marginBottom: '1em',
+    // },
 
      [theme.breakpoints.down('xs')]: {
       marginBottom: '1em',
@@ -402,8 +402,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
         </Accordion>
          </Grid>
           <Grid item lg ={12}>
-          <Grid container alignItems="center"  justify="flex-end"  >
-            <Grid item lg={2} xs={12}>
+          <Grid container alignItems="center"  justify="center"  >
+            <Grid item lg={2} sm={3} xs={12}>
                   <Field classes={classes} 
                       name="sort" 
                       options={itemProps.map(prop => prop)}
@@ -413,7 +413,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                       label="Sort" 
                       />
             </Grid>
-            <Grid item style={{marginLeft: '1.5rem'}} lg={2} xs={12}>
+            <Grid item style={{marginLeft: '1.5rem'}} lg={2} sm={3} xs={12}>
                   <Field classes={classes} 
                         name="order" 
                         options={["Ascending", "Descending"]}
@@ -421,12 +421,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                         label="Order" 
                         />
             </Grid>
-            <Grid style={{marginLeft: '.8rem'}} item lg={1} xs={12}>
+            <Grid style={{marginLeft: '.8rem'}} item lg={1} sm={2} xs={12}>
                   <Button className={classes.button} type="submit" variant="contained">
                     {refine ? "Filter" : "Sort"}
                   </Button>
             </Grid>
-            <Grid item lg={1} xs={12}>
+            <Grid item lg={1} sm={1} xs={12}>
                   <Button className={classes.deleteButton} onClick={e => {
                     dispatch(clearFilter(objectType))
                     dispatch(reset('FilterForm'))
