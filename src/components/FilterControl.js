@@ -59,10 +59,7 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'flex-end'
     },
      '& .MuiGrid-item': {
-    //   [theme.breakpoints.down('md')]: {
-    //     marginLeft: '0px !important'
-
-    // },
+ 
    
 
     [theme.breakpoints.down('xs')]: {
@@ -106,11 +103,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.dark,
     },
     
-    // [theme.breakpoints.down('md')]: {
-    //   width: '100%',
-    //   marginBottom: '1em',
-
-    // },
+ 
 
     [theme.breakpoints.down('xs')]: {
       width: '100%',
@@ -128,10 +121,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.dark,
     },
 
-    //  [theme.breakpoints.down('md')]: {
-    //   width: '100%',
-    //   marginBottom: '1em',
-    // },
+  
 
      [theme.breakpoints.down('xs')]: {
       marginBottom: '1em',
@@ -150,8 +140,7 @@ const useStyles = makeStyles((theme) => ({
 const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) => {
     const dispatch = useDispatch();
     const filterForm = useSelector(state => state.form.FilterForm)
-    const initialValues = useSelector(state => state.filter)
-    const [refine, setRefine] = useState(false)
+    const filterValues = useSelector(state => state.filter)
     const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'elements', 'instruments', 'lyrics']
     const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k))
    
@@ -160,24 +149,24 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     useEffect(() => {
     
 
-      if (!initialValues.filter && filterForm && !filterForm.values) {
-        dispatch(initialize('FilterForm', initialValues))
+      if (!filterValues.filter && filterForm && !filterForm.values) {
+        dispatch(initialize('FilterForm', filterValues))
      
       }
 
-      if(!initialValues.filter){
-        initialValues.duration = [0,  Math.max(...items.map((item) => parseInt((item.duration))+1))] 
+      if(!filterValues.filter){
+        filterValues.duration = [0,  Math.max(...items.map((item) => parseInt((item.duration))+1))] 
 
-        initialValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
+        filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
       }
       
         
-      if (!initialValues.year.length && objectType === 'songs'){
-        initialValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
+      if (!filterValues.year.length && objectType === 'songs'){
+        filterValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
       }
 
-      if(!initialValues.sort && !initialValues.filter){
-        initialValues.sort = objectType === 'songs' ? 'artist' : 'song'
+      if(!filterValues.sort && !filterValues.filter){
+        filterValues.sort = objectType === 'songs' ? 'artist' : 'song'
       }
 
       
@@ -315,7 +304,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
        <Grid item xs={12}>
       <Accordion className={classes.accordion}>
        
-            <AccordionSummary  classes={classes}  onClick={() => setRefine(!refine)} expandIcon={<ExpandMoreIcon  />} aria-controls="panel1a-content" id="panel1a-header">
+            <AccordionSummary  classes={classes}  expandIcon={<ExpandMoreIcon  />} aria-controls="panel1a-content" id="panel1a-header">
                           <Typography >Refine</Typography>
             </AccordionSummary>
          
@@ -423,7 +412,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
             </Grid>
             <Grid style={{marginLeft: '.8rem'}} item lg={1} sm={2} xs={12}>
                   <Button className={classes.button} type="submit" variant="contained">
-                    {refine ? "Filter" : "Sort"}
+                    {filterForm && !_.isEqual(_.omit(filterForm.initial, ['sort', 'order']),  _.omit(filterForm.values, ['sort', 'order'])) ? "Filter" : "Sort"}
                   </Button>
             </Grid>
             <Grid item lg={1} sm={1} xs={12}>
