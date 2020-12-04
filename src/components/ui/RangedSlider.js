@@ -7,7 +7,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    [theme.breakpoints.down('xs')]: {
+      width: 200
+  
+    },
   },
 
 

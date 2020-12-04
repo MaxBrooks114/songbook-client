@@ -18,7 +18,6 @@ import ElementCreate from './elements/ElementCreate';
 import ElementEdit from './elements/ElementEdit';
 import ElementList from './elements/ElementList';
 import SuccessSnackBar from './ui/SuccessSnackBar';
-import Progressbar from './ui/Progressbar';
 import Navbar from './ui/Navbar';
 import Footer from './ui/Footer';
 import { fetchUser } from '../actions/auth';
@@ -57,9 +56,8 @@ const App = () => {
       <CssBaseline />
       <SuccessSnackBar />
       <Router history={history}>
-        <div>
+        <div style={{minHeight: '100vh'}}>
           <Navbar />
-          <Progressbar />
           <MuiThemeProvider>
             <Switch>
               <Route path="/register" exact component={Register} />
@@ -84,11 +82,15 @@ const App = () => {
               <PrivateRoute exact path="/instruments" component={InstrumentList} />
               <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
             </Switch>
+            
           </MuiThemeProvider>
+          <Footer />
         </div>
-        <Footer />
+        
       </Router>
+      
     </ThemeProvider>
+
   );
 };
 

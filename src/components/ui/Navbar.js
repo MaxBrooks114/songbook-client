@@ -20,6 +20,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import logo_svg from '../../assets/logo_svg.svg'
+import Progressbar from './Progressbar'
 import {fetchUser} from '../../actions/auth'
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +84,9 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     background: theme.palette.primary.dark,
     color: theme.palette.secondary.main,
+    '& .PrivateSwipeArea-anchorLeft-24': {
+      width: '0px !important'
+    }
   },
 
   drawerItem: {
@@ -162,7 +166,7 @@ const Navbar = () => {
       setSelectedIndex(i)
 
     }
-  const menuOptions = user ? [
+   const menuOptions = user ? [
     { name: 'Instruments', link: '/instruments', activeIndex: 0, selectedIndex: 0 },
     { name: 'New Instrument', link: '/instruments/new', activeIndex: 0, selectedIndex: 1},
     { name: 'Songs', link: '/songs', activeIndex: 1, selectedIndex: 2},
@@ -171,7 +175,10 @@ const Navbar = () => {
     { name: 'New Element', link: '/elements/new', activeIndex: 2, selectedIndex: 5},
     { name: user.username, link: `/users/${user.id}`, activeIndex: 3, selectedIndex: 6},
     { name: 'Log out', link: '/logout', activeIndex: 3, selectedIndex: 7},
-  ] : []
+  ] : [
+    { name: 'Register', link: '/register', activeIndex: 0 },
+    { name: 'Log In', link: '/login', activeIndex: 1 },
+  ];
 
   let authRoutes = user ?
   
@@ -292,7 +299,7 @@ const Navbar = () => {
               <img alt="logo" src={logo_svg} variant="h6" className={classes.logo}/>
             </Button>
           {matches ? drawer : tabs}
-          <Menu 
+         {user ?  <Menu 
             elevation={0} 
             style={{zIndex: 1302}} 
             classes={{paper: classes.menu}} 
@@ -316,13 +323,18 @@ const Navbar = () => {
                 {option.name}
               </MenuItem>
             )) : null}
-          </Menu>
+          </Menu> : null}
+          
         </Toolbar>
+        
       </AppBar>
-    </ElevationScroll>
-      <div className={classes.toolbarMargin} />
-
+      </ElevationScroll>
+    
+       <Progressbar />
+      <div className={classes.toolbarMargin} />  
+      
     </>
+
   );
 };
 

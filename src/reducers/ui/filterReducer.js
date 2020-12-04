@@ -25,7 +25,7 @@ const initialState = {
   learned: '',
   filter: false,
   sort: '',
-  order: 'ASC'
+  order: 'Ascending'
 };
 
 export default (state = initialState, action) => {
