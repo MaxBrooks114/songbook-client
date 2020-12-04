@@ -312,11 +312,13 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
             onSubmit={handleSubmit(onFormSubmit)}
             >
     <Grid container align="center"  justify="space-around" alignItems="center" >
+       <Grid item xs={12}>
       <Accordion className={classes.accordion}>
+       
             <AccordionSummary  classes={classes}  onClick={() => setRefine(!refine)} expandIcon={<ExpandMoreIcon  />} aria-controls="panel1a-content" id="panel1a-header">
                           <Typography >Refine</Typography>
             </AccordionSummary>
-        
+         
           <Grid container align="center"  justify="space-around" alignItems="center" >
               {renderTextFields()}
               {renderStringFields()}
@@ -359,7 +361,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 />}
           </Grid>
           <Grid container  justify="center" align="center" alignItems="center">
-          <Grid item lg={4} md={6} xs={12}>
+          <Grid item lg={4} md={6} xs={10}>
               <Field 
                 classes={classes} 
                 min={0}
@@ -372,7 +374,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 />
               </Grid>
               {renderYearField()}
-            <Grid item lg={4} xs={12} >
+            <Grid item lg={4} xs={10} >
               <Field classes={classes} 
                     min={Math.min(...items.filter(item => item.tempo !== '').map((item) => parseInt(item.tempo)))}
                     max={Math.max(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)+1))} 
@@ -398,6 +400,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           </Grid> : null}
           </Grid>
         </Accordion>
+         </Grid>
           <Grid item lg ={12}>
           <Grid container alignItems="center"  justify="flex-end"  >
             <Grid item lg={2} xs={12}>
