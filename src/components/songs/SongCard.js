@@ -10,17 +10,26 @@ const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.light,
     display: 'flex',
-    width: '100%',
+    width: '97%',
     height: 'auto',
     boxShadow: theme.shadows[24],
     '&:hover': {
       cursor: 'pointer',
     },
     color: '#FFF',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+  
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%'
+  
+    },
   },
   media: {
     width: 85,
-    backgroundSize: 'cover',
+    objectFit: 'cover',
+    
   },
 }));
 
@@ -36,8 +45,8 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
         />
 
         <CardContent className={classes.cardContent}>
-          <Typography variant="subtitle1">{song.title}</Typography>
-          <Typography variant="subtitle1">{song.artist}</Typography>
+          <Typography variant="subtitle2">{song.title}</Typography>
+          <Typography variant="subtitle2">{song.artist}</Typography>
         </CardContent>
       </Card>
     </Slide>
