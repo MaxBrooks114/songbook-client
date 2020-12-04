@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
    button: {
-    color: 'white',
+    color: theme.palette.primary.dark,
     background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
     
     '&:hover': {
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
    deleteButton: {
-    color: 'white',
+    color: theme.palette.primary.dark,
     background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
     '&:hover': {
       background: theme.palette.common.red,
@@ -214,7 +214,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
         return (
            <Grid item  lg={3} md={6} xs={12}>
               <Field
-                  options={_.uniq(songs.map((song) => titleCase(song[field])))}
+                  options={_.uniq(songs.map((song) => song[field]))}
                   classes={classes}
                   name={field}
                   fullWidth= {false}
