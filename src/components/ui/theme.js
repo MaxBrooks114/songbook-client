@@ -61,6 +61,11 @@ const theme = createMuiTheme({
         background: logolightblue,
         color: logopink,
     }
-   }
+   },
+
+   divider: {
+    background: logolightblue,
+  
+  },
 });
 export default theme;
