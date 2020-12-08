@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
 import {clearFilter} from '../../actions/filter'
@@ -17,6 +17,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { checkIfPlaying } from '../../actions/spotify';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
+import useHeight from '../../hooks/useHeight'
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,9 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-    height: '100%',
     overflow: 'scroll',
   },
+
+  detail: {
+     height: '100%',
+  },
+
 
   filter: {
 
@@ -85,10 +90,10 @@ const SongList = ({ match }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-
   const [openDrawer, setOpenDrawer] = useState(false);
-
-
+  const elementDOM = useRef(null);
+  const [height] = useHeight(elementDOM);
+  const [listHeight, setListHeight] = useState(height)
 
   const dispatch = useDispatch();
 
@@ -110,6 +115,11 @@ const SongList = ({ match }) => {
    
   }, [accessToken, refreshToken, dispatch])
 
+
+  useLayoutEffect(() => {
+      setListHeight(height)
+  }, [height])
+
   const renderFilter = () => {
     return Object.values(songs).length > 0 ? <FilterControl items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
   }
@@ -126,7 +136,7 @@ const SongList = ({ match }) => {
       : null;
     }
   const renderDetail = () => {
-    return song ? <SongDetail song={song} /> : null;
+    return song ? <SongDetail  song={song} /> : null;
   };
 
   const drawer = (
@@ -157,13 +167,11 @@ const SongList = ({ match }) => {
           </Grid>
         </Grid>
         <Grid container justify='center' className={classes.cardGrid}>
-        {!matches ? <Grid item xs={3} md={3} lg={3} className={classes.list}>
-          <Box style={{maxHeight: '100vh', overflow: 'auto'}}>
-            <List>{renderedList()}</List>
-          </Box>
+        {!matches ? <Grid item xs={3} md={3} lg={3}  className={classes.list}>
+            <List style={{height: listHeight}}>{renderedList()}</List>  
         </Grid> : drawer}
         <Grid item lg={1} md={1} sm={0} xs={0}/>
-        <Grid item xs={10} md={6} lg={6} className={classes.list}>
+        <Grid item xs={10} md={6} lg={6}  ref={elementDOM} className={classes.detail}>
           {renderDetail()}
         </Grid>
     

@@ -175,7 +175,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SongDetail = ({ song }) => {
+const SongDetail = ({ song, forwardedRef }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
