@@ -168,7 +168,7 @@ const SongList = ({ match }) => {
         </Grid>
         <Grid container justify='center' className={classes.cardGrid}>
         {!matches ? <Grid item xs={3} md={3} lg={3}  className={classes.list}>
-            <List style={{height: listHeight}}>{renderedList()}</List>  
+            <List style={{minHeight: '100vh', height: listHeight}}>{renderedList()}</List>  
         </Grid> : drawer}
         <Grid item lg={1} md={1} sm={0} xs={0}/>
         <Grid item xs={10} md={6} lg={6}  ref={elementDOM} className={classes.detail}>
