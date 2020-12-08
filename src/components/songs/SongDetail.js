@@ -419,17 +419,17 @@ const SongDetail = ({ song, forwardedRef }) => {
                       keepMounted
                       open={popped}
                       onClose={handleMenuClose}
-                      classes={{paper: classes.menu}} 
+                      classes={{paper: classes.menu}}
 
                     >
                       
                         <MenuItem             
-                            classes={{paper: classes.menu}} 
+                            className={classes.menu}
                             onClick={handleMenuClose}>
                            <Link className={classes.link} to={`edit/${song.id}`}>Edit</Link>
                         </MenuItem>
                         <MenuItem 
-                            classes={{paper: classes.menu}} 
+                            className={classes.menu}
                             onClick={() => {handleMenuClose(); handleClickOpen();  }}>
                            Delete
                         </MenuItem>
