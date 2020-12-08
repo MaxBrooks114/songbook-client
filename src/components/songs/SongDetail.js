@@ -27,6 +27,8 @@ import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRo
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,8 +47,20 @@ const useStyles = makeStyles((theme) => ({
 
   media: {
     marginBottom: theme.spacing(2),
-    objectFit: 'stretch',
-    borderRadius: '25px'
+    objectFit: 'fill',
+    borderRadius: '25px',
+     [theme.breakpoints.down('md')]: {
+          height: '520px',
+          width: '520px',
+    },
+     [theme.breakpoints.down('sm')]: {
+        height: '360px',
+        width: '360px'
+    },
+     [theme.breakpoints.down('xs')]: {
+        height: 'auto',
+        width: 'auto'
+    },
   },
 
   details: {
@@ -102,6 +116,7 @@ const useStyles = makeStyles((theme) => ({
       },
 
     },
+
   divider: {
     ...theme.divider,
     marginTop: theme.spacing(2),
@@ -133,8 +148,15 @@ const useStyles = makeStyles((theme) => ({
 
   bigPlayButton: {
       color: theme.palette.secondary.main,
-      height: '80px',
-      width: '80px'
+      height: '120px',
+      width: '120px',
+      marginTop: '2rem',
+      marginLeft: '4rem',
+      [theme.breakpoints.down('sm')]: {
+         marginTop: 0,
+        marginLeft: 0
+    },
+      
   }, 
 
   buttonContainer: {
@@ -175,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SongDetail = ({ song, forwardedRef }) => {
+const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -187,6 +209,9 @@ const SongDetail = ({ song, forwardedRef }) => {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popped = Boolean(anchorEl);
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
 
 
   const handleClickOpen = () => {
@@ -228,7 +253,7 @@ const SongDetail = ({ song, forwardedRef }) => {
       
               <Grid item xs={6}>
                 <Typography>
-                  <Link className={classes.link} to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
+                  <Link className={classes.link} to={`/elements/${element.id}`}>{element.name}</Link>
                   {renderSpotifyOptionElement(element)}
                   </Typography>
               </Grid>
@@ -252,7 +277,7 @@ const SongDetail = ({ song, forwardedRef }) => {
         <Grid container  alignItems="center" className={classes.details}>
           <Grid item xs={12}>
             <Grid container align="right" justify="flex-end">
-              <Grid item xs={1}>
+              <Grid item xs={2} lg={1}>
                 <IconButton
                     aria-label="more"
                     aria-controls="long-menu"
@@ -265,8 +290,8 @@ const SongDetail = ({ song, forwardedRef }) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container justify="space-evenly"  align="center" alignItems="center">
-              <Grid item xs={5}>
+            <Grid container justify="space-evenly" align={matches ? "center" : 'left'} alignItems="center">
+              <Grid item xs={12} lg={5}>
                 <img
                   alt={song.album}
                   className={classes.media}
@@ -274,9 +299,9 @@ const SongDetail = ({ song, forwardedRef }) => {
                 />
                 
               </Grid>
-              <Grid item xs={6}>
-                  <Typography variant="h4">{song.title}</Typography>
-                  <Typography variant="h6">{song.artist}</Typography>
+              <Grid item xs={12} lg={5}>
+                  <Typography variant={matches ? "h6" : "h4"}>{song.title}</Typography>
+                  <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>
                   {renderSpotifyOptionSong()}
               </Grid>
               
@@ -287,36 +312,41 @@ const SongDetail = ({ song, forwardedRef }) => {
           </Grid>
           <Grid item xs={12}>
             <Grid container align="center" alignItems="center" justify="space-evenly">
-              <Grid item xs={12}>
-                <Typography variant="h6">{song.album}</Typography>   
+              <Grid item lg={12} xs={10} >
+                <Typography variant={matches ? "subtitle1" : "h6"}>{song.album}</Typography>   
                 <Typography>{song.year}</Typography>
                 <Divider variant="middle" className={classes.divider} />
               </Grid>
-              <Grid item xs={2}>
-                <Typography>{millisToMinutesAndSeconds(song.duration)}</Typography>
-                <Typography>{song.genre}</Typography>
+              <Grid item xs={3} lg={2}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>{millisToMinutesAndSeconds(song.duration)}</Typography> <br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>{song.genre}</Typography>
               </Grid>
-              <Grid item={1}>
+              <Grid item xs={1} lg={0}>
                 <Divider orientation="vertical"  className={classes.verticalDivider} />
               </Grid>
-              <Grid item xs={2}>
-                <Typography>Key: {renderText(keys, song.key)}</Typography>
-                <Typography>Mode: {renderText(modes, song.mode)}</Typography>
+              <Grid item xs={3} lg={2}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, song.key)}</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Mode: {renderText(modes, song.mode)}</Typography>
               </Grid>
-              <Grid item={1}>
+              <Grid item xs={1}>
                 <Divider orientation="vertical"  className={classes.verticalDivider} />
               </Grid>
-              <Grid item xs={2}>
-                <Typography>{song.tempo} BPM</Typography>
-                <Typography>Meter: {song.time_signature}/4</Typography>
+              <Grid item xs={4} lg={2}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>{song.tempo} BPM</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {song.time_signature}/4</Typography>
               </Grid>
-              <Grid item={1}>
-                <Divider orientation="vertical"  className={classes.verticalDivider} />
+              <Grid item xs={10} lg={1}>
+                
+                <Divider orientation={matches ?  "horizontal" : "vertical" }  className={matches ? classes.divider : classes.verticalDivider} />
               </Grid>
-              <Grid item xs={2}>
-                <Typography>Original?: {renderBool(song.original)}</Typography>
-                <Typography>Explicit?: {renderBool(song.explicit)}</Typography>
+              <Grid item xs={12} lg={2}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Original?: {renderBool(song.original)}</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" } >Explicit?: {renderBool(song.explicit)}</Typography>
               </Grid>
+              {matches ? 
+               <Grid item xs={10}>
+                <Divider orientation="horizontal"  className={classes.divider} />
+              </Grid> : null}
             </Grid>
           </Grid>
           </Grid>
@@ -328,27 +358,31 @@ const SongDetail = ({ song, forwardedRef }) => {
               <AccordionDetails>
               <Grid container alignItems="stretch" align="center" justify="space-evenly">
                 <Grid item>
-                  <Typography>Acousticness: {audioFeaturesToText(song.acousticness)}</Typography>
+                  <Typography variant={matches ? "caption" : "subtitle1" }> Acousticness: {audioFeaturesToText(song.acousticness)}</Typography>
                    <Divider variant="middle" className={classes.divider} />
-                  <Typography>Danceability: {audioFeaturesToText(song.danceability)}</Typography>
+                  <Typography variant={matches ? "caption" : "subtitle1" }>Danceability: {audioFeaturesToText(song.danceability)}</Typography>
+                  {matches ? <Divider orientation="horizontal"  className={classes.divider} /> : null}
                 </Grid>
-               
+                 
                  <Grid item>
-                <Typography>Energy: {audioFeaturesToText(song.energy)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Energy: {audioFeaturesToText(song.energy)}</Typography>
                 <Divider variant="middle" className={classes.divider} />
-                <Typography>Instrumentalness: {audioFeaturesToText(song.instrumentalness)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Instrumentalness: {audioFeaturesToText(song.instrumentalness)}</Typography>
+                {matches ? <Divider orientation="horizontal"  className={classes.divider} /> : null}
                  </Grid>
-               
+                     
                  <Grid item>
-                <Typography>Liveness: {audioFeaturesToText(song.liveness)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Liveness: {audioFeaturesToText(song.liveness)}</Typography>
                 <Divider variant="middle" className={classes.divider} />
-                <Typography>Loudness: {song.loudness}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Loudness: {song.loudness}</Typography>
+                 {matches ? <Divider orientation="horizontal"  className={classes.divider} /> : null}
                  </Grid>
                 
                  <Grid item>
-                <Typography>Speechiness: {audioFeaturesToText(song.speechiness)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Speechiness: {audioFeaturesToText(song.speechiness)}</Typography>
                  <Divider variant="middle"  className={classes.divider} />
-                <Typography>Valence: {audioFeaturesToText(song.valence)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Valence: {audioFeaturesToText(song.valence)}</Typography>
+                 {matches ? <Divider orientation="horizontal"  className={classes.divider} /> : null}
                  </Grid>
                 
                 </Grid>

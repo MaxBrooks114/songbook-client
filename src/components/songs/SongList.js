@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSongs, fetchSong } from '../../actions/songs';
 import {clearFilter} from '../../actions/filter'
 import { getFilteredItems } from '../../selectors/filterSelectors';
 import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/styles';
 import { useTheme } from '@material-ui/core/styles';
 import SongCard from './SongCard';
@@ -36,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
+    minHeight: '100vh',
     overflow: 'scroll',
   },
 
@@ -48,25 +48,39 @@ const useStyles = makeStyles((theme) => ({
 
     background: theme.palette.primary.light,
     borderRadius: '0 0 8px 8px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '3.3rem',
+      width: '83%',
+      height: '50%',
+      margin: 'auto',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '3.3rem',
+      paddingBottom: 0,
+      width: '83%',
+      margin: 'auto',
+    },
+
+    
   },
 
    drawer: {
     background: theme.palette.primary.dark,
     color: theme.palette.secondary.main,
-   
-    width: '80%',
+    width: '83%',
     margin: 'auto',
-    marginBottom: 'theme.spacing(6)',
-    height: '80%',
+    marginTop: theme.spacing(6),
+    height: '42%',
     
    }, 
 
    drawerIconContainer: {
-    backgroundColor: theme.palette.primary.light,
-    height: '32px',
-    width: '32px',
+    backgroundColor: theme.palette.secondary.main,
+    height: '24px',
+    width: '24px',
     marginLeft: 0,
     position: 'fixed',
+    top: '50%',
     right: 0,
   
     '&:hover': {
@@ -93,7 +107,6 @@ const SongList = ({ match }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
-  const [listHeight, setListHeight] = useState(height)
 
   const dispatch = useDispatch();
 
@@ -116,9 +129,6 @@ const SongList = ({ match }) => {
   }, [accessToken, refreshToken, dispatch])
 
 
-  useLayoutEffect(() => {
-      setListHeight(height)
-  }, [height])
 
   const renderFilter = () => {
     return Object.values(songs).length > 0 ? <FilterControl items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
@@ -141,37 +151,57 @@ const SongList = ({ match }) => {
 
   const drawer = (
     <>
+
+     
+
+      <IconButton  className={classes.drawerIconContainer}>
+        <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+      </IconButton>
+      
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
         open={openDrawer}
+        variant="persistent"
         anchor="bottom"
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
         <List>{renderedList()}</List>
       </SwipeableDrawer>
-      <IconButton  className={classes.drawerIconContainer}>
-        <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
-      </IconButton>
+
+        <SwipeableDrawer
+        classes={{ paper: classes.filter }}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        variant="persistent"
+        anchor="top"
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+      >
+        {renderFilter()}
+      </SwipeableDrawer>
+   
     </>
   );
+
 
   return (
     <div className={classes.root}>
      
         <Grid container justify="center" >
-          <Grid item xs={10} className={classes.filter}>
+          {!matches  ? <Grid item xs={10} lg={10} sm={12} className={classes.filter}>
             {renderFilter()}
-          </Grid>
+          </Grid> : ''}
         </Grid>
         <Grid container justify='center' className={classes.cardGrid}>
-        {!matches ? <Grid item xs={3} md={3} lg={3}  className={classes.list}>
-            <List style={{minHeight: '100vh', height: listHeight}}>{renderedList()}</List>  
+        {!matches ? <Grid item xs={3} md={3}  lg={3}  className={classes.list}>
+            <List style={{height: height}}>{renderedList()}</List>  
         </Grid> : drawer}
         <Grid item lg={1} md={1} sm={0} xs={0}/>
-        <Grid item xs={10} md={6} lg={6}  ref={elementDOM} className={classes.detail}>
+        <Grid item xs={10} md={8} lg={6}  ref={elementDOM} className={classes.detail}>
           {renderDetail()}
         </Grid>
     

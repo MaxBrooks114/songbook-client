@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     width: 85,
-    objectFit: 'cover',
+    objectFit: 'contain',
     
   },
 }));

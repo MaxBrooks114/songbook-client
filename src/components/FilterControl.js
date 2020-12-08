@@ -18,6 +18,7 @@ import _ from 'lodash'
 
 
 const useStyles = makeStyles((theme) => ({
+
   formControl: {
     marginTop: theme.spacing(2),
     backgroundColor: theme.palette.primary,
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
-        color: "white"
+        color: "white",
+       
       },
       '&:hover fieldset': {
         borderColor: theme.palette.secondary.light,
@@ -59,16 +61,14 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'flex-end'
     },
      '& .MuiGrid-item': {
- 
-   
 
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '0px !important'
-  
-    },
+      [theme.breakpoints.down('xs')]: {
+        marginLeft: '0px !important',
+       
     
+      },
     },
-
+     
 
   },
    accordion: {
@@ -295,12 +295,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     
    
     return (
-     <>
+     <div className={classes.root}>
        <form
             className={classes.formControl}
             onSubmit={handleSubmit(onFormSubmit)}
             >
-    <Grid container align="center"  justify="space-around" alignItems="center" >
+    <Grid container align="center" className={classes.root} justify="space-around" alignItems="center" >
        <Grid item xs={12}>
       <Accordion className={classes.accordion}>
        
@@ -427,7 +427,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           </Grid>
         </Grid>
       </form>
-    </>
+    </div>
   );
 };
 
