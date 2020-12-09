@@ -22,13 +22,25 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     marginTop: theme.spacing(2),
     backgroundColor: theme.palette.primary,
-    color: '#fff',
+
+ 
+
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
         color: "white",
-       
+         
       },
+
+      '& input': {
+        
+        [theme.breakpoints.down('sm')]: {
+          textAlign: "center",
+          fontSize: '.8rem'
+      },
+
+      }, 
+
       '&:hover fieldset': {
         borderColor: theme.palette.secondary.light,
       },
@@ -39,18 +51,28 @@ const useStyles = makeStyles((theme) => ({
 
     '& .MuiInputBase-input': {
       color: "white",
-      textTransform: "capitalize"
+      textTransform: "capitalize",
+    
     },
 
     '& .MuiTextField-root': {
       color: "white",
+      
     
     },
     '& .MuiOutlinedInput-input': {
       color: "white",
+  
     },
+  
     '& .MuiFormLabel-root': {
       color: "white",
+
+      [theme.breakpoints.down('sm')]: {
+          fontSize: '.8rem',
+      },
+       
+  
     },
 
     '& .MuiAccordionSummary-content': {
@@ -58,16 +80,31 @@ const useStyles = makeStyles((theme) => ({
     },
 
     '& .MuiAccordionSummary-root': {
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+
+      [theme.breakpoints.down('sm')]: {
+          fontSize: '.8rem',
+          
+    
+
+      },
     },
      '& .MuiGrid-item': {
 
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         marginLeft: '0px !important',
-       
-    
       },
+     
     },
+
+    '& .MuiTypography-body1':{
+      [theme.breakpoints.down('sm')]: {
+          fontSize: '.8rem',
+          
+    
+
+      },
+    }
      
 
   },
@@ -105,9 +142,10 @@ const useStyles = makeStyles((theme) => ({
     
  
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
-      marginBottom: '1em',
+      marginTop: '1rem',
+      marginBottom: '1rem',
   
     },
     
@@ -123,15 +161,13 @@ const useStyles = makeStyles((theme) => ({
 
   
 
-     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1em',
+     [theme.breakpoints.down('sm')]: {
+      
       width: '100%',
     },
   },
 
-  spacing: {
-
-  }
+  
    
   
 }));
@@ -178,7 +214,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
         advancedOptions.map(option => {
           return (
             <AccordionDetails>
-               <Grid item xs={4}>
+               <Grid item sm={12} xs={12}>
               <Field classes={classes} 
                   min={1}
                   max={3} 
@@ -201,7 +237,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
 
       return fields.length > 0 ? fields.map(field => {
         return (
-           <Grid item lg={3} md={6} xs={12} >
+           <Grid item lg={3} md={6} sm={12} xs={12} >
               <Field  classes={classes} name={field} label={titleCase(field)}  component={renderTextField} />
            </Grid>
         )
@@ -212,7 +248,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
       const fields = objectType === 'songs' ? ['artist', 'album', 'genre'] : []
       return fields.length > 0 ? fields.map(field => {
         return (
-           <Grid item  lg={3} md={6} xs={12}>
+           <Grid item  lg={3} md={6} sm={12} xs={12}>
               <Field
                   options={_.uniq(songs.map((song) => song[field]))}
                   classes={classes}
@@ -240,7 +276,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
 
     const renderYearField = () => {
       return objectType === 'songs' ? (
-         <Grid item lg={4} md={6} xs={12}>
+         <Grid item lg={4} md={6} sm={12} xs={12}>
           <Field classes={classes} 
                  min={Math.min(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))}
                  max={Math.max(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))} 
@@ -311,7 +347,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           <Grid container align="center"  justify="space-around" alignItems="center" >
               {renderTextFields()}
               {renderStringFields()}
-            <Grid item lg={3} md={6} xs={12}>
+            <Grid item lg={3} md={6} sm={12} xs={12}>
               {objectType === 'songs' ? renderCheckBoxFields() :  <Field
                 options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
                 classes={classes}
@@ -321,7 +357,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 label="Key"
                 />}
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} sm={12} md={6} lg={3}>
               <Field  
                   fullWidth= {false}
                   options={modes} 
@@ -330,7 +366,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                   component={renderAutoCompleteField} 
                   label="Mode" />
             </Grid>
-            <Grid item lg={3} xs={12}> 
+            <Grid item lg={3} sm={12} xs={12}> 
               <Field  
                   fullWidth= {false}
                   options={_.uniq(items.map((item) => `${item.time_signature}/4`))} 
@@ -339,7 +375,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                   component={renderAutoCompleteDataField} 
                   label="Time Signature" />
             </Grid>
-            <Grid item lg={3} md={6} xs={12}>
+            <Grid item lg={3} sm={12} md={6} xs={12}>
               {objectType !== 'songs' ? renderCheckBoxFields() :  <Field
                 options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
                 classes={classes}
@@ -350,7 +386,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 />}
           </Grid>
           <Grid container  justify="center" align="center" alignItems="center">
-          <Grid item lg={4} md={6} xs={10}>
+          <Grid item lg={4} md={6} sm={12} xs={10}>
               <Field 
                 classes={classes} 
                 min={0}
@@ -363,7 +399,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 />
               </Grid>
               {renderYearField()}
-            <Grid item lg={4} xs={10} >
+            <Grid item lg={4} sm={10} xs={10} >
               <Field classes={classes} 
                     min={Math.min(...items.filter(item => item.tempo !== '').map((item) => parseInt(item.tempo)))}
                     max={Math.max(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)+1))} 
@@ -390,9 +426,9 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           </Grid>
         </Accordion>
          </Grid>
-          <Grid item lg ={12}>
-          <Grid container alignItems="center"  justify="center"  >
-            <Grid item lg={2} sm={3} xs={12}>
+          <Grid item lg={12}>
+          <Grid container  alignItems="center"  justify="flex-end"  >
+            <Grid item  lg={2} sm={12} md={3} xs={12}>
                   <Field classes={classes} 
                       name="sort" 
                       options={itemProps.map(prop => prop)}
@@ -402,7 +438,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                       label="Sort" 
                       />
             </Grid>
-            <Grid item style={{marginLeft: '1.5rem'}} lg={2} sm={3} xs={12}>
+            <Grid item style={{marginLeft: '.8rem'}} lg={2} md={3} sm={12} xs={12}>
                   <Field classes={classes} 
                         name="order" 
                         options={["Ascending", "Descending"]}
@@ -410,12 +446,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                         label="Order" 
                         />
             </Grid>
-            <Grid style={{marginLeft: '.8rem'}} item lg={1} sm={2} xs={12}>
+            <Grid  item lg={1} md={2} sm={12} xs={12}>
                   <Button className={classes.button} type="submit" variant="contained">
                     {filterForm && !_.isEqual(_.omit(filterForm.initial, ['sort', 'order']),  _.omit(filterForm.values, ['sort', 'order'])) ? "Filter" : "Sort"}
                   </Button>
             </Grid>
-            <Grid item lg={1} sm={1} xs={12}>
+            <Grid item lg={1} md={2} sm={12} xs={12}>
                   <Button className={classes.deleteButton} onClick={e => {
                     dispatch(clearFilter(objectType))
                     dispatch(reset('FilterForm'))

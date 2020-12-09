@@ -49,17 +49,19 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     objectFit: 'fill',
     borderRadius: '25px',
+    height: '360px',
+    width: '360px',
      [theme.breakpoints.down('md')]: {
-          height: '520px',
-          width: '520px',
+          height: '500px',
+          width: '500px',
     },
      [theme.breakpoints.down('sm')]: {
-        height: '360px',
-        width: '360px'
+        height: '300px',
+        width: '300px'
     },
      [theme.breakpoints.down('xs')]: {
-        height: 'auto',
-        width: 'auto'
+        height: '220px',
+        width: '220px'
     },
   },
 
@@ -151,8 +153,8 @@ const useStyles = makeStyles((theme) => ({
       height: '120px',
       width: '120px',
       marginTop: '2rem',
-      marginLeft: '4rem',
-      [theme.breakpoints.down('sm')]: {
+      marginLeft: '2rem',
+      [theme.breakpoints.down('md')]: {
          marginTop: 0,
         marginLeft: 0
     },
@@ -291,7 +293,7 @@ const SongDetail = ({ song }) => {
           </Grid>
           <Grid item xs={12}>
             <Grid container justify="space-evenly" align={matches ? "center" : 'left'} alignItems="center">
-              <Grid item xs={12} lg={5}>
+              <Grid item xs={12} lg={6}>
                 <img
                   alt={song.album}
                   className={classes.media}
@@ -299,8 +301,8 @@ const SongDetail = ({ song }) => {
                 />
                 
               </Grid>
-              <Grid item xs={12} lg={5}>
-                  <Typography variant={matches ? "h6" : "h4"}>{song.title}</Typography>
+              <Grid item xs={12} lg={4}>
+                  <Typography variant={matches ? "h5" : "h4"}>{song.title}</Typography>
                   <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>
                   {renderSpotifyOptionSong()}
               </Grid>

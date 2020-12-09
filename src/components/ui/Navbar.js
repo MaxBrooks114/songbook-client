@@ -26,9 +26,9 @@ import {fetchUser} from '../../actions/auth'
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // [theme.breakpoints.down('md')]: {
-    //   marginBottom: '.7rem',
-    // },
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '.7rem',
+    },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '.7rem',
     },
@@ -140,7 +140,7 @@ const Navbar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const dispatch = useDispatch()
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -175,6 +175,7 @@ const Navbar = () => {
     { name: 'New Element', link: '/elements/new', activeIndex: 2, selectedIndex: 5},
     { name: user.username, link: `/users/${user.id}`, activeIndex: 3, selectedIndex: 6},
     { name: 'Log out', link: '/logout', activeIndex: 3, selectedIndex: 7},
+    {name: 'Spotify Search', link: '/search', activeIndex: 4, selectedIndex: 8, component: 'button'}
   ] : [
     { name: 'Register', link: '/register', activeIndex: 0 },
     { name: 'Log In', link: '/login', activeIndex: 1 },

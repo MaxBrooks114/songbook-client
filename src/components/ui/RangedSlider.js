@@ -7,11 +7,24 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
-    marginTop: theme.spacing(1),
-    [theme.breakpoints.down('xs')]: {
-      width: 200
-  
+
+    '& .MuiSlider-markLabelActive': {
+      color: 'white'
     },
+    
+    [theme.breakpoints.down('sm')]: {
+      width: 200,
+      padding: "10px 0"
+    },
+
+    },
+
+    title: {
+      [theme.breakpoints.down('sm')]: {
+        marginTop: theme.spacing(1),
+        fontSize: '.8rem'
+      },
+    
   },
 
 
@@ -25,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
     onChange(newValue)
   };
   return (
-    <div className={classes.root}>
-     <Typography id="range-slider" gutterBottom>{label}</Typography>
-      <Slider
-        className={classes.slider}
+    <div >
+     <Typography align="center" className={classes.title} id="range-slider" gutterBottom>{label}</Typography>
+      <Slider 
+        className={classes.root}
         value={value}
         {...other}
         onChange={handleChange}

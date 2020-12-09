@@ -51,13 +51,14 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       marginTop: '3.3rem',
       width: '83%',
-      height: '50%',
+      height: '43%',
       margin: 'auto',
     },
     [theme.breakpoints.down('xs')]: {
       marginTop: '3.3rem',
       paddingBottom: 0,
       width: '83%',
+      height: '50%',
       margin: 'auto',
     },
 
@@ -70,8 +71,11 @@ const useStyles = makeStyles((theme) => ({
     width: '83%',
     margin: 'auto',
     marginTop: theme.spacing(6),
-    height: '42%',
-    
+    height: '50%',
+    [theme.breakpoints.down('xs')]: {
+      height: '40%',
+      
+    },
    }, 
 
    drawerIconContainer: {

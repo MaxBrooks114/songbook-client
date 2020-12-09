@@ -20,6 +20,16 @@ const logopink = '#E592B5'
 const logoblue = '#2C3B96'
 
 const theme = createMuiTheme({
+
+   breakpoints: {
+    values: {
+      xs: 0,
+      sm: 375,
+      md: 768,
+      lg: 1366,
+      xl: 1680,
+    },
+   },
   palette: {
     common: {
       neonBlue: `${vaporNeonBlue}`,

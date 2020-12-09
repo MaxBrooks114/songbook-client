@@ -5,6 +5,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,12 +31,21 @@ const useStyles = makeStyles((theme) => ({
   media: {
     width: 85,
     objectFit: 'contain',
-    
+    [theme.breakpoints.down('md')]: {
+      width: 0
+  
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: 85,
+       objectFit: 'contain',
+    },
   },
 }));
 
 const SongCard = ({ song, transitionDuration, handleClick }) => {
   const classes = useStyles();
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
@@ -45,8 +56,8 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
         />
 
         <CardContent className={classes.cardContent}>
-          <Typography variant="subtitle2">{song.title}</Typography>
-          <Typography variant="subtitle2">{song.artist}</Typography>
+          <Typography variant={matches ? "caption" : "subtitle2"}>{song.title}</Typography>< br/>
+          <Typography variant={matches ? "caption" : "subtitle2"}>{song.artist}</Typography>
         </CardContent>
       </Card>
     </Slide>
