@@ -152,14 +152,18 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.secondary.main,
       height: '120px',
       width: '120px',
-      marginTop: '2rem',
+     
+      
+  }, 
+
+  bigPlayButtonContainer : {
+    marginTop: '2rem',
       marginLeft: '2rem',
       [theme.breakpoints.down('md')]: {
          marginTop: 0,
         marginLeft: 0
     },
-      
-  }, 
+  },
 
   buttonContainer: {
     marginTop: theme.spacing(2),
@@ -237,12 +241,12 @@ const SongDetail = ({ song }) => {
   
   const renderSpotifyOptionSong = () => {
     return accessToken && accessToken !== "" ?
-      <IconButton onClick={handleSongPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton} /></IconButton> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+      <IconButton className={classes.bigPlayButtonContainer} onClick={handleSongPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://192.168.1.43:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
 
   const renderSpotifyOptionElement = (element) => {
     return accessToken && accessToken !== "" ?
-      <IconButton onClick={() => handleElementPlayClick(element)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+      <IconButton onClick={() => handleElementPlayClick(element)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://192.168.1.43:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   
   
