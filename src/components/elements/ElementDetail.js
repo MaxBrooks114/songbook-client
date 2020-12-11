@@ -23,12 +23,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import BackDrop from '../ui/BackDrop';
+import Divider from '@material-ui/core/Divider';
 import Metronome from '@kevinorriss/react-metronome'
 import { Link } from 'react-router-dom';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
-import AudioPlayer from 'material-ui-audio-player';
+import Player from './Player';
 import RecordView from '../RecordView'
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
+import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
+import IconButton from '@material-ui/core/IconButton';
+import { useTheme } from '@material-ui/core/styles';
+import './metronome.css'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,12 +53,6 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
   },
 
-  media: {
-    backgroundSize: 'stretch',
-    borderRadius: '8px',
-    border: `1px solid ${theme.palette.common.pastelPurple}`,
-    padding: '5px',
-  },
   details: {
     color: 'white',
     paddingTop: theme.spacing(2),
@@ -59,6 +61,24 @@ const useStyles = makeStyles((theme) => ({
   accordion: {
     background: theme.palette.primary.light,
     color: 'white',
+    '& .MuiAccordionSummary-content': {
+      flexGrow: 0,
+    },
+
+    '& .MuiAccordionSummary-root': {
+      justifyContent: 'center',
+      padding: 0
+    },
+
+    '& .MuiAccordionDetails-root': {
+      padding: 0,
+      marginBottom: theme.spacing(2)
+    },  
+
+    '& .MuiGrid-grid-xs-10': {
+      margin: 0,
+      justifyContent: 'center'
+    }
   },
 
   backdrop: {
@@ -66,31 +86,98 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
 
+   dialog: {
+    '& .MuiDialog-paper': {
+      background: theme.palette.primary.light
+    },
+
+    '& .MuiTypography-root':{
+      color: 'white'
+    },
+
+    '& .MuiButton-textPrimary':{
+      color: 'white'
+    },
+
+    
+  },
+
+
+ deleteChoice: {
+      color: theme.palette.primary.dark,
+      background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
+      '&:hover': {
+        background: theme.palette.common.red,
+        color: theme.palette.primary.dark,
+      },
+
+    },
+
+  divider: {
+    ...theme.divider,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
+  },
+
+  verticalDivider: {
+    ...theme.divider,
+    height: '60px'
+    
+  },
+
+   menu: {
+    backgroundColor: theme.palette.primary.light,
+    color: "white",
+
+  },
+
+  menuItem: {
+    ...theme.typography.tab,
+    '& .MuiMenuItem-root': {
+      justifyContent: 'center',
+    }
+  },
+
+  playButton: {
+    color: theme.palette.secondary.main
+  },
+
+  bigPlayButton: {
+      color: theme.palette.secondary.main,
+      height: '120px',
+      width: '120px',
+     
+      
+  }, 
+
+  bigPlayButtonContainer : {
+   
+  },
+
+  deleteRecordingButton: {
+      
+    height: '64px',
+    width: '64px',
+    color: theme.palette.common.red,
+    border: theme.palette.primary.dark,
+    [theme.breakpoints.down('sm')]: {
+          height: '32px',
+          width: '32px'
+      },
+  },
+
   buttonContainer: {
     marginTop: theme.spacing(2),
     margin: theme.spacing(1),
   },
 
-  delete: {
-    background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-      display: 'absolute',
-    },
-  },
-
-  button: {
-    background: 'linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)',
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-    },
-    textDecoration: 'none',
+  metronome: {
+    width: '80%'
   },
 
   link: {
     textDecoration: 'none',
+    color: 'white'
   },
 
   cardContent: {
@@ -101,6 +188,15 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     textShadow: '-1px -1px 0 #000',
   },
+
+   sheetmusic: {
+    height: '640px',
+    width: '520px',
+    [theme.breakpoints.down('sm')]: {
+          height: '320px',
+          width: '260px'
+      },
+  }
 }));
 
 const ElementDetail = ({ element }) => {
@@ -119,6 +215,10 @@ const ElementDetail = ({ element }) => {
   const [open, setOpen] = useState(false);
 
   const [show, setShow] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const popped = Boolean(anchorEl);
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -128,6 +228,14 @@ const ElementDetail = ({ element }) => {
     setOpen(false);
   };
 
+     const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const classes = useStyles();
  
  
@@ -135,7 +243,7 @@ const ElementDetail = ({ element }) => {
 
 const renderSpotifyOption = () => {
     return accessToken && accessToken !== "" ?
-      <Button onClick={handleElementPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+     <IconButton className={classes.bigPlayButtonContainer} onClick={handleElementPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   const renderInstruments = (instruments) => {
     return instruments
@@ -144,7 +252,7 @@ const renderSpotifyOption = () => {
             <>
               <AccordionDetails>
                 <Typography></Typography>
-                <Link to={`/instruments/${instrument.id}`}>{instrument.name}</Link>
+                <Link className={classes.link} to={`/instruments/${instrument.id}`}>{instrument.name}</Link>
               </AccordionDetails>
             </>
           );
@@ -155,21 +263,44 @@ const renderSpotifyOption = () => {
   const renderRecordings = () => {
    return recordings.map(recording => {
       return (
-        <>
-          <AudioPlayer src={recording.file}/>
-          <DeleteForeverRoundedIcon onClick={() => dispatch(deleteFile(recording.id))}/>
-        </>
+        <Grid container alignItems="center" justify="space-around">
+          <Grid item xs={10}>
+              <Player  src={recording.file}/>
+          </Grid>
+          <Grid item>
+            <IconButton>
+            <DeleteForeverRoundedIcon className={classes.deleteRecordingButton} onClick={() => dispatch(deleteFile(recording.id))}/></IconButton>
+          </Grid>
+        </Grid>
       )
     })
   }
 
   const renderTabs = () => {
   return tabs.map(tab => {
+    let name = tab.file.split('/').slice(-2).join('')
     return (
-      <>
-      <img alt={tab.name} src={tab.file}/>
-      <DeleteForeverRoundedIcon onClick={() => dispatch(deleteFile(tab.id))}/>
-      </>
+      
+        <Accordion className={classes.accordion}>        
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography variant={matches ? "caption" : "subtitle1" }>{name}</Typography>
+              </AccordionSummary>
+              <Grid container alignItems="center" justify="space-around">
+                <Grid item xs={12}>
+                  <AccordionDetails>
+                    <Grid container justify="space-around">
+                      <Grid item xs={10}>
+                        <img className={classes.sheetmusic} alt={name} src={tab.file}/>
+                      </Grid>
+                      <Grid item>
+                          <IconButton>
+                          <DeleteForeverRoundedIcon className={classes.deleteRecordingButton} onClick={() => dispatch(deleteFile(tab.id))}/></IconButton>
+                      </Grid>
+                    </Grid>
+                  </AccordionDetails>   
+              </Grid>
+          </Grid>
+        </Accordion>
   )
     })
   }
@@ -189,75 +320,145 @@ const renderSpotifyOption = () => {
       
       <Paper className={classes.root} elevation={3}>
         <BackDrop className={classes.backdrop} count={4} show={show}/>
-        <Grid container className={classes.details}>
-          <Grid item xs={4}>
-            <Typography>
-              Section: {element.name} of <Link to={`/songs/${element.song.id}`}>{element.song.title}</Link>
-            </Typography>
-            <Typography>Start: {millisToMinutesAndSeconds(element.start)}</Typography>
-            <Typography>Duration: {millisToMinutesAndSeconds(element.duration)}</Typography>
-            <Typography>Tempo: {element.tempo} BPM</Typography>
-            <Typography>Key: {renderText(keys, element.key)}</Typography>
-            <Typography>Mode: {renderText(modes, element.mode)}</Typography>
-            <Typography>Time Signature: {element.time_signature}/4</Typography>
-            <Typography>Learned?: {renderBool(element.learned)}</Typography>
+        <Grid container alignItems="center" className={classes.details}>
+          <Grid item xs={12}>
+            <Grid container align="right" justify="flex-end">
+              <Grid item xs={2} lg={1}>
+                <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) => handleMenuClick(event)}
+                > <MoreVertRoundedIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container justify="space-evenly" align={matches ? "center" : 'left'} alignItems="center">
+              <Grid item xs={12} lg={4}>
+                <Typography  variant={matches ? "h5" : "h4"} >
+                  {element.name}
+                </Typography>
+                <Typography variant={matches ? "subtitle1" : "h6"}>
+                  <Link to={`/songs/${element.song.id}`}>{element.song.title}</Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                 {renderSpotifyOption()}
+              </Grid>
+            </Grid>
+             <Grid item xs={12}>
+                <Divider  variant="middle" className={classes.divider} />
+              </Grid>
+              <Grid item xs={12}>
+            <Grid container align="center" alignItems="center" justify="space-evenly">
+              <Grid item xs={3} lg={3}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Start: {millisToMinutesAndSeconds(element.start)}</Typography> <br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Duration: {millisToMinutesAndSeconds(element.duration)}</Typography>
+              </Grid>
+              <Grid item xs={1} lg={0}>
+                <Divider orientation="vertical"  className={classes.verticalDivider} />
+              </Grid>
+              <Grid item xs={3} lg={3}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>{renderText(keys, element.key)} {renderText(modes, element.mode)}</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Learned?: {renderBool(element.learned)}</Typography>
+              </Grid>
+              <Grid item xs={1}>
+                <Divider orientation="vertical"  className={classes.verticalDivider} />
+              </Grid>
+              <Grid item xs={4} lg={3}>
+                <Typography variant={matches ? "caption" : "subtitle1" }>{element.tempo} BPM</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {element.time_signature}/4</Typography>
+              </Grid>
+              {matches ? 
+               <Grid item xs={10}>
+                <Divider orientation="horizontal"  className={classes.divider} />
+              </Grid> : null}
+            </Grid>
+          </Grid>
           </Grid>
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Lyrics</Typography>
               </AccordionSummary>
-              <AccordionDetails>
-                <Typography className={classes.lyrics}>{element.lyrics}</Typography>
-              </AccordionDetails>
-            </Accordion> 
+              <Grid item xs={12}>
+                  <AccordionDetails>
+                    <Grid container justify="space-around">
+                      <Grid item xs={10}>
+                        <Typography className={classes.lyrics}>{element.lyrics}</Typography>
+                      </Grid>
+                    </Grid>
+                  </AccordionDetails>   
+              </Grid>
+            </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Instruments</Typography>
               </AccordionSummary>
-              {renderInstruments(instruments)}
+              <AccordionDetails>
+               <Grid item xs={12}>
+                 <Grid container align="center" justify="center">
+                   {renderInstruments(instruments)}
+                </Grid>
+              </Grid>
+              </AccordionDetails>
             </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Metronome</Typography>
               </AccordionSummary>
-                <Metronome key={element.id} startBpm= {element.tempo}/>
+              <AccordionDetails>
+               <Grid item xs={12}> 
+                      <Metronome key={element.id} startBpm= {element.tempo}/>
+               
+              </Grid>
+              </AccordionDetails>
             </Accordion>
             <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.songTitle}>Record Yourself</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+               <Grid item xs={12}> 
+                  <RecordView className="recorder" key={element.id} />
+              </Grid>
+              </AccordionDetails>
+            </Accordion>
+             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Recordings</Typography>
               </AccordionSummary>
-                {renderRecordings()}
+               <AccordionDetails>
+                <Grid item xs={12}> 
+                    {renderRecordings()}    
+                </Grid>   
+                </AccordionDetails>
             </Accordion>
-            <Accordion className={classes.accordion}>
+             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Sheet Music/ Tabs</Typography>
               </AccordionSummary>
-                {renderTabs()}
+              <AccordionDetails>
+                 <Grid item xs={12}> 
+                  {renderTabs()}
+                </Grid>
+              </AccordionDetails>
             </Accordion>
           </Grid>
-        </Grid>
-        <Grid container justify="space-between" className={classes.buttonContainer}>
-
-          <Link className={classes.link} to={`edit/${element.id}`}>
-            <Button className={classes.button}>Edit </Button>
-          </Link>
-            {renderSpotifyOption()}
-            <RecordView key={element.id} />
-          <Button className={classes.delete} onClick={handleClickOpen}>
-            Delete
-          </Button>
-        </Grid>
+          </Grid>
         <Dialog
           open={open}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          className={classes.dialog}
         >
-          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this Element?'}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this element?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again.
+                  You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -267,15 +468,39 @@ const renderSpotifyOption = () => {
             <Button
               onClick={() => {
                 handleClose();
-                dispatch(deleteElement(element.id));
+                dispatch(dispatch(deleteElement(element.id)))
               }}
               color="primary"
               autoFocus
+              className={classes.deleteChoice}
             >
               Yes
             </Button>
           </DialogActions>
         </Dialog>
+          <Menu
+                      id="long-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={popped}
+                      onClose={handleMenuClose}
+                      classes={{paper: classes.menu}}
+
+                    >
+                      
+                        <MenuItem             
+                            className={classes.menu}
+                            onClick={handleMenuClose}>
+                           <Link className={classes.link} to={`edit/${element.id}`}>Edit</Link>
+                        </MenuItem>
+                        <MenuItem 
+                            className={classes.menu}
+                            onClick={() => {handleMenuClose(); handleClickOpen();  }}>
+                           Delete
+                        </MenuItem>
+                    </Menu>
+     
+       
       </Paper>
     </Slide>
   ) : null;

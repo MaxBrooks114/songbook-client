@@ -1,0 +1,9 @@
+.recorder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* audio {
+  filter: invert(14%) sepia(9%) saturate(4757%) hue-rotate(193deg) brightness(97%) contrast(104%);
+} */

@@ -43,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'scroll',
   },
 
+    detail: {
+     height: '100%',
+  },
+
   filter: {
  
     background: theme.palette.primary.light,
@@ -94,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     width: '50px',
   },
 
-  
+
 }));
 
 const ElementList = ({ match }) => {
