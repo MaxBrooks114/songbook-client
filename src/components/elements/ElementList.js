@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as workerTimers from 'worker-timers';
 import { fetchElement } from '../../actions/elements';
@@ -18,6 +18,8 @@ import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounde
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import useHeight from '../../hooks/useHeight'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-    height: '100%',
+   minHeight: '100vh',
     overflow: 'scroll',
   },
 
@@ -45,31 +47,54 @@ const useStyles = makeStyles((theme) => ({
  
     background: theme.palette.primary.light,
     borderRadius: '0 0 8px 8px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '3.3rem',
+      width: '83%',
+      height: '43%',
+      margin: 'auto',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '3.3rem',
+      paddingBottom: 0,
+      width: '83%',
+      height: '50%',
+      margin: 'auto',
+    },
   },
 
    drawer: {
     background: theme.palette.primary.dark,
     color: theme.palette.secondary.main,
-   
-    width: '80%',
+    width: '83%',
     margin: 'auto',
-    marginBottom: 'theme.spacing(6)',
-    height: '80%',
-    
+    marginTop: theme.spacing(6),
+    height: '50%',
+    [theme.breakpoints.down('xs')]: {
+      height: '40%',
+      
+    },
    }, 
 
    drawerIconContainer: {
-    backgroundColor: theme.palette.primary.light,
-    height: '32px',
-    width: '32px',
+    backgroundColor: theme.palette.secondary.main,
+    height: '24px',
+    width: '24px',
     marginLeft: 0,
     position: 'fixed',
+    top: '50%',
     right: 0,
   
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
     },
   },
+
+  drawerIcon: {
+    height: '50px',
+    width: '50px',
+  },
+
+  
 }));
 
 const ElementList = ({ match }) => {
@@ -84,10 +109,11 @@ const ElementList = ({ match }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [openDrawer, setOpenDrawer] = useState(false);
-  
+  const elementDOM = useRef(null);
+  const [height] = useHeight(elementDOM);
 
   useEffect(() => {
 
@@ -127,46 +153,61 @@ const ElementList = ({ match }) => {
     return element ? <ElementDetail  element={element} /> : null;
   };
 
-  const drawer = (
+ const drawer = (
     <>
+
+     
+
+      <IconButton  className={classes.drawerIconContainer}>
+        <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+      </IconButton>
+      
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
         open={openDrawer}
+        variant="persistent"
         anchor="bottom"
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
         <List>{renderedList}</List>
       </SwipeableDrawer>
-      <IconButton  className={classes.drawerIconContainer}>
-        <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
-      </IconButton>
+
+        <SwipeableDrawer
+        classes={{ paper: classes.filter }}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        variant="persistent"
+        anchor="top"
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+      >
+        {renderFilter()}
+      </SwipeableDrawer>
+   
     </>
   );
 
-  return (
+   return (
     <div className={classes.root}>
      
         <Grid container justify="center" >
-          <Grid item xs={10} className={classes.filter}>
+          {!matches  ? <Grid item xs={10} lg={10} sm={12} className={classes.filter}>
             {renderFilter()}
-          </Grid>
-          <Grid item xs={10}>
-            <Grid container justify='space-between' className={classes.cardGrid}>
-              {!matches ? <Grid item xs={3} md={3} lg={3} className={classes.list}>
-                <Box style={{maxHeight: '100vh', overflow: 'auto'}}>
-                  <List>{renderedList}</List>
-                </Box>
-              </Grid> : drawer}
-            
-            <Grid item lg={1} md={1} sm={0} xs={0}/>
-            <Grid item xs={12} sm={8} lg={8} className={classes.list}>
-              {renderDetail()}
-            </Grid>
-          </Grid>
+          </Grid> : ''}
         </Grid>
+        <Grid container justify='center' className={classes.cardGrid}>
+        {!matches ? <Grid item xs={3} md={3}  lg={3}  className={classes.list}>
+            <List style={{height: height}}>{renderedList}</List>  
+        </Grid> : drawer}
+        <Grid item lg={1} md={1} sm={0} xs={0}/>
+        <Grid item xs={10} md={8} lg={6}  ref={elementDOM} className={classes.detail}>
+          {renderDetail()}
+        </Grid>
+    
         </Grid>
     </div>
   );
