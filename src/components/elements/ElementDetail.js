@@ -468,7 +468,7 @@ const renderSpotifyOption = () => {
             <Button
               onClick={() => {
                 handleClose();
-                dispatch(dispatch(deleteElement(element.id)))
+                dispatch(deleteElement(element.id))
               }}
               color="primary"
               autoFocus
