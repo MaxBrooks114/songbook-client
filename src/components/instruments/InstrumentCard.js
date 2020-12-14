@@ -9,18 +9,30 @@ const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.light,
     display: 'flex',
-    width: '100%',
+    width: '80%',
     height: 'auto',
     boxShadow: theme.shadows[24],
+    [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+         width: '100%'
+      },
     '&:hover': {
       cursor: 'pointer',
     },
     color: '#FFF',
   },
-  media: {
-    width: 85,
-    backgroundSize: 'cover',
-  },
+  
+  cardContent: {
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      height: '60%',
+      display: 'flex',
+      flexDirection: "column",
+      justifyContent: 'center',
+    }
+  }
+  
+ 
 }));
 
 const InstrumentCard = ({ instrument, transitionDuration, handleClick }) => {
