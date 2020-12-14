@@ -170,23 +170,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 
-  delete: {
-    background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-      display: 'absolute',
-    },
-  },
-
-  button: {
-    background: 'linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)',
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-    },
-    textDecoration: 'none',
-  },
+  
 
   link: {
     textDecoration: 'none',
@@ -241,12 +225,12 @@ const SongDetail = ({ song }) => {
   
   const renderSpotifyOptionSong = () => {
     return accessToken && accessToken !== "" ?
-      <IconButton className={classes.bigPlayButtonContainer} onClick={handleSongPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://192.168.1.43:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+      <IconButton className={classes.bigPlayButtonContainer} onClick={handleSongPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
 
   const renderSpotifyOptionElement = (element) => {
     return accessToken && accessToken !== "" ?
-      <IconButton onClick={() => handleElementPlayClick(element)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://192.168.1.43:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+      <IconButton onClick={() => handleElementPlayClick(element)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   
   
