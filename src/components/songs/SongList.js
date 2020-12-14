@@ -193,8 +193,7 @@ const SongList = ({ match }) => {
 
 
   return (
-    <div className={classes.root}>
-     
+    <div >
         <Grid container justify="center" >
           {!matches  ? <Grid item xs={10} lg={10} sm={12} className={classes.filter}>
             {renderFilter()}
