@@ -17,7 +17,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
+import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,17 +41,50 @@ const useStyles = makeStyles((theme) => ({
   details: {
     color: 'white',
     paddingTop: theme.spacing(2),
-    marginLeft: theme.spacing(2),
   },
 
   accordion: {
     background: theme.palette.primary.light,
     color: 'white',
+    '& .MuiAccordionSummary-content': {
+      flexGrow: 0,
+    },
+
+    '& .MuiAccordionSummary-root': {
+      justifyContent: 'center',
+      padding: 0
+    },
+
+    '& .MuiAccordionDetails-root': {
+      padding: 0,
+      marginBottom: theme.spacing(2)
+    },  
+
+    '& .MuiGrid-grid-xs-10': {
+      margin: 0,
+      justifyContent: 'center'
+    }
   },
 
   buttonContainer: {
     paddingBottom: theme.spacing(2),
     margin: theme.spacing(2),
+  },
+
+  dialog: {
+    '& .MuiDialog-paper': {
+      background: theme.palette.primary.light
+    },
+
+    '& .MuiTypography-root':{
+      color: 'white'
+    },
+
+    '& .MuiButton-textPrimary':{
+      color: 'white'
+    },
+
+    
   },
 
   delete: {
@@ -63,9 +105,59 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
 
+  deleteChoice: {
+      color: theme.palette.primary.dark,
+      background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
+      '&:hover': {
+        background: theme.palette.common.red,
+        color: theme.palette.primary.dark,
+      },
+
+    },
+
+  divider: {
+    ...theme.divider,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
+  },
+
+  verticalDivider: {
+    ...theme.divider,
+    height: '60px'
+    
+  },
+
+   menu: {
+    backgroundColor: theme.palette.primary.light,
+    color: "white",
+
+  },
+
+  menuItem: {
+    ...theme.typography.tab,
+    '& .MuiMenuItem-root': {
+      justifyContent: 'center',
+    }
+  },
+
+  playButton: {
+    color: theme.palette.secondary.main
+  },
+
+
   link: {
     textDecoration: 'none',
+    color: 'white'
   },
+
+
+  songlink: {
+    textDecoration: 'none',
+    color: 'white',
+    '&:hover': {
+      color: theme.palette.info.main
+    }
+  }, 
 
   cardContent: {
     flex: '1 0',
@@ -83,37 +175,17 @@ const InstrumentDetail = ({ instrument }) => {
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const user = useSelector((state) => state.auth.user);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const popped = Boolean(anchorEl);
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-
-  const handleElementPlayClick = (element) => {
-    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
-  };
-
-  const renderSpotifyOption = (mediaType) => {
-
-    return accessToken && accessToken !== "" ?
-      <Button onClick={handleElementPlayClick}>Play it</Button> : <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
-  }
-  
-
-
-  const renderElements = (elements) => {
-    return elements
-      ? elements.map((element) => {
-          return (
-            <>
-              <AccordionDetails>
-                <Typography>
-                  <Link to={`/elements/${element.id}`}>{element.name} of {element.song.title}</Link>
-                  </Typography>
-                {renderSpotifyOption()}
-              </AccordionDetails>
-            </>
-          );
-        })
-      : null;
-  };
   const [open, setOpen] = React.useState(false);
+  const elements = useSelector((state) =>
+    Object.values(state.elements).filter((element) => instrument.elements.includes(element.id))
+  );
+
+  const songs = elements.map(element => element.song)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -122,48 +194,125 @@ const InstrumentDetail = ({ instrument }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const elements = useSelector((state) =>
-  Object.values(state.elements).filter((element) => instrument.elements.includes(element.id))
-);
+
+    const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleElementPlayClick = (element) => {
+    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
+  };
+
+ const renderSpotifyOptionElement = (element) => {
+    return accessToken && accessToken !== "" ?
+      <IconButton onClick={() => handleElementPlayClick(element)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+  }
+  
+  
+
+  const renderSongs = (songs) => {
+      
+      return songs
+
+      ? songs.map((song) => {
+          let songElements = elements.filter(element => song.id === element.song.id )
+          return (
+               <Accordion className={classes.accordion}>        
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                    <Typography variant={matches ? "caption" : "subtitle1" }> <Link className={classes.songlink} to={`/songs/${song.id}`}>{song.title}</Link></Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                      {renderElements(songElements)}
+                  </AccordionDetails>
+                </Accordion> 
+          );
+        })
+      : null;
+  }
+  
+
+
+  const renderElements = (elements) => {
+    return elements
+      ? elements.map((element) => {
+          return (
+            <Grid container justify="center" alignItems="center">
+                <Typography>
+                  <Link className={classes.songlink} to={`/elements/${element.id}`}>{element.name}</Link>
+                  </Typography>
+                {renderSpotifyOptionElement(element)}
+            </Grid>
+          );
+        })
+      : null;
+  };
+
 
   const classes = useStyles();
 
   return instrument ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
       <Paper className={classes.root} elevation={3}>
-        <Grid container className={classes.details}>
+        <Grid container alignItems="center" className={classes.details}>
           <Grid item xs={12}>
-            <Typography>Title: {instrument.name}</Typography>
-            <Typography>Make: {instrument.make}</Typography>
-            <Typography>Model: {instrument.model}</Typography>
-            <Typography>Year: {instrument.year}</Typography>
-            <Typography>Family: {instrument.family}</Typography>
-            <Typography>Tonality: {instrument.tonal_range}</Typography>
-          </Grid>
+             <Grid container align="right" justify="flex-end">
+              <Grid item xs={2} lg={1}>
+                <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>handleMenuClick(event)}
+                > <MoreVertRoundedIcon />
+                </IconButton>
+              
+              </Grid>
+            </Grid>
+             <Grid item xs={12}>
+                <Grid container justify="space-evenly" align="center" alignItems="center">
+                    <Grid item xs={12}>
+                      <Typography variant="h6">{instrument.name}</Typography>
+                      <Divider  variant="middle" className={classes.divider} />
+                    </Grid> 
+                </Grid> 
+              <Grid item xs={12}>
+                  <Grid container align="left"  justify="space-around">
+                        <Grid item>
+                          <Typography>Make: {instrument.make}</Typography>
+                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.light}} />
+                          <Typography>Model: {instrument.model}</Typography>
+                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.light}} />
+                          <Typography>Year: {instrument.year}</Typography>
+
+                        </Grid>
+                        <Grid item>
+                          <Typography>Family: {instrument.family}</Typography>
+                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.light}} />
+                          <Typography>Tonality: {instrument.tonal_range}</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Elements</Typography>
               </AccordionSummary>
-              {renderElements(elements)}
+              {renderSongs(songs)}  
             </Accordion>
           </Grid>
         </Grid>
-        <Grid container justify="space-evenly" className={classes.buttonContainer}>
-          <Link className={classes.link} to={`edit/${instrument.id}`}>
-            <Button className={classes.button}>Edit </Button>
-          </Link>
-
-          <Button className={classes.delete} onClick={handleClickOpen}>
-            Delete
-          </Button>
-        </Grid>
-
         <Dialog
           open={open}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          className={classes.dialog}
+
         >
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this Instrument?'}</DialogTitle>
           <DialogContent>
@@ -183,11 +332,35 @@ const InstrumentDetail = ({ instrument }) => {
               }}
               color="primary"
               autoFocus
+              className={classes.deleteChoice}
+
             >
               Yes
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Menu
+                      id="long-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={popped}
+                      onClose={handleMenuClose}
+                      classes={{paper: classes.menu}}
+
+                    >
+                      
+                        <MenuItem             
+                            className={classes.menu}
+                            onClick={handleMenuClose}>
+                           <Link className={classes.link} to={`edit/${instrument.id}`}>Edit</Link>
+                        </MenuItem>
+                        <MenuItem 
+                            className={classes.menu}
+                            onClick={() => {handleMenuClose(); handleClickOpen();  }}>
+                           Delete
+                        </MenuItem>
+                    </Menu>
       </Paper>
     </Slide>
   ) : null;
