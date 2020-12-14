@@ -17,7 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
 import useHeight from '../../hooks/useHeight'
 
 
