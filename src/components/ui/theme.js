@@ -65,7 +65,7 @@ const theme = createMuiTheme({
     }
   },
     button: {
-      color: 'white',
+      color: backgroundBlue,
       background: `linear-gradient(90deg, ${logolightblue} 0%,  ${logopink} 150%)`,
       '&:hover': {
         background: logolightblue,
