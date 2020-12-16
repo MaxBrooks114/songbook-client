@@ -7,7 +7,12 @@ import InstrumentForm from './InstrumentForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+ 
+    minHeight: '100vh', 
+    
+      [theme.breakpoints.down('xs')]: {
+          minHeight: '120vh', 
+      },
   },
 
   toolbarMargin: {
@@ -20,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '1.25em',
     },
   },
+
+  title: {
+    color: 'white',
+  }
+
 }));
 
 const InstrumentCreate = () => {
@@ -37,15 +47,15 @@ const InstrumentCreate = () => {
   const classes = useStyles();
 
   return (
-    <>
+  
+    <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
-      <div>
-        <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
+        <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
           Add an Instrument
         </Typography>
         <InstrumentForm onSubmit={onSubmit} />
       </div>
-    </>
+
   );
 };
 

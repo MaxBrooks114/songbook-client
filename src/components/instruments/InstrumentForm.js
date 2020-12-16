@@ -11,41 +11,48 @@ import {renderTextField, renderAutoCompleteDataField} from '../../helpers/Materi
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: '#D31DEA',
+    color: 'white',
 
     '& .MuiOutlinedInput-root': {
-      width: 250,
+      width: 300,
       '& fieldset': {
-        borderColor: '#294C77',
+        borderColor: theme.palette.primary.light,
       },
       '&:hover fieldset': {
         borderColor: 'rgb(254,123,235, 1)',
       },
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: '#D31DEA',
+      color: 'white',
     },
     ' & .MuiFormHelperText-contained': {
-      color: 'red',
+      color: theme.palette.common.red,
     },
+
+     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.common.red
+    },
+
+    '& .MuiFormLabel-root.Mui-error': {
+      color: theme.palette.common.red,
+    }
   },
 
   value: {
-    color: '#D31DEA',
+    color: 'white',
   },
 
   autoComplete: {
-    color: '#D31DEA',
+    color: 'white',
   },
 
   button: {
-    color: 'white',
-    marginTop: '1rem',
-    background: 'linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)',
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-    },
+   ...theme.button,
+    margin: '1rem',
+    width: 200,
+    [theme.breakpoints.down('xs')]: {
+          width: 'auto', 
+      },
   },
 
   input: {
@@ -53,18 +60,19 @@ const useStyles = makeStyles((theme) => ({
   },
 
   label: {
-    color: '#D31DEA',
+    color: 'white',
   },
 
   listbox: {
     background: theme.palette.background.default,
   },
   option: {
-    color: '#D31DEA',
+    color: 'white',
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
-      background: 'rgba(8,199,251,1)',
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.dark
     },
   },
 }));
@@ -77,10 +85,11 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
     onSubmit(formValues);
   };
   return (
-    <div>
-      <Grid container alignItems="center" justify="center" spacing={2} direction="row">
-        <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-          <Grid item>
+    
+    <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
+      <Grid container alignItems="center" align="center" justify="center" >
+        <Grid container justify="center" alignItems="center">
+         <Grid item xs={12} sm={12} lg={3}>
             <Field
               classes={classes}
               required
@@ -90,13 +99,14 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               label="Name"
             />
           </Grid>
-          <Grid item>
+         <Grid item xs={12} sm={12} lg={3}>
+            
             <Field classes={classes} name="make" component={renderTextField} label="Make" />
           </Grid>
-          <Grid item>
-            <Field classes={classes} name="model" component={renderTextField} label="Model" />
-          </Grid>
-          <Grid item>
+        </Grid>
+        <Grid container  alignItems="center" justify="center">
+          <Grid item  xs={12} sm={12} lg={3}>
+             
             <Field
               options={instrumentFamilies.sort()}
               classes={classes}
@@ -105,7 +115,12 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               label="Family"
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={12} sm={12} lg={3}>
+           <Field classes={classes} name="model" component={renderTextField} label="Model" />
+          </Grid>
+          </Grid>
+          <Grid container alignItems="center"  justify="center">
+          <Grid item  xs={12} sm={12} lg={3}>
             <Field
               options={instrumentTonalities.sort()}
               classes={classes}
@@ -114,19 +129,18 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               label="Tonality"
             />
           </Grid>
-
-          <Grid item>
+          <Grid item  xs={12} sm={12} lg={3}>
             <Field classes={classes} name="year" component={renderTextField} label="Year" />
           </Grid>
-
-          <Grid item>
+          </Grid>
+          <Grid item xs={3}>
             <Button type="submit" className={classes.button} variant="contained">
               Submit
             </Button>
           </Grid>
-        </form>
       </Grid>
-    </div>
+    </form>
+   
   );
 };
 

@@ -7,12 +7,18 @@ import InstrumentForm from './InstrumentForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    
+
+    minHeight: '100vh', 
+    
+      [theme.breakpoints.down('xs')]: {
+          minHeight: '120vh', 
+      },
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
+    marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -20,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '1.25em',
     },
   },
+
+  title: {
+      color: 'white',
+  }
 }));
 
 const InstrumentEdit = ({ match }) => {
@@ -44,13 +54,13 @@ const InstrumentEdit = ({ match }) => {
   const initialValues = instrument ? { ...instrument } : null;
 
   return (
-    <>
+    <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
-      <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
+      <Typography className={classes.title}  component="h1" variant="h2" align="center" gutterBottom>
         Edit an Instrument
       </Typography>
       <InstrumentForm initialValues={initialValues} onSubmit={onSubmit} />
-    </>
+    </div>
   );
 };
 
