@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 const SongCreate = () => {
   const dispatch = useDispatch();
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
   const classes = useStyles();
 
   const normalize = (list, v) => {
@@ -70,16 +69,13 @@ const SongCreate = () => {
   return (
     <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
-      {/* <Grid container justify="center">
-        <Grid item xs={12}> */}
+
           <Typography className={classes.title}  variant="h2" align="center" gutterBottom>
             Create a Song
           </Typography>
-        {/* </Grid>
-        <Grid item xs={12}> */}
+      
           <SongForm onSubmit={onSubmit} />
-        {/* </Grid>
-      </Grid> */}
+    
     </div>
   );
 };
