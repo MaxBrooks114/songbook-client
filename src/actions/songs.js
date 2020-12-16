@@ -16,7 +16,7 @@ export const createSong = (formValues) => async (dispatch) => {
       payload: response.data,
     });
 
-    if (!history.location.pathname.includes('search')) {
+    if (history.location.pathname.includes('songs/new')) {
       history.push('/songs');
       dispatch(showSuccessSnackbar('Song Created'))
 

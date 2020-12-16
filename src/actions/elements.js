@@ -14,7 +14,7 @@ export const createElement = (formValues) => async (dispatch) => {
       type: CREATE_ELEMENT,
       payload: response.data,
     });
-    if (!history.location.pathname.includes('search')) {
+    if (history.location.pathname.includes('elements/new')) {
       history.push('/elements');
       dispatch(showSuccessSnackbar('Element Created'))
     }
