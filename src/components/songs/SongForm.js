@@ -2,7 +2,6 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {renderTextField, renderAutoCompleteField, renderCheckbox} from '../../helpers/MaterialUiReduxFormFields'
@@ -60,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
   button: {
     ...theme.button,
-    marginTop: '3rem',
+    margin: '1rem',
     width: 200,
     [theme.breakpoints.down('xs')]: {
           width: 'auto', 
