@@ -1,12 +1,10 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Autocomplete } from '@material-ui/lab';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {renderTextField, renderAutoCompleteField, renderCheckbox} from '../../helpers/MaterialUiReduxFormFields'
 import { makeStyles } from '@material-ui/styles';
 import genres from './genres';
@@ -14,43 +12,59 @@ import keys from './keys';
 import modes from './modes';
 
 const useStyles = makeStyles((theme) => ({
+  
   root: {
-    color: '#D31DEA',
-    marginBottom: 6,
+    color: 'white',
     '& .MuiOutlinedInput-root': {
-      width: 250,
+      width: 300,
       '& fieldset': {
-        borderColor: '#294C77',
+        borderColor: theme.palette.primary.light,
       },
       '&:hover fieldset': {
-        borderColor: 'rgb(254,123,235, 1)',
+        borderColor: theme.palette.secondary.main,
       },
+
     },
+
+     '& .MuiInputBase-input': {
+      fontSize: '1rem'
+    },
+
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: '#D31DEA',
+      color: 'white',
     },
     ' & .MuiFormHelperText-contained': {
-      color: 'red',
+      color: theme.palette.common.red,
     },
+
+   
+    '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.common.red
+    },
+
+    '& .MuiFormLabel-root.Mui-error': {
+      color: theme.palette.common.red,
+    }
+
   },
 
+ 
+
   value: {
-    color: '#D31DEA',
+    color: 'white',
   },
 
   autoComplete: {
-    color: '#D31DEA',
+    color: 'white',
   },
 
   button: {
-    color: 'white',
-    marginTop: '1rem',
-    marginBottom: 28,
-    background: 'linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)',
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-    },
+    ...theme.button,
+    marginTop: '3rem',
+    width: 200,
+    [theme.breakpoints.down('xs')]: {
+          width: 'auto', 
+      },
   },
 
   input: {
@@ -58,98 +72,118 @@ const useStyles = makeStyles((theme) => ({
   },
 
   label: {
-    color: '#D31DEA',
+    color: 'white',
   },
 
   lyrics: {
-    '& .MuiInputBase-root': {
-      width: 800,
+    '& .MuiOutlinedInput-root': {
+      width: 'auto'
     },
+   
+
   },
 
   listbox: {
     background: theme.palette.background.default,
   },
   option: {
-    color: '#D31DEA',
+    color: 'white',
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
-      background: 'rgba(8,199,251,1)',
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.dark
     },
   },
 }));
 
 
 const SongForm = ({ onSubmit, handleSubmit }) => {
-  const classes = useStyles();
+
+  const classes = useStyles()
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const onFormSubmit = (formValues) => {
     onSubmit(formValues);
   };
   return (
-    <div>
-      <Grid container alignItems="center" justify="center" spacing={2} direction="row">
-        <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-          <Grid item>
-            <Field classes={classes} required name="title" component={renderTextField} label="Title" />
-          </Grid>
-          <Grid item>
-            <Field classes={classes} required name="artist" component={renderTextField} label="Artist" />
-          </Grid>
-          <Grid item xs={4}>
-            <Field classes={classes} name="album" component={renderTextField} label="Album" />
-          </Grid>
-          <Grid item xs={4}>
-            <Field
-              options={genres.sort((a, b) => (a.name > b.name ? 1 : -1))}
-              classes={classes}
-              name="genre"
-              component={renderAutoCompleteField}
-              label="Genre"
-            />
-          </Grid>
-          <Grid>
-            <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" />
-          </Grid>
-          <Grid>
-            <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
-          </Grid>
-          <Grid item>
-            <Field classes={classes} name="tempo" inputAdornment="BPM" component={renderTextField} label="Tempo" />
-          </Grid>
-          <Grid item>
-            <Field
-              classes={classes}
-              name="time_signature"
-              inputAdornment="/4"
-              component={renderTextField}
-              label="Time Signature"
-            />
-          </Grid>
-          <Grid item>
-            <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
-          </Grid>
-          <Grid item>
-            <Field
-              fullWidth
-              classes={classes}
-              className={classes.lyrics}
-              name="lyrics"
-              multiline
-              rows={8}
-              component={renderTextField}
-              label="Lyrics"
-            />
-          </Grid>
-          <Grid item>
-            <Button type="submit" className={classes.button} variant="contained">
-              Submit
-            </Button>
-          </Grid>
-        </form>
+  
+    <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
+        <Grid container  align="center" justify="center" >
+            <Grid container justify="center">
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field classes={classes} required name="title" component={renderTextField} label="Title" />
+              </Grid>
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field classes={classes} required name="artist" component={renderTextField} label="Artist" />
+              </Grid>
+            </Grid>
+            <Grid container justify="center">
+              <Grid item  xs={12} sm={12} lg={3}>
+                <Field classes={classes} name="album" component={renderTextField} label="Album" />
+              </Grid>
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field
+                  options={genres.sort((a, b) => (a.name > b.name ? 1 : -1))}
+                  classes={classes}
+                  name="genre"
+                  component={renderAutoCompleteField}
+                  label="Genre"
+                />
+              </Grid>
+            </Grid>
+            <Grid container justify="center">
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" />
+              </Grid>
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
+              </Grid>
+            </Grid>
+            <Grid container justify="center">
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field classes={classes} name="tempo" inputAdornment="BPM" component={renderTextField} label="Tempo" />
+              </Grid>
+              <Grid item xs={12} sm={12} lg={3}>
+                <Field
+                  classes={classes}
+                  name="time_signature"
+                  inputAdornment="/4"
+                  component={renderTextField}
+                  label="Time Signature"
+                />
+              </Grid>
+            </Grid>
+            <Grid container align="center" justifyContent="center" alignItems="center">
+              <Grid item xs={12}>
+                <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
+              </Grid>
+              <Grid item xs={1} lg={2}></Grid>
+              <Grid item xs={10} lg={8}>
+                <Field
+                  fullWidth
+                  classes={classes}
+                  className={classes.lyrics}
+                  name="lyrics"
+                  multiline
+                  rows={8}
+                  component={renderTextField}
+                  label="Lyrics"
+                />
+              </Grid>
+               <Grid item xs={1} lg={2}></Grid>
+            </Grid>
+            <Grid container justify="center"> 
+              <Grid item xs={3}>
+                <Button type="submit" className={classes.button} variant="contained">
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
       </Grid>
-    </div>
+        </form>
+
   );
 };
 

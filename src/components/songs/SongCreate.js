@@ -3,18 +3,37 @@ import { useDispatch } from 'react-redux';
 import { createSong } from '../../actions/songs';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import SongForm from './SongForm';
 import keys from './keys';
 import modes from './modes';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+      minHeight: '110vh', 
+      [theme.breakpoints.down('md')]: {
+          minHeight: '150vh', 
+      },
+
+      [theme.breakpoints.down('sm')]: {
+          minHeight: '165vh', 
+      },
+
+      [theme.breakpoints.down('xs')]: {
+          minHeight: '180vh', 
+      },
   },
+
+
+  title: {
+      color: 'white',
+  }, 
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
+    marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -26,12 +45,17 @@ const useStyles = makeStyles((theme) => ({
 
 const SongCreate = () => {
   const dispatch = useDispatch();
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+  const classes = useStyles();
 
   const normalize = (list, v) => {
     return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null;
   };
 
   const onSubmit = (formValues) => {
+
+
     dispatch(
       createSong({
         ...formValues,
@@ -42,18 +66,21 @@ const SongCreate = () => {
     );
   };
 
-  const classes = useStyles();
 
   return (
-    <>
+    <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
-      <div>
-        <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
-          Create a Song
-        </Typography>
-        <SongForm onSubmit={onSubmit} />
-      </div>
-    </>
+      {/* <Grid container justify="center">
+        <Grid item xs={12}> */}
+          <Typography className={classes.title}  variant="h2" align="center" gutterBottom>
+            Create a Song
+          </Typography>
+        {/* </Grid>
+        <Grid item xs={12}> */}
+          <SongForm onSubmit={onSubmit} />
+        {/* </Grid>
+      </Grid> */}
+    </div>
   );
 };
 

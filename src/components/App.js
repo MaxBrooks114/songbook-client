@@ -9,6 +9,7 @@ import UserEdit from './auth/UserEdit'
 import PasswordReset from './auth/PasswordReset'
 import SpotifySearch from './spotify/SpotifySearch';
 import SongCreate from './songs/SongCreate';
+import SongForm from './songs/SongForm';
 import SongList from './songs/SongList';
 import SongEdit from './songs/SongEdit';
 import InstrumentCreate from './instruments/InstrumentCreate';

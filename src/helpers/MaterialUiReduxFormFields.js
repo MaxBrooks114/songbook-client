@@ -82,6 +82,7 @@ export const renderTextField = ({
   input,
   label,
   type,
+  fullWidth,
   required,
   ...custom
 }) => {
@@ -99,6 +100,7 @@ export const renderTextField = ({
       multiline={multiline}
       type={type}
       rows={rows}
+      fullWidth={fullWidth}
       autoComplete="off"
       InputProps={{
         endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
@@ -165,10 +167,10 @@ export const renderAutoCompleteField = ({ options, classes, input, label, ...cus
         <TextField
         {...params}
         label={label}
-        size="small"
         color="secondary"
         variant="outlined"
         margin="dense"
+        fullWidth={false}
         InputProps={{
           ...params.InputProps,
           className: classes.autoComplete,
@@ -195,7 +197,6 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
             <TextField
             {...params}
             label={label}
-         
             size="small"
             color="secondary"
             variant="outlined"
