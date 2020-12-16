@@ -11,11 +11,23 @@ import modes from '../songs/modes';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: 'white',
+    minHeight: '150vh', 
+      [theme.breakpoints.down('md')]: {
+          minHeight: '190vh', 
+      },
+
+      [theme.breakpoints.down('sm')]: {
+          minHeight: '205vh', 
+      },
+
+      [theme.breakpoints.down('xs')]: {
+          minHeight: '220vh', 
+      },
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
+    marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -23,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '1.25em',
     },
   },
+
+  title: {
+    color: 'white'
+  }
 }));
 
 const ElementCreate = () => {
@@ -65,15 +81,13 @@ const ElementCreate = () => {
   const classes = useStyles();
 
   return (
-    <>
-      <div className={classes.toolbarMargin}></div>
-      <div>
-        <Typography className={classes.root} component="h1" variant="h2" align="center" gutterBottom>
+      <div  className={classes.root}>
+        <div className={classes.toolbarMargin}></div>
+        <Typography className={classes.title} variant="h2" align="center" gutterBottom>
           Create an Element
         </Typography>
         <ElementForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
-    </>
   );
 };
 

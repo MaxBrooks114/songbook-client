@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Field, reduxForm, clearFields, reset } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import RangedSlider from '../components/ui/RangedSlider';
 import Select from '@material-ui/core/Select';
 import { Autocomplete } from '@material-ui/lab';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
 
 
 
@@ -19,55 +22,31 @@ const adaptFileEventToValue = delegate => e => {
 
 export const FileInput = ({ 
   label,
+  classes,
   input: { value: omitValue, onChange, onBlur, ...inputProps }, 
   meta: omitMeta, 
   ...props 
 }) => {
+  const inputFileRef = useRef( null );
   return (
-    <>
-    {label}
-    <input
-      onChange={adaptFileEventToValue(onChange)}
-      onBlur={adaptFileEventToValue(onBlur)}
-      type="file"
-      {...props.input}
-      {...props}
-    />
-    </>
-  );
-};
-
-export const renderUploadButton = ({
-  helperText,
-  variant,
-  type,
-  classes,
-  input,
-  label,
-  value,
-  required,
-  hidden,
-  accept,
-  meta: omitMeta, 
-  input: { value: omitValue, onChange, onBlur, ...inputProps }, 
-  ...custom
-}) => {
-  return (
-    <Button
-    
-      label={label}
-      size="small"
-      color="secondary"
-      variant="outlined"
-      margin="dense"
+    <Button 
+      startIcon={<CloudUploadIcon />}
+      onClick={() => inputFileRef.current.click()}
+      className={classes.uploadButton}
+      >
+       {label}
+      <input 
+        onChange={adaptFileEventToValue(onChange)}
+        onBlur={adaptFileEventToValue(onBlur)}
+        hidden
+        ref={inputFileRef}
+        type="file"
+        {...props.input}
+        {...props} 
+      />
       
-      InputProps={{
-        className: classes.value,
-      }}
-      InputLabelProps={{ className: classes.label }}
-      {...input}
-      {...custom}>{label}<input onChange={adaptFileEventToValue(onChange)}
-      onBlur={adaptFileEventToValue(onBlur)} accept={accept} hidden={hidden} type={type}></input></Button>
+  </Button>
+   
   );
 };
 
@@ -156,7 +135,7 @@ export const renderSlider = ({
     />    
     )
   }
-export const renderAutoCompleteField = ({ options, classes, input, label, ...custom }) => {
+export const renderAutoCompleteField = ({ options, classes, input, label, fullWidth, ...custom }) => {
     return (
       <Autocomplete
       options={options || ''}
@@ -170,7 +149,7 @@ export const renderAutoCompleteField = ({ options, classes, input, label, ...cus
         color="secondary"
         variant="outlined"
         margin="dense"
-        fullWidth={false}
+        fullWidth={fullWidth}
         InputProps={{
           ...params.InputProps,
           className: classes.autoComplete,
@@ -185,7 +164,7 @@ export const renderAutoCompleteField = ({ options, classes, input, label, ...cus
         );
       };
       
-export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, label, ...custom }) => {
+export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, label, fullWidth, ...custom }) => {
         return (
           <Autocomplete
           options={options || ''}
@@ -200,7 +179,7 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
             size="small"
             color="secondary"
             variant="outlined"
-            margin="dense"
+            fullWidth={fullWidth}
             InputProps={{
               ...params.InputProps,
               className: classes.autoComplete,
