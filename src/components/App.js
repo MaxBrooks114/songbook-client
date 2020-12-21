@@ -10,7 +10,7 @@ import PasswordReset from './auth/PasswordReset'
 import SpotifySearch from './spotify/SpotifySearch';
 import SongCreate from './songs/SongCreate';
 import SongForm from './songs/SongForm';
-import SongList from './songs/SongList';
+import SongContainer from './songs/SongContainer';
 import SongEdit from './songs/SongEdit';
 import InstrumentCreate from './instruments/InstrumentCreate';
 import InstrumentEdit from './instruments/InstrumentEdit';
@@ -70,9 +70,9 @@ const App = () => {
               <PrivateRoute exact path="/search" component={SpotifySearch} />
               <PrivateRoute exact path="/songs/new" component={SongCreate} />
               <PrivateRoute exact path="/songs/edit/:id" component={SongEdit} />
-              <PrivateRoute exact path="/songs" component={SongList} />
-              <PrivateRoute exact path="/songs/:attribute/:value" component={SongList} />
-              <PrivateRoute exact path="/songs/:id" component={SongList} />
+              <PrivateRoute exact path="/songs" component={SongContainer} />
+              <PrivateRoute exact path="/songs/:attribute/:value" component={SongContainer} />
+              <PrivateRoute exact path="/songs/:id" component={SongContainer} />
               <PrivateRoute exact path="/sections/new" component={SectionCreate} />
               <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
               <PrivateRoute exact path="/sections" component={SectionList} />
