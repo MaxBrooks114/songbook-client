@@ -60,7 +60,7 @@ const SongCreate = () => {
         ...formValues,
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
-        elements: []
+        sections: []
       })
     );
   };

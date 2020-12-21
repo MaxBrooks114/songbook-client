@@ -90,7 +90,7 @@ const UserEdit = () => {
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete your account?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              You will lose all data associated with your account including songs, instruments and elements. 
+              You will lose all data associated with your account including songs, instruments and sections. 
             </DialogContentText>
           </DialogContent>
           <DialogActions>

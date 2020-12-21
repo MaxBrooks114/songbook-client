@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import spotifyTracksReducer from './spotify/spotifyTracksReducer';
 import spotifyPlayerReducer from './spotify/spotifyPlayerReducer';
 import songsReducer from './songs/songsReducer';
-import elementsReducer from './elements/elementsReducer';
+import sectionsReducer from './sections/sectionsReducer';
 import instrumentsReducer from './instruments/instrumentsReducer';
 import filesReducer from './filesReducer'
 import snackbarReducer from './ui/snackbarReducer';
@@ -22,7 +22,7 @@ export default combineReducers({
   form: formReducer,
   songs: songsReducer,
   instruments: instrumentsReducer,
-  elements: elementsReducer,
+  sections: sectionsReducer,
   files: filesReducer,
   snackbar: snackbarReducer,
   loading: loadingReducer,

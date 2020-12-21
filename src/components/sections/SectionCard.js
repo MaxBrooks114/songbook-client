@@ -38,19 +38,19 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const ElementCard = ({ element, transitionDuration, handleClick }) => {
+const SectionCard = ({ section, transitionDuration, handleClick }) => {
   const classes = useStyles();
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card className={classes.root} onClick={() => handleClick(element.id)}>
+      <Card className={classes.root} onClick={() => handleClick(section.id)}>
         <CardContent className={classes.cardContent}>
-          <Typography  variant="subtitle1">{element.name}</Typography>
-          <Typography  variant="caption">{element.song.title}</Typography>
+          <Typography  variant="subtitle1">{section.name}</Typography>
+          <Typography  variant="caption">{section.song.title}</Typography>
         </CardContent>
       </Card>
     </Slide>
   );
 };
 
-export default ElementCard;
+export default SectionCard;

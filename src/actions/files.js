@@ -3,11 +3,11 @@ import { loading, notLoading } from './ui';
 import { returnErrors } from './messages';
 import songbook from '../apis/songbook';
 
-export const createFile = ({file, extension, element, song}) => async (dispatch) => {
+export const createFile = ({file, extension, section, song}) => async (dispatch) => {
    const formData = new FormData();
    formData.append("file", file)
    formData.append("extension", extension)
-   formData.append("element", element)
+   formData.append("section", section)
    formData.append("song", song)
   try {
     const response = await songbook.post('/files/', formData)

@@ -4,12 +4,12 @@ export const favorite = (list, attr) => {
   return _.maxBy(Object.values(_.groupBy(list, el => el[attr])), arr => arr.length)[0][attr];
 }
 
-export const favoriteInstrument = (elements, instruments) => {
-  const instrumentMap = elements.filter((element) => {
-      if (element.instruments.length) {
-        return element.instruments
+export const favoriteInstrument = (sections, instruments) => {
+  const instrumentMap = sections.filter((section) => {
+      if (section.instruments.length) {
+        return section.instruments
       }
-    }).map((element) => element.instruments).flat()
+    }).map((section) => section.instruments).flat()
   const instrumentId = _.head(_(instrumentMap) 
   .countBy()
   .entries()
@@ -20,8 +20,8 @@ export const favoriteInstrument = (elements, instruments) => {
 }
 
 
-export const elementsLearned = (elements) => {
-  return elements.filter(element => element.learned).length
+export const sectionsLearned = (sections) => {
+  return sections.filter(section => section.learned).length
 }
 
 export const attrPreference = (songs, attr) => {

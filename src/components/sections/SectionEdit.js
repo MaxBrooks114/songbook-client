@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editElement, fetchElement } from '../../actions/elements';
+import { editSection, fetchSection } from '../../actions/sections';
 import {createFile} from '../../actions/files'
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import ElementForm from './ElementForm';
+import SectionForm from './SectionForm';
 import keys from '../songs/keys';
 import modes from '../songs/modes';
 
@@ -42,14 +42,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ElementEdit = ({ match }) => {
+const SectionEdit = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchElement(match.params.id));
+    dispatch(fetchSection(match.params.id));
   }, [dispatch, match.params.id]);
 
-  const element = useSelector((state) => state.elements[match.params.id]);
+  const section = useSelector((state) => state.sections[match.params.id]);
   const songs = useSelector((state) => state.songs);
   const instruments = useSelector((state) => state.instruments);
 
@@ -58,7 +58,7 @@ const ElementEdit = ({ match }) => {
       formValues.tempo = 0
     }
     dispatch(
-      editElement(match.params.id, {
+      editSection(match.params.id, {
         ...formValues,
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
@@ -70,10 +70,10 @@ const ElementEdit = ({ match }) => {
       })
     );
     if (formValues.recording) {
-        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song)})) 
     }
     if (formValues.tab) {
-        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song)})) 
     }
     
   };
@@ -93,22 +93,22 @@ const ElementEdit = ({ match }) => {
   };
 
   const renderTitle = () => {
-    return element.song.title;
+    return section.song.title;
   };
 
-  const initialValues = element
-    ? { ...element, start: element.start/1000, duration: element.duration/1000, key: renderText(keys, element.key), mode: renderText(modes, element.mode), song: renderTitle() }
+  const initialValues = section
+    ? { ...section, start: section.start/1000, duration: section.duration/1000, key: renderText(keys, section.key), mode: renderText(modes, section.mode), song: renderTitle() }
     : null;
 
   return (
     <div  className={classes.root}>
       <div className={classes.toolbarMargin}></div>
       <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
-        Edit an Element
+        Edit an Section
       </Typography>
-      <ElementForm initialValues={initialValues} instruments={instruments} songs={songs} onSubmit={onSubmit} />
+      <SectionForm initialValues={initialValues} instruments={instruments} songs={songs} onSubmit={onSubmit} />
     </div>
   );
 };
 
-export default ElementEdit;
+export default SectionEdit;

@@ -39,7 +39,7 @@ const InstrumentCreate = () => {
     dispatch(
       createInstrument({
         ...formValues,
-        elements: []
+        sections: []
       })
     );
   };

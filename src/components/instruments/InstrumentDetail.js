@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteInstrument } from '../../actions/instruments';
-import {playElement} from '../../actions/spotify'
+import {playSection} from '../../actions/spotify'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -181,11 +181,11 @@ const InstrumentDetail = ({ instrument }) => {
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   const [open, setOpen] = React.useState(false);
-  const elements = useSelector((state) =>
-    Object.values(state.elements).filter((element) => instrument.elements.includes(element.id))
+  const sections = useSelector((state) =>
+    Object.values(state.sections).filter((section) => instrument.sections.includes(section.id))
   );
 
-  const songs = elements.map(element => element.song)
+  const songs = sections.map(section => section.song)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -203,13 +203,13 @@ const InstrumentDetail = ({ instrument }) => {
     setAnchorEl(null);
   };
 
-  const handleElementPlayClick = (element) => {
-    dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, deviceId));
+  const handleSectionPlayClick = (section) => {
+    dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, deviceId));
   };
 
- const renderSpotifyOptionElement = (element) => {
+ const renderSpotifyOptionSection = (section) => {
     return accessToken && accessToken !== "" ?
-      <IconButton onClick={() => handleElementPlayClick(element)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+      <IconButton onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   
   
@@ -219,14 +219,14 @@ const InstrumentDetail = ({ instrument }) => {
       return songs
 
       ? songs.map((song) => {
-          let songElements = elements.filter(element => song.id === element.song.id )
+          let songSections = sections.filter(section => song.id === section.song.id )
           return (
                <Accordion className={classes.accordion}>        
                   <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                     <Typography variant={matches ? "caption" : "subtitle1" }> <Link className={classes.songlink} to={`/songs/${song.id}`}>{song.title}</Link></Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                      {renderElements(songElements)}
+                      {renderSections(songSections)}
                   </AccordionDetails>
                 </Accordion> 
           );
@@ -236,15 +236,15 @@ const InstrumentDetail = ({ instrument }) => {
   
 
 
-  const renderElements = (elements) => {
-    return elements
-      ? elements.map((element) => {
+  const renderSections = (sections) => {
+    return sections
+      ? sections.map((section) => {
           return (
             <Grid container justify="center" alignItems="center">
                 <Typography>
-                  <Link className={classes.songlink} to={`/elements/${element.id}`}>{element.name}</Link>
+                  <Link className={classes.songlink} to={`/sections/${section.id}`}>{section.name}</Link>
                   </Typography>
-                {renderSpotifyOptionElement(element)}
+                {renderSpotifyOptionSection(section)}
             </Grid>
           );
         })
@@ -300,7 +300,7 @@ const InstrumentDetail = ({ instrument }) => {
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Elements</Typography>
+                <Typography className={classes.songTitle}>Sections</Typography>
               </AccordionSummary>
               {renderSongs(songs)}  
             </Accordion>
@@ -317,7 +317,7 @@ const InstrumentDetail = ({ instrument }) => {
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this Instrument?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              By deleting this isntrument you will also lose any affiliation with the elements you have listed for this
+              By deleting this isntrument you will also lose any affiliation with the sections you have listed for this
               instrument.
             </DialogContentText>
           </DialogContent>

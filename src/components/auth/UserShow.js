@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import {favorite, favoriteInstrument, elementsLearned, attrPreference, minAttr, maxAttr} from '../../helpers/userMetrics'
+import {favorite, favoriteInstrument, sectionsLearned, attrPreference, minAttr, maxAttr} from '../../helpers/userMetrics'
 import {renderText, millisToMinutesAndSeconds, sec2time} from '../../helpers/detailHelpers'
 import modes from '../songs/modes';
 import keys from '../songs/keys';
@@ -35,10 +35,10 @@ const UserShow = () => {
   const user = useSelector((state) => state.auth.user);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const songs = useSelector(state => state.songs)
-  const elements = useSelector(state => state.elements)
+  const sections = useSelector(state => state.sections)
   const instruments = useSelector(state => state.instruments)
   let metrics = [];
-  if (Object.values(songs).length && Object.values(instruments).length && Object.values(elements).length) {
+  if (Object.values(songs).length && Object.values(instruments).length && Object.values(sections).length) {
     metrics = [{
       title: "Songs",
       data: Object.values(songs).length
@@ -47,15 +47,15 @@ const UserShow = () => {
       data: Object.values(instruments).length
     },
     {
-      title: "Elements",
-      data: Object.values(elements).length},
+      title: "Sections",
+      data: Object.values(sections).length},
     {
-      title: "Elements Learned",
-      data: elementsLearned(Object.values(elements))
+      title: "Sections Learned",
+      data: sectionsLearned(Object.values(sections))
     },
     {
       title: "Favorite Instrument",
-      data: favoriteInstrument(Object.values(elements), Object.values(instruments))
+      data: favoriteInstrument(Object.values(sections), Object.values(instruments))
     },
     {
       title: "Favorite Genre",
@@ -63,11 +63,11 @@ const UserShow = () => {
     },
     {
       title: "Favorite Key",
-      data: renderText(keys, favorite(Object.values(elements), 'key'))
+      data: renderText(keys, favorite(Object.values(sections), 'key'))
     },
     {
       title: "Favorite Mode",
-      data: renderText(modes, favorite(Object.values(elements), 'mode'))
+      data: renderText(modes, favorite(Object.values(sections), 'mode'))
     },
     {
       title: "Favorite Artist",
@@ -98,31 +98,31 @@ const UserShow = () => {
       data: `${minAttr(Object.values(songs), 'duration').title} (${millisToMinutesAndSeconds(minAttr(Object.values(songs), 'duration').duration)})`
     },
     {
-      title: "Shortest Element",
-      data: `${minAttr(Object.values(elements), 'duration').name} of ${minAttr(Object.values(elements), 'duration').song.title} (${sec2time(minAttr(Object.values(elements), 'duration').duration)})`
+      title: "Shortest Section",
+      data: `${minAttr(Object.values(sections), 'duration').name} of ${minAttr(Object.values(sections), 'duration').song.title} (${sec2time(minAttr(Object.values(sections), 'duration').duration)})`
     }, {
       title: "Longest Song",
       data: `${maxAttr(Object.values(songs), 'duration').title} (${millisToMinutesAndSeconds(maxAttr(Object.values(songs), 'duration').duration)})`
     },
     {
-      title: "Longest Element",
-      data: `${maxAttr(Object.values(elements), 'duration').name} of ${maxAttr(Object.values(elements), 'duration').song.title} (${ sec2time(maxAttr(Object.values(elements), 'duration').duration)})`
+      title: "Longest Section",
+      data: `${maxAttr(Object.values(sections), 'duration').name} of ${maxAttr(Object.values(sections), 'duration').song.title} (${ sec2time(maxAttr(Object.values(sections), 'duration').duration)})`
     },
     {
       title: "Fastest Song",
       data: `${maxAttr(Object.values(songs), 'tempo').title} (${(maxAttr(Object.values(songs), 'tempo').tempo)}) BPM`
     },
     {
-      title: "Fastest Element",
-      data: `${maxAttr(Object.values(elements), 'tempo').name} of ${maxAttr(Object.values(elements), 'tempo').song.title} (${(maxAttr(Object.values(elements), 'tempo').tempo)}) BPM`
+      title: "Fastest Section",
+      data: `${maxAttr(Object.values(sections), 'tempo').name} of ${maxAttr(Object.values(sections), 'tempo').song.title} (${(maxAttr(Object.values(sections), 'tempo').tempo)}) BPM`
     },
     {
       title: "Slowest Song",
       data: `${minAttr(Object.values(songs), 'tempo').title} (${(minAttr(Object.values(songs), 'tempo').tempo)}) BPM`
     },
     {
-      title: "Slowest Element",
-      data: `${minAttr(Object.values(elements), 'tempo').name} of ${minAttr(Object.values(elements), 'tempo').song.title} (${(minAttr(Object.values(elements), 'tempo').tempo)}) BPM`
+      title: "Slowest Section",
+      data: `${minAttr(Object.values(sections), 'tempo').name} of ${minAttr(Object.values(sections), 'tempo').song.title} (${(minAttr(Object.values(sections), 'tempo').tempo)}) BPM`
     },
 
    ]
@@ -133,7 +133,7 @@ const UserShow = () => {
     return accessToken && accessToken !== '' ? (
       ''
     ) : (
-      <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with Spotify</a>
+      <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with Spotify</a>
     );
   };
 

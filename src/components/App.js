@@ -15,9 +15,9 @@ import SongEdit from './songs/SongEdit';
 import InstrumentCreate from './instruments/InstrumentCreate';
 import InstrumentEdit from './instruments/InstrumentEdit';
 import InstrumentList from './instruments/InstrumentList';
-import ElementCreate from './elements/ElementCreate';
-import ElementEdit from './elements/ElementEdit';
-import ElementList from './elements/ElementList';
+import SectionCreate from './sections/SectionCreate';
+import SectionEdit from './sections/SectionEdit';
+import SectionList from './sections/SectionList';
 import SuccessSnackBar from './ui/SuccessSnackBar';
 import Navbar from './ui/Navbar';
 import Footer from './ui/Footer';
@@ -30,7 +30,7 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import UserShow from './auth/UserShow';
 import { fetchInstruments } from '../actions/instruments';
 import { fetchSongs } from '../actions/songs';
-import { fetchElements } from '../actions/elements';
+import { fetchSections } from '../actions/sections';
 import { fetchFiles } from '../actions/files';
 
 const App = () => {
@@ -40,7 +40,7 @@ const App = () => {
     dispatch(fetchUser());
     dispatch(fetchInstruments());
     dispatch(fetchSongs());
-    dispatch(fetchElements());
+    dispatch(fetchSections());
     dispatch(fetchFiles())
   }, [dispatch]);
 
@@ -48,7 +48,7 @@ const App = () => {
     dispatch(fetchUser());
     dispatch(fetchInstruments());
     dispatch(fetchSongs());
-    dispatch(fetchElements());
+    dispatch(fetchSections());
     dispatch(fetchFiles())
   }, [dispatch]);
  
@@ -73,11 +73,11 @@ const App = () => {
               <PrivateRoute exact path="/songs" component={SongList} />
               <PrivateRoute exact path="/songs/:attribute/:value" component={SongList} />
               <PrivateRoute exact path="/songs/:id" component={SongList} />
-              <PrivateRoute exact path="/elements/new" component={ElementCreate} />
-              <PrivateRoute exact path="/elements/edit/:id" component={ElementEdit} />
-              <PrivateRoute exact path="/elements" component={ElementList} />
-              <PrivateRoute exact path="/elements/:attribute/:value" component={ElementList} />
-              <PrivateRoute exact path="/elements/:id" component={ElementList} />
+              <PrivateRoute exact path="/sections/new" component={SectionCreate} />
+              <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
+              <PrivateRoute exact path="/sections" component={SectionList} />
+              <PrivateRoute exact path="/sections/:attribute/:value" component={SectionList} />
+              <PrivateRoute exact path="/sections/:id" component={SectionList} />
               <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
               <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
               <PrivateRoute exact path="/instruments" component={InstrumentList} />

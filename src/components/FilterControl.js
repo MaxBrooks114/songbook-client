@@ -177,7 +177,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     const dispatch = useDispatch();
     const filterForm = useSelector(state => state.form.FilterForm)
     const filterValues = useSelector(state => state.filter)
-    const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'elements', 'instruments', 'lyrics']
+    const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
     const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k))
    
     
@@ -294,7 +294,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
 
     const renderSongAndInstrumentFields = () => {
       const fields = ['song', 'instrument']
-      return objectType === 'elements' ? 
+      return objectType === 'sections' ? 
         fields.map((field) => {
           const fieldProp = field === 'song' ? 'title' : 'name'
           const items = field === 'song' ? songs : instruments

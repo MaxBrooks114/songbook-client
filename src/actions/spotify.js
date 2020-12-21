@@ -7,7 +7,7 @@ import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCE
 import { loading, notLoading } from './ui';
 import history from '../history';
 import { createSong } from './songs';
-import { createElement } from './elements';
+import { createSection } from './sections';
 import { returnErrors } from './messages';
 import { showSuccessSnackbar } from './ui';
 import { Link } from 'react-router-dom';
@@ -114,7 +114,7 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       original: false,
       spotify_url: trackData.data.uri,
       spotify_id: trackData.data.id,
-      elements: [],
+      sections: [],
     };
     await dispatch(createSong(songData));
     let state;
@@ -136,7 +136,7 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
         song: song_id,
         instrument_id: null,
       };
-      await dispatch(createElement(sectionData));
+      await dispatch(createSection(sectionData));
     }
     dispatch(notLoading());
     dispatch(showSuccessSnackbar(`Song Imported`));
@@ -199,7 +199,7 @@ export const playSong = (accessToken, songUri, refreshToken, deviceId) => async 
 
     dispatch({
       type: PLAY,
-      elementPlay: false
+      sectionPlay: false
     })
   } catch (error) {
     dispatch(returnErrors(error));
@@ -221,7 +221,7 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
     let state = getState();
     const url = deviceId === '' ? '/me/player/pause' : `/me/player/pause?device_id=${deviceId}`;
     
-    if ( state.spotifyPlayer.playing && state.spotifyPlayer.elementPlay && state.spotifyPlayer.song === songUri) { 
+    if ( state.spotifyPlayer.playing && state.spotifyPlayer.sectionPlay && state.spotifyPlayer.song === songUri) { 
       spotify.put( 
         url,
         {}, {
@@ -252,7 +252,7 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
    
 }
 
-export const playElement = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
+export const playSection = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
   dispatch(loading());
   
   try {
@@ -270,7 +270,7 @@ export const playElement = (accessToken, songUri, refreshToken, start, duration,
  dispatch({
     type: PLAY,
     playing: true,
-    elementPlay: true,
+    sectionPlay: true,
     })
   try { 
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
@@ -295,11 +295,11 @@ export const playElement = (accessToken, songUri, refreshToken, start, duration,
     dispatch(returnErrors(error));
     if (error.response.status === 401) {
       const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
-      dispatch(playElement(newAccessToken, songUri, refreshToken, start, duration, deviceId));
+      dispatch(playSection(newAccessToken, songUri, refreshToken, start, duration, deviceId));
     }
     if (error.response.status === 404) {
       const newDeviceId = await dispatch(getDeviceId(accessToken));
-      dispatch(playElement(accessToken, songUri, refreshToken, start, duration, newDeviceId));
+      dispatch(playSection(accessToken, songUri, refreshToken, start, duration, newDeviceId));
     }
   }
   

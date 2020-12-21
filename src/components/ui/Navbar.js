@@ -171,8 +171,8 @@ const Navbar = () => {
     { name: 'New Instrument', link: '/instruments/new', activeIndex: 0, selectedIndex: 1},
     { name: 'Songs', link: '/songs', activeIndex: 1, selectedIndex: 2},
     { name: 'New Song', link: '/songs/new', activeIndex: 1, selectedIndex: 3},
-    { name: 'Elements', link: '/elements', activeIndex: 2, selectedIndex: 4},
-    { name: 'New Element', link: '/elements/new', activeIndex: 2, selectedIndex: 5},
+    { name: 'Sections', link: '/sections', activeIndex: 2, selectedIndex: 4},
+    { name: 'New Section', link: '/sections/new', activeIndex: 2, selectedIndex: 5},
     { name: user.username, link: `/users/${user.id}`, activeIndex: 3, selectedIndex: 6},
     { name: 'Log out', link: '/logout', activeIndex: 3, selectedIndex: 7},
     {name: 'Spotify Search', link: '/search', activeIndex: 4, selectedIndex: 8, component: 'button'}
@@ -186,7 +186,7 @@ const Navbar = () => {
   [
     { name: 'Instruments', link: '/instruments', activeIndex: 0 },
     { name: 'Songs', link: '/songs', activeIndex: 1 },
-    { name: 'Elements', link: '/elements', activeIndex: 2 },
+    { name: 'Sections', link: '/sections', activeIndex: 2 },
     { name: user.username, link: `/users/${user.id}`, activeIndex: 3},
     {name: 'Spotify Search', link: '/search', activeIndex: 4, component: 'button'}
   ] : null 

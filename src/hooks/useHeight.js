@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 
-function useHeight(elementRef) {
+function useHeight(sectionRef) {
   const [height, setHeight] = useState(null);
 
   const updateHeight = useCallback(() => {
-    if (elementRef && elementRef.current) {
-      const { height } = elementRef.current.getBoundingClientRect();
+    if (sectionRef && sectionRef.current) {
+      const { height } = sectionRef.current.getBoundingClientRect();
       setHeight( height);
       
     }
-  }, [elementRef]);
+  }, [sectionRef]);
 
   useEffect(() => {
     updateHeight();

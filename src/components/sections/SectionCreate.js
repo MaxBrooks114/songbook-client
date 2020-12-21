@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createElement } from '../../actions/elements';
+import { createSection } from '../../actions/sections';
 import {createFile} from '../../actions/files'
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import ElementForm from './ElementForm';
+import SectionForm from './SectionForm';
 import keys from '../songs/keys';
 import modes from '../songs/modes';
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ElementCreate = () => {
+const SectionCreate = () => {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.songs);
   const instruments = useSelector((state)=> state.instruments)
@@ -58,7 +58,7 @@ const ElementCreate = () => {
       formValues.tempo = 0
     }
     dispatch(
-      createElement({
+      createSection({
         ...formValues,
         key: normalize(keys, formValues.key),
         mode: normalize(modes, formValues.mode),
@@ -70,10 +70,10 @@ const ElementCreate = () => {
       })
     );
     if (formValues.recording) {
-        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song)})) 
     }
     if (formValues.tab) {
-        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], element: formValues.id, song: songId(formValues.song)})) 
+        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song)})) 
     }
     
   };
@@ -84,11 +84,11 @@ const ElementCreate = () => {
       <div  className={classes.root}>
         <div className={classes.toolbarMargin}></div>
         <Typography className={classes.title} variant="h2" align="center" gutterBottom>
-          Create an Element
+          Create an Section
         </Typography>
-        <ElementForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
+        <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
   );
 };
 
-export default ElementCreate;
+export default SectionCreate;

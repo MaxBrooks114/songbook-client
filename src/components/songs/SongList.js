@@ -20,8 +20,14 @@ import useHeight from '../../hooks/useHeight'
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    minHeight: '120vh',
+
+  }, 
+
   cardGrid: {
     marginBottom: theme.spacing(8),
+    minHeight: '100vh',
   },
 
   toolbarMargin: {
@@ -41,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
   detail: {
      height: '100%',
+     minHeight: '100vh'
   },
 
 
@@ -193,7 +200,7 @@ const SongList = ({ match }) => {
 
 
   return (
-    <div >
+    <div className={classes.root} >
         <Grid container justify="center" >
           {!matches  ? <Grid item xs={10} lg={10} sm={12} className={classes.filter}>
             {renderFilter()}

@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const ElementForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
+const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
   const classes = useStyles();
 
   const onFormSubmit = (formValues) => {
@@ -261,7 +261,7 @@ const validate = (formValues) => {
 };
 
 export default reduxForm({
-  form: 'ElementCreate',
+  form: 'SectionCreate',
   validate,
   initialValues: {prescribed: true},
-})(ElementForm);
+})(SectionForm);

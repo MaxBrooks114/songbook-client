@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import * as workerTimers from 'worker-timers'
-import { deleteElement } from '../../actions/elements';
-import { playElement } from '../../actions/spotify';
+import { deleteSection } from '../../actions/sections';
+import { playSection } from '../../actions/spotify';
 import {renderText, millisToMinutesAndSeconds, renderBool} from '../../helpers/detailHelpers'
 import {deleteFile} from '../../actions/files'
 import Paper from '@material-ui/core/Paper';
@@ -199,17 +199,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ElementDetail = ({ element }) => {
+const SectionDetail = ({ section }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id, shallowEqual);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token, shallowEqual);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token, shallowEqual);
   const instruments = useSelector((state) =>
-  Object.values(state.instruments).filter((instrument) => element.instruments.includes(instrument.id)), shallowEqual
+  Object.values(state.instruments).filter((instrument) => section.instruments.includes(instrument.id)), shallowEqual
 );
   const files = useSelector((state) => state.files)
-  const recordings = Object.values(files).filter(file => (file.extension === 'wav' || file.extension === 'mp3') && file.element === element.id )
-  const tabs = Object.values(files).filter(file => (file.extension === 'pdf' || file.extension === 'png' || file.extension === 'jpeg') && file.element === element.id )
+  const recordings = Object.values(files).filter(file => (file.extension === 'wav' || file.extension === 'mp3') && file.section === section.id )
+  const tabs = Object.values(files).filter(file => (file.extension === 'pdf' || file.extension === 'png' || file.extension === 'jpeg') && file.section === section.id )
   const user = useSelector((state) => state.auth.user, shallowEqual);
 
   const [open, setOpen] = useState(false);
@@ -243,7 +243,7 @@ const ElementDetail = ({ element }) => {
 
 const renderSpotifyOption = () => {
     return accessToken && accessToken !== "" ?
-     <IconButton className={classes.bigPlayButtonContainer} onClick={handleElementPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+     <IconButton className={classes.bigPlayButtonContainer} onClick={handleSectionPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
   }
   const renderInstruments = (instruments) => {
     return instruments
@@ -304,10 +304,10 @@ const renderSpotifyOption = () => {
   )
     })
   }
-  const handleElementPlayClick = () => {
+  const handleSectionPlayClick = () => {
     setShow(true)
     const timeout = workerTimers.setTimeout(() => {
-      dispatch(playElement(accessToken, element.song.spotify_url, refreshToken, element.start, element.duration, deviceId))
+      dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, section.duration, deviceId))
       setShow(false)  
       workerTimers.clearTimeout(timeout)
     }, 3000);
@@ -315,7 +315,7 @@ const renderSpotifyOption = () => {
   };
 
 
-  return element ? (
+  return section ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
       
       <Paper className={classes.root} elevation={3}>
@@ -338,10 +338,10 @@ const renderSpotifyOption = () => {
             <Grid container justify="space-evenly" align={matches ? "center" : 'left'} alignItems="center">
               <Grid item xs={12} lg={4}>
                 <Typography  variant={matches ? "h5" : "h4"} >
-                  {element.name}
+                  {section.name}
                 </Typography>
                 <Typography variant={matches ? "subtitle1" : "h6"}>
-                  <Link to={`/songs/${element.song.id}`}>{element.song.title}</Link>
+                  <Link to={`/songs/${section.song.id}`}>{section.song.title}</Link>
                 </Typography>
               </Grid>
               <Grid item xs={12} lg={4}>
@@ -354,22 +354,22 @@ const renderSpotifyOption = () => {
               <Grid item xs={12}>
             <Grid container align="center" alignItems="center" justify="space-evenly">
               <Grid item xs={3} lg={3}>
-                <Typography variant={matches ? "caption" : "subtitle1" }>Start: {millisToMinutesAndSeconds(element.start)}</Typography> <br/ >
-                <Typography variant={matches ? "caption" : "subtitle1" }>Duration: {millisToMinutesAndSeconds(element.duration)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>Start: {millisToMinutesAndSeconds(section.start)}</Typography> <br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Duration: {millisToMinutesAndSeconds(section.duration)}</Typography>
               </Grid>
               <Grid item xs={1} lg={0}>
                 <Divider orientation="vertical"  className={classes.verticalDivider} />
               </Grid>
               <Grid item xs={3} lg={3}>
-                <Typography variant={matches ? "caption" : "subtitle1" }>{renderText(keys, element.key)} {renderText(modes, element.mode)}</Typography><br/ >
-                <Typography variant={matches ? "caption" : "subtitle1" }>Learned?: {renderBool(element.learned)}</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>{renderText(keys, section.key)} {renderText(modes, section.mode)}</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Learned?: {renderBool(section.learned)}</Typography>
               </Grid>
               <Grid item xs={1}>
                 <Divider orientation="vertical"  className={classes.verticalDivider} />
               </Grid>
               <Grid item xs={4} lg={3}>
-                <Typography variant={matches ? "caption" : "subtitle1" }>{element.tempo} BPM</Typography><br/ >
-                <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {element.time_signature}/4</Typography>
+                <Typography variant={matches ? "caption" : "subtitle1" }>{section.tempo} BPM</Typography><br/ >
+                <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {section.time_signature}/4</Typography>
               </Grid>
               {matches ? 
                <Grid item xs={10}>
@@ -387,7 +387,7 @@ const renderSpotifyOption = () => {
                   <AccordionDetails>
                     <Grid container justify="space-around">
                       <Grid item xs={10}>
-                        <Typography className={classes.lyrics}>{element.lyrics}</Typography>
+                        <Typography className={classes.lyrics}>{section.lyrics}</Typography>
                       </Grid>
                     </Grid>
                   </AccordionDetails>   
@@ -411,7 +411,7 @@ const renderSpotifyOption = () => {
               </AccordionSummary>
               <AccordionDetails>
                <Grid item xs={12}> 
-                      <Metronome key={element.id} startBpm= {element.tempo}/>
+                      <Metronome key={section.id} startBpm= {section.tempo}/>
                
               </Grid>
               </AccordionDetails>
@@ -422,7 +422,7 @@ const renderSpotifyOption = () => {
               </AccordionSummary>
               <AccordionDetails>
                <Grid item xs={12}> 
-                  <RecordView className="recorder" key={element.id} />
+                  <RecordView className="recorder" key={section.id} />
               </Grid>
               </AccordionDetails>
             </Accordion>
@@ -455,7 +455,7 @@ const renderSpotifyOption = () => {
           aria-describedby="alert-dialog-description"
           className={classes.dialog}
         >
-          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this element?'}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this section?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
                   You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again.
@@ -468,7 +468,7 @@ const renderSpotifyOption = () => {
             <Button
               onClick={() => {
                 handleClose();
-                dispatch(deleteElement(element.id))
+                dispatch(deleteSection(section.id))
               }}
               color="primary"
               autoFocus
@@ -491,7 +491,7 @@ const renderSpotifyOption = () => {
                         <MenuItem             
                             className={classes.menu}
                             onClick={handleMenuClose}>
-                           <Link className={classes.link} to={`edit/${element.id}`}>Edit</Link>
+                           <Link className={classes.link} to={`edit/${section.id}`}>Edit</Link>
                         </MenuItem>
                         <MenuItem 
                             className={classes.menu}
@@ -506,4 +506,4 @@ const renderSpotifyOption = () => {
   ) : null;
 };
 
-export default ElementDetail;
+export default SectionDetail;

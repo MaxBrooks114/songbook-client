@@ -1,14 +1,14 @@
 import React, {useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as workerTimers from 'worker-timers';
-import { fetchElement } from '../../actions/elements';
+import { fetchSection } from '../../actions/sections';
 import { getFilteredItems } from '../../selectors/filterSelectors';
 import {checkIfPlaying} from '../../actions/spotify'
 import {clearFilter} from '../../actions/filter'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
-import ElementCard from './ElementCard';
-import ElementDetail from './ElementDetail';
+import SectionCard from './SectionCard';
+import SectionDetail from './SectionDetail';
 import FilterControl from '../FilterControl';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -100,12 +100,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const ElementList = ({ match }) => {
-  const filteredElements = useSelector(state => getFilteredItems(state, 'elements'));
-  const elements = useSelector((state) => state.elements);
+const SectionList = ({ match }) => {
+  const filteredSections = useSelector(state => getFilteredItems(state, 'sections'));
+  const sections = useSelector((state) => state.sections);
   const instruments = useSelector((state) => state.instruments);
   const songs = useSelector((state) => state.songs )
-  const element = useSelector((state) => state.elements[match.params.id]);
+  const section = useSelector((state) => state.sections[match.params.id]);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
 
@@ -133,19 +133,19 @@ const ElementList = ({ match }) => {
   let transitionDuration = 50;
 
   const handleClick = (id) => {
-    dispatch(fetchElement(id));
+    dispatch(fetchSection(id));
   };
   const renderFilter = () => {
-    return Object.values(elements).length > 0 ? <FilterControl items={Object.values(elements)} instruments={Object.values(instruments)}  songs={Object.values(songs)}  objectType='elements'  /> : null
+    return Object.values(sections).length > 0 ? <FilterControl items={Object.values(sections)} instruments={Object.values(instruments)}  songs={Object.values(songs)}  objectType='sections'  /> : null
   }
   const renderedList =
-    Object.values(elements).length > 0
-      ? Object.values(filteredElements)
-          .map((element) => {
+    Object.values(sections).length > 0
+      ? Object.values(filteredSections)
+          .map((section) => {
             transitionDuration += 50;
             return (
-              <ListItem key={element.id} disableGutters dense>
-                <ElementCard element={element} transitionDuration={transitionDuration} handleClick={handleClick} />
+              <ListItem key={section.id} disableGutters dense>
+                <SectionCard section={section} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             );
           })
@@ -153,7 +153,7 @@ const ElementList = ({ match }) => {
 
 
   const renderDetail = () => {
-    return element ? <ElementDetail  element={element} /> : null;
+    return section ? <SectionDetail  section={section} /> : null;
   };
 
  const drawer = (
@@ -216,4 +216,4 @@ const ElementList = ({ match }) => {
   );
 };
 
-export default ElementList;
+export default SectionList;

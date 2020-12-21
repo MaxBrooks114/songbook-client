@@ -1,5 +1,5 @@
 import history from '../history';
-import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG, DELETE_ELEMENT } from './types';
+import { CREATE_SONG, FETCH_SONGS, FETCH_SONG, DELETE_SONG, EDIT_SONG, DELETE_SECTION } from './types';
 import { loading, notLoading, showSuccessSnackbar } from './ui';
 
 import { returnErrors } from './messages';
@@ -63,10 +63,10 @@ export const fetchSong = (id) => async (dispatch) => {
 export const deleteSong = (id, song) => async (dispatch) => {
   try {
     await songbook.delete(`/songs/${id}/`);
-    for (let element of song.elements) {
+    for (let section of song.sections) {
       dispatch({
-        type: DELETE_ELEMENT,
-        payload: element,
+        type: DELETE_SECTION,
+        payload: section,
       });
     }
     dispatch({

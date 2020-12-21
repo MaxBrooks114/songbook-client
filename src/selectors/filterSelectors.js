@@ -1,7 +1,7 @@
 import modes from '../components/songs/modes';
 import {renderText, audioFeaturesToNumbers} from '../helpers/detailHelpers'
 const getFilters= (state) => state.filter;
-const getElements = (state) => state.elements;
+const getSections = (state) => state.sections;
 const getInstruments = (state) => state.instruments
 const getSongs = (state) => state.songs;
 
@@ -9,16 +9,16 @@ const getSongs = (state) => state.songs;
 export const getFilteredItems = (state, objectType)  => {
   const filterProperties =getFilters(state);
   const songs = getSongs(state);
-  const elements = getElements(state)
+  const sections = getSections(state)
   const instruments = getInstruments(state)
   const filterKeys = Object.keys(filterProperties).filter(key => key !== "filter" && key !== "loudness" )
   const orderArray = filterProperties.order === "Ascending" ? [ 1 , -1] : [-1, 1]
 
 
-  const filterables = objectType === 'songs' ? songs : elements
+  const filterables = objectType === 'songs' ? songs : sections
   if (filterProperties.filter) {
     return Object.values(filterables).filter(f => {
-      let fk = filterKeys.filter(k => (k === "learned" && filterProperties[k] !== "") || (k === "original" && filterProperties[k] !== "") || (k === "explicit"  && filterProperties[k] !== "") || (filterProperties[k] && f[k]) || (filterProperties[k] && f[k]===0) || (objectType === 'elements' && k === "instrument" && filterProperties[k] !== "")  )
+      let fk = filterKeys.filter(k => (k === "learned" && filterProperties[k] !== "") || (k === "original" && filterProperties[k] !== "") || (k === "explicit"  && filterProperties[k] !== "") || (filterProperties[k] && f[k]) || (filterProperties[k] && f[k]===0) || (objectType === 'sections' && k === "instrument" && filterProperties[k] !== "")  )
      return fk.every(prop => {
           switch (prop) { 
             case 'key':

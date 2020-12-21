@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     border: theme.palette.common.pastePurple,
     color: '#D31DEA',
     marginTop: '2rem',
-    marginLeft: '4rem',
 
     '& .MuiOutlinedInput-root': {
       '& fieldset': {

@@ -17,7 +17,7 @@ import { loading, notLoading } from './ui';
 import { returnErrors } from './messages';
 import { fetchInstruments } from '../actions/instruments';
 import { fetchSongs } from '../actions/songs';
-import { fetchElements } from '../actions/elements';
+import { fetchSections } from '../actions/sections';
 import { showSuccessSnackbar } from './ui';
 import songbook from '../apis/songbook';
 
@@ -51,7 +51,7 @@ export const login = (formValues) => async (dispatch) => {
       payload: response.data,
     });
 
-    dispatch(fetchElements());
+    dispatch(fetchSections());
     dispatch(fetchSongs());
     dispatch(fetchInstruments());
     history.push('/search')

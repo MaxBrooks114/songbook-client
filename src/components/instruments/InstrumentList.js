@@ -93,8 +93,8 @@ const InstrumentList = ({ match }) => {
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const elementDOM = useRef(null);
-  const [height] = useHeight(elementDOM);
+  const sectionDOM = useRef(null);
+  const [height] = useHeight(sectionDOM);
 
   let transitionDuration = 50;
 
@@ -164,7 +164,7 @@ const InstrumentList = ({ match }) => {
             <List style={{height: height}}>{renderedList}</List>  
         </Grid> : drawer}
         <Grid item lg={1} md={1} sm={0} xs={0}/>
-        <Grid item xs={10} md={8} lg={6}  ref={elementDOM} className={classes.detail}>
+        <Grid item xs={10} md={8} lg={6}  ref={sectionDOM} className={classes.detail}>
           {renderDetail()}
         </Grid>
     
