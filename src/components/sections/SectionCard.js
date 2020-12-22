@@ -8,7 +8,7 @@ import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     display: 'flex',
     width: '100%',
     height: 'auto',
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     
       },
     
-    color: '#FFF',
+    color: theme.palette.info.main,
 
     
   },

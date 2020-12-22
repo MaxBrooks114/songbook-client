@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   stopRecordingButton: {
-     color: theme.palette.primary.dark,
+     color: theme.palette.primary.main,
      background: theme.palette.common.red,
       '&:hover': {
         color: theme.palette.common.red,

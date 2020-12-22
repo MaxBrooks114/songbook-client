@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   drawer: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
     width: '83%',
     margin: 'auto',

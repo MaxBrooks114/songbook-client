@@ -29,23 +29,23 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.primary.main,
     background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
     width: '100%',
     '&:hover': {
       background: theme.palette.secondary.main,
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
     },
   },
 
   cardContent: {
     flexGrow: 1,
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   trackTitle: {
     fontWeight: 'bold',
-    color: 'white',
+    color: theme.palette.info.main,
   },
 }));
 

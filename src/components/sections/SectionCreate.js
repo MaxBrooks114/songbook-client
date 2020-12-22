@@ -10,7 +10,7 @@ import modes from '../songs/modes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
     minHeight: '150vh', 
       [theme.breakpoints.down('md')]: {
           minHeight: '190vh', 
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   title: {
-    color: 'white'
+    color: theme.palette.info.main
   }
 }));
 

@@ -11,19 +11,19 @@ import {renderTextField, renderAutoCompleteDataField} from '../../helpers/Materi
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
 
     '& .MuiOutlinedInput-root': {
       width: 300,
       '& fieldset': {
-        borderColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.main,
       },
       '&:hover fieldset': {
         borderColor: 'rgb(254,123,235, 1)',
       },
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: 'white',
+      color: theme.palette.info.main,
     },
     ' & .MuiFormHelperText-contained': {
       color: theme.palette.common.red,
@@ -39,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   value: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   autoComplete: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   button: {
@@ -60,19 +60,19 @@ const useStyles = makeStyles((theme) => ({
   },
 
   label: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   listbox: {
     background: theme.palette.background.default,
   },
   option: {
-    color: 'white',
+    color: theme.palette.info.main,
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
       background: theme.palette.secondary.main,
-      color: theme.palette.primary.dark
+      color: theme.palette.primary.main
     },
   },
 }));

@@ -30,7 +30,7 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
     position: 'sticky',
@@ -39,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   details: {
-    color: 'white',
+    color: theme.palette.info.main,
     paddingTop: theme.spacing(2),
   },
 
   accordion: {
-    background: theme.palette.primary.light,
-    color: 'white',
+    background: theme.palette.primary.main,
+    color: theme.palette.info.main,
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
     },
@@ -73,15 +73,15 @@ const useStyles = makeStyles((theme) => ({
 
   dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.primary.light
+      background: theme.palette.primary.main
     },
 
     '& .MuiTypography-root':{
-      color: 'white'
+      color: theme.palette.info.main
     },
 
     '& .MuiButton-textPrimary':{
-      color: 'white'
+      color: theme.palette.info.main
     },
 
     
@@ -106,11 +106,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   deleteChoice: {
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
       background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
       '&:hover': {
         background: theme.palette.common.red,
-        color: theme.palette.primary.dark,
+        color: theme.palette.primary.main,
       },
 
     },
@@ -128,8 +128,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
    menu: {
-    backgroundColor: theme.palette.primary.light,
-    color: "white",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.info.main,
 
   },
 
@@ -147,13 +147,13 @@ const useStyles = makeStyles((theme) => ({
 
   link: {
     textDecoration: 'none',
-    color: 'white'
+    color: theme.palette.info.main
   },
 
 
   songlink: {
     textDecoration: 'none',
-    color: 'white',
+    color: theme.palette.info.main,
     '&:hover': {
       color: theme.palette.info.main
     }
@@ -282,15 +282,15 @@ const InstrumentDetail = ({ instrument }) => {
                   <Grid container align="left"  justify="space-around">
                         <Grid item>
                           <Typography>Make: {instrument.make}</Typography>
-                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.light}} />
+                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.main}} />
                           <Typography>Model: {instrument.model}</Typography>
-                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.light}} />
+                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.main}} />
                           <Typography>Year: {instrument.year}</Typography>
 
                         </Grid>
                         <Grid item>
                           <Typography>Family: {instrument.family}</Typography>
-                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.light}} />
+                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.main}} />
                           <Typography>Tonality: {instrument.tonal_range}</Typography>
                         </Grid>
                       </Grid>

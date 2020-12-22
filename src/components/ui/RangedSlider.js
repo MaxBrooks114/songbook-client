@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
 
     '& .MuiSlider-markLabelActive': {
-      color: 'white'
+      color: theme.palette.info.main
     },
     
     [theme.breakpoints.down('sm')]: {

@@ -22,6 +22,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import logo_svg from '../../assets/logo_svg.svg'
 import Progressbar from './Progressbar'
 import {fetchUser} from '../../actions/auth'
+import songbook_green_logo_v2 from '../../assets/songbook_green_logo_v2.png'
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
   logo: {
     color: theme.palette.secondary.main,
-    marginLeft: 10,
+    marginLeft: 20,
     [theme.breakpoints.down('md')]: {
       height:"3rem",
     },
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
   tab: {
     ...theme.typography.tab,
-    color: "white",
+    color: theme.palette.info.main,
     minWidth: 10,
     marginLeft: '25px',
     opacity: 1,
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   drawer: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
     '& .PrivateSwipeArea-anchorLeft-24': {
       width: '0px !important'
@@ -102,13 +103,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   appBar: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.secondary.main,
     zIndex: theme.zIndex.modal + 1
   },
 
   menu: {
-    backgroundColor: theme.palette.primary.dark,
-    color: "white",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.info.main,
 
   },
 
@@ -297,7 +298,7 @@ const Navbar = () => {
        
         <Toolbar disableGutters>
            <Button component={RouterLink} to="/songs" onClick={e=> setValue(2)} >
-              <img alt="logo" src={logo_svg} variant="h6" className={classes.logo}/>
+              <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
           {matches ? drawer : tabs}
          {user ?  <Menu 

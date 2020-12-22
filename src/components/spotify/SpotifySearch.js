@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
     minHeight: '100vh',
   
   },
@@ -49,12 +49,12 @@ const SpotifySearch = () => {
       <CssBaseline />
       <Grid container justify="center" className={classes.cardGrid} >
         <Grid item  xs={12}>
-        <Typography component="h1" variant="h2" align="center" gutterBottom>
+        <Typography  variant="h2" align="center" >
           Spotify Search
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="h5" align="center" paragraph>
+        <Typography variant="h5" align="center" gutterBottom>
           Search a song, learn a song.
         </Typography>
       </Grid>

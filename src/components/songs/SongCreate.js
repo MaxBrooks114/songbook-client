@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   title: {
-      color: 'white',
+      color: theme.palette.info.main,
   }, 
 
   toolbarMargin: {

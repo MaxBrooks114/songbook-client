@@ -32,7 +32,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
     position: 'sticky',
@@ -66,13 +66,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   details: {
-    color: 'white',
+    color: theme.palette.info.main,
     paddingTop: theme.spacing(2),
   },
 
   accordion: {
-    background: theme.palette.primary.light,
-    color: 'white',
+    background: theme.palette.primary.main,
+    color: theme.palette.info.main,
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
     },
@@ -95,26 +95,26 @@ const useStyles = makeStyles((theme) => ({
 
   dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.primary.light
+      background: theme.palette.primary.main
     },
 
     '& .MuiTypography-root':{
-      color: 'white'
+      color: theme.palette.info.main
     },
 
     '& .MuiButton-textPrimary':{
-      color: 'white'
+      color: theme.palette.info.main
     },
 
     
   },
 
   deleteChoice: {
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
       background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
       '&:hover': {
         background: theme.palette.common.red,
-        color: theme.palette.primary.dark,
+        color: theme.palette.primary.main,
       },
 
     },
@@ -132,8 +132,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
    menu: {
-    backgroundColor: theme.palette.primary.light,
-    color: "white",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.info.main,
 
   },
 
@@ -174,7 +174,7 @@ const useStyles = makeStyles((theme) => ({
 
   link: {
     textDecoration: 'none',
-    color: 'white'
+    color: theme.palette.info.main
   },
 
   cardContent: {
@@ -265,7 +265,7 @@ const SongDetail = ({ song }) => {
     <Slide  direction="up" mountOnEnter unmountOnExit in transition={150}>
       <Paper className={classes.root} elevation={3}>
         <Grid container  alignItems="center" className={classes.details}>
-          <Grid item xs={12}>
+          <Grid item style={{height: 0}} xs={12}>
             <Grid container align="right" justify="flex-end">
               <Grid item xs={2} lg={1}>
                 <IconButton
@@ -280,7 +280,7 @@ const SongDetail = ({ song }) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container justify="space-evenly" align={matches ? "center" : 'left'} alignItems="center">
+            <Grid container justify="space-around" align={matches ? "center" : 'left'} alignItems="center">
               <Grid item xs={12} lg={6}>
                 <img
                   alt={song.album}

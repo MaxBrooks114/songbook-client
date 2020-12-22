@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
-    color: 'white',
+    color: theme.palette.info.main,
     marginTop: '1rem',
     marginBottom: '2rem',
     background: 'linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)',

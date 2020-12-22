@@ -15,7 +15,7 @@ import keys from '../songs/keys';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   toolbarMargin: {

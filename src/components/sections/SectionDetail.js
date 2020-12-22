@@ -41,7 +41,7 @@ import './metronome.css'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
     position: 'sticky',
@@ -54,13 +54,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   details: {
-    color: 'white',
+    color: theme.palette.info.main,
     paddingTop: theme.spacing(2),
   },
 
   accordion: {
-    background: theme.palette.primary.light,
-    color: 'white',
+    background: theme.palette.primary.main,
+    color: theme.palette.info.main,
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
     },
@@ -88,15 +88,15 @@ const useStyles = makeStyles((theme) => ({
 
    dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.primary.light
+      background: theme.palette.primary.main
     },
 
     '& .MuiTypography-root':{
-      color: 'white'
+      color: theme.palette.info.main
     },
 
     '& .MuiButton-textPrimary':{
-      color: 'white'
+      color: theme.palette.info.main
     },
 
     
@@ -104,11 +104,11 @@ const useStyles = makeStyles((theme) => ({
 
 
  deleteChoice: {
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
       background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
       '&:hover': {
         background: theme.palette.common.red,
-        color: theme.palette.primary.dark,
+        color: theme.palette.primary.main,
       },
 
     },
@@ -126,8 +126,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
    menu: {
-    backgroundColor: theme.palette.primary.light,
-    color: "white",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.info.main,
 
   },
 
@@ -159,7 +159,7 @@ const useStyles = makeStyles((theme) => ({
     height: '64px',
     width: '64px',
     color: theme.palette.common.red,
-    border: theme.palette.primary.dark,
+    border: theme.palette.primary.main,
     [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -177,7 +177,7 @@ const useStyles = makeStyles((theme) => ({
 
   link: {
     textDecoration: 'none',
-    color: 'white'
+    color: theme.palette.info.main
   },
 
   cardContent: {

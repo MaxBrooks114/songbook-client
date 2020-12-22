@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme) => ({
 
   root: {
       margin: 0,
-      background: theme.palette.primary.dark,
-      color: 'white',
+      background: theme.palette.primary.main,
+      color: theme.palette.info.main,
       [theme.breakpoints.down('sm')]: {
         width: '100%',
        
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
       pauseIcon: {
-      color: 'white',
+      color: theme.palette.info.main,
       [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
      loopIcon: {
-      color: 'white',
+      color: theme.palette.info.main,
       [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     volumeIcon: {
-      color: 'white',
+      color: theme.palette.info.main,
       [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'

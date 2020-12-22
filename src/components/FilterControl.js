@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
-        color: "white",
+        color: theme.palette.info.main,
          
       },
 
@@ -45,28 +45,28 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.secondary.light,
       },
 
-      color: "white",
+      color: theme.palette.info.main,
       textTransform: "capitalize"
     },
 
     '& .MuiInputBase-input': {
-      color: "white",
+      color: theme.palette.info.main,
       textTransform: "capitalize",
     
     },
 
     '& .MuiTextField-root': {
-      color: "white",
+      color: theme.palette.info.main,
       
     
     },
     '& .MuiOutlinedInput-input': {
-      color: "white",
+      color: theme.palette.info.main,
   
     },
   
     '& .MuiFormLabel-root': {
-      color: "white",
+      color: theme.palette.info.main,
 
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
@@ -109,8 +109,8 @@ const useStyles = makeStyles((theme) => ({
 
   },
    accordion: {
-    background: theme.palette.primary.light,
-    color: 'white',
+    background: theme.palette.primary.main,
+    color: theme.palette.info.main,
     marginBottom: '1em'
   },
   select: {
@@ -118,26 +118,26 @@ const useStyles = makeStyles((theme) => ({
   },
 
     listbox: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
   },
 
   option: {
-    color: 'white',
+    color: theme.palette.info.main,
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
       background: theme.palette.secondary.main,
-      color: theme.palette.primary.dark
+      color: theme.palette.primary.main
     },
   },
 
    button: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.primary.main,
     background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
     
     '&:hover': {
       background: theme.palette.secondary.main,
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
     },
     
  
@@ -152,11 +152,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
    deleteButton: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.primary.main,
     background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
     '&:hover': {
       background: theme.palette.common.red,
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
     },
 
   

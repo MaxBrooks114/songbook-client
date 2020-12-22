@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   toolbarMargin: {

@@ -8,15 +8,15 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   input: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   button: {
-    color: 'white',
+    color: theme.palette.info.main,
     background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
     width: '100%',
     '&:hover': {

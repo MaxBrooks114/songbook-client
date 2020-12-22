@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 
   filter: {
 
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     borderRadius: '0 0 8px 8px',
     [theme.breakpoints.down('sm')]: {
       marginTop: '3.3rem',
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
    drawer: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.primary.main,
     color: theme.palette.secondary.main,
     width: '83%',
     margin: 'auto',

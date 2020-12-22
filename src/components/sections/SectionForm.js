@@ -13,18 +13,18 @@ import _  from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.info.main,
     '& .MuiOutlinedInput-root': {
       width: 300,
       '& fieldset': {
-        borderColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.main,
       },
       '&:hover fieldset': {
         borderColor: theme.palette.secondary.main
       },
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: 'white',
+      color: theme.palette.info.main,
     },
     ' & .MuiFormHelperText-contained': {
         color: theme.palette.common.red,
@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   value: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   autoComplete: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   button: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     background: `linear-gradient(90deg, ${theme.palette.info.main} 0%,  ${theme.palette.primary.main} 150%)`,
     '&:hover': {
         background: theme.palette.info.main,
-        color: theme.palette.primary.dark,
+        color: theme.palette.primary.main,
     },
     margin: '1rem',
     width: 400,
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   label: {
-    color: 'white',
+    color: theme.palette.info.main,
   },
 
   lyrics: {
@@ -85,19 +85,19 @@ const useStyles = makeStyles((theme) => ({
   },
 
   fieldSet:{
-    borderColor: theme.palette.primary.light
+    borderColor: theme.palette.primary.main
   },
 
   listbox: {
     background: theme.palette.background.default,
   },
   option: {
-    color: 'white',
+    color: theme.palette.info.main,
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
       background: theme.palette.secondary.main,
-      color: theme.palette.primary.dark
+      color: theme.palette.primary.main
     },
   },
 }));

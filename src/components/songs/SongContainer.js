@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
    filter: {
 
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     borderRadius: '0 0 8px 8px',
     [theme.breakpoints.down('sm')]: {
       marginTop: '3.3rem',
@@ -101,25 +101,24 @@ const SongContainer = ({ match }) => {
   }
 
   const renderDetail = () => {
-    return song ? <SongDetail  song={song} /> : null;
+    return song ? <SongDetail song={song} /> : null;
   };
 
   return (
     <div  >
-        <Grid container justify="center" >
+        <Grid container justify={song ? "space-around" : "center"} >
           {!matches  ? <Grid item xs={10} lg={10} sm={12} className={classes.filter}>
             {renderFilter()}
           </Grid> : ''}
         </Grid>
+        
         <Grid container justify='center' className={classes.cardGrid}>
-        {!matches ? <Grid item xs={3} md={3}  lg={3}  className={classes.list}>
-            <SongList filteredSongs={filteredSongs} transitionDuration={transitionDuration} songs={songs} height={height} />
+        {!matches ? <Grid item xs={3} md={3} lg={song ? 3 : 8} className={classes.list}>
+            <SongList filteredSongs={filteredSongs} fullDisplay={!song} transitionDuration={transitionDuration} songs={songs} height={height} />
         </Grid> : <SongDrawer renderFilter={renderFilter} filteredSongs={filteredSongs} transitionDuration={transitionDuration} songs={songs} />}
-        <Grid item lg={1} md={1} sm={0} xs={0}/>
-        <Grid item xs={10} md={8} lg={6}  ref={elementDOM} className={classes.detail}>
+        <Grid item xs={10} md={8} lg={6} ref={elementDOM} className={classes.detail}>
           {renderDetail()}
         </Grid>
-    
         </Grid>
     </div>
   );
