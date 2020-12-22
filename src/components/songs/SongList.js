@@ -2,22 +2,31 @@ import React from 'react'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import SongCard from './SongCard';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {fetchSong } from '../../actions/songs';
 import { makeStyles } from '@material-ui/styles';
-import { fetchSongs, fetchSong } from '../../actions/songs';
-
 
 const useStyles = makeStyles((theme) => ({
-   list: {
-    minHeight: '100vh',
-    overflow: 'scroll',
+  listItem: {
+  
+ 
+      '&:hover': {
+        display: 'inline-block',
+        transform: 'translate(10px, 10px)',
+        translateX: '10px',
+        translate: '10px',
+        transition: 'transform 0.2s ease 0s',
+        cursor: 'pointer',
+        zIndex: 2,
+     },
+    
+   
   },
-}))
-
-
+  
+}));
 const SongList = ({songs, filteredSongs, transitionDuration, height}) => {
-    const classes = useStyles();
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const handleClick = (id) => {
     dispatch(fetchSong(id));
@@ -28,8 +37,8 @@ const renderedList = () => {
       ? filteredSongs.map((song) => {
             transitionDuration += 50;
             return (
-              <ListItem key={song.id} disableGutters dense>
-                <SongCard song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
+              <ListItem  className={classes.listItem} key={song.id} disableGutters dense>
+                <SongCard  song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             );
           })

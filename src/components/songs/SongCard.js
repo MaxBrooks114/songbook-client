@@ -15,9 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: '97%',
     height: 'auto',
     boxShadow: theme.shadows[24],
-    '&:hover': {
-      cursor: 'pointer',
-    },
+   
     color: '#FFF',
     [theme.breakpoints.down('xs')]: {
       width: '100%'
@@ -46,6 +44,8 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
   const classes = useStyles();
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
+
+  
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
