@@ -1,4 +1,4 @@
-import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, IMPORT_SPOTIFY_TRACK } from '../../actions/types';
+import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, IMPORT_SPOTIFY_TRACK, CLEAR_ALL } from '../../actions/types';
 import _ from 'lodash';
 
 const initialState = {};
@@ -11,6 +11,8 @@ export default (state = initialState, action) => {
       return initialState;
     case IMPORT_SPOTIFY_TRACK:
       return { ...state, [action.payload.id]: action.payload };
+    case CLEAR_ALL: 
+      return initialState
     default:
       return state;
   }
