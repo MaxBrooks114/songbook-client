@@ -6,7 +6,7 @@ const gray = '#d8d8d8'
 const lightGreen = '#5B9279'
 const black = '#12130f'
 const darkGreen = '#325944'
-const orange= '#e84e25'
+const orange = '#e84e25'
 
 const theme = createMuiTheme({
 
@@ -21,12 +21,13 @@ const theme = createMuiTheme({
    },
   palette: {
     common: {
-
+        orange,
+        gray
     },
     primary: { main: lightGreen },
     secondary: { main: darkGreen },
     info: { main: black },
-    background: { default: `${lightGray}` },
+    background: { default: lightGray },
   },
   typography: {
     fontFamily: 'Spartan',
@@ -38,7 +39,8 @@ const theme = createMuiTheme({
   },
     button: {
       color: black,
-      background: `linear-gradient(90deg, ${lightGreen} 0%,  ${darkGreen} 150%)`,
+      background: `linear-gradient(90deg, ${lightGreen} 0%,  ${darkGreen} 100%)`,
+      borderRadius: '5em',
       '&:hover': {
         background: darkGreen,
         color: black,
