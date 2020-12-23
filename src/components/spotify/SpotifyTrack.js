@@ -1,13 +1,20 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
+import { Link } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { importSpotifyTrack } from '../../actions/spotify';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,70 +25,167 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     boxShadow: theme.shadows[24],
+    alignItems: 'flex-start',
+    position: 'relative'
   },
+
   media: {
     height: 200,
     objectFit: "fill",
     width: '100%',
   },
-  title: {
+  
+
+   link: {
+    textDecoration: 'none',
+    color: theme.palette.info.main
+  },
+
+   dialog: {
+    '& .MuiDialog-paper': {
+      background: theme.palette.primary.main
+    },
+
+    '& .MuiTypography-root':{
+      color: theme.palette.info.main
+    },
+
+    '& .MuiButton-textPrimary':{
+      color: theme.palette.info.main
+    },
+
     
   },
 
+
   button: {
-    color: theme.palette.primary.main,
-    background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
-    width: '100%',
+    color: theme.palette.common.gray,
+    fontSize: '.8rem',
+    position:'absolute',
+    bottom: '10px',
+    right: '.5rem',
+    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.primary.dark} 150%)`,
+    width: '50%',
     '&:hover': {
-      background: theme.palette.secondary.main,
+      background: theme.palette.common.gray,
       color: theme.palette.primary.main,
     },
+    
   },
 
   cardContent: {
-    flexGrow: 1,
     color: theme.palette.info.main,
+    height: '64px',
+
+  },
+
+  trackInfo: {
+    color: theme.palette.info.main,
+    boxOrient: 'vertical',
+    display: '-webkit-box',
+    lineClamp: '2',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'normal'
   },
 
   trackTitle: {
     fontWeight: 'bold',
     color: theme.palette.info.main,
+    boxOrient: 'vertical',
+    display: '-webkit-box',
+    lineClamp: '2',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'normal'
   },
 }));
 
 const SpotifyTrack = ({ track, transitionDuration }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const songs = useSelector(state => (state.songs))
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    if (!Object.values(songs).length || !Object.values(songs).some(song => song.spotify_id)) {
+        setOpen(true);
+    }
+    
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
+    <>
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card className={classes.root}>
         <CardMedia
-          
-          // title={track.album.name}
-          // pic={track.album.images.length > 0 ? track.album.images[0].url : null}
         ><img className={classes.media} alt={track.album.name} src={track.album.images.length > 0 ? track.album.images[0].url : null}/></CardMedia>
         <CardContent className={classes.cardContent}>
-          <Typography className={classes.trackTitle} gutterBottom variant="h5">
-            {track.name}
-          </Typography>
-          <Typography >{track.artists[0].name}</Typography>
-          <Typography>
-            {track.album.name}, {track.album.release_date}
+              <Typography className={classes.trackTitle} variant="subtitle1">
+                {track.name}
+              </Typography>      
+        </CardContent>
+        <CardContent className={classes.cardContent}>
+          <Typography clasName={classes.trackInfo} variant="subtitle2">
+            {track.artists[0].name} < br/>
+            {track.album.name}
           </Typography>
         </CardContent>
-        <CardActions>
+
+        <div id="spacer" style={{width: "200px", height: '48px', float: "left", display:"inline-block"}} /> 
+
+        <CardActions className={classes.cardActions}>
           <Button
             className={classes.button}
             size="small"
             variant="contained"
-            onClick={() => dispatch(importSpotifyTrack(track.id))}
+            onClick={() =>  {
+              handleClickOpen()
+              dispatch(importSpotifyTrack(track.id))}}
           >
-            Import Song
+            Import
           </Button>
         </CardActions>
       </Card>
     </Slide>
+     <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          className={classes.dialog}
+        >
+          <DialogTitle id="alert-dialog-title">{'Congratulations! You just imported your first song!'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              When you import a song using this feature, SongBook automatically generates song data and section data for you to peruse and/or edit. Choose one of the links below to continue to your song or section pages, or stay here and import more songs!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Grid container justify="space-evenly">
+              <Grid item >
+                <Link to={"/songs"} className={classes.link}>
+                  Songs
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to={"/sections"} className={classes.link}>
+                  Sections
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link onClick={handleClose} className={classes.link}>
+                  Stay
+                </Link>
+              </Grid>
+            </Grid>
+          </DialogActions>
+        </Dialog>
+      </>
   );
 };
 
