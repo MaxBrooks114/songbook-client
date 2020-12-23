@@ -133,7 +133,7 @@ const UserShow = () => {
     return accessToken && accessToken !== '' ? (
       ''
     ) : (
-      <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with Spotify</a>
+      <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with Spotify</a>
     );
   };
 
