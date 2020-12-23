@@ -11,9 +11,9 @@ function Alert(props) {
 }
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.common.navy,
+    background: theme.palette.primary.main,
     textTransform: 'capitalize',
-    color: theme.palette.secondary.main,
+    color: theme.palette.common.gray,
     position: 'fixed',
   },
 }));
@@ -40,7 +40,8 @@ export default function SuccessSnackbar() {
       aria-describedby="client-snackbar"
     >
       <Alert onClose={handleClose} className={classes.root} severity="success">
-        {successSnackbarMessage}
+        {successSnackbarMessage} 
+        
       </Alert>
     </Snackbar>
   );
