@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
   logo: {
     color: theme.palette.secondary.main,
+    verticalAlign: 'top',
     marginLeft: 20,
     [theme.breakpoints.down('md')]: {
       height:"3rem",
