@@ -1,13 +1,13 @@
 import React from 'react';
-import { useSelector, connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SpotifySearchBar from './SpotifySearchBar';
 import SpotifyTrackList from './SpotifyTrackList';
-import { fetchSpotifyTracks } from '../../actions/spotify';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/styles';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,11 +30,16 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(8),
   },
 
+ 
+
+
 
 }));
 
 const SpotifySearch = () => {
   const classes = useStyles();
+
+
 
   const tracks = useSelector((state) => state.spotifyTracks);
 
@@ -45,8 +50,6 @@ const SpotifySearch = () => {
   return (
     <div className={classes.root}>
       <div className={classes.toolbarMargin}></div>
-
-      <CssBaseline />
       <Grid container justify="center" className={classes.cardGrid} >
         <Grid item  xs={12}>
         <Typography  variant="h2" align="center" >
@@ -65,6 +68,7 @@ const SpotifySearch = () => {
       {renderTracklist()}
       </Grid>
       </Grid>
+      
     </div>
   );
 };
