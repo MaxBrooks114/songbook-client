@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
  
 
   cardGrid: {
-
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4)
   },
@@ -22,7 +21,7 @@ const SpotifyTrackList = ({ tracks }) => {
   const renderedList = tracks.map((track) => {
     transitionDuration += 450;
     return (
-      <Grid key={track.id} item xs={12} sm={6} md={4} lg={3}>
+      <Grid key={track.id} item xs={12} sm={12} md={6} lg={3}>
         <SpotifyTrack track={track} transitionDuration={transitionDuration} />
       </Grid>
     );
