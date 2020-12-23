@@ -13,21 +13,28 @@ const useStyles = makeStyles((theme) => ({
 
   input: {
     color: theme.palette.info.main,
+    textAlign: 'center'
   },
 
   button: {
-    color: theme.palette.info.main,
-    background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
+    borderRadius: '5em',
+    color: theme.palette.background.default,
+    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.primary.dark} 150%)`,
     width: '100%',
     '&:hover': {
-      background: theme.palette.secondary.main,
+      background: theme.palette.common.gray,
       color: theme.palette.info.main,
     },
   },
 
   label: {
     color: theme.palette.info.main,
-  },
+    textAlign: 'center',
+    marginLeft: '31px',
+    '&.shrink': {
+           transform: 'translate(-16px, -6px) scale(0.75)',
+          },
+      },
 }));
 
 const SpotifySearchBar = () => {
@@ -47,7 +54,7 @@ const SpotifySearchBar = () => {
         >
           <Grid item>
             <TextField
-              label="Artist, Song, Album..."
+              label="Search Spotify"
               size="small"
               color="secondary"
               variant="outlined"
@@ -59,7 +66,12 @@ const SpotifySearchBar = () => {
               InputProps={{
                 className: classes.input,
               }}
-              InputLabelProps={{ className: classes.label }}
+              InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
             />
           </Grid>
           <Grid item>
