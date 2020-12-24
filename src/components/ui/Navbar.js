@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import { Link as RouterLink } from 'react-router-dom';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -19,11 +18,10 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import logo_svg from '../../assets/logo_svg.svg'
 import Progressbar from './Progressbar'
-import {fetchUser} from '../../actions/auth'
 import songbook_green_logo_v2 from '../../assets/songbook_green_logo_v2.png'
 import SpotifySearchBar from '../spotify/SpotifySearchBar'
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -32,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '.7rem',
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '.7rem',
+      marginBottom: '1rem',
     },
   },
 
@@ -48,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   tabContainer: {
-    marginLeft: 'auto',
+    marginLeft: '41rem',
   },
 
   tab: {
@@ -72,13 +70,7 @@ const useStyles = makeStyles((theme) => ({
     width: '50px',
   },
 
-  button: {
-    ...theme.button,
-    color: theme.palette.primary.main,
-    marginLeft: "35px",
-    marginRight: "25px",
-    marginBottom: ".2rem"
-  },
+
 
   listButton: {
     ...theme.button,
@@ -86,17 +78,20 @@ const useStyles = makeStyles((theme) => ({
   },
 
   drawer: {
-    background: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
+    background: theme.palette.secondary.main,
+    display: 'flex',
+    alignItems: 'flex-start',
+    color: theme.palette.info.main,
     '& .PrivateSwipeArea-anchorLeft-24': {
       width: '0px !important'
     }
   },
 
   drawerItem: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.info.main,
     minWidth: 10,
-    opacity: 0.7,
+    opacity: 1,
+
   },
 
   drawerItemSelected: {
@@ -111,13 +106,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   menu: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
     color: theme.palette.info.main,
-
+    
   },
 
   menuItem: {
     ...theme.typography.tab,
+    font: 'bold',
     '& .MuiMenuItem-root': {
       justifyContent: 'center',
     }
@@ -146,13 +142,12 @@ const Navbar = () => {
   const [value, setValue] = useState(0);
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const dispatch = useDispatch()
   const [openDrawer, setOpenDrawer] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
   const [selectedIndex, setSelectedIndex] = useState(0)
-   const [anchorEl, setAnchorEl] = React.useState(null);
-   const [open, setOpen] = React.useState(false)
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false)
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -177,8 +172,8 @@ const Navbar = () => {
      { name: 'New Section', link: '/sections/new', activeIndex: 1, selectedIndex: 3},
      { name: 'Instruments', link: '/instruments', activeIndex: 1, selectedIndex: 4},
      { name: 'New Instrument', link: '/instruments/new', activeIndex: 1, selectedIndex: 5},
-    { name: user.username, link: `/users/${user.id}`, activeIndex: 2, selectedIndex: 6},
-    { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 7},
+     { name: 'profile', link: `/users/${user.id}`, activeIndex: 2, selectedIndex: 6},
+     { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 7},
   ] : [
     { name: 'Register', link: '/register', activeIndex: 0 },
     { name: 'Log In', link: '/login', activeIndex: 1 },
@@ -220,18 +215,23 @@ const Navbar = () => {
     <>
       <Tabs
         className={classes.tabContainer}
-        value={value}
+        value={value+1}
         onChange={(e, value) => setValue(value)}
-        indicatorColor={value > 3 ? "primary" : "secondary"}
+        indicatorColor="primary"
       >
+        <SpotifySearchBar showButton={false}/>
         {routes.map((route) => (
-          route.component ? 
-          <Button variant="contained" key={`${route.name}${route.activeIndex}`}
-            className={classes.button}
+          route.link.includes('user') ? 
+          <IconButton  
+            key={`${route.name}${route.activeIndex}`}
+            className={classes.tab}
             component={RouterLink}
-            onClick={(e, value) => setValue(value)}
+            onMouseOver={e => handleClick(e)}
+            aria-owns={anchorEl ? "simple-menu" : undefined}
+            aria-haspopup={anchorEl ? "true" : undefined}
             to={route.link}
-            label={route.name}>{route.name}</Button>
+            tabIndex={route.activeIndex}
+            label={route.name}><PersonRoundedIcon/></IconButton>
           : <Tab
             tabIndex={route.activeIndex}
             aria-owns={anchorEl ? "simple-menu" : undefined}
@@ -284,6 +284,7 @@ const Navbar = () => {
               </ListItemText>
             </ListItem>
           ))}
+          <SpotifySearchBar showButton={false}/>
         </List>
       </SwipeableDrawer>
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
@@ -297,10 +298,10 @@ const Navbar = () => {
       <AppBar className={classes.appBar} position="fixed" elevation={0}>
        
         <Toolbar disableGutters>
-           <Button component={RouterLink} to="/songs" onClick={e => setValue(2)} >
+           <Button component={RouterLink} to="/songs" onClick={e => setValue(0)} >
               <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
-          <SpotifySearchBar />
+          
           {matches ? drawer : tabs}
          {user ?  <Menu 
             elevation={0} 

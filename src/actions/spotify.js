@@ -1,4 +1,3 @@
-import React from 'react'
 import spotify from '../apis/spotify';
 import * as workerTimers from 'worker-timers'
 import songbook from '../apis/songbook';
@@ -10,7 +9,6 @@ import { createSong } from './songs';
 import { createSection } from './sections';
 import { returnErrors } from './messages';
 import { showSuccessSnackbar } from './ui';
-import { Link } from 'react-router-dom';
 
 let timeoutId
 
@@ -38,6 +36,9 @@ export const fetchSpotifyTracks = (query) => async (dispatch) => {
       type: FETCH_SPOTIFY_TRACKS,
       payload: response.data.tracks.items,
     });
+     if (!history.location.pathname.includes('search')) {
+      history.push('/search');
+    }
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }

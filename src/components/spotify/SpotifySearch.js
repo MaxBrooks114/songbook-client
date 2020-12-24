@@ -62,7 +62,7 @@ const SpotifySearch = () => {
         </Typography>
       </Grid>
       <Grid item  xs={12}>
-        <SpotifySearchBar />
+        <SpotifySearchBar showButton={true} />
       </Grid>
       <Grid item xs={10} >
       {renderTracklist()}

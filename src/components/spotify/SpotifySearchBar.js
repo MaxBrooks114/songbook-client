@@ -9,11 +9,23 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
+    width: 'auto',
+    marginRight: '20px',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: theme.palette.info.main,
+        
+      },
+    
+    }
   },
 
   input: {
     color: theme.palette.info.main,
-    textAlign: 'center'
+    textAlign: 'center',
+   
+   
+    
   },
 
   button: {
@@ -33,11 +45,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '31px',
     '&.shrink': {
            transform: 'translate(-16px, -6px) scale(0.75)',
+           color: theme.palette.primary.main
           },
       },
 }));
 
-const SpotifySearchBar = () => {
+const SpotifySearchBar = ({showButton}) => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
 
@@ -45,8 +58,8 @@ const SpotifySearchBar = () => {
 
   return (
     <>
-      <Grid container spacing={2} justify="center" className={classes.root}>
-        <form
+      <Grid container  justify="center" >
+        <form className={classes.root}
           onSubmit={(e) => {
             e.preventDefault();
             dispatch(fetchSpotifyTracks(query));
@@ -56,13 +69,13 @@ const SpotifySearchBar = () => {
             <TextField
               label="Search Spotify"
               size="small"
-              color="secondary"
               variant="outlined"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
               margin="dense"
+              
               InputProps={{
                 className: classes.input,
               }}
@@ -75,9 +88,10 @@ const SpotifySearchBar = () => {
             />
           </Grid>
           <Grid item>
+            {showButton ?
             <Button type="submit" className={classes.button} variant="contained">
               Search
-            </Button>
+            </Button>: null}
           </Grid>
         </form>
       </Grid>
