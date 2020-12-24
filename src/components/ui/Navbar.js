@@ -23,6 +23,7 @@ import logo_svg from '../../assets/logo_svg.svg'
 import Progressbar from './Progressbar'
 import {fetchUser} from '../../actions/auth'
 import songbook_green_logo_v2 from '../../assets/songbook_green_logo_v2.png'
+import SpotifySearchBar from '../spotify/SpotifySearchBar'
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -170,15 +171,14 @@ const Navbar = () => {
 
     }
    const menuOptions = user ? [
-    { name: 'Instruments', link: '/instruments', activeIndex: 0, selectedIndex: 0 },
-    { name: 'New Instrument', link: '/instruments/new', activeIndex: 0, selectedIndex: 1},
-    { name: 'Songs', link: '/songs', activeIndex: 1, selectedIndex: 2},
-    { name: 'New Song', link: '/songs/new', activeIndex: 1, selectedIndex: 3},
-    { name: 'Sections', link: '/sections', activeIndex: 2, selectedIndex: 4},
-    { name: 'New Section', link: '/sections/new', activeIndex: 2, selectedIndex: 5},
-    { name: user.username, link: `/users/${user.id}`, activeIndex: 3, selectedIndex: 6},
-    { name: 'Log out', link: '/logout', activeIndex: 3, selectedIndex: 7},
-    {name: 'Spotify Search', link: '/search', activeIndex: 4, selectedIndex: 8, component: 'button'}
+     { name: 'Songs', link: '/songs', activeIndex: 0, selectedIndex: 0},
+     { name: 'New Song', link: '/songs/new', activeIndex: 0, selectedIndex: 1},
+     { name: 'Sections', link: '/sections', activeIndex: 1, selectedIndex: 2},
+     { name: 'New Section', link: '/sections/new', activeIndex: 1, selectedIndex: 3},
+     { name: 'Instruments', link: '/instruments', activeIndex: 1, selectedIndex: 4},
+     { name: 'New Instrument', link: '/instruments/new', activeIndex: 1, selectedIndex: 5},
+    { name: user.username, link: `/users/${user.id}`, activeIndex: 2, selectedIndex: 6},
+    { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 7},
   ] : [
     { name: 'Register', link: '/register', activeIndex: 0 },
     { name: 'Log In', link: '/login', activeIndex: 1 },
@@ -187,11 +187,9 @@ const Navbar = () => {
   let authRoutes = user ?
   
   [
-    { name: 'Instruments', link: '/instruments', activeIndex: 0 },
-    { name: 'Songs', link: '/songs', activeIndex: 1 },
-    { name: 'Sections', link: '/sections', activeIndex: 2 },
-    { name: user.username, link: `/users/${user.id}`, activeIndex: 3},
-    {name: 'Spotify Search', link: '/search', activeIndex: 4, component: 'button'}
+    { name: 'Songs', link: '/songs', activeIndex: 0 },
+    { name: 'Sections', link: '/sections', activeIndex: 1 },
+    { name: user.username, link: `/users/${user.id}`, activeIndex: 2},
   ] : null 
 
   const guestRoutes = [
@@ -302,6 +300,7 @@ const Navbar = () => {
            <Button component={RouterLink} to="/songs" onClick={e => setValue(2)} >
               <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
+          <SpotifySearchBar />
           {matches ? drawer : tabs}
          {user ?  <Menu 
             elevation={0} 
