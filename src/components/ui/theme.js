@@ -34,7 +34,6 @@ const theme = createMuiTheme({
     tab: {
       textTransform: 'none',
       fontSize: "1rem",
-      fontWeight:700
     }
   },
     button: {
