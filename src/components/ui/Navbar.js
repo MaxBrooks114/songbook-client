@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     verticalAlign: 'top',
     marginLeft: 20,
+    marginBottom: 10,
     [theme.breakpoints.down('md')]: {
       height:"3rem",
     },
@@ -298,7 +299,7 @@ const Navbar = () => {
       <AppBar className={classes.appBar} position="fixed" elevation={0}>
        
         <Toolbar disableGutters>
-           <Button component={RouterLink} to="/songs" onClick={e=> setValue(2)} >
+           <Button component={RouterLink} to="/songs" onClick={e => setValue(2)} >
               <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
           {matches ? drawer : tabs}
