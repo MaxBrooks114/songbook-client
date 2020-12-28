@@ -39,14 +39,14 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'top',
     marginLeft: 20,
     marginBottom: 10,
+    height: "3.5rem",
     [theme.breakpoints.down('md')]: {
       height:"3rem",
     },
-    height: "3.5rem"
   },
 
   tabContainer: {
-    marginLeft: '41rem',
+    marginLeft: '40rem',
   },
 
   tab: {
