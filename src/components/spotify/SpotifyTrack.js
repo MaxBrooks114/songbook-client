@@ -162,7 +162,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
           <DialogTitle id="alert-dialog-title">{'Congratulations! You just imported your first song!'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              When you import a song using this feature, SongBook automatically generates song data and section data for you to peruse and/or edit. Choose one of the links below to continue to your song or section pages, or stay here and import more songs!
+              When you import a song using this feature, SongBook automatically generates song data and section data for you to peruse and/or edit. Also if you haven't yet- integrate your spotify if you have premium to unlock all features that SongBook has to offer! Choose one of the links below to continue to your song or section pages, or stay here and import more songs!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
