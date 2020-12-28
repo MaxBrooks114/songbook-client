@@ -4,7 +4,6 @@ import SpotifySearchBar from './SpotifySearchBar';
 import SpotifyTrackList from './SpotifyTrackList';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/styles';
 
 
