@@ -5,11 +5,12 @@ import footer_logo from '../../assets/footer_logo.png'
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
     width: '100%',
     position: 'absolute',
     bottom: 0,
     height: '60px',
+    zIndex: theme.zIndex.modal+1,
     color: theme.palette.info.main,
   
   },
