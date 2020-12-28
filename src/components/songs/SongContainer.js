@@ -16,7 +16,7 @@ import useHeight from '../../hooks/useHeight'
 
 const useStyles = makeStyles((theme) => ({
   
-
+ 
   cardGrid: {
     marginBottom: theme.spacing(8),
    
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
    filter: {
 
     background: theme.palette.primary.main,
-    borderRadius: '0 0 8px 8px',
+    borderRadius: '4px',
     [theme.breakpoints.down('sm')]: {
       marginTop: '3.3rem',
       width: '83%',
@@ -51,8 +51,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-    minHeight: '100vh',
+    minHeight: '100%',
     overflow: 'scroll',
+    background: theme.palette.common.gray,
+    borderRadius: '4px'
   },
 
   detail: {
@@ -105,18 +107,17 @@ const SongContainer = ({ match }) => {
   };
 
   return (
-    <div  >
-        <Grid container justify={song ? "space-around" : "center"} >
-          {!matches  ? <Grid item xs={10} lg={10} sm={12} className={classes.filter}>
+    <div  className={classes.root}>
+        <div className={classes.toolbarMargin}></div>
+
+        <Grid container justify='space-between' className={classes.cardGrid}>
+          {!matches  ? <Grid item xs={10} lg={2} sm={12} className={classes.filter}>
             {renderFilter()}
           </Grid> : ''}
-        </Grid>
-        
-        <Grid container justify='center' className={classes.cardGrid}>
         {!matches ? <Grid item xs={3} md={3} lg={song ? 3 : 8} className={classes.list}>
             <SongList filteredSongs={filteredSongs} fullDisplay={!song} transitionDuration={transitionDuration} songs={songs} height={height} />
         </Grid> : <SongDrawer renderFilter={renderFilter} filteredSongs={filteredSongs} transitionDuration={transitionDuration} songs={songs} />}
-        <Grid item xs={10} md={8} lg={6} ref={elementDOM} className={classes.detail}>
+        <Grid item style={song ? null: {display: 'none'} } xs={12} md={8} lg={6} ref={elementDOM} className={classes.detail}>
           {renderDetail()}
         </Grid>
         </Grid>

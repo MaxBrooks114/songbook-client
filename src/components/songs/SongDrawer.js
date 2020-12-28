@@ -11,15 +11,15 @@ const useStyles = makeStyles((theme) => ({
   filter: {
 
     background: theme.palette.primary.main,
-    borderRadius: '0 0 8px 8px',
+    borderRadius: '0 0 4px 4px',
     [theme.breakpoints.down('sm')]: {
-      marginTop: '3.3rem',
+      marginTop: '4rem',
       width: '83%',
       height: '43%',
       margin: 'auto',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '3.3rem',
+      marginTop: '3.8rem',
       paddingBottom: 0,
       width: '83%',
       height: '50%',
@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
     width: '24px',
     marginLeft: 0,
     position: 'fixed',
-    top: '50%',
+    bottom: '25%',
+    zIndex: 3,
     right: 0,
   
     '&:hover': {
@@ -46,8 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
    drawer: {
-    background: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
+    background: theme.palette.background.default,
     width: '83%',
     margin: 'auto',
     marginTop: theme.spacing(6),

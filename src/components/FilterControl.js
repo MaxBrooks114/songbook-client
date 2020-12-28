@@ -138,14 +138,6 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.main,
     },
     
- 
-
-    [theme.breakpoints.down('sm')]: {
-      width: '85%',
-      marginTop: '1rem',
-      marginBottom: '1rem',
-  
-    },
     
   },
 
@@ -161,10 +153,6 @@ const useStyles = makeStyles((theme) => ({
 
   
 
-     [theme.breakpoints.down('sm')]: {
-      
-      width: '100%',
-    },
   },
 
   label: {
