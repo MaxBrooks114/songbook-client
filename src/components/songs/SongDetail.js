@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
     position: 'sticky',
-    marginTop: 11,
     marginBottom: '8rem',
   },
 
@@ -48,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     marginBottom: theme.spacing(2),
     objectFit: 'fill',
-    borderRadius: '25px',
+    borderRadius: '4px',
     height: '360px',
     width: '360px',
      [theme.breakpoints.down('md')]: {
