@@ -8,10 +8,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     width: '100%',
     position: 'absolute',
-    marginTop:"calc(5% +60px)",
     bottom: 0,
+    height: '60px',
     color: theme.palette.info.main,
-    zIndex: theme.zIndex.modal+1
   
   },
 
@@ -27,7 +26,7 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
-      <img alt="logo" className={classes.logo} src={footer_logo} />
+     
         SongBook by Max Brooks 2020
     </footer>
     )

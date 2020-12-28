@@ -56,9 +56,10 @@ const App = () => {
       <CssBaseline />
       <SuccessSnackBar />
       <Router history={history}>
-        <div style={{minHeight: '100vh'}}>
+        <div id="container">
           <Navbar />
-          <MuiThemeProvider>
+        <div id="body">       
+        <MuiThemeProvider>
             <Switch>
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
@@ -81,9 +82,9 @@ const App = () => {
               <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
               <PrivateRoute exact path="/instruments" component={InstrumentList} />
               <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
-            </Switch>
-            
+            </Switch>   
           </MuiThemeProvider>
+          </div>   
           <Footer />
         </div>
         
