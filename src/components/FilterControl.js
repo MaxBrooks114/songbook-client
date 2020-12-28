@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { setFilter, clearFilter } from '../actions/filter';
 import { Field, reduxForm, reset, initialize } from 'redux-form';
@@ -19,34 +19,36 @@ import _ from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
 
+
+
   formControl: {
     marginTop: theme.spacing(2),
-    backgroundColor: theme.palette.primary,
+    color: theme.palette.info.main,
+      textTransform: "capitalize",
 
- 
-
-    '& .MuiOutlinedInput-root': {
+  '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
         color: theme.palette.info.main,
-         
       },
 
-      '& input': {
-        
-        [theme.breakpoints.down('sm')]: {
-          textAlign: "center",
-          fontSize: '.8rem'
+      '&.Mui-focused fieldset': { 
+          borderColor: theme.palette.common.gray,
       },
-
-      }, 
 
       '&:hover fieldset': {
-        borderColor: theme.palette.secondary.light,
+        borderColor: theme.palette.common.gray,
       },
+         
+    },
 
-      color: theme.palette.info.main,
-      textTransform: "capitalize"
+    '& input': {
+        fontSize: '.8rem',
+        [theme.breakpoints.down('sm')]: {
+          textAlign: "center",
+          
+      },
+      
     },
 
     '& .MuiInputBase-input': {
@@ -65,8 +67,10 @@ const useStyles = makeStyles((theme) => ({
   
     },
   
-    '& .MuiFormLabel-root': {
+    '& .MuiFormControlLabel-label': {
       color: theme.palette.info.main,
+      fontSize: '.8rem',
+
 
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
@@ -81,12 +85,8 @@ const useStyles = makeStyles((theme) => ({
 
     '& .MuiAccordionSummary-root': {
       justifyContent: 'flex-end',
-
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
-          
-    
-
       },
     },
      '& .MuiGrid-item': {
@@ -100,12 +100,9 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTypography-body1':{
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
-          
-    
 
       },
     }
-     
 
   },
    accordion: {
@@ -124,26 +121,27 @@ const useStyles = makeStyles((theme) => ({
   option: {
     color: theme.palette.info.main,
     textTransform: 'capitalize',
-
+    fontSize: '.8rem',
     '&[data-focus="true"]': {
-      background: theme.palette.secondary.main,
-      color: theme.palette.primary.main
+      background: theme.palette.common.gray,
+      color: theme.palette.info.main
     },
   },
 
    button: {
-    color: theme.palette.primary.main,
-    background: `linear-gradient(90deg, ${theme.palette.secondary.main} 0%,  ${theme.palette.info.main} 150%)`,
-    
+    color: theme.palette.common.gray,
+    width: '85%',
+    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.primary.dark} 150%)`,
+    borderRadius: '5em',
     '&:hover': {
-      background: theme.palette.secondary.main,
+      background: theme.palette.common.gray,
       color: theme.palette.primary.main,
     },
     
  
 
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      width: '85%',
       marginTop: '1rem',
       marginBottom: '1rem',
   
@@ -152,11 +150,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
    deleteButton: {
-    color: theme.palette.primary.main,
-    background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
+    borderRadius: '5em',
+    width: '85%',
+    color: theme.palette.common.gray,
+    background: theme.palette.common.orange,
     '&:hover': {
-      background: theme.palette.common.red,
-      color: theme.palette.primary.main,
+      color: theme.palette.common.orange,
+      background: theme.palette.common.gray,
     },
 
   
@@ -167,6 +167,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  label: {
+    color: theme.palette.info.main,  
+    fontSize: '.8rem',
+    '&.shrink': {
+           color: theme.palette.common.gray
+        },
+      },
   
    
   
@@ -237,8 +244,14 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
 
       return fields.length > 0 ? fields.map(field => {
         return (
-           <Grid item lg={3} md={6} sm={12} xs={12} >
-              <Field  classes={classes} name={field} label={titleCase(field)}  component={renderTextField} />
+           <Grid item sm={12} xs={12} >
+              <Field  classes={classes} style={{width: '80%'}} name={field} label={titleCase(field)}
+                   InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}  component={renderTextField} />
            </Grid>
         )
       }) : null
@@ -248,7 +261,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
       const fields = objectType === 'songs' ? ['artist', 'album', 'genre'] : []
       return fields.length > 0 ? fields.map(field => {
         return (
-           <Grid item  lg={3} md={6} sm={12} xs={12}>
+           <Grid item  sm={12} xs={12}>
               <Field
                   options={_.uniq(songs.map((song) => song[field]))}
                   classes={classes}
@@ -256,6 +269,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                   fullWidth= {false}
                   component={renderAutoCompleteDataField}
                   label={titleCase(field)}
+                   InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
                   /> 
               </Grid>
         )
@@ -268,7 +287,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
       return fields.length > 0 ? fields.map(field => {
         return (
            
-            <Field classes={classes} name={field} component={renderCheckbox} label={titleCase(field)} />
+            <Field classes={classes} name={field} component={renderCheckbox} label={titleCase(field)}  InputLabelProps={{ 
+                classes: {
+                  formControlLabel: classes.label,
+                  shrink: "shrink"
+                 }
+               }} />
          
         )
       }) : null
@@ -276,7 +300,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
 
     const renderYearField = () => {
       return objectType === 'songs' ? (
-         <Grid item lg={4} md={6} sm={12} xs={12}>
+         <Grid item  sm={12} xs={12}>
           <Field classes={classes} 
                  min={Math.min(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))}
                  max={Math.max(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))} 
@@ -285,6 +309,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                  name="year" 
                  component={renderSlider} 
                  label="Year Released" 
+                 InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
                  />
           
           
@@ -304,6 +334,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 classes={classes} 
                 name={field} 
                 label={titleCase(field)} 
+                InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
                 component={renderAutoCompleteDataField}   
                 options={items.map(item => item[fieldProp])}/>
             </Grid>
@@ -331,23 +367,60 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     
    
     return (
-     <div className={classes.root}>
+     <div >
        <form
             className={classes.formControl}
             onSubmit={handleSubmit(onFormSubmit)}
             >
-    <Grid container align="center" className={classes.root} justify="space-around" alignItems="center" >
-       <Grid item xs={12}>
-      <Accordion className={classes.accordion}>
-       
-            <AccordionSummary  classes={classes}  expandIcon={<ExpandMoreIcon  />} aria-controls="panel1a-content" id="panel1a-header">
-                          <Typography >Refine</Typography>
-            </AccordionSummary>
-         
-          <Grid container align="center"  justify="space-around" alignItems="center" >
+      <Grid container direction="column" align="center" spacing={2} className={classes.root} alignItems="space-around" justify="center" >
+        <Grid item xs={12}>
+          <Button className={classes.button} type="submit" variant="contained">
+            {filterForm && !_.isEqual(_.omit(filterForm.initial, ['sort', 'order']),  _.omit(filterForm.values, ['sort', 'order'])) ? "Filter" : "Sort"}
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+            <Button className={classes.deleteButton} onClick={e => {
+                    dispatch(clearFilter(objectType))
+                    dispatch(reset('FilterForm'))
+                  }} variant="contained">
+                    clear
+            </Button>
+        </Grid>
+          
+            <Grid item sm={12} xs={12}>
+                  <Field classes={classes} 
+                      name="sort" 
+                      options={itemProps.map(prop => prop)}
+                      getOptionLabel = {x => x}
+                      renderOption={option => <span>{titleCase(option)}</span>}
+                      component={renderAutoCompleteDataField} 
+                      InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
+                      label="Sort" 
+                      />
+            </Grid>
+          <Grid item sm={12} xs={12}>
+                  <Field classes={classes} 
+                        name="order" 
+                        options={["Ascending", "Descending"]}
+                        component={renderAutoCompleteDataField} 
+                        label="Order" 
+                        InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
+                        />
+            </Grid>
+ 
               {renderTextFields()}
               {renderStringFields()}
-            <Grid item lg={3} md={6} sm={12} xs={12}>
+            <Grid item sm={12} xs={12}>
               {objectType === 'songs' ? renderCheckBoxFields() :  <Field
                 options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
                 classes={classes}
@@ -355,18 +428,30 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 fullWidth= {false}
                 component={renderAutoCompleteDataField}
                 label="Key"
+                InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
                 />}
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={3}>
+            <Grid item xs={12} sm={12}>
               <Field  
                   fullWidth= {false}
                   options={modes} 
                   classes={classes} 
                   name="mode" 
                   component={renderAutoCompleteField} 
-                  label="Mode" />
+                  label="Mode"
+                  InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }} />
             </Grid>
-            <Grid item lg={3} sm={12} xs={12}> 
+            <Grid item  sm={12} xs={12}> 
               <Field  
                   fullWidth= {false}
                   options={_.uniq(items.map((item) => `${item.time_signature}/4`))} 
@@ -375,7 +460,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                   component={renderAutoCompleteDataField} 
                   label="Time Signature" />
             </Grid>
-            <Grid item lg={3} sm={12} md={6} xs={12}>
+            <Grid item  sm={12}  xs={12}>
               {objectType !== 'songs' ? renderCheckBoxFields() :  <Field
                 options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
                 classes={classes}
@@ -383,10 +468,16 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 fullWidth= {false}
                 component={renderAutoCompleteDataField}
                 label="Key"
+                InputLabelProps={{ 
+                classes: {
+                  root: classes.label,
+                  shrink: "shrink"
+                 }
+               }}
                 />}
           </Grid>
           <Grid container  justify="center" align="center" alignItems="center">
-          <Grid item lg={4} md={6} sm={12} xs={10}>
+          <Grid item sm={12} xs={10}>
               <Field 
                 classes={classes} 
                 min={0}
@@ -396,10 +487,11 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 valueLabelFormat={x => millisToMinutesAndSeconds(x) }	
                 component={renderSlider} 
                 label="Duration" 
+
                 />
               </Grid>
               {renderYearField()}
-            <Grid item lg={4} sm={10} xs={10} >
+            <Grid item sm={10} xs={10} >
               <Field classes={classes} 
                     min={Math.min(...items.filter(item => item.tempo !== '').map((item) => parseInt(item.tempo)))}
                     max={Math.max(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)+1))} 
@@ -424,44 +516,9 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
              </Accordion>
           </Grid> : null}
           </Grid>
-        </Accordion>
-         </Grid>
-          <Grid item lg={12}>
-          <Grid container  alignItems="center"  justify="flex-end"  >
-            <Grid item  lg={2} sm={12} md={3} xs={12}>
-                  <Field classes={classes} 
-                      name="sort" 
-                      options={itemProps.map(prop => prop)}
-                      getOptionLabel = {x => x}
-                      renderOption={option => <span>{titleCase(option)}</span>}
-                      component={renderAutoCompleteDataField} 
-                      label="Sort" 
-                      />
-            </Grid>
-            <Grid item style={{marginLeft: '.8rem'}} lg={2} md={3} sm={12} xs={12}>
-                  <Field classes={classes} 
-                        name="order" 
-                        options={["Ascending", "Descending"]}
-                        component={renderAutoCompleteDataField} 
-                        label="Order" 
-                        />
-            </Grid>
-            <Grid  item lg={1} md={2} sm={12} xs={12}>
-                  <Button className={classes.button} type="submit" variant="contained">
-                    {filterForm && !_.isEqual(_.omit(filterForm.initial, ['sort', 'order']),  _.omit(filterForm.values, ['sort', 'order'])) ? "Filter" : "Sort"}
-                  </Button>
-            </Grid>
-            <Grid item lg={1} md={2} sm={12} xs={12}>
-                  <Button className={classes.deleteButton} onClick={e => {
-                    dispatch(clearFilter(objectType))
-                    dispatch(reset('FilterForm'))
-                  }} variant="contained">
-                    clear
-                  </Button>
-                </Grid>
-            </Grid> 
-          </Grid>
-        </Grid>
+       
+
+        
       </form>
     </div>
   );

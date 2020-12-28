@@ -6,20 +6,34 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 300,
+    width: 200,
+    color: theme.palette.info.main,
 
-    '& .MuiSlider-markLabelActive': {
-      color: theme.palette.info.main
-    },
+      '& .MuiSlider-markLabelActive': {
+
+        color: theme.palette.info.main
+      },
+
+      '& .MuiSlider-thumb': {
+          color: theme.palette.common.gray,
+          "& .MuiSlider-valueLabel": {
+              color: theme.palette.info.main,
+          
+
+      },
+      },
+
+      
     
-    [theme.breakpoints.down('sm')]: {
-      width: 200,
-      padding: "10px 0"
-    },
+      [theme.breakpoints.down('sm')]: {
+        width: 200,
+        padding: "10px 0"
+      },
 
     },
 
     title: {
+      fontSize: '.8rem',
       [theme.breakpoints.down('sm')]: {
         marginTop: theme.spacing(1),
         fontSize: '.8rem'
