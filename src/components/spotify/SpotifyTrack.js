@@ -16,10 +16,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { importSpotifyTrack } from '../../actions/spotify';
+import CloudDownloadRoundedIcon from '@material-ui/icons/CloudDownloadRounded';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.main,
+    background: theme.palette.primary.light,
     color: 'black',
     height: '100%',
     display: 'flex',
@@ -59,24 +61,24 @@ const useStyles = makeStyles((theme) => ({
 
 
   button: {
-    color: theme.palette.common.gray,
-    fontSize: '.8rem',
+    color: theme.palette.primary.light,
     position:'absolute',
     bottom: '10px',
     right: '.5rem',
-    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.primary.dark} 150%)`,
-    width: '50%',
+    background: `linear-gradient(90deg, ${theme.palette.common.gray} 0%,  ${theme.palette.background.default} 150%)`,
+
     '&:hover': {
-      background: theme.palette.common.gray,
-      color: theme.palette.primary.main,
+      background: theme.palette.primary.main,
+      color: theme.palette.common.gray,
     },
     
   },
+  
 
   cardContent: {
     color: theme.palette.info.main,
     height: '64px',
-
+    
   },
 
   trackInfo: {
@@ -124,6 +126,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
       <Card className={classes.root}>
         <CardMedia
         ><img className={classes.media} alt={track.album.name} src={track.album.images.length > 0 ? track.album.images[0].url : null}/></CardMedia>
+        <div className={classes.cardBody}>
         <CardContent className={classes.cardContent}>
               <Typography className={classes.trackTitle} variant="subtitle1">
                 {track.name}
@@ -137,9 +140,9 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
         </CardContent>
 
         <div id="spacer" style={{width: "200px", height: '48px', float: "left", display:"inline-block"}} /> 
-
+        </div>
         <CardActions className={classes.cardActions}>
-          <Button
+          <IconButton
             className={classes.button}
             size="small"
             variant="contained"
@@ -147,8 +150,8 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
               handleClickOpen()
               dispatch(importSpotifyTrack(track.id))}}
           >
-            Import
-          </Button>
+            <CloudDownloadRoundedIcon/>
+          </IconButton>
         </CardActions>
       </Card>
     </Slide>
