@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
   input: {
     color: theme.palette.info.main,
+    background: theme.palette.common.gray,
     textAlign: 'center',
    
    
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
   button: {
     borderRadius: '5em',
-    color: theme.palette.background.default,
-    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.primary.dark} 150%)`,
+    color: theme.palette.info.main,
+    background: `linear-gradient(90deg, ${theme.palette.common.gray} 0%,  ${theme.palette.background.default} 150%)`,
     width: '100%',
     '&:hover': {
       background: theme.palette.common.gray,
