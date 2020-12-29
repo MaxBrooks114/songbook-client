@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchSpotifyTracks } from '../../actions/spotify';
 import TextField from '@material-ui/core/TextField';
@@ -53,8 +53,11 @@ const useStyles = makeStyles((theme) => ({
 const SpotifySearchBar = ({showButton}) => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
-
+  const input = useRef(null);
+  console.log(input)
   const classes = useStyles();
+
+ 
 
   return (
     <>
@@ -62,7 +65,9 @@ const SpotifySearchBar = ({showButton}) => {
         <form className={classes.root}
           onSubmit={(e) => {
             e.preventDefault();
+            input.current.lastChild.firstChild.value = ''
             dispatch(fetchSpotifyTracks(query));
+            setQuery('')
           }}
         >
           <Grid item>
@@ -75,7 +80,7 @@ const SpotifySearchBar = ({showButton}) => {
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
               margin="dense"
-              
+              ref= {input}
               InputProps={{
                 className: classes.input,
               }}
