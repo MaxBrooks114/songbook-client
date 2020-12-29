@@ -101,12 +101,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   appBar: {
-    background: theme.palette.secondary.main,
+    background: theme.palette.common.gray,
     zIndex: theme.zIndex.modal + 1
   },
 
   menu: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.common.gray,
     color: theme.palette.info.main,
     
   },
@@ -307,8 +307,8 @@ const Navbar = () => {
             id="simple-menu" 
             anchorEl={anchorEl} 
             getContentAnchorEl={null}
-            transformOrigin={{ vertical: 'top', horizontal: 'center', }} 
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+            transformOrigin={{ vertical: 'bottom', horizontal: 'center', }} 
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
             open={open} 
             onClose={handleClose}>
             {menuOptions && anchorEl ? menuOptions.filter(option => option.activeIndex === anchorEl.tabIndex ).map((option, i) => (
