@@ -95,7 +95,7 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       artist: trackData.data.artists[0].name,
       album: trackData.data.album.name,
       year: trackData.data.album.release_date,
-      image: trackData.data.album.images[1].url,
+      image: trackData.data.album.images[0].url,
       genre: artistData.data.genres[0],
       duration: trackData.data.duration_ms,
       explicit: trackData.data.explicit,
