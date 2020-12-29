@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '95%',
     height: 'auto',
+    paddingTop: 0,
     paddingBottom: 0,
     color: theme.palette.info.main,
     [theme.breakpoints.down('xs')]: {

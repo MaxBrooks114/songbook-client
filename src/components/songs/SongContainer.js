@@ -1,4 +1,8 @@
 import React, { useEffect, useRef} from 'react';
+import {
+  TransitionGroup,
+  CSSTransition
+} from "react-transition-group";
 import { useSelector, useDispatch } from 'react-redux';
 import {clearFilter} from '../../actions/filter'
 import { getFilteredItems } from '../../selectors/filterSelectors';
@@ -18,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   
  
   cardGrid: {
-    marginBottom: theme.spacing(8),
    
   },
 
@@ -32,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
    filter: {
+    height: '100%',
     background: theme.palette.primary.main,
     borderRadius: '4px',
     [theme.breakpoints.down('sm')]: {
@@ -50,17 +54,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-    minHeight: '100%',
-    overflow: 'scroll',
-    background: theme.palette.common.gray,
-    borderRadius: '4px',
-    marginTop: '72px'
+   marginTop:'7px' 
   },
 
   detail: {
      height: '100%',
      minHeight: '100vh',
-     marginTop: '72px'
+     marginTop: '11px'
   },
 
 
