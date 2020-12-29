@@ -44,7 +44,10 @@ const renderedList = () => {
     }
 
 
-   return <List style={{height: height}}>{renderedList()}</List>  
+   return (
+      
+      <List style={{height: height}}>{renderedList()}</List>  
+   )
     }
 
 export default SongList
