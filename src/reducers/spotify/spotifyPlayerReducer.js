@@ -1,8 +1,9 @@
-import { CHECK_IF_PLAYING, PLAY, PAUSE } from '../../actions/types';
+import { CHECK_IF_PLAYING, SONGPLAY, SECTIONPLAY, PAUSE } from '../../actions/types';
 
 const initialState = {
   playing: false, 
   sectionPlay: false,
+  songPlay: false,
   song: ''
 };
 
@@ -10,10 +11,12 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case CHECK_IF_PLAYING:
       return { ...state, playing: action.playing, song: action.song }
-    case PLAY: 
-      return {...state, sectionPlay: action.sectionPlay, playing: action.playing}
+    case SONGPLAY: 
+      return {...state, songPlay: action.songPlay,sectionPlay: action.sectionPlay, playing: action.playing}
+    case SECTIONPLAY: 
+      return {...state,songPlay: false, sectionPlay: action.sectionPlay, playing: action.playing}
     case PAUSE:
-      return {...state, sectionPlay: false}
+      return {...state, songPlay: false, sectionPlay: false}
     default:
       return state;
   }

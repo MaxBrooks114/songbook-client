@@ -45,5 +45,6 @@ export const REFRESH_ACCESS_TOKEN = 'REFRESH_ACCESS_TOKEN';
 export const CLEAR_ALL = 'CLEAR_ALL';
 export const GET_DEVICE_ID = 'GET_DEVICE_ID';
 export const CHECK_IF_PLAYING = 'CHECK_IF_PLAYING';
-export const PLAY = 'PLAY';
+export const SONGPLAY = 'SONGPLAY';
+export const SECTIONPLAY = 'SECTIONPLAY';
 export const PAUSE = 'PAUSE';

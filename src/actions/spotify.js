@@ -2,7 +2,7 @@ import spotify from '../apis/spotify';
 import * as workerTimers from 'worker-timers'
 import songbook from '../apis/songbook';
 import { getToken } from '../apis/spotifyToken';
-import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN, CHECK_IF_PLAYING, PLAY, PAUSE } from './types';
+import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN, CHECK_IF_PLAYING, SONGPLAY, SECTIONPLAY, PAUSE } from './types';
 import { loading, notLoading } from './ui';
 import history from '../history';
 import { createSong } from './songs';
@@ -199,7 +199,8 @@ export const playSong = (accessToken, songUri, refreshToken, deviceId) => async 
     );
 
     dispatch({
-      type: PLAY,
+      type: SONGPLAY,
+      songPlay: true,
       sectionPlay: false
     })
   } catch (error) {
@@ -252,6 +253,42 @@ export const pausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  as
     }
    
 }
+export const pressPausePlayer = (accessToken, refreshToken, deviceId, songUri) =>  async (dispatch, getState) => {
+  
+  try { 
+    let state = getState();
+    const url = deviceId === '' ? '/me/player/pause' : `/me/player/pause?device_id=${deviceId}`;
+    
+    if ( state.spotifyPlayer.playing && (state.spotifyPlayer.songPlay || state.spotifyPlayer.sectionPlay) && state.spotifyPlayer.song === songUri) { 
+      spotify.put( 
+        url,
+        {}, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+
+    dispatch({
+      type: PAUSE,
+      payload: false
+    })
+  }
+   
+
+    } catch (error) {
+      dispatch(returnErrors(error));
+      if (error.response.status === 401) {
+        const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
+        dispatch(pausePlayer(newAccessToken, deviceId));
+      }
+      if (error.response.status === 404) {
+        const newDeviceId = await dispatch(getDeviceId(accessToken));
+        dispatch(pausePlayer(accessToken, newDeviceId));
+      }
+    }
+   
+}
 
 export const playSection = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
   dispatch(loading());
@@ -269,8 +306,9 @@ export const playSection = (accessToken, songUri, refreshToken, start, duration,
   }, duration)
 
  dispatch({
-    type: PLAY,
+    type: SECTIONPLAY,
     playing: true,
+    songPlay: false, 
     sectionPlay: true,
     })
   try { 
