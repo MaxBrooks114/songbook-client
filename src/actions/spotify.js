@@ -140,7 +140,7 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       await dispatch(createSection(sectionData));
     }
     dispatch(notLoading());
-    dispatch(showSuccessSnackbar(`Song Imported`));
+    dispatch(showSuccessSnackbar(`Song Imported`, song_id));
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
     dispatch(notLoading());

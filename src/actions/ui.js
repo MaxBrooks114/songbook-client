@@ -1,8 +1,8 @@
 import { SNACKBAR_CLEAR, SNACKBAR_SUCCESS, LOADING, NOT_LOADING } from './types';
 
-export const showSuccessSnackbar = (message) => {
+export const showSuccessSnackbar = (message, songId) => {
   return (dispatch) => {
-    dispatch({ type: SNACKBAR_SUCCESS, message });
+    dispatch({ type: SNACKBAR_SUCCESS, message, songId });
   };
 };
 

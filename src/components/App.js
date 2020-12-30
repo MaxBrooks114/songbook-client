@@ -54,40 +54,40 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <SuccessSnackBar />
+      
       <Router history={history}>
         <div id="container">
           <Navbar />
         <div id="body">       
-        <MuiThemeProvider>
-            <Switch>
-              <Route path="/register" exact component={Register} />
-              <Route path="/login" exact component={Login} />
-              <Route path='/passwordReset' exact component={PasswordReset} />
-              <PrivateRoute exact path="/users/:id" component={UserShow} />
-              <PrivateRoute exact path="/users/:id/edit" component={UserEdit} />
-              <PrivateRoute exact path="/logout" component={Logout} />
-              <PrivateRoute exact path="/search" component={SpotifySearch} />
-              <PrivateRoute exact path="/songs/new" component={SongCreate} />
-              <PrivateRoute exact path="/songs/edit/:id" component={SongEdit} />
-              <PrivateRoute exact path="/songs" component={SongContainer} />
-              <PrivateRoute exact path="/songs/:attribute/:value" component={SongContainer} />
-              <PrivateRoute exact path="/songs/:id" component={SongContainer} />
-              <PrivateRoute exact path="/sections/new" component={SectionCreate} />
-              <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
-              <PrivateRoute exact path="/sections" component={SectionList} />
-              <PrivateRoute exact path="/sections/:attribute/:value" component={SectionList} />
-              <PrivateRoute exact path="/sections/:id" component={SectionList} />
-              <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
-              <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
-              <PrivateRoute exact path="/instruments" component={InstrumentList} />
-              <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
-            </Switch>   
-          </MuiThemeProvider>
+          <MuiThemeProvider>
+              <Switch>
+                <Route path="/register" exact component={Register} />
+                <Route path="/login" exact component={Login} />
+                <Route path='/passwordReset' exact component={PasswordReset} />
+                <PrivateRoute exact path="/users/:id" component={UserShow} />
+                <PrivateRoute exact path="/users/:id/edit" component={UserEdit} />
+                <PrivateRoute exact path="/logout" component={Logout} />
+                <PrivateRoute exact path="/search" component={SpotifySearch} />
+                <PrivateRoute exact path="/songs/new" component={SongCreate} />
+                <PrivateRoute exact path="/songs/edit/:id" component={SongEdit} />
+                <PrivateRoute exact path="/songs" component={SongContainer} />
+                <PrivateRoute exact path="/songs/:attribute/:value" component={SongContainer} />
+                <PrivateRoute exact path="/songs/:id" component={SongContainer} />
+                <PrivateRoute exact path="/sections/new" component={SectionCreate} />
+                <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
+                <PrivateRoute exact path="/sections" component={SectionList} />
+                <PrivateRoute exact path="/sections/:attribute/:value" component={SectionList} />
+                <PrivateRoute exact path="/sections/:id" component={SectionList} />
+                <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
+                <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
+                <PrivateRoute exact path="/instruments" component={InstrumentList} />
+                <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
+              </Switch>   
+            </MuiThemeProvider>
           </div>   
           <Footer />
         </div>
-        
+        <SuccessSnackBar/>
       </Router>
       
     </ThemeProvider>

@@ -7,6 +7,7 @@ const snackbarReducer = (state = {}, action) => {
         ...state,
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
+        songId: action.songId
       };
     case SNACKBAR_CLEAR:
       return {
@@ -14,6 +15,7 @@ const snackbarReducer = (state = {}, action) => {
         successSnackbarOpen: false,
         errorSnackbarOpen: false,
         infoSnackbarOpen: false,
+        songId: ''
       };
     default:
       return state;

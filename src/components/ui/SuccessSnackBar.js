@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import { Link } from 'react-router-dom';
 import { clearSnackbar } from '../../actions/ui';
 import { makeStyles } from '@material-ui/styles';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -22,7 +22,7 @@ export default function SuccessSnackbar() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { successSnackbarMessage, successSnackbarOpen } = useSelector((state) => state.snackbar);
+  const { successSnackbarMessage, successSnackbarOpen, songId } = useSelector((state) => state.snackbar);
 
   function handleClose() {
     dispatch(clearSnackbar());
@@ -40,8 +40,9 @@ export default function SuccessSnackbar() {
       aria-describedby="client-snackbar"
     >
       <Alert onClose={handleClose} className={classes.root} severity="success">
-        {successSnackbarMessage} 
-        
+        {successSnackbarMessage}< br/>
+        {songId ? 
+        <Link to={`/songs/${songId}`}>Check it out!</Link> : '' }
       </Alert>
     </Snackbar>
   );
