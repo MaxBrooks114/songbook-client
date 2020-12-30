@@ -5,6 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,37 +20,42 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.info.main,
         
       },
+
+       '&.Mui-focused fieldset': { 
+          borderColor: theme.palette.primary.light,
+      },
+
+      '&:hover fieldset': {
+        borderColor: theme.palette.primary.light,
+      },
     
     }
   },
 
   input: {
-    color: theme.palette.info.main,
-    background: theme.palette.common.gray,
+    color: theme.palette.background.default,
+    background: theme.palette.info.light,
+    opacity: '.4',
     textAlign: 'center',
    
    
     
   },
 
-  button: {
-    borderRadius: '5em',
-    color: theme.palette.info.main,
-    background: `linear-gradient(90deg, ${theme.palette.common.gray} 0%,  ${theme.palette.background.default} 150%)`,
-    width: '100%',
-    '&:hover': {
-      background: theme.palette.common.gray,
-      color: theme.palette.info.main,
-    },
+  searchIcon: {
+    padding: '6px',
+    color: theme.palette.background.default,
   },
 
   label: {
-    color: theme.palette.info.main,
-    textAlign: 'center',
-    marginLeft: '31px',
+    color: theme.palette.info.light,
+    opacity: '.6',
+    marginLeft: '45px',
     '&.shrink': {
-           transform: 'translate(-16px, -6px) scale(0.75)',
-           color: theme.palette.primary.main
+           transform: 'translate(-30px, -6px) scale(0.75)',
+           transition: '.2 ease-out',
+           opacity: '1',
+           display: 'none'
           },
       },
 }));
@@ -83,6 +92,7 @@ const SpotifySearchBar = ({showButton}) => {
               margin="dense"
               ref= {input}
               InputProps={{
+                endAdornment: <InputAdornment position="end"><IconButton className={classes.searchIcon} type="submit"><SearchRoundedIcon/></IconButton></InputAdornment>,
                 className: classes.input,
               }}
               InputLabelProps={{ 
@@ -92,12 +102,6 @@ const SpotifySearchBar = ({showButton}) => {
                  }
                }}
             />
-          </Grid>
-          <Grid item>
-            {showButton ?
-            <Button type="submit" className={classes.button} variant="contained">
-              Search
-            </Button>: null}
           </Grid>
         </form>
       </Grid>
