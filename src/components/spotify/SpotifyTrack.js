@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import { Link } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
@@ -83,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
   trackInfo: {
     color: theme.palette.info.main,
+    fontWeight: '600',
     boxOrient: 'vertical',
     display: '-webkit-box',
     lineClamp: '2',
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   trackTitle: {
-    fontWeight: 'bold',
+    fontWeight: '700',
     color: theme.palette.info.main,
     boxOrient: 'vertical',
     display: '-webkit-box',
@@ -133,7 +133,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
               </Typography>      
         </CardContent>
         <CardContent className={classes.cardContent}>
-          <Typography clasName={classes.trackInfo} variant="subtitle2">
+          <Typography clasName={classes.trackInfo} style={{fontWeight: '600'}} variant="subtitle2">
             {track.artists[0].name} < br/>
             {track.album.name}
           </Typography>
