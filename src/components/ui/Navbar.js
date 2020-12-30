@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector} from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,7 +21,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Progressbar from './Progressbar'
 import songbook_green_logo_v2 from '../../assets/songbook_green_logo_v2.png'
 import SpotifySearchBar from '../spotify/SpotifySearchBar'
-import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
+import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     color: theme.palette.secondary.main,
     verticalAlign: 'top',
-    marginLeft: 20,
     marginBottom: 10,
     height: "3.5rem",
     [theme.breakpoints.down('md')]: {
@@ -46,20 +45,20 @@ const useStyles = makeStyles((theme) => ({
   },
 
   tabContainer: {
-    marginLeft: '40rem',
+    marginLeft: 'auto'
   },
 
   tab: {
     ...theme.typography.tab,
+    marginLeft: '4rem',
     color: theme.palette.info.main,
     minWidth: 10,
-    marginLeft: '25px',
     opacity: 1,
     alignText: 'left'
   },
 
   drawerIconContainer: {
-    marginLeft: 'auto',
+    marginRight: '5rem',
     '&:hover': {
       backgroundColor: 'transparent',
     },
@@ -117,6 +116,11 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiMenuItem-root': {
       justifyContent: 'center',
     }
+  },
+
+  profileIcon: {
+    height: '36px',
+    width: '36px'
   }
 }));
 
@@ -148,7 +152,7 @@ const Navbar = () => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false)
-
+  const location = useLocation()
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
       setOpen(true)
@@ -195,31 +199,33 @@ const Navbar = () => {
   let routes = isAuthenticated && user ? authRoutes : guestRoutes;
 
   useEffect(() => {
+
     [...menuOptions, ...routes].forEach((route) => {
       switch (window.location.pathname) {
         case `${route.link}`:
-          if (value !== route.activeIndex) {
+          if (value !== route.activeIndex ) {
             setValue(route.activeIndex);
-            if (route.selectedIndex && route.selectedIndex !== selectedIndex){
+            if (route.selectedIndex && route.selectedIndex !== selectedIndex && location.pathname !== '/search'){
               setSelectedIndex(route.selectedIndex)
-            }
+            } 
+  
           }
           break;
         default:
           break;
       }
     });
-  }, [value, menuOptions, selectedIndex, routes]);
+  }, [value, menuOptions, selectedIndex, routes, location.pathname]);
 
   const tabs = (
     <>
       <Tabs
         className={classes.tabContainer}
-        value={value+1}
+        value={value}
         onChange={(e, value) => setValue(value)}
-        indicatorColor="primary"
+        indicatorColor={location.pathname === "/search" ? theme.palette.common.gray: "primary"}
       >
-        <SpotifySearchBar showButton={false}/>
+       
         {routes.map((route) => (
           route.link.includes('user') ? 
           <IconButton  
@@ -231,7 +237,7 @@ const Navbar = () => {
             aria-haspopup={anchorEl ? "true" : undefined}
             to={route.link}
             tabIndex={route.activeIndex}
-            label={route.name}><PersonRoundedIcon/></IconButton>
+            label={route.name}><AccountBoxRoundedIcon className={classes.profileIcon}/></IconButton>
           : <Tab
             tabIndex={route.activeIndex}
             aria-owns={anchorEl ? "simple-menu" : undefined}
@@ -291,13 +297,12 @@ const Navbar = () => {
   return (
     <>
      <ElevationScroll>
-      <AppBar className={classes.appBar} position="fixed" elevation={0}>
-       
+      <AppBar className={classes.appBar} position="fixed" elevation={0}> 
         <Toolbar disableGutters>
            <Button component={RouterLink} to="/songs" onClick={e => setValue(0)} >
               <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
-          
+          {location.pathname === '/search' ? null :<SpotifySearchBar showButton={false}/>}
           {matches ? drawer : tabs}
          {user ?  <Menu 
             elevation={0} 
@@ -330,7 +335,7 @@ const Navbar = () => {
       </AppBar>
       </ElevationScroll>
     
-       <Progressbar />
+      <Progressbar />
       <div className={classes.toolbarMargin} />  
       
     </>

@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchSpotifyTracks } from '../../actions/spotify';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
@@ -13,8 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
-    width: 'auto',
-    marginRight: '20px',
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
@@ -71,8 +68,9 @@ const SpotifySearchBar = ({showButton}) => {
 
   return (
     <>
-      <Grid container  justify="center" >
+      <Grid container style={{width: '50%', margin: 'auto'}} justify="center" >
         <form className={classes.root}
+          
           onSubmit={(e) => {
             e.preventDefault();
             input.current.lastChild.firstChild.value = ''
@@ -87,6 +85,7 @@ const SpotifySearchBar = ({showButton}) => {
               variant="outlined"
               type="text"
               value={query}
+              style={!showButton ? {width: '200%'} : null}
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
               margin="dense"
