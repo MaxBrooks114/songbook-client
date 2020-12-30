@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   media: {
-    height: 200,
-    objectFit: "fill",
+    height: '100%',
+    objectFit: "contain",
     width: '100%',
   },
   
