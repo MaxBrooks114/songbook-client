@@ -26,8 +26,8 @@ export const getFilteredItems = (state, objectType)  => {
               return f[prop] === parseInt(filterProperties[prop])
             case 'mode' :
               return renderText(modes, f[prop]).toLowerCase() === renderText(modes, filterProperties[prop]).toLowerCase();
-            case 'original' :
-            case 'explicit' : 
+            case 'original':
+            case 'explicit': 
             case 'learned':
               return f[prop] === filterProperties[prop]
             case 'acousticness' :

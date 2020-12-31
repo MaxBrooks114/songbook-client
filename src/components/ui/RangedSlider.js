@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
       },
 
       '& .MuiSlider-thumb': {
-          color: theme.palette.common.gray,
+          color: theme.palette.info.main,
           "& .MuiSlider-valueLabel": {
               color: theme.palette.info.main,
           

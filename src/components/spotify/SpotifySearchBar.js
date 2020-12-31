@@ -61,7 +61,6 @@ const SpotifySearchBar = ({showButton}) => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
   const input = useRef(null);
-  console.log(input)
   const classes = useStyles();
 
  

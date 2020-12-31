@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { setFilter, clearFilter } from '../actions/filter';
 import { Field, reduxForm, reset, initialize } from 'redux-form';
@@ -6,15 +6,20 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
 import modes from '../components/songs/modes'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import TuneRoundedIcon from '@material-ui/icons/TuneRounded';
 import Accordion from '@material-ui/core/Accordion';
+import clsx from 'clsx';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import { makeStyles } from '@material-ui/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import {renderText, normalize, titleCase, millisToMinutesAndSeconds} from '../helpers/detailHelpers'
-import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderSlider} from '../helpers/MaterialUiReduxFormFields'
+import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider} from '../helpers/MaterialUiReduxFormFields'
 import _ from 'lodash'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
   formControl: {
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(12),
     color: theme.palette.info.main,
       textTransform: "capitalize",
 
@@ -33,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
       },
 
       '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.common.gray,
+          borderColor: theme.palette.primary.light,
       },
 
       '&:hover fieldset': {
-        borderColor: theme.palette.common.gray,
+        borderColor: theme.palette.primary.light,
       },
          
     },
@@ -84,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     '& .MuiAccordionSummary-root': {
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
       },
@@ -106,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
    accordion: {
-    background: theme.palette.primary.main,
+    background: theme.palette.common.gray,
     color: theme.palette.info.main,
     marginBottom: '1em'
   },
@@ -115,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
     listbox: {
-    background: theme.palette.primary.main,
+    background: theme.palette.common.gray,
   },
 
   option: {
@@ -123,16 +129,16 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
     fontSize: '.8rem',
     '&[data-focus="true"]': {
-      background: theme.palette.common.gray,
+      background: theme.palette.background.default,
       color: theme.palette.info.main
     },
   },
 
    button: {
-    color: theme.palette.common.gray,
-    width: '85%',
-    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.primary.dark} 150%)`,
+    color: theme.palette.info.light,
+    display: 'inline-block',
     borderRadius: '5em',
+    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.common.gray} 150%)`,
     '&:hover': {
       background: theme.palette.common.gray,
       color: theme.palette.primary.main,
@@ -143,15 +149,14 @@ const useStyles = makeStyles((theme) => ({
 
    deleteButton: {
     borderRadius: '5em',
-    width: '85%',
+    display: 'inline-block',
+    marginLeft: '20px',
     color: theme.palette.common.gray,
-    background: theme.palette.common.orange,
+    background: theme.palette.info.light,
     '&:hover': {
-      color: theme.palette.common.orange,
+      color: theme.palette.info.light,
       background: theme.palette.common.gray,
     },
-
-  
 
   },
 
@@ -159,45 +164,47 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,  
     fontSize: '.8rem',
     '&.shrink': {
-           color: theme.palette.common.gray
+           color: theme.palette.primary.light
         },
       },
-  
-   
+
   
 }));
 
 
-const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) => {
+const FilterControl = ({items, objectType, songs, instruments, handleSubmit, setOpenDrawer, openDrawer }) => {
     const dispatch = useDispatch();
     const filterForm = useSelector(state => state.form.FilterForm)
     const filterValues = useSelector(state => state.filter)
-    const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
-    const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k))
-   
     
+
+
+    const booleans = {
+      'true': true,
+      'false': false
+    }
       
     useEffect(() => {
     
-
       if (!filterValues.filter && filterForm && !filterForm.values) {
         dispatch(initialize('FilterForm', filterValues))
      
       }
 
-      if(!filterValues.filter){
-        filterValues.duration = [0,  Math.max(...items.map((item) => parseInt((item.duration))+1))] 
+      if(!filterValues.filter ){
+        if(!filterValues.duration.length || filterValues.duration.some(n => n === null)){
+            filterValues.duration = [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration))+1))] 
+        } 
 
-        filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
+        if(!filterValues.tempo.length || filterValues.tempo.some(n => n === null)) {
+             filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
+        }
+       
       }
       
         
-      if (!filterValues.year.length && objectType === 'songs'){
-        filterValues.year = [Math.min(...songs.map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.map((song) => parseInt(song.year.split('-')[0])))]
-      }
-
-      if(!filterValues.sort && !filterValues.filter){
-        filterValues.sort = objectType === 'songs' ? 'artist' : 'song'
+      if ((!filterValues.year.length || filterValues.year.some(n => n === null)) && objectType === 'songs'){
+        filterValues.year = [Math.min(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))]
       }
 
       
@@ -251,7 +258,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
         return (
            <Grid item  sm={12} xs={12}>
               <Field
-                  options={_.uniq(songs.map((song) => song[field]))}
+                  options={_.uniq(songs.map((song) => song[field])).sort()}
                   classes={classes}
                   name={field}
                   fullWidth= {false}
@@ -270,18 +277,16 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
     }
 
     
-    const renderCheckBoxFields = () => {
+    const renderRadioFields = () => {
       const fields = objectType === 'songs' ? ['original', 'explicit'] : ['learned']
-      return fields.length > 0 ? fields.map(field => {
+      const opposites = objectType === 'songs' ? ['unoriginal', 'non-explicit'] : ['unlearned']
+      return fields.length > 0 ? fields.map((field, idx) => {
         return (
-           
-            <Field classes={classes} name={field} component={renderCheckbox} label={titleCase(field)}  InputLabelProps={{ 
+          <Field  classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{ 
                 classes: {
                   formControlLabel: classes.label,
-                  shrink: "shrink"
                  }
-               }} />
-         
+               }} />        
         )
       }) : null
     }
@@ -290,8 +295,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
       return objectType === 'songs' ? (
          <Grid item  sm={12} xs={12}>
           <Field classes={classes} 
-                 min={Math.min(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))}
-                 max={Math.max(...songs.filter(song => song.year !== null).map((song) => parseInt(song.year.split('-')[0])))} 
+                 min={Math.min(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))}
+                 max={Math.max(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))} 
 
                  valueLabelDisplay={true}
                  name="year" 
@@ -329,7 +334,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                  }
                }}
                 component={renderAutoCompleteDataField}   
-                options={items.map(item => item[fieldProp])}/>
+                options={items.sort().map(item => item[fieldProp])}/>
             </Grid>
           )
         }) : null
@@ -347,6 +352,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
           ...formValues, 
           key: normalize(keys, formValues.key),
           mode: normalize(modes, formValues.mode),
+          original: formValues.original !== '' ? booleans[formValues.original] : formValues.original,
+          explicit: formValues.explicit !== '' ? booleans[formValues.explicit] : formValues.explicit,
           filter: true
         })
       );
@@ -356,6 +363,10 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
    
     return (
      <div >
+     
+      <IconButton >
+          <TuneRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+      </IconButton>
        <form
             className={classes.formControl}
             onSubmit={handleSubmit(onFormSubmit)}
@@ -363,54 +374,20 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
       <Grid container direction="column" align="center" spacing={2} className={classes.root} alignItems="space-around" justify="center" >
         <Grid item xs={12}>
           <Button className={classes.button} type="submit" variant="contained">
-            {filterForm && !_.isEqual(_.omit(filterForm.initial, ['sort', 'order']),  _.omit(filterForm.values, ['sort', 'order'])) ? "Filter" : "Sort"}
+            Filter
           </Button>
-        </Grid>
-        <Grid item xs={12}>
-            <Button className={classes.deleteButton} onClick={e => {
+           <Button className={classes.deleteButton} onClick={e => {
                     dispatch(clearFilter(objectType))
                     dispatch(reset('FilterForm'))
                   }} variant="contained">
                     clear
             </Button>
         </Grid>
-          
-            <Grid item sm={12} xs={12}>
-                  <Field classes={classes} 
-                      name="sort" 
-                      options={itemProps.map(prop => prop)}
-                      getOptionLabel = {x => x}
-                      renderOption={option => <span>{titleCase(option)}</span>}
-                      component={renderAutoCompleteDataField} 
-                      InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
-                      label="Sort" 
-                      />
-            </Grid>
-          <Grid item sm={12} xs={12}>
-                  <Field classes={classes} 
-                        name="order" 
-                        options={["Ascending", "Descending"]}
-                        component={renderAutoCompleteDataField} 
-                        label="Order" 
-                        InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
-                        />
-            </Grid>
- 
               {renderTextFields()}
               {renderStringFields()}
             <Grid item sm={12} xs={12}>
-              {objectType === 'songs' ? renderCheckBoxFields() :  <Field
-                options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
+              <Field
+                options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key))).sort()}
                 classes={classes}
                 name="key"
                 fullWidth= {false}
@@ -422,7 +399,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                   shrink: "shrink"
                  }
                }}
-                />}
+                />
             </Grid>
             <Grid item xs={12} sm={12}>
               <Field  
@@ -449,27 +426,14 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                   label="Time Signature" />
             </Grid>
             <Grid item  sm={12}  xs={12}>
-              {objectType !== 'songs' ? renderCheckBoxFields() :  <Field
-                options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key)))}
-                classes={classes}
-                name="key"
-                fullWidth= {false}
-                component={renderAutoCompleteDataField}
-                label="Key"
-                InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
-                />}
+              { renderRadioFields() }
           </Grid>
           <Grid container  justify="center" align="center" alignItems="center">
           <Grid item sm={12} xs={10}>
               <Field 
                 classes={classes} 
                 min={0}
-                max={Math.max(...items.map((item) => parseInt((item.duration))+1))} 
+                max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration))+1))} 
                 name="duration" 
                 valueLabelDisplay={true}
                 valueLabelFormat={x => millisToMinutesAndSeconds(x) }	
@@ -481,8 +445,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
               {renderYearField()}
             <Grid item sm={10} xs={10} >
               <Field classes={classes} 
-                    min={Math.min(...items.filter(item => item.tempo !== '').map((item) => parseInt(item.tempo)))}
-                    max={Math.max(...items.filter(item => item.tempo !== null).map((item) => parseInt(item.tempo)+1))} 
+                    min={Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))}
+                    max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))} 
                     name="tempo" 
                     valueLabelDisplay={true}
                     component={renderSlider} 
@@ -503,10 +467,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit }) =
                 </Grid>
              </Accordion>
           </Grid> : null}
-          </Grid>
-       
-
-        
+          </Grid> 
       </form>
     </div>
   );

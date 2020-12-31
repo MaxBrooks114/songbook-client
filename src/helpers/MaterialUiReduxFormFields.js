@@ -3,6 +3,7 @@ import { Field, reduxForm, clearFields, reset } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
@@ -12,6 +13,8 @@ import RangedSlider from '../components/ui/RangedSlider';
 import Select from '@material-ui/core/Select';
 import { Autocomplete } from '@material-ui/lab';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 
 
@@ -194,14 +197,24 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
             );
           };
           
-export const renderCheckbox = ({ classes, input, label }) => (
+export const renderRadioGroup = ({input, classes, title, label1, label2 }) => (
+            <FormControl component="fieldset">
+              <FormLabel component="legend">{title}</FormLabel>
+              <RadioGroup row {...input} aria-label={label1}>
+                  <FormControlLabel className={classes.label} value="true" control={<Radio />} label="Yes" />
+                  <FormControlLabel className={classes.label} value='false' control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+        );
+
+export const renderCheckbox = ({ classes, input, label, name }) => (
             <FormControlLabel
             className={classes.label}
             label={label}
             labelPlacement="start"
-            control={<Checkbox checked={input.value ? true : false} onChange={input.onChange} name="original" />}
+            control={<Checkbox checked={input.value ? true : false} onChange={input.onChange} name={name} />}
             />
-            );
+        );
             
 export const renderCheckboxGroup = ({ name, options, input, meta, ...custom}) => {
   let $options = Object.values(options).map((option, i) => (

@@ -6,12 +6,16 @@ import { useDispatch } from 'react-redux';
 import {fetchSong } from '../../actions/songs';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import Sort from '../Sort'
+import {  useParams } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
 
   list: {
     paddingTop: 0,
-     minHeight: '100%',
+    minHeight: '100vh',
+    height: '80%',
     overflow: 'scroll',
     borderRadius: '4px',
    
@@ -31,16 +35,22 @@ const useStyles = makeStyles((theme) => ({
     title: {
       marginTop: '2px',
       marginLeft: '28px',
+      marginRight: '33px'
       
     }
 }));
-const SongList = ({songs, filteredSongs, fullDisplay, transitionDuration, height}) => {
+const SongList = ({songs, filteredSongs, fullDisplay, transitionDuration, height }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
+    const params = useParams()
 
     const handleClick = (id) => {
     dispatch(fetchSong(id));
   };
+
+  const renderSort = () => {
+    return Object.values(songs).length > 0 ? <Sort items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
+  }
 
 const renderedList = () => {
    return Object.values(songs).length > 0
@@ -59,9 +69,11 @@ const renderedList = () => {
 
    return (
       <>
-       <Typography variant="h4" className={classes.title}>
+       <Typography variant="h4" style={params.id ? {marginLeft: 0, marginBottom: '16px'}: null} className={classes.title}>
             Songs
           </Typography>
+           {renderSort()}
+        
         <List className={classes.list} style={{height: height}}>
           {renderedList()}</List> 
       </>
