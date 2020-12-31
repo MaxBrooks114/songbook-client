@@ -10,7 +10,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.main,
+    background: theme.palette.primary.light,
     display: 'flex',
     width: '95%',
     height: 'auto',

@@ -34,10 +34,10 @@ import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.main,
+    background: theme.palette.primary.light,
     transition: '.3s ease',
     textTransform: 'capitalize',
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.light,
     position: 'relative',
     marginBottom: '8rem',
   },
