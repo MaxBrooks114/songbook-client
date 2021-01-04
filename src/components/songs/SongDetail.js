@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     '& .MuiAccordionSummary-root': {
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
     },
 
     '& .MuiAccordionDetails-root': {
@@ -349,7 +349,7 @@ const SongDetail = ({ song }) => {
               <Grid xs={12} lg={12}>                   
                   <Accordion className={classes.accordion}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography className={classes.songTitle}>Song Features</Typography>
+                    <Typography>Song Features</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Grid container alignItems="center">
@@ -385,7 +385,7 @@ const SongDetail = ({ song }) => {
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Audio Properties</Typography>
+                <Typography>Audio Properties</Typography>
               </AccordionSummary>
               <AccordionDetails>
               <Grid container alignItems="center">
@@ -428,7 +428,7 @@ const SongDetail = ({ song }) => {
             </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Lyrics</Typography>
+                <Typography>Lyrics</Typography>
               </AccordionSummary>
               <Grid item xs={12}>
                 
@@ -444,7 +444,7 @@ const SongDetail = ({ song }) => {
             </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Sections</Typography>
+                <Typography>Sections</Typography>
               </AccordionSummary>
               <AccordionDetails>
                <Grid item xs={12}>
