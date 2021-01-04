@@ -217,6 +217,9 @@ const useStyles = makeStyles((theme) => ({
   songTitle: {
     fontWeight: 'bold',
   },
+  grayedOutMusicNote: {
+    opacity: '.3'
+  }
 }));
 
 const SongDetail = ({ song }) => {
@@ -235,8 +238,8 @@ const SongDetail = ({ song }) => {
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const songFeatureIcons = {
-    'low': <MusicNoteRoundedIcon/>,
-    'medium': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon/></>,
+    'low': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/></>,
+    'medium': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/></>,
     'high': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon/><MusicNoteRoundedIcon/></>,
 
   }
