@@ -34,6 +34,7 @@ import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop:'122px',
     background: theme.palette.primary.light,
     transition: '.3s ease',
     textTransform: 'capitalize',
