@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   accordion: {
-    background: theme.palette.primary.main,
+    background: theme.palette.primary.light,
     color: theme.palette.info.main,
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
@@ -162,8 +162,6 @@ const useStyles = makeStyles((theme) => ({
       bottom: '0',
       left: '0',
       right: '0',
-      height: '99%',
-      width: '100%',
       opacity: '0',
       borderRadius: '4px',
       
@@ -179,8 +177,6 @@ const useStyles = makeStyles((theme) => ({
       bottom: '0',
       left: '0',
       right: '0',
-      height: '99%',
-      width: '100%',
       opacity: '.8',
       borderRadius: '4px',
       
@@ -217,6 +213,7 @@ const useStyles = makeStyles((theme) => ({
   songTitle: {
     fontWeight: 'bold',
   },
+
   grayedOutMusicNote: {
     opacity: '.3'
   }
@@ -237,6 +234,8 @@ const SongDetail = ({ song }) => {
   const popped = Boolean(anchorEl);
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
+  const classes = useStyles();
+
   const songFeatureIcons = {
     'low': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/></>,
     'medium': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/></>,
@@ -273,7 +272,6 @@ const SongDetail = ({ song }) => {
     dispatch(pressPausePlayer(accessToken, refreshToken, deviceId, song.spotify_url))
   }
 
-  const classes = useStyles();
 
   const songButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === song.spotify_url ?
    <IconButton className={classes.bigPauseButtonContainer} onClick={handlePauseClick}><PauseCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : 
@@ -315,9 +313,8 @@ const SongDetail = ({ song }) => {
     <>
     <Typography variant="h4">Details</Typography>
     <Slide  direction="up"  in transition={150}>
-      
       <Paper className={classes.root} elevation={3}>
-        <Grid container  alignItems="center" className={classes.details}>
+        <Grid container alignItems="center" justify="center" className={classes.details}>
           <Grid item style={{height: 0}} xs={12}>
             <Grid container align="right" justify="flex-end">
               <Grid item xs={2} lg={1}>
@@ -334,8 +331,9 @@ const SongDetail = ({ song }) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container justify="space-around" align={matches ? "center" : 'left'} alignItems="center">
-              <Grid item xs={12} lg={6} className={classes.albumContainer}>
+            <Grid container justify="flex-start" alignItems="center">
+              <Grid item lg={1}/>
+              <Grid item xs={12} lg={3} className={classes.albumContainer}>
                 {renderSpotifyOptionSong()}
                 <img
                   alt={song.album}
@@ -343,26 +341,51 @@ const SongDetail = ({ song }) => {
                   src={song.image ? song.image : ''}
                 />   
               </Grid>
-              <Grid item xs={12} lg={4}>
-                  <Typography variant={matches ? "h6" : "h5"}>{song.title}</Typography>
+              <Grid item xs={12} lg={6}>
+                 <Typography variant={matches ? "h6" : "h5"} style={{display: 'inline', fontWeight: '600'}}>{song.title}</Typography> ({millisToMinutesAndSeconds(song.duration)})
                   <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>
-                  <Typography variant={matches ? "subtitle1" : "h6"}>{song.album}</Typography>   
-                  <Typography>{song.year}</Typography>
-                  <Typography variant={matches ? "caption" : "subtitle1" }>{millisToMinutesAndSeconds(song.duration)}</ Typography> 
-                  <Typography variant={matches ? "caption" : "subtitle1" }>{song.genre}</Typography>
-                   <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, song.key)} {renderText(modes, song.mode)}</Typography>
-                  <Typography variant={matches ? "caption" : "subtitle1" }>{song.tempo} BPM</Typography>
-                <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {song.time_signature}/4</Typography>
-                <Typography variant={matches ? "caption" : "subtitle1" } >Explicit?: {renderBool(song.explicit)}</Typography>
-                 <Typography variant={matches ? "caption" : "subtitle1" }>Original?: {renderBool(song.original)}</Typography>
+                  <Typography variant={matches ? "subtitle1" : "h6"} style={{display: 'inline'}}>{song.album}</ Typography> ({song.year.split('-')[0]})
               </Grid>
+              <Grid xs={12} lg={12}>                   
+                  <Accordion className={classes.accordion}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                    <Typography className={classes.songTitle}>Song Features</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Grid container alignItems="center">
+                      <Grid item lg={2}/>
+                      <Grid item lg={5}>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Genre: {song.genre}</Typography>
+                      </Grid>
+                      <Grid item lg={5}> 
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, song.key)} {renderText(modes, song.mode)}</Typography>
+                      </Grid>                 
+                      <Grid item lg={2}/>
+                      <Grid item lg={5}>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Tempo: {song.tempo} BPM</Typography>
+                      </Grid>
+                      <Grid item lg={5}>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {song.time_signature}/4</Typography>
+                      </Grid>               
+                      <Grid item lg={2}/>
+                      <Grid item lg={5}>
+                          <Typography variant={matches ? "caption" : "subtitle1" } >Explicit: {renderBool(song.explicit)}</Typography>
+                      </Grid>
+                      <Grid item lg={5}>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Original: {renderBool(song.original)}</Typography>
+                      </Grid>               
+                    </Grid>
+                  </AccordionDetails>
+                </Accordion>           
+              </Grid>  
             </Grid>
           </Grid>
           </Grid>
+
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Song Features</Typography>
+                <Typography className={classes.songTitle}>Audio Properties</Typography>
               </AccordionSummary>
               <AccordionDetails>
               <Grid container alignItems="center">
