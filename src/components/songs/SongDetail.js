@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
   media: {
     objectFit: 'fill',
     borderRadius: '4px',
-    height: '100%',
-    width: '100%',
+    height: '200px',
+    width: '200px',
      [theme.breakpoints.down('md')]: {
           height: '500px',
           width: '500px',
@@ -151,8 +151,8 @@ const useStyles = makeStyles((theme) => ({
 
   bigPlayButton: {
       color: theme.palette.common.gray,
-      height: '100%',
-      width: '100%',
+      height: '180px',
+      width: '180px',
        
   }, 
 
@@ -198,7 +198,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   albumContainer: {
-    height: '100%',
+    height: '50%',
+    width: '50%',
     position: 'relative',
 
   },
