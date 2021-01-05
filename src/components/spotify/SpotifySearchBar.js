@@ -19,19 +19,19 @@ const useStyles = makeStyles((theme) => ({
       },
 
        '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.primary.light,
+          borderColor: theme.palette.primary.main,
       },
 
       '&:hover fieldset': {
-        borderColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.main,
       },
     
     }
   },
 
   input: {
-    color: theme.palette.background.default,
-    background: theme.palette.info.light,
+    color: 'white',
+    background: theme.palette.info.main,
     opacity: '.4',
     textAlign: 'center',
    

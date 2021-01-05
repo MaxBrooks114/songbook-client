@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     color: 'black',
     height: '100%',
     display: 'flex',
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   button: {
-    color: theme.palette.primary.light,
+    color: theme.palette.primary.main,
     position:'absolute',
     bottom: '10px',
     right: '.5rem',
@@ -129,7 +129,8 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
         <div className={classes.cardBody}>
         <CardContent className={classes.cardContent}>
               <Typography className={classes.trackTitle} variant="subtitle1">
-                {track.name}
+                {track.name} < br/>
+               
               </Typography>      
         </CardContent>
         <CardContent className={classes.cardContent}>
