@@ -32,13 +32,14 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop:'122px',
-    background: theme.palette.primary.light,
+    marginTop:'86px',
+    background: theme.palette.primary.main,
     transition: '.3s ease',
     textTransform: 'capitalize',
-    color: theme.palette.primary.light,
+    color: theme.palette.primary.main,
     position: 'relative',
     marginBottom: '8rem',
   },
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
     '& .MuiAccordionSummary-root': {
       justifyContent: 'flex-start',
+      marginLeft: 20
     },
 
     '& .MuiAccordionDetails-root': {
@@ -178,8 +180,7 @@ const useStyles = makeStyles((theme) => ({
       left: '0',
       right: '0',
       opacity: '.8',
-      borderRadius: '4px',
-      
+      borderRadius: '4px',   
       transition: '.3s ease',
       '&:hover':{
         background: theme.palette.info.main,
@@ -194,6 +195,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   albumContainer: {
+    marginLeft: 18,
     height: '50%',
     width: '50%',
     position: 'relative',
@@ -314,7 +316,7 @@ const SongDetail = ({ song }) => {
     <Typography variant="h4">Details</Typography>
     <Slide  direction="up"  in transition={150}>
       <Paper className={classes.root} elevation={3}>
-        <Grid container alignItems="center" justify="center" className={classes.details}>
+        <Grid container alignItems="center" justify="flex-start" className={classes.details}>
           <Grid item style={{height: 0}} xs={12}>
             <Grid container align="right" justify="flex-end">
               <Grid item xs={2} lg={1}>
@@ -331,8 +333,7 @@ const SongDetail = ({ song }) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container justify="flex-start" alignItems="center">
-              <Grid item lg={1}/>
+            <Grid container justify="space-evenly" alignItems="center">            
               <Grid item xs={12} lg={3} className={classes.albumContainer}>
                 {renderSpotifyOptionSong()}
                 <img
@@ -341,6 +342,7 @@ const SongDetail = ({ song }) => {
                   src={song.image ? song.image : ''}
                 />   
               </Grid>
+              <Grid item lg={1}/>
               <Grid item xs={12} lg={6}>
                  <Typography variant={matches ? "h6" : "h5"} style={{display: 'inline', fontWeight: '600'}}>{song.title}</Typography> ({millisToMinutesAndSeconds(song.duration)})
                   <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>

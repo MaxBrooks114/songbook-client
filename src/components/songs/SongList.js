@@ -34,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
     
     title: {
       marginTop: '2px',
-      marginLeft: '28px',
-      marginRight: '33px'
+      marginLeft: '20px',
       
     }
 }));
@@ -69,13 +68,13 @@ const renderedList = () => {
 
    return (
       <>
-       <Typography variant="h4" style={params.id ? {marginLeft: 0, marginBottom: '16px'}: null} className={classes.title}>
-            Songs
-          </Typography>
-           {renderSort()}
-        
+        <Typography variant="h4" style={params.id ? {marginLeft: 0, marginBottom: '16px'}: null} className={classes.title}>
+          Songs
+        </Typography>
+        {renderSort()}     
         <List className={classes.list} style={{height: height}}>
-          {renderedList()}</List> 
+          {renderedList()}
+        </List> 
       </>
    )
 }

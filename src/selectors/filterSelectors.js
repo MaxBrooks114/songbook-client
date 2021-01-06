@@ -12,7 +12,7 @@ export const getFilteredItems = (state, objectType)  => {
   const sections = getSections(state)
   const instruments = getInstruments(state)
   const filterKeys = Object.keys(filterProperties).filter(key => key !== "filter" && key !== "loudness" )
-  const orderArray = filterProperties.order === "Ascending" ? [ 1 , -1] : [-1, 1]
+  const orderArray = filterProperties.order === "ascending" ? [ 1 , -1] : [-1, 1]
 
 
   const filterables = objectType === 'songs' ? songs : sections

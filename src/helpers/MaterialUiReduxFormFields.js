@@ -1,20 +1,18 @@
 import React, { useRef } from 'react'
-import { Field, reduxForm, clearFields, reset } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
 import RangedSlider from '../components/ui/RangedSlider';
-import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Autocomplete } from '@material-ui/lab';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import {titleCase} from './detailHelpers'
 
 
 
@@ -64,6 +62,8 @@ export const renderTextField = ({
   input,
   label,
   type,
+  options,
+  select,
   fullWidth,
   required,
   ...custom
@@ -78,20 +78,38 @@ export const renderTextField = ({
       color="secondary"
       variant="outlined"
       margin="dense"
+      select={select}
       required={required}
       multiline={multiline}
       type={type}
       rows={rows}
+      options={options}
       fullWidth={fullWidth}
       autoComplete="off"
+      className={select ? classes.listbox : null}
+      classes={{ menu: classes.listbox, input: classes.input, menuItem: classes.option }}
       InputProps={{
         endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
         className: classes.value,
       }}
       InputLabelProps={{ className: classes.label }}
+      SelectProps={{
+          MenuProps: {
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "center"
+            },
+             transformOrigin: {
+                vertical: "top",
+                horizontal: "center"
+              },
+            getContentAnchorEl: null,
+            className: classes.listbox
+          }
+        }}
       {...input}
       {...custom}
-    />
+    >{select ? options.map(option => <MenuItem className = {classes.option} value={option}>{titleCase(option)}</MenuItem>) : null}</TextField>
   );
 };
 
@@ -166,14 +184,16 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
         />
         );
       };
-      
-export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, label, fullWidth, ...custom }) => {
+
+
+export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, ...custom }) => {
         return (
           <Autocomplete
           options={options || ''}
           getOptionLabel={getOptionLabel}
           renderOption= {renderOption}
-          classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
+          onSelect={onChange}
+          
           value={options.find((option) => option === input.value) || ''}
           renderInput={(params) => (
             <TextField
@@ -192,8 +212,11 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
             {...input}
             {...custom}
             />
+              
             )}
+               
             />
+          
             );
           };
           
