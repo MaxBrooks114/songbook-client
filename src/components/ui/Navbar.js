@@ -13,6 +13,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
+import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -45,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   tabContainer: {
-    marginLeft: 'auto'
+      marginLeft: 'auto'
+
   },
 
   tab: {
@@ -86,6 +88,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  searchbar:{
+      // marginLeft: 'auto'
+  },
   drawerItem: {
     color: theme.palette.info.main,
     minWidth: 10,
@@ -223,7 +228,7 @@ const Navbar = () => {
         className={classes.tabContainer}
         value={value}
         onChange={(e, value) => setValue(value)}
-        indicatorColor={location.pathname === "/search" ? theme.palette.common.gray: "primary"}
+        indicatorColor={location.pathname === "/search" ? theme.palette.common.gray: "secondary"}
       >
        
         {routes.map((route) => (
@@ -299,37 +304,42 @@ const Navbar = () => {
      <ElevationScroll>
       <AppBar className={classes.appBar} position="fixed" elevation={0}> 
         <Toolbar disableGutters>
+          <Grid container alignItems="center" justify="space-between">
+            <Grid item xs={4}>
            <Button component={RouterLink} to="/songs" onClick={e => setValue(0)} >
               <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
-          {location.pathname === '/search' ? null :<SpotifySearchBar showButton={false}/>}
-          {matches ? drawer : tabs}
-         {user ?  <Menu 
-            elevation={0} 
-            style={{zIndex: 1302}} 
-            classes={{paper: classes.menu}} 
-            MenuListProps={{onMouseLeave: handleClose}} 
-            id="simple-menu" 
-            anchorEl={anchorEl} 
-            getContentAnchorEl={null}
-            transformOrigin={{ vertical: 'bottom', horizontal: 'center', }} 
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
-            open={open} 
-            onClose={handleClose}>
-            {menuOptions && anchorEl ? menuOptions.filter(option => option.activeIndex === anchorEl.tabIndex ).map((option, i) => (
-              <MenuItem 
-                key={option.name}
-                classes={{paper: classes.menuItem}} 
-                style={{justifyContent: "center"}}
-                onClick={(e, i) => { handleMenuItemClick(e, i); setValue(option.activeIndex); handleClose()}}
-                selected={i === selectedIndex && value === option.activeIndex}
-                component={RouterLink} 
-                to={option.link}>
-                {option.name}
-              </MenuItem>
-            )) : null}
-          </Menu> : null}
-          
+            </Grid>
+            <Grid item xs={4} >
+                {location.pathname === '/search' ? null :<div className={classes.searchbar}><SpotifySearchBar showButton={false}/></div>}
+            </Grid>
+                {matches ? drawer : tabs}
+            {user ?  <Menu 
+                elevation={0} 
+                style={{zIndex: 1302}} 
+                classes={{paper: classes.menu}} 
+                MenuListProps={{onMouseLeave: handleClose}} 
+                id="simple-menu" 
+                anchorEl={anchorEl} 
+                getContentAnchorEl={null}
+                transformOrigin={{ vertical: 'bottom', horizontal: 'center', }} 
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
+                open={open} 
+                onClose={handleClose}>
+                {menuOptions && anchorEl ? menuOptions.filter(option => option.activeIndex === anchorEl.tabIndex ).map((option, i) => (
+                  <MenuItem 
+                    key={option.name}
+                    classes={{paper: classes.menuItem}} 
+                    style={{justifyContent: "center"}}
+                    onClick={(e, i) => { handleMenuItemClick(e, i); setValue(option.activeIndex); handleClose()}}
+                    selected={i === selectedIndex && value === option.activeIndex}
+                    component={RouterLink} 
+                    to={option.link}>
+                    {option.name}
+                  </MenuItem>
+                )) : null}
+              </Menu> : null}
+            </Grid>
         </Toolbar>
         
       </AppBar>

@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
+    minWidth: 349,
+    margin: 'auto',
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
       '&:hover fieldset': {
         borderColor: theme.palette.primary.main,
       },
-    
+      
     }
   },
 
@@ -34,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.info.main,
     opacity: '.4',
     textAlign: 'center',
-   
-   
     
   },
 
@@ -47,11 +47,7 @@ const useStyles = makeStyles((theme) => ({
   label: {
     color: theme.palette.info.light,
     opacity: '.6',
-    marginLeft: '45px',
-    '&.shrink': {
-           transform: 'translate(-30px, -6px) scale(0.75)',
-           transition: '.2 ease-out',
-           opacity: '1',
+    '&.shrink': {           
            display: 'none'
           },
       },
@@ -66,10 +62,7 @@ const SpotifySearchBar = ({showButton}) => {
  
 
   return (
-    <>
-      <Grid container style={{width: '50%', margin: 'auto'}} justify="center" >
-        <form className={classes.root}
-          
+        <form className={classes.root}          
           onSubmit={(e) => {
             e.preventDefault();
             input.current.lastChild.firstChild.value = ''
@@ -77,21 +70,22 @@ const SpotifySearchBar = ({showButton}) => {
             setQuery('')
           }}
         >
-          <Grid item>
             <TextField
               label="Search Spotify"
               size="small"
               variant="outlined"
               type="text"
               value={query}
-              style={!showButton ? {width: '200%'} : null}
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
               margin="dense"
+              fullWidth
+              notched= {false}
               ref= {input}
               InputProps={{
                 endAdornment: <InputAdornment position="end"><IconButton className={classes.searchIcon} type="submit"><SearchRoundedIcon/></IconButton></InputAdornment>,
                 className: classes.input,
+                notched: false
               }}
               InputLabelProps={{ 
                 classes: {
@@ -100,10 +94,7 @@ const SpotifySearchBar = ({showButton}) => {
                  }
                }}
             />
-          </Grid>
         </form>
-      </Grid>
-    </>
   );
 };
 
