@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
       },
 
       '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.dark,
       },
 
       '&:hover fieldset': {
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.dark,
       },      
     },
   
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,  
     fontSize: '.8rem',
     '&.shrink': {
-           color: theme.palette.primary.main
+           color: theme.palette.primary.dark
         },
       }, 
 }));
