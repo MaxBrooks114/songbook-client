@@ -10,10 +10,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     display: 'flex',
     width: '95%',
-    height: 'auto',
+    height: 85,
     paddingTop: 0,
     paddingBottom: 0,
     color: theme.palette.info.main,
@@ -25,15 +25,20 @@ const useStyles = makeStyles((theme) => ({
       width: '100%'
   
     },
-    '& .MuiCardContent-root:last-child':{
-        paddingTop: '10px',
-        PaddingBottom: '10px'
-    }
+  
 
   },
+
+  cardContent: {
+    marginTop: 'auto',
+    marginLeft: '.6rem'
+  },
+
   media: {
     width: 85,
-    objectFit: 'contain',
+    height: 85,
+    objectFit: 'fill',
+    borderRadius: '4px',
     [theme.breakpoints.down('md')]: {
       width: 0
   
@@ -55,31 +60,21 @@ const SongCard = ({ song, transitionDuration, fullDisplay, handleClick }) => {
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card style={fullDisplay ? {margin: 'auto'}: null} className={classes.root} onClick={() => handleClick(song.id)}>
-        <CardMedia
-          className={classes.media}
-          image={song.image ? song.image : 'https://coverfiles.alphacoders.com/796/79685.jpg'}
-        />
-
+        <CardMedia>
+           <img
+                  alt={song.album}
+                  className={classes.media}
+                  src={song.image ? song.image : 'https://coverfiles.alphacoders.com/796/79685.jpg'}
+                />   
+      
+        </CardMedia>
         <CardContent className={classes.cardContent}>
-          <Typography component="p" style={{fontWeight: '600'}} variant={matches ? "caption" : "subtitle2"}>
+          <Typography component="p" style={{fontWeight: '600', verticalAlign: 'middle'}} variant={matches ? "caption" : "subtitle2"}>
             {song.title} 
           </Typography>
           <Typography style={{fontWeight: '400'}} variant="caption">
             {song.artist}
           </Typography>
-
-          {fullDisplay ?
-            <>
-               <Typography component="p" variant="caption">
-                  {song.album} 
-                </Typography>
-              <Typography variant="caption">
-                  {song.year}
-              </Typography>
-           </>: null
-        
-        
-        }
         </CardContent>
       </Card>
     </Slide>
