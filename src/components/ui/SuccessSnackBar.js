@@ -11,9 +11,9 @@ function Alert(props) {
 }
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.main,
+    background: theme.palette.secondary.main,
     textTransform: 'capitalize',
-    color: theme.palette.common.gray,
+    color: theme.palette.info.main,
     position: 'fixed',
   },
 }));
