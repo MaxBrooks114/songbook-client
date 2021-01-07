@@ -18,12 +18,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { checkIfPlaying } from '../../actions/spotify';
 import useHeight from '../../hooks/useHeight'
 import IconButton from '@material-ui/core/IconButton';
-import TuneRoundedIcon from '@material-ui/icons/TuneRounded';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
-
-
+import filter_arrow_right from '../../assets/filter_arrow_right.svg';
 
 
 const drawerWidth = 244;
@@ -56,40 +54,42 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    margin: 'auto'
+     margin: 'auto',
+     marginRight: 0
   },
 
   listShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: '244px',
+    marginLeft: 240,
   },
 
   detail: {
      height: '100%',
      minHeight: '100vh',
-     marginTop: '11px'
+     margin: 'auto',
+     marginTop: '11px',
   },
   
   drawerIconContainer: {
-    background: theme.palette.common.gray,
-    height: '35px',
-    width: '35px',
+    height: '72px',
+    width: '72px',
     marginLeft: 0,
     position: 'fixed',
-    top: '17%',
+    top: '50%',
     zIndex: 3,
-    left: '2.8%',
+    left: '2%',
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-    },
+      background: theme.palette.background.default
+    }
+    
   },
   
    drawerIcon: {
-    height: '24px',
-    width: '24px',
+    height: '54px',
+    width: '54px',
   },
 
   drawer: {
@@ -154,8 +154,8 @@ const SongContainer = ({ match }) => {
 
   return (
     <div  className={classes.root}>
-       <IconButton  className={classes.drawerIconContainer}>
-        <TuneRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+       <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
       </IconButton>
        <SwipeableDrawer
         classes={{ paper: classes.drawer }}
@@ -168,13 +168,13 @@ const SongContainer = ({ match }) => {
         onOpen={() => setOpenDrawer(true)}
       >  {renderFilter()}</SwipeableDrawer>
        
-        <Grid container justify={song ? 'space-between' : 'flex-start'} className={classes.cardGrid}>
+        <Grid container justify={song ? 'space-evenly' : 'flex-start'} className={classes.cardGrid}>
           
         
         {!matches ? 
             <>
             
-            <Grid item xs={3} md={3} lg={song ? 3 : 10} className={clsx(classes.list, {
+            <Grid item xs={3} md={3} lg={song ? 3 : 8} style={!song ? {marginRight: 'auto'}: null} className={clsx(classes.list, {
           [classes.listShift]: openDrawer,
         })}>
             
