@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     position: 'relative',
     marginBottom: '8rem',
+    padding: 22
   },
 
   lyrics: {
@@ -52,37 +53,25 @@ const useStyles = makeStyles((theme) => ({
   media: {
     objectFit: 'fill',
     borderRadius: '4px',
-    height: '200px',
-    width: '200px',
-     [theme.breakpoints.down('md')]: {
-          height: '500px',
-          width: '500px',
-    },
-     [theme.breakpoints.down('sm')]: {
-        height: '300px',
-        width: '300px'
-    },
-     [theme.breakpoints.down('xs')]: {
-        height: '220px',
-        width: '220px'
-    },
+    height: '100%',
+    width: '100%',
+    
   },
 
   details: {
     color: theme.palette.info.main,
-    paddingTop: theme.spacing(2),
   },
 
   accordion: {
     background: theme.palette.primary.light,
     color: theme.palette.info.main,
+    margin: '1rem 0',
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
     },
 
     '& .MuiAccordionSummary-root': {
-      justifyContent: 'flex-start',
-      marginLeft: 20
+      justifyContent: 'space-between',
     },
 
     '& .MuiAccordionDetails-root': {
@@ -98,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 
   dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.primary.main
+      background: theme.palette.secondary.main
     },
 
     '& .MuiTypography-root':{
@@ -113,30 +102,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   deleteChoice: {
-      color: theme.palette.primary.main,
-      background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
-      '&:hover': {
-        background: theme.palette.common.red,
-        color: theme.palette.primary.main,
-      },
+      color: theme.palette.common.orange,
 
     },
 
-  divider: {
-    ...theme.divider,
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2)
-  },
-
-  verticalDivider: {
-    ...theme.divider,
-    height: '60px'
-    
-  },
-
    menu: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
     color: theme.palette.info.main,
+   
 
   },
 
@@ -148,20 +121,20 @@ const useStyles = makeStyles((theme) => ({
   },
 
   playButton: {
-    color: theme.palette.secondary.main
+    color: theme.palette.background.default
   },
 
   bigPlayButton: {
       color: theme.palette.common.gray,
-      height: '180px',
-      width: '180px',
+      height: '90%',
+      width: '90%',
        
   }, 
 
   bigPlayButtonContainer : {
       position: 'absolute',
       top: '0',
-      bottom: '0',
+      bottom: '4px',
       left: '0',
       right: '0',
       opacity: '0',
@@ -170,16 +143,16 @@ const useStyles = makeStyles((theme) => ({
       transition: '.3s ease',
       '&:hover':{
         background: theme.palette.info.main,
-        opacity: '.8'
+        opacity: '.6'
       },
     },
   bigPauseButtonContainer : {
       position: 'absolute',
       top: '0',
-      bottom: '0',
+      bottom: '4px',
       left: '0',
       right: '0',
-      opacity: '.8',
+      opacity: '.6',
       borderRadius: '4px',   
       transition: '.3s ease',
       '&:hover':{
@@ -194,10 +167,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 
+
+
   albumContainer: {
-    marginLeft: 18,
-    height: '50%',
-    width: '50%',
     position: 'relative',
 
   },
@@ -218,6 +190,13 @@ const useStyles = makeStyles((theme) => ({
 
   grayedOutMusicNote: {
     opacity: '.3'
+  },
+
+  vert: {
+    padding: 0,
+    position: 'absolute',
+    right: '1%',
+    top: 22
   }
 }));
 
@@ -317,23 +296,16 @@ const SongDetail = ({ song }) => {
     <Slide  direction="up"  in transition={150}>
       <Paper className={classes.root} elevation={3}>
         <Grid container alignItems="center" justify="flex-start" className={classes.details}>
-          <Grid item style={{height: 0}} xs={12}>
-            <Grid container align="right" justify="flex-end">
-              <Grid item xs={2} lg={1}>
                 <IconButton
-                    style={{paddingTop: 0, paddingBottom: 0, paddingRight: '6px', paddingLeft: '6px' }}
+                    className={classes.vert}
                     aria-label="more"
                     aria-controls="long-menu"
                     aria-haspopup="true"
                     onClick={(event) =>handleMenuClick(event)}
                 > <MoreVertRoundedIcon />
                 </IconButton>
-              
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid item xs={12}>
-            <Grid container justify="space-evenly" alignItems="center">            
+            <Grid container justify="flex-start" alignItems="center">            
               <Grid item xs={12} lg={3} className={classes.albumContainer}>
                 {renderSpotifyOptionSong()}
                 <img
@@ -342,13 +314,17 @@ const SongDetail = ({ song }) => {
                   src={song.image ? song.image : ''}
                 />   
               </Grid>
-              <Grid item lg={1}/>
-              <Grid item xs={12} lg={6}>
+              <Grid item xs={1} ></Grid>
+              <Grid item xs={12} lg={8}>
                  <Typography variant={matches ? "h6" : "h5"} style={{display: 'inline', fontWeight: '600'}}>{song.title}</Typography> ({millisToMinutesAndSeconds(song.duration)})
                   <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>
                   <Typography variant={matches ? "subtitle1" : "h6"} style={{display: 'inline'}}>{song.album}</ Typography> ({song.year.split('-')[0]})
               </Grid>
-              <Grid xs={12} lg={12}>                   
+              
+            </Grid>
+          </Grid>
+          </Grid>
+          <Grid xs={12} lg={12}>                   
                   <Accordion className={classes.accordion}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                     <Typography>Song Features</Typography>
@@ -380,9 +356,6 @@ const SongDetail = ({ song }) => {
                   </AccordionDetails>
                 </Accordion>           
               </Grid>  
-            </Grid>
-          </Grid>
-          </Grid>
 
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
@@ -480,8 +453,8 @@ const SongDetail = ({ song }) => {
                 dispatch(deleteSong(song.id, song));
               }}
               color="primary"
+              style={{color: theme.palette.common.orange}}
               autoFocus
-              className={classes.deleteChoice}
             >
               Yes
             </Button>
@@ -498,12 +471,12 @@ const SongDetail = ({ song }) => {
                     >
                       
                         <MenuItem             
-                            className={classes.menu}
+                            className={classes.menuItem}
                             onClick={handleMenuClose}>
                            <Link className={classes.link} to={`edit/${song.id}`}>Edit</Link>
                         </MenuItem>
                         <MenuItem 
-                            className={classes.menu}
+                            className={classes.deleteChoice}
                             onClick={() => {handleMenuClose(); handleClickOpen();  }}>
                            Delete
                         </MenuItem>
