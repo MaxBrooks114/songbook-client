@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,9 +17,12 @@ const useStyles = makeStyles((theme) => ({
           color: theme.palette.info.main,
           "& .MuiSlider-valueLabel": {
               color: theme.palette.info.main,
-          
+            
+          "& .PrivateValueLabel-label-64":{
+            color: theme.palette.background.default
+          }
 
-      },
+        },
       },
 
       

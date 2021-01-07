@@ -4,7 +4,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const lightGray = '#f0f0f0'
 const gray = '#d8d8d8'
 const lightGreen = '#5B9279'
-const newcolor = "rgba(171, 204, 189, 0.75)"
+const mint = "rgba(171, 204, 189)"
+const mintTransparent = "rgba(171, 204, 189, 0.75)"
 const black = '#12130f'
 const darkGreen = '#325944'
 const orange = '#e84e25'
@@ -25,8 +26,8 @@ const theme = createMuiTheme({
         orange,
         gray,
     },
-    primary: { main: newcolor },
-    secondary: { main: darkGreen },
+    primary: { main: mintTransparent },
+    secondary: { main: mint },
     info: { main: black },
     background: { default: lightGray },
   },

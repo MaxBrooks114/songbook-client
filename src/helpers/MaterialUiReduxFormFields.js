@@ -86,13 +86,13 @@ export const renderTextField = ({
       options={options}
       fullWidth={fullWidth}
       autoComplete="off"
-      className={select ? classes.listbox : null}
       classes={{ menu: classes.listbox, input: classes.input, menuItem: classes.option }}
       InputProps={{
         endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
-        className: classes.value,
+        className: classes.input,
+       
       }}
-      InputLabelProps={{ className: classes.label }}
+      InputLabelProps={{ className: classes.label}}
       SelectProps={{
           MenuProps: {
             anchorOrigin: {
@@ -148,6 +148,7 @@ export const renderSlider = ({
     InputProps={{
       endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
       className: classes.value,
+     
     }}
     InputLabelProps={{ className: classes.label }}
     
@@ -173,7 +174,7 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
         fullWidth={fullWidth}
         InputProps={{
           ...params.InputProps,
-          className: classes.autoComplete,
+          className: classes.listbox,
           input: classes.input,
         }}
         InputLabelProps={{ className: classes.label }}
@@ -193,7 +194,7 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
           getOptionLabel={getOptionLabel}
           renderOption= {renderOption}
           onSelect={onChange}
-          
+          classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
           value={options.find((option) => option === input.value) || ''}
           renderInput={(params) => (
             <TextField
@@ -205,10 +206,12 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
             fullWidth={fullWidth}
             InputProps={{
               ...params.InputProps,
-              className: classes.autoComplete,
+              className: classes.listbox,
               input: classes.input,
+              
             }}
             InputLabelProps={{ className: classes.label }}
+            
             {...input}
             {...custom}
             />

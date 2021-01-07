@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { setFilter, clearFilter } from '../actions/filter';
 import { Field, reduxForm, reset, initialize } from 'redux-form';
@@ -6,11 +6,9 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
 import modes from '../components/songs/modes'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
-import TuneRoundedIcon from '@material-ui/icons/TuneRounded';
+import filter_arrow_left from '../assets/filter_arrow_left.svg';
 import Accordion from '@material-ui/core/Accordion';
-import clsx from 'clsx';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import { makeStyles } from '@material-ui/styles';
@@ -27,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 
   formControl: {
-    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(12),
     color: theme.palette.info.main,
       textTransform: "capitalize",
@@ -39,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
       },
 
       '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.primary.light,
+          borderColor: theme.palette.primary.dark,
       },
 
       '&:hover fieldset': {
-        borderColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.dark,
       },
          
     },
@@ -82,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
           fontSize: '.8rem',
       },
        
-  
     },
 
     '& .MuiAccordionSummary-content': {
@@ -121,7 +117,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
     listbox: {
-    background: theme.palette.common.gray,
+        background: theme.palette.common.gray
+    
   },
 
   option: {
@@ -138,16 +135,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.light,
     display: 'inline-block',
     borderRadius: '5em',
-    background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%,  ${theme.palette.common.gray} 150%)`,
+    background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%,  ${theme.palette.common.gray} 150%)`,
     '&:hover': {
       background: theme.palette.common.gray,
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.dark,
     },
     
     
   },
 
-   deleteButton: {
+   clearButton: {
     borderRadius: '5em',
     display: 'inline-block',
     marginLeft: '20px',
@@ -164,9 +161,20 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,  
     fontSize: '.8rem',
     '&.shrink': {
-           color: theme.palette.primary.light
+           color: theme.palette.primary.dark
         },
       },
+
+   drawerIcon: {
+    height: '54px',
+    width: '54px',
+  },
+
+  drawerIconContainer: {
+    '&:hover': {
+      background: theme.palette.common.gray
+    }
+  }
 
   
 }));
@@ -265,9 +273,9 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
                   component={renderAutoCompleteDataField}
                   label={titleCase(field)}
                    InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
                  }
                }}
                   /> 
@@ -279,7 +287,6 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     
     const renderRadioFields = () => {
       const fields = objectType === 'songs' ? ['original', 'explicit'] : ['learned']
-      const opposites = objectType === 'songs' ? ['unoriginal', 'non-explicit'] : ['unlearned']
       return fields.length > 0 ? fields.map((field, idx) => {
         return (
           <Field  classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{ 
@@ -364,8 +371,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     return (
      <div >
      
-      <IconButton >
-          <TuneRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+      <IconButton className={classes.drawerIconContainer}>
+          <img src={filter_arrow_left} alt='close filter drawer' onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
       </IconButton>
        <form
             className={classes.formControl}
@@ -376,7 +383,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
           <Button className={classes.button} type="submit" variant="contained">
             Filter
           </Button>
-           <Button className={classes.deleteButton} onClick={e => {
+           <Button className={classes.clearButton} onClick={e => {
                     dispatch(clearFilter(objectType))
                     dispatch(reset('FilterForm'))
                   }} variant="contained">
