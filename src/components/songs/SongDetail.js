@@ -27,15 +27,16 @@ import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRo
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import IconButton from '@material-ui/core/IconButton';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop:'86px',
+    marginTop: 51,
     background: theme.palette.primary.main,
     transition: '.3s ease',
     textTransform: 'capitalize',
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
   accordion: {
     background: theme.palette.primary.light,
     color: theme.palette.info.main,
+    borderRadius: 4,
     margin: '1rem 0',
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
@@ -197,10 +199,24 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     right: '1%',
     top: 22
-  }
+  },
+  close: {
+    padding: 0,
+    position: 'absolute',
+    right: '4%',
+    top: 22
+  },
+
+  title: {
+      width: '95%',
+      textAlign: 'center'
+     
+    }
+
+
 }));
 
-const SongDetail = ({ song }) => {
+const SongDetail = ({ song, closeDetail }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -216,6 +232,8 @@ const SongDetail = ({ song }) => {
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const classes = useStyles();
+  const history = useHistory()
+
 
   const songFeatureIcons = {
     'low': <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/></>,
@@ -292,8 +310,8 @@ const SongDetail = ({ song }) => {
 
   return song ? (
     <>
-    <Typography variant="h4">Details</Typography>
-    <Slide  direction="up"  in transition={150}>
+    <Typography className={classes.title} variant="h4">Details</Typography>
+    <Slide in transition={1000}>
       <Paper className={classes.root} elevation={3}>
         <Grid container alignItems="center" justify="flex-start" className={classes.details}>
                 <IconButton
@@ -303,6 +321,14 @@ const SongDetail = ({ song }) => {
                     aria-haspopup="true"
                     onClick={(event) =>handleMenuClick(event)}
                 > <MoreVertRoundedIcon />
+                </IconButton>
+                <IconButton
+                    className={classes.close}
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push('/songs')}
+                > <HighlightOffRoundedIcon />
                 </IconButton>
           <Grid item xs={12}>
             <Grid container justify="flex-start" alignItems="center">            
@@ -315,7 +341,7 @@ const SongDetail = ({ song }) => {
                 />   
               </Grid>
               <Grid item xs={1} ></Grid>
-              <Grid item xs={12} lg={8}>
+              <Grid item xs={12} lg={7}>
                  <Typography variant={matches ? "h6" : "h5"} style={{display: 'inline', fontWeight: '600'}}>{song.title}</Typography> ({millisToMinutesAndSeconds(song.duration)})
                   <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>
                   <Typography variant={matches ? "subtitle1" : "h6"} style={{display: 'inline'}}>{song.album}</ Typography> ({song.year.split('-')[0]})

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector} from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import {  useParams } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import {renderTextField} from '../helpers/MaterialUiReduxFormFields'
@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     verticalAlign: 'middle',
     textTransform: "capitalize",
-
+    margin: 'auto',
+    width: '95%',
   '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
@@ -97,12 +98,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Sort = ({items, objectType, handleSubmit, submit, form }) => {
+const Sort = ({items, objectType }) => {
     const filterValues = useSelector(state => state.filter)
     const filterForm = useSelector(state => state.form.FilterForm)
     const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
     const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k)) 
-    const params = useParams()
+    const location = useLocation()
+    let detailMode = location.pathname.includes('songs/')
+
     useEffect(() => {
 
     
@@ -115,9 +118,9 @@ const Sort = ({items, objectType, handleSubmit, submit, form }) => {
     
    
   return (
-        <form name="FilterForm" className={classes.formControl} style={params.id ? { marginBottom: '16px', width: '95%'}: {margin: 'auto', width: '95%'}} >
-          <Grid container  spacing={params.id ? null : 2} className={classes.root} align="center" justify={params.id ? "space-between" : "flex-end"} >
-            <Grid item xs={!params.id ? 2: 5}>
+        <form name="FilterForm" className={classes.formControl} style={detailMode ? {margin: 0} : null }>
+          <Grid container spacing={detailMode ? null : 2} align="center" justify={detailMode ? "space-between" : "flex-end"} >
+            <Grid item xs={!detailMode ? 2: 5}>
               <Field  classes={classes} 
                       name="sort" 
                       label="Sort" 
@@ -140,7 +143,7 @@ const Sort = ({items, objectType, handleSubmit, submit, form }) => {
               />
               
             </Grid>
-            <Grid item xs={!params.id ? 2: 6}>
+            <Grid item xs={!detailMode ? 2: 5}>
               <Field classes={classes} 
                     name="order" 
                     label="Order" 

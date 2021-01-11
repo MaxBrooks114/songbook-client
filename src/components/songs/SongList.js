@@ -7,7 +7,6 @@ import {fetchSong } from '../../actions/songs';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Sort from '../Sort'
-import {  useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
    
   },
 
+
+
   listItem: {
       '&:hover': {
         transform: 'translate(10px, 10px)',
@@ -33,22 +34,22 @@ const useStyles = makeStyles((theme) => ({
     },
     
     title: {
-      marginTop: '2px',
-      marginLeft: '20px',
-      
+      width: '95%',
+      textAlign: 'center'
+     
     }
 }));
 const SongList = ({songs, filteredSongs, fullDisplay, transitionDuration, height }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const params = useParams()
+  
 
     const handleClick = (id) => {
     dispatch(fetchSong(id));
   };
 
   const renderSort = () => {
-    return Object.values(songs).length > 0 ? <Sort items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
+    return Object.values(songs).length > 0 ? <Sort  items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
   }
 
 const renderedList = () => {
@@ -57,8 +58,8 @@ const renderedList = () => {
             transitionDuration += 50;
             return (
 
-              <ListItem className={classes.listItem} key={song.id} disableGutters dense>
-                <SongCard  fullDisplay={fullDisplay} song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
+              <ListItem   className={classes.listItem} key={song.id} disableGutters dense>
+                <SongCard fullDisplay={fullDisplay} song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             );
           })
@@ -68,7 +69,7 @@ const renderedList = () => {
 
    return (
       <>
-        <Typography variant="h4" style={params.id ? {marginLeft: 0, marginBottom: '16px'}: null} className={classes.title}>
+        <Typography variant="h4" className={classes.title}>
           Songs
         </Typography>
         {renderSort()}     

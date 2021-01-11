@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import clsx from 'clsx';
+import {  useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +36,16 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '.6rem'
   },
 
+   listShrink: {
+      transition: theme.transitions.create('transform', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+   transform: 'scale(2, 1)'
+
+  },
+
+
   media: {
     width: 85,
     height: 85,
@@ -54,12 +66,14 @@ const SongCard = ({ song, transitionDuration, fullDisplay, handleClick }) => {
   const classes = useStyles();
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
-
+  const params = useParams()
   
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card style={fullDisplay ? {margin: 'auto'}: null} className={classes.root} onClick={() => handleClick(song.id)}>
+      <Card style={fullDisplay ? {margin: 'auto'}: null} className={clsx(classes.root, {
+          [classes.listShrink]: !!params.id,
+        })} onClick={() => handleClick(song.id)}>
         <CardMedia>
            <img
                   alt={song.album}

@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState} from 'react';
-import {
-  TransitionGroup,
-  CSSTransition
-} from "react-transition-group";
+import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {clearFilter} from '../../actions/filter'
 import { getFilteredItems } from '../../selectors/filterSelectors';
@@ -20,7 +17,6 @@ import useHeight from '../../hooks/useHeight'
 import IconButton from '@material-ui/core/IconButton';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import clsx from 'clsx';
-import { useLocation } from 'react-router-dom';
 import filter_arrow_right from '../../assets/filter_arrow_right.svg';
 
 
@@ -30,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
   
  
   cardGrid: {
-   minHeight: '100vh'
+   minHeight: '100vh',
+  
   },
 
   toolbarMargin: {
@@ -50,27 +47,48 @@ const useStyles = makeStyles((theme) => ({
    marginTop:'7px', 
    minHeight: "100vh",
    flexGrow: 1,
-   transition: theme.transitions.create('margin', {
+   transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: 1000,
     }),
      margin: 'auto',
-     marginRight: 0
+
   },
 
-  listShift: {
+  listShiftRight: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: 1000
     }),
-    marginLeft: 240,
+    marginLeft: 250,
   },
 
-  detail: {
+  listShiftLeft: {
+    transition: theme.transitions.create("all", {
+      easing: theme.transitions.easing.easeOut, 
+      duration: 1000,
+  })
+},
+
+  
+
+  detailShown: {
      height: '100%',
      minHeight: '100vh',
      margin: 'auto',
      marginTop: '11px',
+      transition: theme.transitions.create("all", {
+      easing: theme.transitions.easing.easeInOut, 
+      duration: 1000
+      })
+  },
+
+  detailHidden: {
+    display: 'none',
+     transition: theme.transitions.create("all", {
+      easing: theme.transitions.easing.easeInOut, 
+      duration: 1000
+    })
   },
   
   drawerIconContainer: {
@@ -80,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     top: '50%',
     zIndex: 3,
-    left: '2%',
+    left: '1%',
     '&:hover': {
       background: theme.palette.background.default
     }
@@ -109,10 +127,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SongContainer = ({ match }) => {
+const SongContainer = () => {
   const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'));
   const songs = useSelector((state) => state.songs);
-  const song = useSelector((state) => state.songs[match.params.id]);
+  const location = useLocation()
+  let id = location.pathname.split('/').splice(-1)
+  const song = useSelector((state) => state.songs[id]);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const theme = useTheme();
@@ -121,7 +141,6 @@ const SongContainer = ({ match }) => {
   const [height] = useHeight(elementDOM);
   const [openDrawer, setOpenDrawer] = useState(false);
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const location = useLocation()
 
   const dispatch = useDispatch();
 
@@ -138,8 +157,7 @@ const SongContainer = ({ match }) => {
       workerTimers.clearInterval(intervalId) 
     }
    }
-   
-  }, [accessToken, refreshToken, dispatch])
+  }, [accessToken, refreshToken, dispatch, location])
 
 
 
@@ -153,11 +171,11 @@ const SongContainer = ({ match }) => {
   };
 
   return (
-    <div  className={classes.root}>
-       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
-       <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
+    <div className={classes.root}>
+      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+          <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
       </IconButton>
-       <SwipeableDrawer
+      <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
@@ -166,24 +184,36 @@ const SongContainer = ({ match }) => {
         anchor="left"
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
-      >  {renderFilter()}</SwipeableDrawer>
-       
-        <Grid container justify={song ? 'space-evenly' : 'flex-start'} className={classes.cardGrid}>
-          
-        
+      >  
+        {renderFilter()}
+      </SwipeableDrawer>  
+      <Grid container justify={song ? 'space-evenly' : 'flex-start'} className={classes.cardGrid}>  
         {!matches ? 
-            <>
-            
-            <Grid item xs={3} md={3} lg={song ? 3 : 8} style={!song ? {marginRight: 'auto'}: null} className={clsx(classes.list, {
-          [classes.listShift]: openDrawer,
-        })}>
-            
-            <SongList filteredSongs={filteredSongs} fullDisplay={!song} transitionDuration={transitionDuration} songs={songs} height={height} /> 
-        </Grid> </>: <SongDrawer renderFilter={renderFilter} filteredSongs={filteredSongs} transitionDuration={transitionDuration} songs={songs} />}
-        <Grid item style={song ? null: {display: 'none'} } xs={12} md={8} lg={6} ref={elementDOM} className={classes.detail}>
-          {renderDetail()}
+            <>    
+              <Grid 
+                  item xs={3} md={3} lg={song ? 3 : 8} 
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer, [classes.listShiftLeft]: song})}
+              >        
+                <SongList 
+                filteredSongs={filteredSongs} 
+                fullDisplay={!song} 
+                transitionDuration={transitionDuration} 
+                songs={songs} 
+                height={height} 
+                /> 
+              </Grid> 
+            </>: 
+                <SongDrawer renderFilter={renderFilter} 
+                            filteredSongs={filteredSongs} 
+                            transitionDuration={transitionDuration} 
+                            songs={songs} />}
+        <Grid item      
+              xs={12} md={8} lg={6} 
+              ref={elementDOM} 
+              className={song ? classes.detailShown : classes.detailHidden}>
+                {renderDetail()}
         </Grid>
-        </Grid>
+      </Grid>
     </div>
   );
 };

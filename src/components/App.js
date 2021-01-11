@@ -70,9 +70,7 @@ const App = () => {
                 <PrivateRoute exact path="/search" component={SpotifySearch} />
                 <PrivateRoute exact path="/songs/new" component={SongCreate} />
                 <PrivateRoute exact path="/songs/edit/:id" component={SongEdit} />
-                <PrivateRoute exact path="/songs" component={SongContainer} />
-                <PrivateRoute exact path="/songs/:attribute/:value" component={SongContainer} />
-                <PrivateRoute exact path="/songs/:id" component={SongContainer} />
+                <PrivateRoute path="/songs" component={SongContainer} />
                 <PrivateRoute exact path="/sections/new" component={SectionCreate} />
                 <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
                 <PrivateRoute exact path="/sections" component={SectionList} />
