@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
  
   cardGrid: {
    minHeight: '100vh',
-  
+   position: 'relative'
   },
 
   toolbarMargin: {
@@ -39,16 +39,14 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '1rem',
     },
   },
-   filter: {
-    
-  },
+   
 
   list: {
    marginTop:'7px', 
    minHeight: "100vh",
    flexGrow: 1,
    transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeOut,
+      easing: theme.transitions.easing.easeInOut,
       duration: 1000,
     }),
      margin: 'auto',
@@ -57,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
   listShiftRight: {
     transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
+      easing: theme.transitions.easing.easeInOut,
       duration: 1000
     }),
     marginLeft: 250,
@@ -65,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
   listShiftLeft: {
     transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
+      easing: theme.transitions.easing.easeInOut, 
       duration: 1000,
   })
 },
@@ -96,12 +94,16 @@ const useStyles = makeStyles((theme) => ({
     width: '72px',
     marginLeft: 0,
     position: 'fixed',
-    top: '50%',
-    zIndex: 3,
+    top: '12%',
+    zIndex: theme.zIndex.drawer+1,
     left: '1%',
     '&:hover': {
       background: theme.palette.background.default
-    }
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '5%',
+      position: 'sticky',
+    },
     
   },
   
@@ -117,9 +119,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(9),
     overflowY: 'scroll',
     background: theme.palette.common.gray,
-    [theme.breakpoints.down('xs')]: {
-      height: '40%',
-      
+    [theme.breakpoints.down('md')]: {
+        zIndex: theme.zIndex.modal+1      
     },
     }, 
   
@@ -137,6 +138,7 @@ const SongContainer = () => {
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
+  const medScreen = useMediaQuery(theme.breakpoints.down('md'));
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -191,8 +193,8 @@ const SongContainer = () => {
         {!matches ? 
             <>    
               <Grid 
-                  item xs={3} md={3} lg={song ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer, [classes.listShiftLeft]: song})}
+                  item xs={3} md={song ? 3 : 8} 
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen, [classes.listShiftLeft]: song })}
               >        
                 <SongList 
                 filteredSongs={filteredSongs} 
@@ -208,7 +210,7 @@ const SongContainer = () => {
                             transitionDuration={transitionDuration} 
                             songs={songs} />}
         <Grid item      
-              xs={12} md={8} lg={6} 
+              xs={12} md={6} lg={6} 
               ref={elementDOM} 
               className={song ? classes.detailShown : classes.detailHidden}>
                 {renderDetail()}

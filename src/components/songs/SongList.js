@@ -35,8 +35,11 @@ const useStyles = makeStyles((theme) => ({
     
     title: {
       width: '95%',
-      textAlign: 'center'
-     
+      textAlign: 'center',
+       [theme.breakpoints.down('xs')]: {
+         margin: 0,
+         width: '100%'
+      },  
     }
 }));
 const SongList = ({songs, filteredSongs, fullDisplay, transitionDuration, height }) => {

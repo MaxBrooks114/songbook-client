@@ -28,7 +28,12 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.primary.main,
       },
       
-    }
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 0
+  
+    },
   },
 
   input: {

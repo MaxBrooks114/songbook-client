@@ -128,8 +128,8 @@ const useStyles = makeStyles((theme) => ({
 
   bigPlayButton: {
       color: theme.palette.common.gray,
-      height: '90%',
-      width: '90%',
+      height: '100%',
+      width: '100%',
        
   }, 
 
@@ -148,6 +148,7 @@ const useStyles = makeStyles((theme) => ({
         opacity: '.6'
       },
     },
+
   bigPauseButtonContainer : {
       position: 'absolute',
       top: '0',
@@ -173,7 +174,7 @@ const useStyles = makeStyles((theme) => ({
 
   albumContainer: {
     position: 'relative',
-
+  
   },
   
 
@@ -204,7 +205,11 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     position: 'absolute',
     right: '4%',
-    top: 22
+    top: 22,
+     [theme.breakpoints.down('sm')]: {
+        right: '1%',
+        top: 55 
+      }, 
   },
 
   title: {
@@ -216,7 +221,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SongDetail = ({ song, closeDetail }) => {
+const SongDetail = ({ song }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -332,7 +337,7 @@ const SongDetail = ({ song, closeDetail }) => {
                 </IconButton>
           <Grid item xs={12}>
             <Grid container justify="flex-start" alignItems="center">            
-              <Grid item xs={12} lg={3} className={classes.albumContainer}>
+              <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
                 {renderSpotifyOptionSong()}
                 <img
                   alt={song.album}
@@ -341,7 +346,7 @@ const SongDetail = ({ song, closeDetail }) => {
                 />   
               </Grid>
               <Grid item xs={1} ></Grid>
-              <Grid item xs={12} lg={7}>
+              <Grid item xs={12} md={12} lg={7}>
                  <Typography variant={matches ? "h6" : "h5"} style={{display: 'inline', fontWeight: '600'}}>{song.title}</Typography> ({millisToMinutesAndSeconds(song.duration)})
                   <Typography variant={matches ? "subtitle1" : "h6"}>{song.artist}</Typography>
                   <Typography variant={matches ? "subtitle1" : "h6"} style={{display: 'inline'}}>{song.album}</ Typography> ({song.year.split('-')[0]})
@@ -357,25 +362,25 @@ const SongDetail = ({ song, closeDetail }) => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Grid container alignItems="center">
-                      <Grid item lg={2}/>
-                      <Grid item lg={5}>
+                      <Grid item xs={2}/>
+                      <Grid item xs={5}>
                         <Typography variant={matches ? "caption" : "subtitle1" }>Genre: {song.genre}</Typography>
                       </Grid>
-                      <Grid item lg={5}> 
+                      <Grid item xs={5}> 
                         <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, song.key)} {renderText(modes, song.mode)}</Typography>
                       </Grid>                 
-                      <Grid item lg={2}/>
-                      <Grid item lg={5}>
+                      <Grid item xs={2}/>
+                      <Grid item xs={5}>
                         <Typography variant={matches ? "caption" : "subtitle1" }>Tempo: {song.tempo} BPM</Typography>
                       </Grid>
-                      <Grid item lg={5}>
+                      <Grid item xs={5}>
                         <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {song.time_signature}/4</Typography>
                       </Grid>               
-                      <Grid item lg={2}/>
-                      <Grid item lg={5}>
+                      <Grid item xs={2}/>
+                      <Grid item xs={5}>
                           <Typography variant={matches ? "caption" : "subtitle1" } >Explicit: {renderBool(song.explicit)}</Typography>
                       </Grid>
-                      <Grid item lg={5}>
+                      <Grid item xs={5}>
                         <Typography variant={matches ? "caption" : "subtitle1" }>Original: {renderBool(song.original)}</Typography>
                       </Grid>               
                     </Grid>
@@ -389,38 +394,37 @@ const SongDetail = ({ song, closeDetail }) => {
                 <Typography>Audio Properties</Typography>
               </AccordionSummary>
               <AccordionDetails>
-              <Grid container alignItems="center">
-                 <Grid item lg={2}/>
-                <Grid item lg={5}>
+              <Grid container justify="center" alignItems="center">
+                 {matches ? null: <Grid item  xs={2}/>}
+                <Grid item xs={10} md={5}>
                   <Typography variant={matches ? "caption" : "subtitle1" }> Acousticness: {songFeatureIcons[audioFeaturesToText(song.acousticness)]}</Typography>
                 </Grid>
-                <Grid item lg={5}> 
+                <Grid item xs={10} md={5}> 
                   <Typography variant={matches ? "caption" : "subtitle1" }>Danceability: {songFeatureIcons[audioFeaturesToText(song.danceability)]}</Typography>
                 </Grid>
                  
-                  <Grid item lg={2}/>
-                 <Grid item lg={5}>
+                 {matches ? null: <Grid item  xs={2}/>}
+                 <Grid item xs={10} md={5}>
                   <Typography variant={matches ? "caption" : "subtitle1" }>Energy: {songFeatureIcons[audioFeaturesToText(song.energy)]}</Typography>
                 </Grid>
       
-                <Grid item lg={5}>
+                <Grid item xs={10} md={5}>
                   <Typography variant={matches ? "caption" : "subtitle1" }>Instrumentalness: {songFeatureIcons[audioFeaturesToText(song.instrumentalness)]}</Typography>
                  </Grid>
                  
-                  <Grid item lg={2}/>
-                <Grid item lg={5}>
+                 {matches ? null: <Grid item  xs={2}/>}
+                <Grid item xs={10} md={5}>
                   <Typography variant={matches ? "caption" : "subtitle1" }>Liveness: {songFeatureIcons[audioFeaturesToText(song.liveness)]}</Typography>
                 </Grid>
-                <Grid item lg={5}>
+                <Grid item xs={10} md={5}>
                 <Typography variant={matches ? "caption" : "subtitle1" }>Loudness: {song.loudness}</Typography>
-                 {matches ? <Divider orientation="horizontal"  className={classes.divider} /> : null}
                 </Grid>
                  
-                 <Grid item lg={2}/>
-                 <Grid item lg={5}>
+                 {matches ? null: <Grid item  xs={2}/>}
+                 <Grid item xs={10} md={5}>
                 <Typography variant={matches ? "caption" : "subtitle1" }>Speechiness: {songFeatureIcons[audioFeaturesToText(song.speechiness)]}</Typography>
                 </Grid>
-                <Grid item lg={5}>
+                <Grid item xs={10} md={5}>
                 <Typography variant={matches ? "caption" : "subtitle1" }>Valence: {songFeatureIcons[audioFeaturesToText(song.valence)]}</Typography>
                  </Grid>
                   

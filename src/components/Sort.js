@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     verticalAlign: 'middle',
     textTransform: "capitalize",
-    margin: 'auto',
     width: '95%',
+    margin: 'auto',
   '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
@@ -68,7 +68,15 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.down('sm')]: {
         marginLeft: '0px !important',
       },   
-    }
+    },
+
+     [theme.breakpoints.down('sm')]: {
+         margin: 0,
+      },  
+     [theme.breakpoints.down('xs')]: {
+         margin: 0,
+         width: '100%'
+      },  
     
   },
 
@@ -120,7 +128,7 @@ const Sort = ({items, objectType }) => {
   return (
         <form name="FilterForm" className={classes.formControl} style={detailMode ? {margin: 0} : null }>
           <Grid container spacing={detailMode ? null : 2} align="center" justify={detailMode ? "space-between" : "flex-end"} >
-            <Grid item xs={!detailMode ? 2: 5}>
+            <Grid item xs={6} lg={!detailMode ? 2: 5}>
               <Field  classes={classes} 
                       name="sort" 
                       label="Sort" 
@@ -143,7 +151,7 @@ const Sort = ({items, objectType }) => {
               />
               
             </Grid>
-            <Grid item xs={!detailMode ? 2: 5}>
+            <Grid item xs={6} lg={!detailMode ? 2: 5}>
               <Field classes={classes} 
                     name="order" 
                     label="Order" 

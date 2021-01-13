@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   drawerIconContainer: {
-    marginRight: '5rem',
     '&:hover': {
       backgroundColor: 'transparent',
     },
@@ -79,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   drawer: {
-    background: theme.palette.secondary.main,
+    background: theme.palette.common.gray,
     display: 'flex',
     alignItems: 'flex-start',
     color: theme.palette.info.main,
@@ -88,9 +87,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  searchbar:{
-      // marginLeft: 'auto'
-  },
+ 
   drawerItem: {
     color: theme.palette.info.main,
     minWidth: 10,
@@ -106,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 
   appBar: {
     background: theme.palette.common.gray,
-    zIndex: theme.zIndex.modal + 1
+    zIndex: theme.zIndex.modal + 2
   },
 
   menu: {
@@ -310,9 +307,10 @@ const Navbar = () => {
               <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
             </Button>
             </Grid>
+            { matches ? null :
             <Grid item xs={4} >
-                {location.pathname === '/search' ? null :<div className={classes.searchbar}><SpotifySearchBar showButton={false}/></div>}
-            </Grid>
+                {location.pathname === '/search' ? null : <div><SpotifySearchBar showButton={false}/></div>}
+            </Grid>}
                 {matches ? drawer : tabs}
             {user ?  <Menu 
                 elevation={0} 
