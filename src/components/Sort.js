@@ -112,7 +112,7 @@ const Sort = ({items, objectType }) => {
     const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
     const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k)) 
     const location = useLocation()
-    let detailMode = location.pathname.includes('songs/')
+    let detailMode = location.pathname.includes('songs/') || location.pathname.includes('sections/')
 
     useEffect(() => {
 
