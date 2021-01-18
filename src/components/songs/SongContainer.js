@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     position: 'fixed',
     top: '12%',
-    zIndex: theme.zIndex.drawer+1,
+    zIndex: 3,
     left: '1%',
     '&:hover': {
       background: theme.palette.background.default
@@ -159,7 +159,7 @@ const SongContainer = () => {
       workerTimers.clearInterval(intervalId) 
     }
    }
-  }, [accessToken, refreshToken, dispatch, location])
+  }, [accessToken, refreshToken, dispatch])
 
 
 
