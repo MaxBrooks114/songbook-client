@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       '& .MuiSlider-thumb': {
           color: theme.palette.info.main,
           "& .MuiSlider-valueLabel": {
-              color: theme.palette.info.main,
+              color: theme.palette.background.default,
             
           "& .PrivateValueLabel-label-64":{
             color: theme.palette.background.default
