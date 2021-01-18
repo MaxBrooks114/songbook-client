@@ -62,7 +62,7 @@ const SectionDrawer = ({sections, filteredSections, renderFilter}) => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
-        <SectionList filteredSongs={filteredSections} sections={sections} />
+        <SectionList filteredSections={filteredSections} sections={sections} />
       </SwipeableDrawer>
 
        

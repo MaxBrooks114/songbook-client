@@ -197,8 +197,9 @@ const SectionContainer = () => {
                 /> 
               </Grid> 
             </>: 
-                <SectionDrawer renderFilter={renderFilter} 
-                            filteredSongs={filteredSections} 
+                <SectionDrawer 
+                            renderFilter={renderFilter} 
+                            filteredSections={filteredSections} 
                             transitionDuration={transitionDuration} 
                             sections={sections} />}
         <Grid item      
@@ -212,4 +213,4 @@ const SectionContainer = () => {
   );
 };
 
-export default SectionContainer;
+export default React.memo(SectionContainer);
