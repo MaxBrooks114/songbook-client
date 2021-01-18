@@ -110,7 +110,6 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
   const classes = useStyles();
 
   const onFormSubmit = (formValues) => {
-    console.log(formValues)
     onSubmit(formValues);
   };
   return (

@@ -16,7 +16,7 @@ import InstrumentEdit from './instruments/InstrumentEdit';
 import InstrumentList from './instruments/InstrumentList';
 import SectionCreate from './sections/SectionCreate';
 import SectionEdit from './sections/SectionEdit';
-import SectionList from './sections/SectionList';
+import SectionContainer from './sections/SectionContainer';
 import SuccessSnackBar from './ui/SuccessSnackBar';
 import Navbar from './ui/Navbar';
 import Footer from './ui/Footer';
@@ -73,9 +73,7 @@ const App = () => {
                 <PrivateRoute path="/songs" component={SongContainer} />
                 <PrivateRoute exact path="/sections/new" component={SectionCreate} />
                 <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
-                <PrivateRoute exact path="/sections" component={SectionList} />
-                <PrivateRoute exact path="/sections/:attribute/:value" component={SectionList} />
-                <PrivateRoute exact path="/sections/:id" component={SectionList} />
+                <PrivateRoute path="/sections" component={SectionContainer} />
                 <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
                 <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
                 <PrivateRoute exact path="/instruments" component={InstrumentList} />

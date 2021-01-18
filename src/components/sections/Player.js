@@ -20,7 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
     playIcon: {
-      color: theme.palette.secondary.main,
+      color: theme.palette.info.main,
+      "&:hover": {
+        color: theme.palette.common.gray
+      },
+
        [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -29,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
 
       pauseIcon: {
       color: theme.palette.info.main,
+       "&:hover": {
+        color: theme.palette.common.gray
+      },
       [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -37,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
 
      loopIcon: {
       color: theme.palette.info.main,
+       "&:hover": {
+        color: theme.palette.common.gray
+      },
       [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -46,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
 
     volumeIcon: {
       color: theme.palette.info.main,
+       "&:hover": {
+        color: theme.palette.common.gray
+      },
       [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'
@@ -53,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     },
 
     replayIcon: {
+       "&:hover": {
+        color: theme.palette.common.gray
+      },
      [theme.breakpoints.down('sm')]: {
           height: '32px',
           width: '32px'

@@ -16,4 +16,24 @@
   align-items: center;
   padding-top: 1rem;
   width: 80%;
+  color: black
+}
+
+.metronome__play-pause {
+  background: #f0f0f0;
+  color: black;
+  margin-left: 1rem;
+}
+
+.slider__button {
+  background: #f0f0f0;
+  color: black;
+}
+
+.rc-slider-handle {
+  border: black;
+}
+
+.rc-slider-track {
+  background-color: black;
 }

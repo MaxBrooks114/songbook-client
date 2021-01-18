@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import * as workerTimers from 'worker-timers'
 import { deleteSection } from '../../actions/sections';
-import { playSection } from '../../actions/spotify';
+import { playSection, pressPausePlayer  } from '../../actions/spotify';
 import {renderText, millisToMinutesAndSeconds, renderBool} from '../../helpers/detailHelpers'
 import {deleteFile} from '../../actions/files'
 import Paper from '@material-ui/core/Paper';
@@ -23,9 +23,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import BackDrop from '../ui/BackDrop';
-import Divider from '@material-ui/core/Divider';
 import Metronome from '@kevinorriss/react-metronome'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Player from './Player';
 import RecordView from '../RecordView'
@@ -37,16 +36,20 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { useTheme } from '@material-ui/core/styles';
 import './metronome.css'
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
+import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
+
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: 51,
     background: theme.palette.primary.main,
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
     position: 'sticky',
-    marginTop: 11,
-    marginBottom: '3em',
+    padding: 22,
+    marginBottom: '8rem',
   },
 
   lyrics: {
@@ -55,19 +58,20 @@ const useStyles = makeStyles((theme) => ({
 
   details: {
     color: theme.palette.info.main,
-    paddingTop: theme.spacing(2),
   },
 
   accordion: {
-    background: theme.palette.primary.main,
+    background: theme.palette.primary.light,
     color: theme.palette.info.main,
+    borderRadius: 4,
+    margin: '1rem 0',
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
     },
 
     '& .MuiAccordionSummary-root': {
-      justifyContent: 'center',
-      padding: 0
+      justifyContent: 'space-between',
+      padding: '0, 16'
     },
 
     '& .MuiAccordionDetails-root': {
@@ -87,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
    dialog: {
-    '& .MuiDialog-paper': {
-      background: theme.palette.primary.main
+       '& .MuiDialog-paper': {
+      background: theme.palette.secondary.main
     },
 
     '& .MuiTypography-root':{
@@ -104,13 +108,7 @@ const useStyles = makeStyles((theme) => ({
 
 
  deleteChoice: {
-      color: theme.palette.primary.main,
-      background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
-      '&:hover': {
-        background: theme.palette.common.red,
-        color: theme.palette.primary.main,
-      },
-
+       color: theme.palette.common.orange,
     },
 
   divider: {
@@ -138,27 +136,73 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+   media: {
+    objectFit: 'fill',
+    borderRadius: '4px',
+    height: '100%',
+    width: '100%',
+    
+  },
+
   playButton: {
-    color: theme.palette.secondary.main
+    color: theme.palette.background.default
   },
 
   bigPlayButton: {
-      color: theme.palette.secondary.main,
-      height: '120px',
-      width: '120px',
+     color: theme.palette.common.gray,
+      height: '100%',
+      width: '100%',
      
       
   }, 
 
   bigPlayButtonContainer : {
-   
+   position: 'absolute',
+      top: '0',
+      bottom: '4px',
+      left: '0',
+      right: '0',
+      opacity: '0',
+      borderRadius: '4px',
+      
+      transition: '.3s ease',
+      '&:hover':{
+        background: theme.palette.info.main,
+        opacity: '.6'
+      },
+  },
+
+  bigPauseButtonContainer : {
+      position: 'absolute',
+      top: '0',
+      bottom: '4px',
+      left: '0',
+      right: '0',
+      opacity: '.6',
+      borderRadius: '4px',   
+      transition: '.3s ease',
+      '&:hover':{
+        background: theme.palette.info.main,
+        
+      },
+
+  },
+
+  buttonContainer: {
+    marginTop: theme.spacing(2),
+    margin: theme.spacing(1),
+  },
+
+  albumContainer: {
+    position: 'relative',
+  
   },
 
   deleteRecordingButton: {
       
-    height: '64px',
-    width: '64px',
-    color: theme.palette.common.red,
+    height: '48px',
+    width: '48px',
+    color: theme.palette.common.orange,
     border: theme.palette.primary.main,
     [theme.breakpoints.down('sm')]: {
           height: '32px',
@@ -166,10 +210,7 @@ const useStyles = makeStyles((theme) => ({
       },
   },
 
-  buttonContainer: {
-    marginTop: theme.spacing(2),
-    margin: theme.spacing(1),
-  },
+
 
   metronome: {
     width: '80%'
@@ -184,11 +225,7 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 0',
   },
 
-  songTitle: {
-    fontWeight: 'bold',
-    textShadow: '-1px -1px 0 #000',
-  },
-
+ 
    sheetmusic: {
     height: '640px',
     width: '520px',
@@ -196,7 +233,30 @@ const useStyles = makeStyles((theme) => ({
           height: '320px',
           width: '260px'
       },
-  }
+  },
+
+   title: {
+      width: '95%',
+      textAlign: 'center'
+     
+    },
+
+  vert: {
+    padding: 0,
+    position: 'absolute',
+    right: '1%',
+    top: 22
+  },
+  close: {
+    padding: 0,
+    position: 'absolute',
+    right: '4%',
+    top: 22,
+     [theme.breakpoints.down('sm')]: {
+        right: '1%',
+        top: 55 
+      }, 
+  },
 }));
 
 const SectionDetail = ({ section }) => {
@@ -207,13 +267,14 @@ const SectionDetail = ({ section }) => {
   const instruments = useSelector((state) =>
   Object.values(state.instruments).filter((instrument) => section.instruments.includes(instrument.id)), shallowEqual
 );
+  const player = useSelector(state => state.spotifyPlayer)
   const files = useSelector((state) => state.files)
   const recordings = Object.values(files).filter(file => (file.extension === 'wav' || file.extension === 'mp3') && file.section === section.id )
   const tabs = Object.values(files).filter(file => (file.extension === 'pdf' || file.extension === 'png' || file.extension === 'jpeg') && file.section === section.id )
   const user = useSelector((state) => state.auth.user, shallowEqual);
 
   const [open, setOpen] = useState(false);
-
+  const history = useHistory()
   const [show, setShow] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popped = Boolean(anchorEl);
@@ -228,7 +289,7 @@ const SectionDetail = ({ section }) => {
     setOpen(false);
   };
 
-     const handleMenuClick = (event) => {
+  const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -236,25 +297,43 @@ const SectionDetail = ({ section }) => {
     setAnchorEl(null);
   };
 
+  const handlePauseClick = () => {
+    dispatch(pressPausePlayer(accessToken, refreshToken, deviceId, section.song.spotify_url))
+  }
+
+   const handleSectionPlayClick = () => {
+    setShow(true)
+    const timeout = workerTimers.setTimeout(() => {
+      dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, section.duration, deviceId))
+      setShow(false)  
+      workerTimers.clearTimeout(timeout)
+    }, 3000);
+    
+  };
+
+
   const classes = useStyles();
  
  
-
+  const sectionButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === section.song.spotify_url ?
+   <IconButton className={classes.bigPauseButtonContainer} onClick={handlePauseClick}><PauseCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : 
+       <IconButton className={classes.bigPlayButtonContainer} onClick={handleSectionPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> 
 
 const renderSpotifyOption = () => {
     return accessToken && accessToken !== "" ?
-     <IconButton className={classes.bigPlayButtonContainer} onClick={handleSectionPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+     sectionButton : null
   }
   const renderInstruments = (instruments) => {
     return instruments
       ? instruments.map((instrument) => {
           return (
-            <>
-              <AccordionDetails>
-                <Typography></Typography>
-                <Link className={classes.link} to={`/instruments/${instrument.id}`}>{instrument.name}</Link>
-              </AccordionDetails>
-            </>
+            <Grid item xs={2}>
+
+                <Typography>
+                  <Link className={classes.link} to={`/instruments/${instrument.id}`}>{instrument.name}</Link>
+                </Typography>
+             
+            </Grid>
           );
         })
       : null;
@@ -304,150 +383,154 @@ const renderSpotifyOption = () => {
   )
     })
   }
-  const handleSectionPlayClick = () => {
-    setShow(true)
-    const timeout = workerTimers.setTimeout(() => {
-      dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, section.duration, deviceId))
-      setShow(false)  
-      workerTimers.clearTimeout(timeout)
-    }, 3000);
-    
-  };
+ 
 
 
   return section ? (
-    <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
-      
-      <Paper className={classes.root} elevation={3}>
-        <BackDrop className={classes.backdrop} count={4} show={show}/>
-        <Grid container alignItems="center" className={classes.details}>
-          <Grid item xs={12}>
-            <Grid container align="right" justify="flex-end">
-              <Grid item xs={2} lg={1}>
+    <>
+      <Typography className={classes.title} variant="h4">Details</Typography>
+        <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
+          <Paper className={classes.root} elevation={3}>
+          <BackDrop className={classes.backdrop} count={4} show={show}/>
+            <Grid container alignItems="center" className={classes.details}>
                 <IconButton
+                    className={classes.vert}
                     aria-label="more"
                     aria-controls="long-menu"
                     aria-haspopup="true"
                     onClick={(event) => handleMenuClick(event)}
                 > <MoreVertRoundedIcon />
                 </IconButton>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container justify="space-evenly" align={matches ? "center" : 'left'} alignItems="center">
-              <Grid item xs={12} lg={4}>
-                <Typography  variant={matches ? "h5" : "h4"} >
-                  {section.name}
-                </Typography>
-                <Typography variant={matches ? "subtitle1" : "h6"}>
-                  <Link to={`/songs/${section.song.id}`}>{section.song.title}</Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={12} lg={4}>
-                 {renderSpotifyOption()}
-              </Grid>
-            </Grid>
-             <Grid item xs={12}>
-                <Divider  variant="middle" className={classes.divider} />
-              </Grid>
-              <Grid item xs={12}>
-            <Grid container align="center" alignItems="center" justify="space-evenly">
-              <Grid item xs={3} lg={3}>
-                <Typography variant={matches ? "caption" : "subtitle1" }>Start: {millisToMinutesAndSeconds(section.start)}</Typography> <br/ >
-                <Typography variant={matches ? "caption" : "subtitle1" }>Duration: {millisToMinutesAndSeconds(section.duration)}</Typography>
-              </Grid>
-              <Grid item xs={1} lg={0}>
-                <Divider orientation="vertical"  className={classes.verticalDivider} />
-              </Grid>
-              <Grid item xs={3} lg={3}>
-                <Typography variant={matches ? "caption" : "subtitle1" }>{renderText(keys, section.key)} {renderText(modes, section.mode)}</Typography><br/ >
-                <Typography variant={matches ? "caption" : "subtitle1" }>Learned?: {renderBool(section.learned)}</Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <Divider orientation="vertical"  className={classes.verticalDivider} />
-              </Grid>
-              <Grid item xs={4} lg={3}>
-                <Typography variant={matches ? "caption" : "subtitle1" }>{section.tempo} BPM</Typography><br/ >
-                <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {section.time_signature}/4</Typography>
-              </Grid>
-              {matches ? 
-               <Grid item xs={10}>
-                <Divider orientation="horizontal"  className={classes.divider} />
-              </Grid> : null}
-            </Grid>
-          </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Lyrics</Typography>
-              </AccordionSummary>
-              <Grid item xs={12}>
-                  <AccordionDetails>
-                    <Grid container justify="space-around">
-                      <Grid item xs={10}>
-                        <Typography className={classes.lyrics}>{section.lyrics}</Typography>
-                      </Grid>
+                  <IconButton
+                    className={classes.close}
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push('/sections')}
+                > <HighlightOffRoundedIcon />
+                </IconButton>
+                <Grid item xs={12}>
+                  <Grid container justify="flex-start"  alignItems="center">
+                    <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
+                      {renderSpotifyOption()}
+                      <img
+                        alt={section.song.album}
+                        className={classes.media}
+                        src={section.song.image ? section.song.image : ''}
+                      />
+                    </Grid>   
+                    <Grid item xs={1}/>
+                    <Grid item xs={12} md={12} lg={7}>
+                      <Typography  variant={matches ? "h5" : "h4"} >
+                        {section.name} 
+                      </Typography>
+                      <Typography>
+                        {millisToMinutesAndSeconds(section.start)}-{millisToMinutesAndSeconds(section.start+ section.duration)} ({millisToMinutesAndSeconds(section.duration)})
+                      </Typography> 
+                      <Typography variant={matches ? "subtitle1" : "h6"}>
+                        <Link to={`/songs/${section.song.id}`}>{section.song.title}</Link>
+                      </Typography>
                     </Grid>
-                  </AccordionDetails>   
+                  </Grid>
+                  <Grid xs={12}>                   
+                    <Accordion className={classes.accordion}>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                        <Typography>Section Features</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Grid container alignItems="center">
+                          <Grid item xs={2}/>
+                          <Grid item xs={5}> 
+                            <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, section.key)} {renderText(modes, section.mode)}</Typography>
+                          </Grid>                 
+                          <Grid item xs={5}>
+                            <Typography variant={matches ? "caption" : "subtitle1" }>Tempo: {section.tempo} BPM</Typography>
+                          </Grid>
+                            <Grid item xs={2}/>
+                          <Grid item xs={5}>
+                            <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {section.time_signature}/4</Typography>
+                          </Grid>               
+                       
+                          <Grid item xs={5}>
+                              <Typography variant={matches ? "caption" : "subtitle1" } >Learned: {renderBool(section.learned)}</Typography>
+                          </Grid>             
+                        </Grid>
+                      </AccordionDetails>
+                    </Accordion>           
+                  </Grid>  
+                  <Grid item xs={12}>
+                    <Accordion className={classes.accordion}>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                        <Typography >Lyrics</Typography>
+
+                      </AccordionSummary>
+                      <Grid item xs={12}>
+                          <AccordionDetails>
+                            <Grid container justify="space-around">
+                              <Grid item xs={10}>
+                                <Typography className={classes.lyrics}>{section.lyrics}</Typography>
+                              </Grid>
+                            </Grid>
+                          </AccordionDetails>   
+                      </Grid>
+                    </Accordion>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Accordion className={classes.accordion}>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                        <Typography >Instruments</Typography>
+                      </AccordionSummary>
+                      <Grid item xs={10}>
+                      <AccordionDetails>
+                        <Grid container align="center" justify="flex-start">
+                          {renderInstruments(instruments)}
+                        </Grid>
+                      </AccordionDetails>
+                      </Grid>
+                    </Accordion>
+                  </Grid>
+                  <Accordion className={classes.accordion}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                      <Typography >Metronome</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid item xs={12}> 
+                        <Metronome key={section.id} startBpm= {section.tempo}/>
+                      </Grid>
+                    </AccordionDetails> 
+                  </Accordion>
+                  <Accordion className={classes.accordion}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                      <Typography>Record Yourself</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid item xs={12}> 
+                        <RecordView className="recorder" key={section.id} />
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion className={classes.accordion}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                      <Typography>Recordings</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid item xs={12}> 
+                        {renderRecordings()}    
+                      </Grid>   
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion className={classes.accordion}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                      <Typography>Sheet Music/ Tabs</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid item xs={12}> 
+                        {renderTabs()}
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
               </Grid>
-            </Accordion>
-            <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Instruments</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-               <Grid item xs={12}>
-                 <Grid container align="center" justify="center">
-                   {renderInstruments(instruments)}
-                </Grid>
-              </Grid>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Metronome</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-               <Grid item xs={12}> 
-                      <Metronome key={section.id} startBpm= {section.tempo}/>
-               
-              </Grid>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Record Yourself</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-               <Grid item xs={12}> 
-                  <RecordView className="recorder" key={section.id} />
-              </Grid>
-              </AccordionDetails>
-            </Accordion>
-             <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Recordings</Typography>
-              </AccordionSummary>
-               <AccordionDetails>
-                <Grid item xs={12}> 
-                    {renderRecordings()}    
-                </Grid>   
-                </AccordionDetails>
-            </Accordion>
-             <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.songTitle}>Sheet Music/ Tabs</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                 <Grid item xs={12}> 
-                  {renderTabs()}
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-          </Grid>
+            </Grid>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -472,7 +555,7 @@ const renderSpotifyOption = () => {
               }}
               color="primary"
               autoFocus
-              className={classes.deleteChoice}
+              style={{color: theme.palette.common.orange}}
             >
               Yes
             </Button>
@@ -489,12 +572,12 @@ const renderSpotifyOption = () => {
                     >
                       
                         <MenuItem             
-                            className={classes.menu}
+                            className={classes.menuItem}
                             onClick={handleMenuClose}>
                            <Link className={classes.link} to={`edit/${section.id}`}>Edit</Link>
                         </MenuItem>
                         <MenuItem 
-                            className={classes.menu}
+                            className={classes.deleteChoice}
                             onClick={() => {handleMenuClose(); handleClickOpen();  }}>
                            Delete
                         </MenuItem>
@@ -503,7 +586,8 @@ const renderSpotifyOption = () => {
        
       </Paper>
     </Slide>
+    </>
   ) : null;
 };
 
-export default SectionDetail;
+export default React.memo(SectionDetail);

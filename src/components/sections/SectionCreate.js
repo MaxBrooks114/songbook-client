@@ -84,7 +84,7 @@ const SectionCreate = () => {
       <div  className={classes.root}>
         <div className={classes.toolbarMargin}></div>
         <Typography className={classes.title} variant="h2" align="center" gutterBottom>
-          Create an Section
+          Create a Section
         </Typography>
         <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>

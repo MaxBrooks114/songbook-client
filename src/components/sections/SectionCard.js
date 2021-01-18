@@ -4,46 +4,41 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
-
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
     display: 'flex',
-    width: '100%',
-    height: 'auto',
-    boxShadow: theme.shadows[24],
-    '&:hover': {
-      cursor: 'pointer',
-    },
-     [theme.breakpoints.down('sm')]: {
-        textAlign: 'center'
-    
-      },
-    
+    width: '95%',
+    height: 85,
+    paddingTop: 0,
+    paddingBottom: 0,
     color: theme.palette.info.main,
-
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+  
+    },
     
+
   },
 
   cardContent: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: '60%',
-      display: 'flex',
-      flexDirection: "column",
-      justifyContent: 'center',
-    }
-  }
+    marginTop: 'auto',
+    marginLeft: '.6rem'
+  },
+
+
   
 }));
 
-const SectionCard = ({ section, transitionDuration, handleClick }) => {
+const SectionCard = ({ section, transitionDuration, fullDisplay, handleClick }) => {
   const classes = useStyles();
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card className={classes.root} onClick={() => handleClick(section.id)}>
+      <Card style={fullDisplay ? {margin: 'auto'}: null} className={classes.root} onClick={() => handleClick(section.id)}>
         <CardContent className={classes.cardContent}>
           <Typography  variant="subtitle1">{section.name}</Typography>
           <Typography  variant="caption">{section.song.title}</Typography>
@@ -53,4 +48,4 @@ const SectionCard = ({ section, transitionDuration, handleClick }) => {
   );
 };
 
-export default SectionCard;
+export default React.memo(SectionCard);
