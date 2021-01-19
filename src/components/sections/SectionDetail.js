@@ -38,7 +38,8 @@ import { useTheme } from '@material-ui/core/styles';
 import './metronome.css'
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
-
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -257,9 +258,32 @@ const useStyles = makeStyles((theme) => ({
         top: 55 
       }, 
   },
+
+  next: {
+    padding: 0,
+    position: 'absolute',
+    right: '7%',
+    top: 22,
+     [theme.breakpoints.down('sm')]: {
+        right: '1%',
+        top: 77 
+      }, 
+  },
+
+  prev: {
+    padding: 0,
+    position: 'absolute',
+    right: '10%',
+    top: 22,
+     [theme.breakpoints.down('sm')]: {
+        right: '1%',
+        top: 99
+      }, 
+  },
+
 }));
 
-const SectionDetail = ({ section }) => {
+const SectionDetail = ({ section, nextSection, prevSection }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id, shallowEqual);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token, shallowEqual);
@@ -409,6 +433,24 @@ const renderSpotifyOption = () => {
                     onClick={(event) =>  history.push('/sections')}
                 > <HighlightOffRoundedIcon />
                 </IconButton>
+                {nextSection ? 
+                <IconButton
+                    className={classes.next}
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push(`/sections/${nextSection.id}`)}
+                > <NavigateNextIcon/> 
+                </IconButton> : null}
+                {prevSection ?
+                <IconButton
+                    className={classes.prev}
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push(`/sections/${prevSection.id}`)}
+                > <NavigateBeforeIcon />
+                </IconButton> : null }
                 <Grid item xs={12}>
                   <Grid container justify="flex-start"  alignItems="center">
                     <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>

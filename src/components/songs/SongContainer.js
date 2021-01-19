@@ -134,6 +134,8 @@ const SongContainer = () => {
   const location = useLocation()
   let id = location.pathname.split('/').splice(-1)
   const song = useSelector((state) => state.songs[id]);
+  const nextSongIdx = filteredSongs.indexOf(song) + 1 
+  const prevSongIdx = filteredSongs.indexOf(song) - 1
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const theme = useTheme();
@@ -169,7 +171,7 @@ const SongContainer = () => {
   
 
   const renderDetail = () => {
-    return song ? <SongDetail song={song} /> : null;
+    return song ? <SongDetail nextSong={filteredSongs[nextSongIdx]} prevSong={filteredSongs[prevSongIdx]} song={song} /> : null;
   };
 
   return (

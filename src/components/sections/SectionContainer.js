@@ -128,6 +128,8 @@ const SectionContainer = () => {
   const location = useLocation()
   let id = location.pathname.split('/').splice(-1)
   const section = useSelector((state) => state.sections[id]);
+  const nextSectionIdx = filteredSections.indexOf(section) + 1 
+  const prevSectionIdx = filteredSections.indexOf(section) - 1
   const instruments = useSelector((state) => state.instruments);
   const songs = useSelector((state) => state.songs )
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -156,11 +158,11 @@ const SectionContainer = () => {
 
 
   const renderFilter = () => {
-    return Object.values(sections).length > 0 ? <FilterControl items={Object.values(sections)} instruments={Object.values(instruments)} sections={Object.values(sections)} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} songs={Object.values(songs)}  objectType='sections'  /> : null
+    return Object.values(sections).length > 0 ? <FilterControl items={Object.values(sections)} instruments={Object.values(instruments)} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} songs={Object.values(songs)}  objectType='sections'  /> : null
   }
 
   const renderDetail = () => {
-    return section ? <SectionDetail section={section} /> : null;
+    return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} /> : null;
   };
 
  

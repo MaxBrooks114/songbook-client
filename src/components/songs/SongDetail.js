@@ -31,7 +31,8 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
   lyrics: {
     textTransform: 'none',
-
   },
 
   media: {
@@ -104,7 +104,6 @@ const useStyles = makeStyles((theme) => ({
 
   deleteChoice: {
       color: theme.palette.common.orange,
-
     },
 
    menu: {
@@ -172,8 +171,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   albumContainer: {
-    position: 'relative',
-  
+    position: 'relative',  
   },
   
 
@@ -200,6 +198,7 @@ const useStyles = makeStyles((theme) => ({
     right: '1%',
     top: 22
   },
+
   close: {
     padding: 0,
     position: 'absolute',
@@ -211,16 +210,36 @@ const useStyles = makeStyles((theme) => ({
       }, 
   },
 
+  next: {
+    padding: 0,
+    position: 'absolute',
+    right: '7%',
+    top: 22,
+     [theme.breakpoints.down('sm')]: {
+        right: '1%',
+        top: 77 
+      }, 
+  },
+  prev: {
+    padding: 0,
+    position: 'absolute',
+    right: '10%',
+    top: 22,
+     [theme.breakpoints.down('sm')]: {
+        right: '1%',
+        top: 99
+      }, 
+  },
+
   title: {
       width: '95%',
-      textAlign: 'center'
-     
+      textAlign: 'center' 
     }
 
 
 }));
 
-const SongDetail = ({ song }) => {
+const SongDetail = ({ song, nextSong, prevSong }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -274,6 +293,8 @@ const SongDetail = ({ song }) => {
   const handlePauseClick = () => {
     dispatch(pressPausePlayer(accessToken, refreshToken, deviceId, song.spotify_url))
   }
+
+
 
 
   const songButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === song.spotify_url ?
@@ -334,6 +355,24 @@ const SongDetail = ({ song }) => {
                     onClick={(event) =>  history.push('/songs')}
                 > <HighlightOffRoundedIcon />
                 </IconButton>
+              {nextSong ? 
+                <IconButton
+                    className={classes.next}
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push(`/songs/${nextSong.id}`)}
+                > <NavigateNextIcon/> 
+                </IconButton> : null}
+                {prevSong ?
+                <IconButton
+                    className={classes.prev}
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push(`/songs/${prevSong.id}`)}
+                > <NavigateBeforeIcon />
+                </IconButton> : null }
           <Grid item xs={12}>
             <Grid container justify="flex-start" alignItems="center">            
               <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
