@@ -200,7 +200,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       }
 
       if(!filterValues.filter ){
-        if(!filterValues.duration.length || filterValues.duration.some(n => n === null)){
+        if(!filterValues.duration.length || filterValues.duration.some(n => n === null) ){
             filterValues.duration = [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration))+1))] 
         } 
 
@@ -216,7 +216,9 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       }
 
       
-    })
+
+      
+    }, [objectType, dispatch, songs, items, filterForm, filterValues ])
     const renderAdvancedFilters = () => {
        
        const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
@@ -480,7 +482,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
   );
 };
 
-export default reduxForm({
+export default React.memo(reduxForm({
   form: 'FilterForm',
-})(FilterControl);
+})(FilterControl));
 
