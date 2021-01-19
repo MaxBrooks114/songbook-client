@@ -170,11 +170,19 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     });
+
+    let deviceId 
+    for (let device of response.data.device){
+      if (device.type === "computer" || device.type === 'phone') {
+        deviceId = device.id 
+        break
+      }
+    }
     dispatch({
       type: GET_DEVICE_ID,
-      payload: response.data.devices[0].id,
+      payload: deviceId
     });
-    return response.data.devices[0].id;
+    return deviceId;
   } catch (error) {
     dispatch(returnErrors(error));
   }
@@ -292,7 +300,7 @@ export const pressPausePlayer = (accessToken, refreshToken, deviceId, songUri) =
 
 export const playSection = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
   dispatch(loading());
-  
+  dispatch(getDeviceId(accessToken))
   try {
     if(timeoutId) workerTimers.clearTimeout(timeoutId)
   }  catch (error){
