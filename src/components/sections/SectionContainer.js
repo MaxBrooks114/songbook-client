@@ -25,7 +25,9 @@ const drawerWidth = 244;
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
     minHeight: '100vh',
-    position: 'relative'
+    position: 'relative',
+    marginTop: 50
+
   },
 
    toolbarMargin: {
@@ -46,30 +48,37 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeInOut,
       duration: 1000,
     }),
-     margin: 'auto',
 
   },
 
-  listShiftRight: {
-    transition: theme.transitions.create('margin', {
+  listShiftSection: {
+    transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeInOut,
       duration: 1000
     }),
-    marginLeft: 250,
+  },
+
+  listShiftRight: {
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 1000
+    }),
+    marginLeft: 246,
   },
 
   listShiftLeft: {
     transition: theme.transitions.create("all", {
       easing: theme.transitions.easing.easeInOut, 
       duration: 1000,
-  })
+  }),
+
+  marginLeft: 244
 },
 
     detailShown: {
      height: '100%',
      minHeight: '100vh',
-     margin: 'auto',
-     marginTop: '11px',
+     marginTop: 95,
       transition: theme.transitions.create("all", {
       easing: theme.transitions.easing.easeInOut, 
       duration: 1000
@@ -141,7 +150,7 @@ const SectionContainer = () => {
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const medScreen = useMediaQuery(theme.breakpoints.down('md'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(true);
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
   let transitionDuration = 50;
@@ -183,12 +192,12 @@ const SectionContainer = () => {
       >  
         {renderFilter()}
       </SwipeableDrawer>  
-      <Grid container justify={section ? 'space-evenly' : 'flex-start'} className={classes.cardGrid}>  
+      <Grid container justify='space-evenly' className={classes.cardGrid}>  
         {!matches ? 
             <>    
               <Grid 
                   item xs={3} md={section ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen, [classes.listShiftLeft]: section })}
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !section, [classes.listShiftLeft]: section && openDrawer, [classes.listShiftSection]: section &&  !openDrawer})}
               >        
                 <SectionList 
                 filteredSections={filteredSections} 
