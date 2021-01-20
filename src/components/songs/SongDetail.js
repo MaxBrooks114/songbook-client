@@ -321,12 +321,11 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
   const renderSections = (sections) => {
     return sections
       ? sections.map((section, idx) => {
-
           return (
               <Grid item xs={12}>
                 <Typography>
                   <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
-                  {renderSpotifyOptionSection(section)}
+                    {renderSpotifyOptionSection(section)}
                   </Typography>
               </Grid>    
           );
@@ -492,7 +491,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                 </Grid>
               </AccordionDetails>
             </Accordion>
-            <Accordion className={classes.accordion}>
+            <Accordion className={classes.accordion} style={{marginBottom: 0}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.accordionTitle}>Lyrics</Typography>
               </AccordionSummary>
