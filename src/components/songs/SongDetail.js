@@ -30,9 +30,9 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
-import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
+import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   bigPlayButton: {
-      color: theme.palette.common.gray,
+      color: theme.palette.background.default,
       height: '100%',
       width: '100%',
        
@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: '4px',
       left: '0',
       right: '0',
-      opacity: '0',
+      opacity: '.7',
       borderRadius: '4px',
       
       transition: '.3s ease',
@@ -215,28 +215,29 @@ const useStyles = makeStyles((theme) => ({
 
   next: {
     padding: 0,
-    position: 'absolute',
-    right: '7%',
-    top: 22,
+    height: 24,
+    width: 24,
      [theme.breakpoints.down('sm')]: {
-        right: '1%',
-        top: 77 
+        
       }, 
   },
   prev: {
     padding: 0,
-    position: 'absolute',
-    right: '10%',
-    top: 22,
+    height: 24,
+    width: 24,
      [theme.breakpoints.down('sm')]: {
-        right: '1%',
-        top: 99
+        
       }, 
   },
 
   title: {
       width: '95%',
       textAlign: 'center' 
+    },
+
+    navRow: {
+      backgroundColor: theme.palette.primary.dark,
+      borderRadius: 4
     }
 
 
@@ -319,16 +320,15 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
 
   const renderSections = (sections) => {
     return sections
-      ? sections.map((section) => {
+      ? sections.map((section, idx) => {
+
           return (
-      
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Typography>
                   <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                   {renderSpotifyOptionSection(section)}
                   </Typography>
-              </Grid>
-    
+              </Grid>    
           );
         })
       : null;
@@ -355,26 +355,9 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                     aria-controls="long-menu"
                     aria-haspopup="true"
                     onClick={(event) =>  history.push('/songs')}
-                > <HighlightOffRoundedIcon />
+                > <CloseRoundedIcon />
                 </IconButton>
-              {nextSong ? 
-                <IconButton
-                    className={classes.next}
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push(`/songs/${nextSong.id}`)}
-                > <NavigateNextIcon/> 
-                </IconButton> : null}
-                {prevSong ?
-                <IconButton
-                    className={classes.prev}
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push(`/songs/${prevSong.id}`)}
-                > <NavigateBeforeIcon />
-                </IconButton> : null }
+             
           <Grid item xs={12}>
             <Grid container justify="flex-start" alignItems="center">            
               <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
@@ -394,6 +377,32 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
               
             </Grid>
           </Grid>
+          </Grid>
+          <Grid item xs={3} className={classes.navRow}>
+            <Grid container justify="space-between">
+              <Grid item xs={4}>
+                 {prevSong ?
+                <IconButton
+                   
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push(`/songs/${prevSong.id}`)}
+                > <SkipPreviousRoundedIcon  className={classes.prev} />
+                </IconButton> : null }
+              </Grid>
+                <Grid item xs={4}>
+                  {nextSong ? 
+                    <IconButton
+                        c
+                        aria-label="more"
+                        aria-controls="long-menu"
+                        aria-haspopup="true"
+                        onClick={(event) =>  history.push(`/songs/${nextSong.id}`)}
+                    > <SkipNextRoundedIcon className={classes.next}/> 
+                    </IconButton> : null}
+                </Grid>
+            </Grid>
           </Grid>
           <Grid xs={12} lg={12}>                   
                   <Accordion className={classes.accordion}>
@@ -429,6 +438,18 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
               </Grid>  
 
           <Grid item xs={12}>
+             <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography className={classes.accordionTitle}>Sections</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+               <Grid item xs={12}>
+                 <Grid container direction="column" alignItems="center" justify="center">
+                  {renderSections(sections)}
+                </Grid>
+              </Grid>
+              </AccordionDetails>
+            </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.accordionTitle}>Audio Properties</Typography>
@@ -487,18 +508,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                   
               </Grid>
             </Accordion>
-            <Accordion className={classes.accordion}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography className={classes.accordionTitle}>Sections</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-               <Grid item xs={12}>
-                 <Grid container align="center" justify="center">
-                  {renderSections(sections)}
-                </Grid>
-              </Grid>
-              </AccordionDetails>
-            </Accordion>
+           
           </Grid>
         <Dialog
           open={open}
