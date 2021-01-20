@@ -35,12 +35,13 @@ const useStyles = makeStyles((theme) => ({
     
     title: {
       width: '95%',
+      fontWeight: '600',
       textAlign: 'center',
        [theme.breakpoints.down('xs')]: {
          margin: 0,
          width: '100%'
       },  
-    }
+    },
 }));
 const SectionList = ({sections, filteredSections, fullDisplay, transitionDuration, height }) => {
     const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const renderedList = () => {
 
    return (
       <>
-        <Typography variant="h4" className={classes.title}>
+        <Typography variant="h5" className={classes.title}>
           Sections
         </Typography>
         {renderSort()}     
