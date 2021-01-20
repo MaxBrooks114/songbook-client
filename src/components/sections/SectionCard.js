@@ -40,8 +40,8 @@ const SectionCard = ({ section, transitionDuration, fullDisplay, handleClick }) 
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card style={fullDisplay ? {margin: 'auto'}: null} className={classes.root} onClick={() => handleClick(section.id)}>
         <CardContent className={classes.cardContent}>
-          <Typography  variant="subtitle1">{section.name}</Typography>
-          <Typography  variant="caption">{section.song.title}</Typography>
+          <Typography omponent="p" style={{fontWeight: '600', verticalAlign: 'middle'}} variant="subtitle1">{section.name}</Typography>
+          <Typography style={{fontWeight: '400'}} variant="caption">{section.song.title}</Typography>
         </CardContent>
       </Card>
     </Slide>
