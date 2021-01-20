@@ -289,13 +289,20 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     
     const renderRadioFields = () => {
       const fields = objectType === 'songs' ? ['original', 'explicit'] : ['learned']
-      return fields.length > 0 ? fields.map((field, idx) => {
+      return fields.length > 0 ? fields.map((field) => {
         return (
-          <Field  classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{ 
-                classes: {
-                  formControlLabel: classes.label,
-                 }
-               }} />        
+          <>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={8}>
+            <Field classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{ 
+                  classes: {
+                    formControlLabel: classes.label,
+                    label: classes.label
+                  }
+                }} />  
+          </Grid>  
+          <Grid item xs={3}/> 
+        </>   
         )
       }) : null
     }
@@ -434,8 +441,11 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
                   component={renderAutoCompleteDataField} 
                   label="Time Signature" />
             </Grid>
-            <Grid item  sm={12}  xs={12}>
-              { renderRadioFields() }
+           
+            <Grid item  xs={12}>
+              <Grid container direction="row" justify="flex-start">
+                { renderRadioFields() }
+              </Grid>
           </Grid>
           <Grid container  justify="center" align="center" alignItems="center">
           <Grid item sm={12} xs={10}>

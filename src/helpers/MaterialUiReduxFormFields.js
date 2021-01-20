@@ -225,7 +225,7 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
           
 export const renderRadioGroup = ({input, classes, title, label1, label2 }) => (
             <FormControl component="fieldset">
-              <FormLabel component="legend">{title}</FormLabel>
+              <FormLabel  className={classes.label} component="legend">{title}</FormLabel>
               <RadioGroup row {...input} aria-label={label1}>
                   <FormControlLabel className={classes.label} value="true" control={<Radio />} label="Yes" />
                   <FormControlLabel className={classes.label} value='false' control={<Radio />} label="No" />
