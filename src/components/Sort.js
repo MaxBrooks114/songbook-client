@@ -127,7 +127,7 @@ const Sort = ({items, objectType }) => {
    
   return (
         <form name="FilterForm" className={classes.formControl} style={detailMode ? {margin: 0} : null }>
-          <Grid container spacing={detailMode ? null : 2} align="center" justify={detailMode ? "space-between" : "flex-end"} >
+          <Grid container spacing={2}  justify="flex-end" >
             <Grid item xs={6} lg={!detailMode ? 2: 5}>
               <Field  classes={classes} 
                       name="sort" 
