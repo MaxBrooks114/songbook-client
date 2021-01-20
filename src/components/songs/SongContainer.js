@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   listShiftRight: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeInOut,
       duration: 1000
     }),
