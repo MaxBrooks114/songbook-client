@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
  
   cardGrid: {
    minHeight: '100vh',
-   position: 'relative'
+   position: 'relative',
+   marginTop: 50
   },
 
   toolbarMargin: {
@@ -49,8 +50,14 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeInOut,
       duration: 1000,
     }),
-     margin: 'auto',
 
+  },
+
+  listShiftSong: {
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 1000
+    }),
   },
 
   listShiftRight: {
@@ -58,14 +65,15 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeInOut,
       duration: 1000
     }),
-    marginLeft: 250,
+    marginLeft: 246,
   },
 
   listShiftLeft: {
     transition: theme.transitions.create("all", {
       easing: theme.transitions.easing.easeInOut, 
       duration: 1000,
-  })
+  }),
+    marginLeft: 244
 },
 
   
@@ -73,8 +81,7 @@ const useStyles = makeStyles((theme) => ({
   detailShown: {
      height: '100%',
      minHeight: '100vh',
-     margin: 'auto',
-     marginTop: '11px',
+     marginTop: 105,
       transition: theme.transitions.create("all", {
       easing: theme.transitions.easing.easeInOut, 
       duration: 1000
@@ -143,7 +150,7 @@ const SongContainer = () => {
   const medScreen = useMediaQuery(theme.breakpoints.down('md'));
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(true);
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const dispatch = useDispatch();
@@ -191,12 +198,12 @@ const SongContainer = () => {
       >  
         {renderFilter()}
       </SwipeableDrawer>  
-      <Grid container justify={song ? 'space-evenly' : 'flex-start'} className={classes.cardGrid}>  
+      <Grid container justify='space-evenly' className={classes.cardGrid}>  
         {!matches ? 
             <>    
               <Grid 
                   item xs={3} md={song ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen, [classes.listShiftLeft]: song })}
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer, [classes.listShiftSong]: song &&  !openDrawer})}
               >        
                 <SongList 
                 filteredSongs={filteredSongs} 
