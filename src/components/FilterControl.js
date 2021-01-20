@@ -442,8 +442,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
                   label="Time Signature" />
             </Grid>
            
-            <Grid item  xs={12}>
-              <Grid container direction="row" justify="flex-start">
+            <Grid item xs={12} style={{margin: 'auto'}}>
+              <Grid container direction="row" justify={objectType === 'songs' ? "flex-start" : 'center'}>
                 { renderRadioFields() }
               </Grid>
           </Grid>
