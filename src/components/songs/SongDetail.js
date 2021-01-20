@@ -36,7 +36,6 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 51,
     background: theme.palette.primary.main,
     transition: '.3s ease',
     textTransform: 'capitalize',
@@ -335,7 +334,6 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
 
   return song ? (
     <>
-    <Typography className={classes.title} variant="h4">Details</Typography>
     <Slide in transition={1000}>
       <Paper className={classes.root} elevation={3}>
         <Grid container alignItems="center" justify="flex-start" className={classes.details}>
