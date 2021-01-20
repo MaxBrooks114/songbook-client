@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     
     title: {
       width: '95%',
+      fontWeight: '600',
       textAlign: 'center',
        [theme.breakpoints.down('xs')]: {
          margin: 0,
@@ -72,7 +73,7 @@ const renderedList = () => {
 
    return (
       <>
-        <Typography variant="h4" className={classes.title}>
+        <Typography variant="h5" className={classes.title}>
           Songs
         </Typography>
         {renderSort()}     
