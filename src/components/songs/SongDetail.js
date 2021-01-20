@@ -85,6 +85,10 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  accordionTitle:{
+      fontWeight: '500'
+  },
+
   dialog: {
     '& .MuiDialog-paper': {
       background: theme.palette.secondary.main
@@ -394,30 +398,30 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
           <Grid xs={12} lg={12}>                   
                   <Accordion className={classes.accordion}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography>Song Features</Typography>
+                    <Typography className={classes.accordionTitle}>Song Features</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Grid container alignItems="center">
                       <Grid item xs={2}/>
                       <Grid item xs={5}>
-                        <Typography variant={matches ? "caption" : "subtitle1" }>Genre: {song.genre}</Typography>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Genre: <span style={{fontSize: '.9rem'}}>{song.genre}</span></Typography>
                       </Grid>
                       <Grid item xs={5}> 
-                        <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, song.key)} {renderText(modes, song.mode)}</Typography>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Key: <span style={{fontSize: '.9rem'}}>{renderText(keys, song.key)} {renderText(modes, song.mode)}</span></Typography>
                       </Grid>                 
                       <Grid item xs={2}/>
                       <Grid item xs={5}>
-                        <Typography variant={matches ? "caption" : "subtitle1" }>Tempo: {song.tempo} BPM</Typography>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Tempo: <span style={{fontSize: '.9rem'}}>{song.tempo}</span> BPM</Typography>
                       </Grid>
                       <Grid item xs={5}>
-                        <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {song.time_signature}/4</Typography>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Meter: <span style={{fontSize: '.9rem'}}>{song.time_signature}/4</span></Typography>
                       </Grid>               
                       <Grid item xs={2}/>
                       <Grid item xs={5}>
-                          <Typography variant={matches ? "caption" : "subtitle1" } >Explicit: {renderBool(song.explicit)}</Typography>
+                          <Typography variant={matches ? "caption" : "subtitle1" } >Explicit: <span style={{fontSize: '.9rem'}}>{renderBool(song.explicit)}</span></Typography>
                       </Grid>
                       <Grid item xs={5}>
-                        <Typography variant={matches ? "caption" : "subtitle1" }>Original: {renderBool(song.original)}</Typography>
+                        <Typography variant={matches ? "caption" : "subtitle1" }>Original: <span style={{fontSize: '.9rem'}}>{renderBool(song.original)}</span></Typography>
                       </Grid>               
                     </Grid>
                   </AccordionDetails>
@@ -427,7 +431,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
           <Grid item xs={12}>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography>Audio Properties</Typography>
+                <Typography className={classes.accordionTitle}>Audio Properties</Typography>
               </AccordionSummary>
               <AccordionDetails>
               <Grid container justify="center" alignItems="center">
@@ -469,7 +473,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
             </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography>Lyrics</Typography>
+                <Typography className={classes.accordionTitle}>Lyrics</Typography>
               </AccordionSummary>
               <Grid item xs={12}>
                 
@@ -485,7 +489,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
             </Accordion>
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Typography>Sections</Typography>
+                <Typography className={classes.accordionTitle}>Sections</Typography>
               </AccordionSummary>
               <AccordionDetails>
                <Grid item xs={12}>
