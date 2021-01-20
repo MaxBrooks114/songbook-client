@@ -36,15 +36,14 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import IconButton from '@material-ui/core/IconButton';
 import { useTheme } from '@material-ui/core/styles';
 import './metronome.css'
-import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
+import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 51,
     background: theme.palette.primary.main,
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
@@ -107,6 +106,9 @@ const useStyles = makeStyles((theme) => ({
     
   },
 
+   accordionTitle:{
+      fontWeight: '500'
+  },
 
  deleteChoice: {
        color: theme.palette.common.orange,
@@ -150,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   bigPlayButton: {
-     color: theme.palette.common.gray,
+     color: theme.palette.background.default,
       height: '100%',
       width: '100%',
      
@@ -163,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: '4px',
       left: '0',
       right: '0',
-      opacity: '0',
+      opacity: '.7',
       borderRadius: '4px',
       
       transition: '.3s ease',
@@ -259,27 +261,27 @@ const useStyles = makeStyles((theme) => ({
       }, 
   },
 
-  next: {
+ next: {
     padding: 0,
-    position: 'absolute',
-    right: '7%',
-    top: 22,
+    height: 24,
+    width: 24,
      [theme.breakpoints.down('sm')]: {
-        right: '1%',
-        top: 77 
+        
+      }, 
+  },
+  prev: {
+    padding: 0,
+    height: 24,
+    width: 24,
+     [theme.breakpoints.down('sm')]: {
+        
       }, 
   },
 
-  prev: {
-    padding: 0,
-    position: 'absolute',
-    right: '10%',
-    top: 22,
-     [theme.breakpoints.down('sm')]: {
-        right: '1%',
-        top: 99
-      }, 
-  },
+     navRow: {
+      backgroundColor: theme.palette.primary.dark,
+      borderRadius: 4
+    }
 
 }));
 
@@ -384,7 +386,7 @@ const renderSpotifyOption = () => {
     let name = tab.file.split('/').slice(-2).join('')
     return (
       
-        <Accordion className={classes.accordion}>        
+        <Accordion className={classes.accordion} style={{ padding: 22}}>        
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography variant={matches ? "caption" : "subtitle1" }>{name}</Typography>
               </AccordionSummary>
@@ -412,7 +414,6 @@ const renderSpotifyOption = () => {
 
   return section ? (
     <>
-      <Typography className={classes.title} variant="h4">Details</Typography>
         <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
           <Paper className={classes.root} elevation={3}>
           <BackDrop className={classes.backdrop} count={4} show={show}/>
@@ -431,26 +432,8 @@ const renderSpotifyOption = () => {
                     aria-controls="long-menu"
                     aria-haspopup="true"
                     onClick={(event) =>  history.push('/sections')}
-                > <HighlightOffRoundedIcon />
+                > <CloseRoundedIcon />
                 </IconButton>
-                {nextSection ? 
-                <IconButton
-                    className={classes.next}
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push(`/sections/${nextSection.id}`)}
-                > <NavigateNextIcon/> 
-                </IconButton> : null}
-                {prevSection ?
-                <IconButton
-                    className={classes.prev}
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push(`/sections/${prevSection.id}`)}
-                > <NavigateBeforeIcon />
-                </IconButton> : null }
                 <Grid item xs={12}>
                   <Grid container justify="flex-start"  alignItems="center">
                     <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
@@ -474,27 +457,53 @@ const renderSpotifyOption = () => {
                       </Typography>
                     </Grid>
                   </Grid>
+                   <Grid item xs={3} className={classes.navRow}>
+            <Grid container justify="space-between">
+              <Grid item xs={4}>
+                 {prevSection ?
+                <IconButton
+                   
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={(event) =>  history.push(`/sections/${prevSection.id}`)}
+                > <SkipPreviousRoundedIcon  className={classes.prev} />
+                </IconButton> : null }
+              </Grid>
+                <Grid item xs={4}>
+                  {nextSection ? 
+                    <IconButton
+                        c
+                        aria-label="more"
+                        aria-controls="long-menu"
+                        aria-haspopup="true"
+                        onClick={(event) =>  history.push(`/sections/${nextSection.id}`)}
+                    > <SkipNextRoundedIcon className={classes.next}/> 
+                    </IconButton> : null}
+                </Grid>
+            </Grid>
+          </Grid>
                   <Grid xs={12}>                   
                     <Accordion className={classes.accordion}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography>Section Features</Typography>
+                        <Typography className={classes.accordionTitle}>Section Features</Typography>
                       </AccordionSummary>
                       <AccordionDetails>
                         <Grid container alignItems="center">
                           <Grid item xs={2}/>
                           <Grid item xs={5}> 
-                            <Typography variant={matches ? "caption" : "subtitle1" }>Key: {renderText(keys, section.key)} {renderText(modes, section.mode)}</Typography>
+                            <Typography variant={matches ? "caption" : "subtitle1" }>Key: <span style={{fontSize: '.9rem'}}>{renderText(keys, section.key)} {renderText(modes, section.mode)}</span></Typography> 
                           </Grid>                 
                           <Grid item xs={5}>
-                            <Typography variant={matches ? "caption" : "subtitle1" }>Tempo: {section.tempo} BPM</Typography>
+                            <Typography variant={matches ? "caption" : "subtitle1" }>Tempo:  <span style={{fontSize: '.9rem'}}>{section.tempo} BPM</span></Typography>
                           </Grid>
                             <Grid item xs={2}/>
                           <Grid item xs={5}>
-                            <Typography variant={matches ? "caption" : "subtitle1" }>Meter: {section.time_signature}/4</Typography>
+                            <Typography variant={matches ? "caption" : "subtitle1" }>Meter: <span style={{fontSize: '.9rem'}}>{section.time_signature}/4</span></Typography>
                           </Grid>               
                        
                           <Grid item xs={5}>
-                              <Typography variant={matches ? "caption" : "subtitle1" } >Learned: {renderBool(section.learned)}</Typography>
+                              <Typography variant={matches ? "caption" : "subtitle1" } >Learned: <span style={{fontSize: '.9rem'}}>{renderBool(section.learned)}</span></Typography>
                           </Grid>             
                         </Grid>
                       </AccordionDetails>
@@ -503,7 +512,7 @@ const renderSpotifyOption = () => {
                   <Grid item xs={12}>
                     <Accordion className={classes.accordion}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography >Lyrics</Typography>
+                        <Typography className={classes.accordionTitle} >Lyrics</Typography>
 
                       </AccordionSummary>
                       <Grid item xs={12}>
@@ -520,7 +529,7 @@ const renderSpotifyOption = () => {
                   <Grid item xs={12}>
                     <Accordion className={classes.accordion}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography >Instruments</Typography>
+                        <Typography className={classes.accordionTitle}>Instruments</Typography>
                       </AccordionSummary>
                       <Grid item xs={10}>
                       <AccordionDetails>
@@ -533,7 +542,7 @@ const renderSpotifyOption = () => {
                   </Grid>
                   <Accordion className={classes.accordion}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                      <Typography >Metronome</Typography>
+                      <Typography className={classes.accordionTitle} >Metronome</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid item xs={12}> 
@@ -543,7 +552,7 @@ const renderSpotifyOption = () => {
                   </Accordion>
                   <Accordion className={classes.accordion}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                      <Typography>Record Yourself</Typography>
+                      <Typography className={classes.accordionTitle}>Record Yourself</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid item xs={12}> 
@@ -553,7 +562,7 @@ const renderSpotifyOption = () => {
                   </Accordion>
                   <Accordion className={classes.accordion}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                      <Typography>Recordings</Typography>
+                      <Typography className={classes.accordionTitle}>Recordings</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid item xs={12}> 
@@ -561,11 +570,11 @@ const renderSpotifyOption = () => {
                       </Grid>   
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion className={classes.accordion}>
+                  <Accordion className={classes.accordion} style={{marginBottom: 0}}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                      <Typography>Sheet Music/ Tabs</Typography>
+                      <Typography className={classes.accordionTitle}>Sheet Music/ Tabs</Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
+                    <AccordionDetails >
                       <Grid item xs={12}> 
                         {renderTabs()}
                       </Grid>
@@ -624,8 +633,6 @@ const renderSpotifyOption = () => {
                            Delete
                         </MenuItem>
                     </Menu>
-     
-       
       </Paper>
     </Slide>
     </>
