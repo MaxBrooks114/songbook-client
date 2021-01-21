@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   formControl: {
-    marginBottom: theme.spacing(12),
+    marginBottom: 180,
     color: theme.palette.info.main,
       textTransform: "capitalize",
 
@@ -134,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
    button: {
     color: theme.palette.info.light,
     display: 'inline-block',
-    borderRadius: '5em',
+    borderRadius: 4,
     background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%,  ${theme.palette.common.gray} 150%)`,
     '&:hover': {
       background: theme.palette.common.gray,
@@ -145,9 +145,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
    clearButton: {
-    borderRadius: '5em',
+    borderRadius: 4,
     display: 'inline-block',
-    marginLeft: '20px',
+    marginLeft: 26,
     color: theme.palette.common.gray,
     background: theme.palette.info.light,
     '&:hover': {
@@ -202,7 +202,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       if(!filterValues.filter ){
         if(!filterValues.duration.length || filterValues.duration.some(n => n === null) ){
             filterValues.duration = [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration))+1))] 
-        } 
+        }
 
         if(!filterValues.tempo.length || filterValues.tempo.some(n => n === null)) {
              filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
