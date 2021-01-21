@@ -7,7 +7,9 @@ import {fetchSong } from '../../actions/songs';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Sort from '../Sort'
-
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import IconButton from '@material-ui/core/IconButton';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -41,12 +43,29 @@ const useStyles = makeStyles((theme) => ({
          margin: 0,
          width: '100%'
       },  
-    }
+    },
+
+
+    sortBar: {
+
+      width: '95%',
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+
+    expand: {
+      height: 32,
+      width: 32,
+    },
+
+    
+
 }));
 const SongList = ({songs, filteredSongs, fullDisplay, transitionDuration, height }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
-  
+    const history = useHistory()
+    const location = useLocation()
 
     const handleClick = (id) => {
     dispatch(fetchSong(id));
@@ -61,7 +80,6 @@ const renderedList = () => {
       ? filteredSongs.map((song) => {
             transitionDuration += 50;
             return (
-
               <ListItem   className={classes.listItem} key={song.id} disableGutters dense>
                 <SongCard fullDisplay={fullDisplay} song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
@@ -76,7 +94,13 @@ const renderedList = () => {
         <Typography variant="h5" className={classes.title}>
           Songs
         </Typography>
-        {renderSort()}     
+        <div className={classes.sortBar}>
+          {renderSort()}
+          {location.pathname.includes('songs/') ?
+          <IconButton>
+            <NavigateNextIcon className={classes.expand} onClick={(event) =>  history.push('/songs')}/>
+          </IconButton>: null}    
+        </div>
         <List className={classes.list} style={{height: height}}>
           {renderedList()}
         </List> 
@@ -84,4 +108,4 @@ const renderedList = () => {
    )
 }
 
-export default SongList
+export default React.memo(SongList)
