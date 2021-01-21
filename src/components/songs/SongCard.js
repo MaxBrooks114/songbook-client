@@ -61,7 +61,7 @@ const SongCard = ({ song, transitionDuration, fullDisplay, handleClick }) => {
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card style={fullDisplay ? {margin: 'auto'}: null} className={classes.root} onClick={() => handleClick(song.id)}>
+      <Card  className={classes.root} onClick={() => handleClick(song.id)}>
         <CardMedia>
            <img
                   alt={song.album}
