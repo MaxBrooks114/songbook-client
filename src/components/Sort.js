@@ -12,10 +12,11 @@ const useStyles = makeStyles((theme) => ({
 
   formControl: {
     color: theme.palette.info.main,
+    display: 'inline',
     verticalAlign: 'middle',
     textTransform: "capitalize",
     width: '95%',
-    margin: 'auto',
+    marginRight: 'auto',
   '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
@@ -40,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
     '& .MuiTextField-root': {
       color: theme.palette.info.main, 
-      width: '100%',
-
+      width: 120,
+      marginRight: 20
     },
 
     '& .MuiOutlinedInput-input': {
@@ -126,12 +127,11 @@ const Sort = ({items, objectType }) => {
     
    
   return (
-        <form name="FilterForm" className={classes.formControl} style={detailMode ? {margin: 0} : null }>
-          <Grid container spacing={2}  justify="flex-end" >
-            <Grid item xs={6} lg={!detailMode ? 2: 5}>
+        <form name="FilterForm" className={classes.formControl} >
               <Field  classes={classes} 
                       name="sort" 
                       label="Sort" 
+                      
                       component={renderTextField} 
                       select
                       options={ itemProps && itemProps.length ? itemProps.map(prop => prop) : null }
@@ -150,8 +150,7 @@ const Sort = ({items, objectType }) => {
                       }}
               />
               
-            </Grid>
-            <Grid item xs={6} lg={!detailMode ? 2: 5}>
+           
               <Field classes={classes} 
                     name="order" 
                     label="Order" 
@@ -171,9 +170,7 @@ const Sort = ({items, objectType }) => {
                         shrink: "shrink"
                       }
                     }}/>
-            </Grid>
          
-          </Grid>   
         </form>
     );
 };
