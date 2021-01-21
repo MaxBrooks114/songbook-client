@@ -279,8 +279,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
      navRow: {
-      backgroundColor: theme.palette.primary.dark,
-      borderRadius: 4
+      boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+      borderRadius: 4,
     }
 
 }));
@@ -426,14 +426,6 @@ const renderSpotifyOption = () => {
                     onClick={(event) => handleMenuClick(event)}
                 > <MoreVertRoundedIcon />
                 </IconButton>
-                  <IconButton
-                    className={classes.close}
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push('/sections')}
-                > <CloseRoundedIcon />
-                </IconButton>
                 <Grid item xs={12}>
                   <Grid container justify="flex-start"  alignItems="center">
                     <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
@@ -458,31 +450,23 @@ const renderSpotifyOption = () => {
                     </Grid>
                   </Grid>
                    <Grid item xs={3} className={classes.navRow}>
-            <Grid container justify="space-between">
-              <Grid item xs={4}>
-                 {prevSection ?
-                <IconButton
-                   
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push(`/sections/${prevSection.id}`)}
-                > <SkipPreviousRoundedIcon  className={classes.prev} />
-                </IconButton> : null }
-              </Grid>
-                <Grid item xs={4}>
-                  {nextSection ? 
-                    <IconButton
-                        c
-                        aria-label="more"
-                        aria-controls="long-menu"
-                        aria-haspopup="true"
-                        onClick={(event) =>  history.push(`/sections/${nextSection.id}`)}
-                    > <SkipNextRoundedIcon className={classes.next}/> 
-                    </IconButton> : null}
-                </Grid>
-            </Grid>
-          </Grid>
+                    <Grid container justify="space-between">
+                      <Grid item xs={2}>
+                        {prevSection ?
+                        <IconButton 
+                            onClick={(event) =>  history.push(`/sections/${prevSection.id}`)}
+                        > <SkipPreviousRoundedIcon  className={classes.prev} />
+                        </IconButton> : null }
+                      </Grid>
+                        <Grid item xs={2} style={{marginRight: 18}}>
+                          {nextSection ? 
+                            <IconButton 
+                                onClick={(event) =>  history.push(`/sections/${nextSection.id}`)}
+                            > <SkipNextRoundedIcon className={classes.next}/> 
+                            </IconButton> : null}
+                        </Grid>
+                    </Grid>
+                  </Grid>
                   <Grid xs={12}>                   
                     <Accordion className={classes.accordion}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
