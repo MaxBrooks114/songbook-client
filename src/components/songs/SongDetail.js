@@ -236,8 +236,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     navRow: {
-      backgroundColor: theme.palette.primary.dark,
-      borderRadius: 4
+      boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+      borderRadius: 4,
     }
 
 
@@ -348,14 +348,6 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                     onClick={(event) =>handleMenuClick(event)}
                 > <MoreVertRoundedIcon />
                 </IconButton>
-                <IconButton
-                    className={classes.close}
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={(event) =>  history.push('/songs')}
-                > <CloseRoundedIcon />
-                </IconButton>
              
           <Grid item xs={12}>
             <Grid container justify="flex-start" alignItems="center">            
@@ -379,24 +371,16 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
           </Grid>
           <Grid item xs={3} className={classes.navRow}>
             <Grid container justify="space-between">
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                  {prevSong ?
                 <IconButton
-                   
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
                     onClick={(event) =>  history.push(`/songs/${prevSong.id}`)}
                 > <SkipPreviousRoundedIcon  className={classes.prev} />
                 </IconButton> : null }
               </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={2} style={{marginRight: 18}}>
                   {nextSong ? 
                     <IconButton
-                        c
-                        aria-label="more"
-                        aria-controls="long-menu"
-                        aria-haspopup="true"
                         onClick={(event) =>  history.push(`/songs/${nextSong.id}`)}
                     > <SkipNextRoundedIcon className={classes.next}/> 
                     </IconButton> : null}
