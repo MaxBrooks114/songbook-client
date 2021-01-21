@@ -50,14 +50,22 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeInOut,
       duration: 1000,
     }),
+  },
 
+  listShiftAlone: {
+      transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 1000
+    }),
+
+    marginLeft: 47 
   },
 
   listShiftSong: {
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeInOut,
       duration: 1000
-    }),
+    })
   },
 
   listShiftRight: {
@@ -65,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeInOut,
       duration: 1000
     }),
-    marginLeft: 246,
+    marginLeft: 290,
   },
 
   listShiftLeft: {
@@ -203,7 +211,7 @@ const SongContainer = () => {
             <>    
               <Grid 
                   item xs={3} md={song ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer, [classes.listShiftSong]: song &&  !openDrawer})}
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer, [classes.listShiftSong]: song &&  !openDrawer, [classes.listShiftAlone]: !openDrawer && !song})}
               >        
                 <SongList 
                 filteredSongs={filteredSongs} 
