@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   
    }, 
 }))
-const SectionDrawer = ({sections, filteredSections, renderFilter}) => {
+const SectionDrawer = ({sections, filteredSections, songs}) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const classes = useStyles();
     const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -62,7 +62,7 @@ const SectionDrawer = ({sections, filteredSections, renderFilter}) => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
-        <SectionList filteredSections={filteredSections} sections={sections} />
+        <SectionList songs={songs} filteredSections={filteredSections} sections={sections} />
       </SwipeableDrawer>
 
        

@@ -144,7 +144,10 @@ const SectionContainer = () => {
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const dispatch = useDispatch();
-
+  const filter = useSelector((state) => state.filter )
+  let order = filter.order === "ascending" ? [ 1 , -1] : [-1, 1]
+  const orderedSongs = filter.sort === 'song' ?
+      Object.values(songs).sort((a, b) => (a.title > b.title ? order[0] : order[1])) : Object.values(songs)
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -166,6 +169,8 @@ const SectionContainer = () => {
   }, [accessToken, refreshToken, dispatch])
 
 
+
+
   const renderFilter = () => {
     return Object.values(sections).length > 0 ? <FilterControl items={Object.values(sections)} instruments={Object.values(instruments)} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} songs={Object.values(songs)}  objectType='sections'  /> : null
   }
@@ -173,6 +178,8 @@ const SectionContainer = () => {
   const renderDetail = () => {
     return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} /> : null;
   };
+
+    
 
  
    return (
@@ -204,11 +211,13 @@ const SectionContainer = () => {
                 fullDisplay={!section} 
                 transitionDuration={transitionDuration} 
                 sections={sections} 
+                orderedSongs = {orderedSongs}
                 height={height} 
                 /> 
               </Grid> 
             </>: 
                 <SectionDrawer 
+                            orderedSongs = {orderedSongs}
                             renderFilter={renderFilter} 
                             filteredSections={filteredSections} 
                             transitionDuration={transitionDuration} 

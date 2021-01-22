@@ -10,7 +10,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
-    display: 'flex',
+    display: 'block',
     width: '95%',
     height: 85,
     paddingTop: 0,
@@ -40,8 +40,7 @@ const SectionCard = ({ section, transitionDuration, fullDisplay, handleClick }) 
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card style={fullDisplay ? {margin: 'auto'}: null} className={classes.root} onClick={() => handleClick(section.id)}>
         <CardContent className={classes.cardContent}>
-          <Typography omponent="p" style={{fontWeight: '600', verticalAlign: 'middle'}} variant="subtitle1">{section.name}</Typography>
-          <Typography style={{fontWeight: '400'}} variant="caption">{section.song.title}</Typography>
+          <Typography component="p" style={{fontWeight: '600', verticalAlign: 'middle'}} variant="subtitle1">{section.name}</Typography>
         </CardContent>
       </Card>
     </Slide>

@@ -7,7 +7,7 @@ const getSongs = (state) => state.songs;
 
 
 export const getFilteredItems = (state, objectType)  => {
-  const filterProperties =getFilters(state);
+  const filterProperties = getFilters(state);
   const songs = getSongs(state);
   const sections = getSections(state)
   const instruments = getInstruments(state)
