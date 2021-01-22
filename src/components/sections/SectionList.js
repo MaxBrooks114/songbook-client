@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import SectionCard from './SectionCard';
@@ -118,7 +118,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   songLink: {
-    color: theme.palette.info.main
+    color: theme.palette.info.main,
+    "&:hover": {
+      color: theme.palette.primary.dark
+    }
   }
 
   
@@ -128,6 +131,7 @@ const SectionList = ({sections, filteredSections, fullDisplay, transitionDuratio
     const classes = useStyles();
     const history = useHistory()
     const location = useLocation()
+    const [expanded, setExpanded] = useState(false)
 
     const handleClick = (id) => {
     dispatch(fetchSection(id));
@@ -139,8 +143,10 @@ const SectionList = ({sections, filteredSections, fullDisplay, transitionDuratio
     return Object.values(sections).length > 0 ? <Sort items={Object.values(sections)} sections={Object.values(sections)} objectType='sections' /> : null 
   }
 
-
-
+  let renderSongTitle = (song, expanded, sections) => {
+    return expanded ? <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} style={{textDecoration: "none"}} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography> : 
+      <Typography className={classes.songTitle} component="p">{song.title} ({sections.length})</Typography> 
+  }
     const renderSongs = () => {
       
       return orderedSongs.length ?
@@ -148,14 +154,16 @@ const SectionList = ({sections, filteredSections, fullDisplay, transitionDuratio
           let sections = filteredSections.filter(section => song.id === section.song.id )
           return  sections.length ? 
               ( 
-                <Accordion className={classes.accordion}>        
+                <Accordion className={classes.accordion} onChange={(event, expanded) => {
+                   setExpanded(expanded)
+                }}>        
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                       <img
                         alt={song.album}
                         className={classes.media}
                         src={song.image ? song.image : 'https://coverfiles.alphacoders.com/796/79685.jpg'}
                       />   
-                      <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} style={{textDecoration: "none"}} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography>
+                     {renderSongTitle(song, expanded, sections)}
                     </AccordionSummary>
                     <AccordionDetails>
                         {renderedList(sections)}
