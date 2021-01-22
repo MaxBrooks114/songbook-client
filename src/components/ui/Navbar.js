@@ -22,8 +22,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Progressbar from './Progressbar'
 import songbook_green_logo_v2 from '../../assets/songbook_green_logo_v2.png'
 import SpotifySearchBar from '../spotify/SpotifySearchBar'
-import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
   tab: {
     ...theme.typography.tab,
-    marginLeft: '4rem',
+    marginLeft: '2rem',
     color: theme.palette.info.main,
     minWidth: 10,
     opacity: 1,
@@ -239,7 +238,7 @@ const Navbar = () => {
             aria-haspopup={anchorEl ? "true" : undefined}
             to={route.link}
             tabIndex={route.activeIndex}
-            label={route.name}><AccountBoxRoundedIcon className={classes.profileIcon}/></IconButton>
+            label={route.name}><AccountCircleIcon className={classes.profileIcon}/></IconButton>
           : <Tab
             tabIndex={route.activeIndex}
             aria-owns={anchorEl ? "simple-menu" : undefined}
