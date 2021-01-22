@@ -192,35 +192,22 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       'false': false
     }
       
-    useEffect(() => {
-    
+    useEffect(() => {   
       if (!filterValues.filter && filterForm && !filterForm.values) {
-        dispatch(initialize('FilterForm', filterValues))
-     
+        dispatch(initialize('FilterForm', filterValues))     
       }
 
       if(!filterValues.filter ){
-        if(!filterValues.duration.length || filterValues.duration.some(n => n === null) ){
-            filterValues.duration = [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration))+1))] 
-        }
 
-        if(!filterValues.tempo.length || filterValues.tempo.some(n => n === null)) {
-             filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
-        }
-       
-      }
-      
+        filterValues.duration = [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.duration))+1))] 
+    
+        filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
         
-      if ((!filterValues.year.length || filterValues.year.some(n => n === null)) && objectType === 'songs'){
-        filterValues.year = [Math.min(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))]
+        filterValues.year = [Math.min(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))]      
       }
-
-      
-
-      
     }, [objectType, dispatch, songs, items, filterForm, filterValues ])
-    const renderAdvancedFilters = () => {
-       
+
+    const renderAdvancedFilters = () => {      
        const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
       return advancedOptions.length ? 
         advancedOptions.map(option => {
@@ -239,9 +226,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
                   />
               </Grid>
             </AccordionDetails>
-        )
-          
-        }) : null
+        )  
+      }) : null
     }
 
     const renderTextFields = () => {
@@ -311,8 +297,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       return objectType === 'songs' ? (
          <Grid item  sm={12} xs={12}>
           <Field classes={classes} 
-                 min={Math.min(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))}
-                 max={Math.max(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))} 
+                 min={Math.min(...songs.filter(item => !isNaN(parseInt(item.year))).map((song) => parseInt(song.year.split('-')[0])))}
+                 max={Math.max(...songs.filter(item => !isNaN(parseInt(item.year))).map((song) => parseInt(song.year.split('-')[0])))} 
 
                  valueLabelDisplay={true}
                  name="year" 
@@ -336,7 +322,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       return objectType === 'sections' ? 
         fields.map((field) => {
           const fieldProp = field === 'song' ? 'title' : 'name'
-          const items = field === 'song' ? songs : instruments
+          const items = field === 'song' ? songs.filter( song => !!song.sections.length).sort((a, b) => a.title > b.title ? 1 : -1) : instruments
           return (
             <Grid item >
               <Field 
@@ -370,6 +356,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
           mode: normalize(modes, formValues.mode),
           original: formValues.original !== '' ? booleans[formValues.original] : formValues.original,
           explicit: formValues.explicit !== '' ? booleans[formValues.explicit] : formValues.explicit,
+          learned: formValues.learned !== '' ? booleans[formValues.learned]: formValues.learned,
           filter: true
         })
       );
