@@ -25,7 +25,7 @@ const BackDrop = ({show}) => {
   return (
     <>
        <Backdrop className={classes.backdrop} open={show}>
-            <Typography>Playing in {renderCounter()}</Typography>
+            <Typography><span style={{display: 'inline', textTransform: 'none'}}>Playing in</span> {renderCounter()}</Typography>
         </Backdrop>
     </>
   )

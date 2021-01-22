@@ -12,7 +12,7 @@ const Countdown = () => {
   }, 1000);
 
   return (
-    <div>
+    <div style={{display: 'inline'}}>
       {countIn}
     </div>
   )
