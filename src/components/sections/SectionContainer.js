@@ -51,6 +51,15 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+  listSectionAlone: {
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 1000
+    }),
+
+    marginLeft: 46
+  },
+
   listShiftSection: {
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeInOut,
@@ -63,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeInOut,
       duration: 1000
     }),
-    marginLeft: 246,
+    marginLeft: 290,
   },
 
   listShiftLeft: {
@@ -204,7 +213,8 @@ const SectionContainer = () => {
             <>    
               <Grid 
                   item xs={3} md={section ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !section, [classes.listShiftLeft]: section && openDrawer, [classes.listShiftSection]: section &&  !openDrawer})}
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !section, [classes.listShiftLeft]: section && openDrawer, [classes.listShiftSection]: section &&  !openDrawer,
+                  [classes.listSectionAlone]: !section && !openDrawer})}
               >        
                 <SectionList 
                 filteredSections={filteredSections} 
