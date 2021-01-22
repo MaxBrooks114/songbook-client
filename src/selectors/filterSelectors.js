@@ -61,7 +61,9 @@ export const getFilteredItems = (state, objectType)  => {
           }
         })
       }).sort((a, b) => (a[filterProperties.sort] > b[filterProperties.sort] ? orderArray[0] : orderArray[1]))
-    } else {
+    } else if(!filterProperties.sort || filterProperties.sort === "song"){
+       return Object.values(filterables).sort((a, b) => (a.id > b.id? 1 : -1))
+    }else  {
       return Object.values(filterables).sort((a, b) => (a[filterProperties.sort] > b[filterProperties.sort] ? 1 : -1))
     }
 }
