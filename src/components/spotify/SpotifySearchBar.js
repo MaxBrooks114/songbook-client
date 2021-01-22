@@ -14,6 +14,21 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     minWidth: 349,
     margin: 'auto',
+
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 1000
+    }),
+    width: 349,
+
+    "&:hover": {
+       transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeInOut,
+      duration: 500
+    }),
+
+    width: 467,
+    },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
@@ -21,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       },
 
        '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.primary.main,
+          borderColor: theme.palette.info.main,
       },
 
       '&:hover fieldset': {
@@ -38,15 +53,14 @@ const useStyles = makeStyles((theme) => ({
 
   input: {
     color: 'white',
-    background: theme.palette.info.main,
+    background: theme.palette.info.light,
     opacity: '.4',
     textAlign: 'center',
-    
+     
   },
 
   searchIcon: {
-    padding: '6px',
-    color: theme.palette.background.default,
+    color: theme.palette.primary.main,
   },
 
   label: {
@@ -58,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const SpotifySearchBar = ({showButton}) => {
+const SpotifySearchBar = () => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
   const input = useRef(null);
@@ -88,7 +102,7 @@ const SpotifySearchBar = ({showButton}) => {
               notched= {false}
               ref= {input}
               InputProps={{
-                endAdornment: <InputAdornment position="end"><IconButton className={classes.searchIcon} type="submit"><SearchRoundedIcon/></IconButton></InputAdornment>,
+                endAdornment: <InputAdornment position="end"><IconButton type="submit"><SearchRoundedIcon className={classes.searchIcon} /></IconButton></InputAdornment>,
                 className: classes.input,
                 notched: false
               }}

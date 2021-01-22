@@ -60,7 +60,7 @@ const SpotifySearch = () => {
           search a song, learn a song
         </Typography>
       </Grid>
-      <Grid item  xs={3}>
+      <Grid item  xs={10}>
         <SpotifySearchBar showButton={true} />
       </Grid>
       <Grid item xs={10} >
