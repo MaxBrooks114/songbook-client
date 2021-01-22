@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     width: '95%',
     height: 85,
+    margin: 'auto',
     paddingTop: 0,
     paddingBottom: 0,
     color: theme.palette.info.main,
