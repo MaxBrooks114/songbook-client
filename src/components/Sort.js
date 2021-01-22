@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector} from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import {  useLocation } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import {renderTextField} from '../helpers/MaterialUiReduxFormFields'
 
@@ -20,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
   '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
-        color: theme.palette.info.main,
-      
+        color: theme.palette.info.main,    
       },
 
       '&.Mui-focused fieldset': { 
@@ -42,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTextField-root': {
       color: theme.palette.info.main, 
       width: 120,
-      marginRight: 20
+      marginRight: 15
     },
 
     '& .MuiOutlinedInput-input': {
@@ -112,8 +109,6 @@ const Sort = ({items, objectType }) => {
     const filterForm = useSelector(state => state.form.FilterForm)
     const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
     const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k)) 
-    const location = useLocation()
-    let detailMode = location.pathname.includes('songs/') || location.pathname.includes('sections/')
 
     useEffect(() => {
 
@@ -130,8 +125,7 @@ const Sort = ({items, objectType }) => {
         <form name="FilterForm" className={classes.formControl} >
               <Field  classes={classes} 
                       name="sort" 
-                      label="Sort" 
-                      
+                      label="Sort"                      
                       component={renderTextField} 
                       select
                       options={ itemProps && itemProps.length ? itemProps.map(prop => prop) : null }
@@ -169,8 +163,7 @@ const Sort = ({items, objectType }) => {
                         root: classes.label,
                         shrink: "shrink"
                       }
-                    }}/>
-         
+                    }}/>       
         </form>
     );
 };
