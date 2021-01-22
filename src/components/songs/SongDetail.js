@@ -319,16 +319,15 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
 
 
   const renderSections = (sections) => {
-    return sections
-      ? sections.map((section, idx) => {
+    return sections ? sections.map((section) => {
           return (
-              <Grid item xs={12}>
+              <Grid item xs={4}>
                 <Typography>
                   <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     {renderSpotifyOptionSection(section)}
                   </Typography>
               </Grid>    
-          );
+            );
         })
       : null;
   };
@@ -426,11 +425,9 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                 <Typography className={classes.accordionTitle}>Sections</Typography>
               </AccordionSummary>
               <AccordionDetails>
-               <Grid item xs={12}>
-                 <Grid container direction="column" alignItems="center" justify="center">
+                 <Grid container align="center" alignItems="center" justify="flex-start">
                   {renderSections(sections)}
                 </Grid>
-              </Grid>
               </AccordionDetails>
             </Accordion>
             <Accordion className={classes.accordion}>
