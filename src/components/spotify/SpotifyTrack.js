@@ -15,7 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { importSpotifyTrack } from '../../actions/spotify';
-import CloudDownloadRoundedIcon from '@material-ui/icons/CloudDownloadRounded';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,25 +59,32 @@ const useStyles = makeStyles((theme) => ({
   },
 
 
-  button: {
-    color: theme.palette.primary.main,
+  buttonContainer: {
     position:'absolute',
+    height: 34,
+    width: 34,
     bottom: '10px',
     right: '.5rem',
-    background: `linear-gradient(90deg, ${theme.palette.common.gray} 0%,  ${theme.palette.background.default} 150%)`,
-
+    borderRadius: 4,
     '&:hover': {
       background: theme.palette.primary.main,
-      color: theme.palette.common.gray,
+      transition: '.4s',
+   
+      boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.26)'
     },
     
   },
+
+  button: {
+    height: 32,
+    width: 32,
+    color: theme.palette.background.default,
   
+  },
 
   cardContent: {
     color: theme.palette.info.main,
-    height: '64px',
-    
+    height: '64px',   
   },
 
   trackInfo: {
@@ -144,14 +151,13 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
         </div>
         <CardActions className={classes.cardActions}>
           <IconButton
-            className={classes.button}
-            size="small"
-            variant="contained"
+            className={classes.buttonContainer}
+            disableRipple
             onClick={() =>  {
               handleClickOpen()
               dispatch(importSpotifyTrack(track.id))}}
           >
-            <CloudDownloadRoundedIcon/>
+            <GetAppIcon className={classes.button}/>
           </IconButton>
         </CardActions>
       </Card>
