@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import footerLogo from '../../assets/footerLogo.png'
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   logo: {
-    width: "5em",
-    height: "5em",
+    width: "4em",
+    height: "4em",
     verticalAlign: 'bottom',
     marginLeft:'1em'
   }
@@ -26,7 +26,7 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
-     
+     <img src={footerLogo} alt="footer-logo" className={classes.logo}/>
         SongBook by Max Brooks 2020
     </footer>
     )
