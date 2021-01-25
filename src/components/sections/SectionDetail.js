@@ -39,7 +39,7 @@ import './metronome.css'
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
 import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -281,6 +281,13 @@ const useStyles = makeStyles((theme) => ({
      navRow: {
       boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
       borderRadius: 4,
+    },
+
+    spinnerContainer: {
+      marginTop: '25%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
     }
 
 }));
@@ -293,6 +300,7 @@ const SectionDetail = ({ section, nextSection, prevSection }) => {
   const instruments = useSelector((state) =>
   Object.values(state.instruments).filter((instrument) => section.instruments.includes(instrument.id)), shallowEqual
 );
+  const loading = useSelector((state) => state.loading)
   const player = useSelector(state => state.spotifyPlayer)
   const files = useSelector((state) => state.files)
   const recordings = Object.values(files).filter(file => (file.extension === 'wav' || file.extension === 'mp3') && file.section === section.id )
@@ -330,7 +338,7 @@ const SectionDetail = ({ section, nextSection, prevSection }) => {
    const handleSectionPlayClick = () => {
     setShow(true)
     const timeout = workerTimers.setTimeout(() => {
-      dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, section.duration, deviceId))
+      dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, section.duration, deviceId, section.id))
       setShow(false)  
       workerTimers.clearTimeout(timeout)
     }, 3000);
@@ -341,13 +349,18 @@ const SectionDetail = ({ section, nextSection, prevSection }) => {
   const classes = useStyles();
  
  
-  const sectionButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === section.song.spotify_url ?
+  const sectionButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === section.song.spotify_url && section.id === player.sectionId ?
    <IconButton className={classes.bigPauseButtonContainer} onClick={handlePauseClick}><PauseCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : 
        <IconButton className={classes.bigPlayButtonContainer} onClick={handleSectionPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> 
 
 const renderSpotifyOption = () => {
-    return accessToken && accessToken !== "" ?
-     sectionButton : null
+    if (accessToken && accessToken !== "") {
+        if(loading.loading) {
+            return <div className={classes.bigPlayButtonContainer}><div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={88} /></div></div>
+      } else {
+        return sectionButton
+      }
+    }
   }
   const renderInstruments = (instruments) => {
     return instruments

@@ -4,7 +4,8 @@ const initialState = {
   playing: false, 
   sectionPlay: false,
   songPlay: false,
-  song: ''
+  song: '',
+  sectionId: ''
 };
 
 export default (state = initialState, action) => {
@@ -14,7 +15,7 @@ export default (state = initialState, action) => {
     case SONGPLAY: 
       return {...state, songPlay: action.songPlay,sectionPlay: action.sectionPlay, playing: action.playing}
     case SECTIONPLAY: 
-      return {...state,songPlay: false, sectionPlay: action.sectionPlay, playing: action.playing}
+      return {...state,songPlay: false, sectionPlay: action.sectionPlay, playing: action.playing, sectionId: action.sectionId}
     case PAUSE:
       return {...state, songPlay: false, sectionPlay: false}
     default:

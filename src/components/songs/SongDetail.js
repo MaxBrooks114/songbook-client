@@ -30,9 +30,10 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -238,6 +239,15 @@ const useStyles = makeStyles((theme) => ({
     navRow: {
       boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
       borderRadius: 4,
+    },
+
+  
+
+    spinnerContainer: {
+      marginTop: '25%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
     }
 
 
@@ -250,6 +260,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const user = useSelector((state) => state.auth.user);
   const player = useSelector(state => state.spotifyPlayer)
+  const loading = useSelector((state) => state.loading)
   const sections = useSelector((state) =>
     Object.values(state.sections).filter((section) => song.sections.includes(section.id))
   );
@@ -291,7 +302,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
   };
   
   const handleSectionPlayClick = (section) => {
-        dispatch(playSection(accessToken, song.spotify_url, refreshToken, section.start, section.duration, deviceId));
+        dispatch(playSection(accessToken, song.spotify_url, refreshToken, section.start, section.duration, deviceId, section.id));
   };
 
   const handlePauseClick = () => {
@@ -306,24 +317,34 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
        <IconButton className={classes.bigPlayButtonContainer} onClick={handleSongPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> 
 
   const renderSpotifyOptionSong = () => {
-    return accessToken && accessToken !== "" ?
-      songButton  : null
+    if (accessToken && accessToken !== "") {
+        if(loading.loading) {
+            return <div className={classes.bigPlayButtonContainer}><div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={88} /></div></div>
+      } else {
+        return songButton
+      }
+    }
+              
   }
 
   const renderSpotifyOptionSection = (section) => {
-    return accessToken && accessToken !== "" ?
-      <IconButton onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : null
+    if (accessToken && accessToken !== "" ) {
+      if(loading.loading && section.id === player.sectionId ){
+           return <IconButton><CircularProgress thickness={2.4} size={20} style={{color: 'white'}} /></IconButton>
+      } else {
+         return <IconButton  onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> 
+      }
+    }
+    
   }
   
   
-
-
   const renderSections = (sections) => {
     return sections ? sections.map((section) => {
           return (
               <Grid item xs={4}>
                 <Typography>
-                  <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
+                  <Link  className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     {renderSpotifyOptionSection(section)}
                   </Typography>
               </Grid>    

@@ -171,7 +171,7 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
       },
     });
 
-    let deviceId 
+    let deviceId
     for (let device of response.data.devices){
       if (device.type === "Computer" || device.type === 'Phone') {
         deviceId = device.id 
@@ -298,7 +298,7 @@ export const pressPausePlayer = (accessToken, refreshToken, deviceId, songUri) =
    
 }
 
-export const playSection = (accessToken, songUri, refreshToken, start, duration, deviceId) => async (dispatch) => {
+export const playSection = (accessToken, songUri, refreshToken, start, duration, deviceId, sectionId) => async (dispatch) => {
   dispatch(loading());
   dispatch(getDeviceId(accessToken))
   try {
@@ -318,6 +318,7 @@ export const playSection = (accessToken, songUri, refreshToken, start, duration,
     playing: true,
     songPlay: false, 
     sectionPlay: true,
+    sectionId: sectionId
     })
   try { 
     const url = deviceId === '' ? '/me/player/play' : `/me/player/play?device_id=${deviceId}`;
