@@ -2,7 +2,7 @@ import spotify from '../apis/spotify';
 import * as workerTimers from 'worker-timers'
 import songbook from '../apis/songbook';
 import { getToken } from '../apis/spotifyToken';
-import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN, CHECK_IF_PLAYING, SONGPLAY, SECTIONPLAY, PAUSE } from './types';
+import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN, CHECK_IF_PLAYING, SONGPLAY, SECTIONPLAY, PAUSE, IMPORT_SPOTIFY_TRACK } from './types';
 import { loading, notLoading } from './ui';
 import history from '../history';
 import { createSong } from './songs';
@@ -54,8 +54,13 @@ export const clearSpotifyTracks = () => {
 
 export const importSpotifyTrack = (id) => async (dispatch, getState) => {
   dispatch(loading());
-
+  
   try {
+
+    dispatch({
+      type: IMPORT_SPOTIFY_TRACK,
+      payload: id,
+    });
     const token = await getToken();
 
     const trackData = await spotify.get(`/tracks/${id}`, {

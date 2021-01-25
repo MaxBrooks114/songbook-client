@@ -17,6 +17,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { importSpotifyTrack } from '../../actions/spotify';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,12 +109,21 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis',
     whiteSpace: 'normal'
   },
+
+    spinnerContainer: {
+      marginTop: '25%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
 }));
 
 const SpotifyTrack = ({ track, transitionDuration }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const songs = useSelector(state => (state.songs))
+  const loading = useSelector(state => (state.loading))
+  const importer = useSelector(state => state.spotifyTracks)
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -126,6 +136,8 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+
 
   return (
     <>
@@ -157,7 +169,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
               handleClickOpen()
               dispatch(importSpotifyTrack(track.id))}}
           >
-            <GetAppIcon className={classes.button}/>
+           {loading.loading && importer.importedSong === track.id  ? <div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={20} style={{color: "white"}} /></div> : <GetAppIcon className={classes.button}/> }
           </IconButton>
         </CardActions>
       </Card>

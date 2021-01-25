@@ -40,7 +40,7 @@ const SpotifySearch = () => {
 
 
 
-  const tracks = useSelector((state) => state.spotifyTracks);
+  const tracks = useSelector((state) => state.spotifyTracks.tracks);
 
   const renderTracklist = () => {
     return Object.keys(tracks).length > 0 ? <SpotifyTrackList tracks={Object.values(tracks)} /> : '';
@@ -51,7 +51,7 @@ const SpotifySearch = () => {
       <div className={classes.toolbarMargin}></div>
       <Grid container justify="center" className={classes.cardGrid} >
         <Grid item  xs={12}>
-        <Typography  variant="h2" align="center" >
+        <Typography  variant="h2" align="center" gutterBottom>
           Spotify Search
         </Typography>
       </Grid>
