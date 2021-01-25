@@ -172,8 +172,8 @@ export const getDeviceId = (accessToken) => async (dispatch) => {
     });
 
     let deviceId 
-    for (let device of response.data.device){
-      if (device.type === "computer" || device.type === 'phone') {
+    for (let device of response.data.devices){
+      if (device.type === "Computer" || device.type === 'Phone') {
         deviceId = device.id 
         break
       }
