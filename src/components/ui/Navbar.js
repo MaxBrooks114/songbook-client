@@ -20,9 +20,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Progressbar from './Progressbar'
-import songbook_green_logo_v2 from '../../assets/songbook_green_logo_v2.png'
+import logo from '../../assets/logo.png'
 import SpotifySearchBar from '../spotify/SpotifySearchBar'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -303,7 +304,7 @@ const Navbar = () => {
           <Grid container alignItems="center" justify="space-between">
             <Grid item xs={4}>
            <Button component={RouterLink} to="/songs" onClick={e => setValue(0)} >
-              <img alt="logo" src={songbook_green_logo_v2} variant="h6" className={classes.logo}/>
+              <img alt="logo" src={logo} variant="h6"  className={classes.logo}/>
             </Button>
             </Grid>
             { matches ? null :
