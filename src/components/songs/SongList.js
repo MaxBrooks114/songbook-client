@@ -81,7 +81,7 @@ const renderedList = () => {
             transitionDuration += 50;
             return (
               <ListItem   className={classes.listItem} key={song.id} disableGutters dense>
-                <SongCard fullDisplay={fullDisplay} song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
+                <SongCard  song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             );
           })
