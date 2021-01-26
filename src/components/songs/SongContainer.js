@@ -190,7 +190,7 @@ const SongContainer = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div >
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
           <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
       </IconButton>
@@ -215,7 +215,6 @@ const SongContainer = () => {
               >        
                 <SongList 
                 filteredSongs={filteredSongs} 
-                fullDisplay={!song} 
                 transitionDuration={transitionDuration} 
                 songs={songs} 
                 height={height} 
@@ -227,7 +226,7 @@ const SongContainer = () => {
                             transitionDuration={transitionDuration} 
                             songs={songs} />}
         <Grid item      
-              xs={12} md={6} lg={6} 
+              xs={12} md={6}  
               ref={elementDOM} 
               className={song ? classes.detailShown : classes.detailHidden}>
                 {renderDetail()}
