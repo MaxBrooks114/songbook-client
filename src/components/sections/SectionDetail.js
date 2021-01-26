@@ -380,16 +380,27 @@ const renderSpotifyOption = () => {
  
   const renderRecordings = () => {
    return recordings.map(recording => {
+     let name = recording.file.split('/').slice(-2).join('')
       return (
-        <Grid container alignItems="center" justify="space-around">
-          <Grid item xs={10}>
-              <Player  src={recording.file}/>
+       
+         <Accordion className={classes.accordion} style={{ padding: 22}}>        
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Typography variant={matches ? "caption" : "subtitle1" }>{name}</Typography>
+              </AccordionSummary>
+              <Grid container alignItems="center" justify="space-around">
+                <Grid item xs={12}>
+                  <AccordionDetails>
+                     <Grid item xs={10}>
+                        <Player  src={recording.file}/>
+                      </Grid>
+                      <Grid item>
+                        <IconButton>
+                        <DeleteForeverRoundedIcon className={classes.deleteRecordingButton} onClick={() => dispatch(deleteFile(recording.id))}/></IconButton>
+                      </Grid>
+                  </AccordionDetails>   
+              </Grid>
           </Grid>
-          <Grid item>
-            <IconButton>
-            <DeleteForeverRoundedIcon className={classes.deleteRecordingButton} onClick={() => dispatch(deleteFile(recording.id))}/></IconButton>
-          </Grid>
-        </Grid>
+        </Accordion>
       )
     })
   }
