@@ -11,18 +11,18 @@ import modes from '../songs/modes';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
-    minHeight: '150vh', 
-      [theme.breakpoints.down('md')]: {
-          minHeight: '190vh', 
-      },
-
-      [theme.breakpoints.down('sm')]: {
-          minHeight: '205vh', 
-      },
-
-      [theme.breakpoints.down('xs')]: {
-          minHeight: '220vh', 
-      },
+    width: '50%',
+    margin: 'auto',
+    padding: '2rem',
+    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+     [theme.breakpoints.down('md')]: {
+      width: '75%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
 
   toolbarMargin: {
@@ -36,6 +36,17 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  container: {
+      minHeight: '150vh',
+    [theme.breakpoints.down('md')]: {
+       minHeight: '180vh',
+    },
+
+    [theme.breakpoints.down('sm')]: {
+       minHeight: '200vh',
+    },
+
+  },
 
   title: {
     color: theme.palette.info.main
@@ -101,12 +112,14 @@ const SectionEdit = ({ match }) => {
     : null;
 
   return (
-    <div  className={classes.root}>
+    <div className={classes.container}>
       <div className={classes.toolbarMargin}></div>
+      <div  className={classes.root}>
       <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
         Edit an Section
       </Typography>
       <SectionForm initialValues={initialValues} instruments={instruments} songs={songs} onSubmit={onSubmit} />
+      </div>
     </div>
   );
 };

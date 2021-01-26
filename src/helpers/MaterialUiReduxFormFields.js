@@ -35,7 +35,7 @@ export const FileInput = ({
       onClick={() => inputFileRef.current.click()}
       className={classes.uploadButton}
       >
-       {label}
+       { label }
       <input 
         onChange={adaptFileEventToValue(onChange)}
         onBlur={adaptFileEventToValue(onBlur)}
@@ -73,7 +73,6 @@ export const renderTextField = ({
     
       label={label}
       size="small"
-      helperText={touched && error}
       error={touched && invalid}
       color="secondary"
       variant="outlined"
@@ -233,12 +232,12 @@ export const renderRadioGroup = ({input, classes, title, label1, label2 }) => (
             </FormControl>
         );
 
-export const renderCheckbox = ({ classes, input, label, name }) => (
+export const renderCheckbox = ({ classes, input, label, name, ...custom }) => (
             <FormControlLabel
             className={classes.label}
             label={label}
             labelPlacement="start"
-            control={<Checkbox checked={input.value ? true : false} onChange={input.onChange} name={name} />}
+            control={<Checkbox className={classes.checkBox} checked={input.value ? true : false} onChange={input.onChange} name={name} />}
             />
         );
             

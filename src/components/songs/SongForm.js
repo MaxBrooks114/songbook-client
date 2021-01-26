@@ -2,8 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import {renderTextField, renderAutoCompleteField, renderCheckbox} from '../../helpers/MaterialUiReduxFormFields'
 import { makeStyles } from '@material-ui/styles';
 import genres from './genres';
@@ -13,14 +12,21 @@ import modes from './modes';
 const useStyles = makeStyles((theme) => ({
   
   root: {
-    color: theme.palette.info.main,
+   
     '& .MuiOutlinedInput-root': {
+      background: theme.palette.background.default,
       width: 300,
+      [theme.breakpoints.down('md')]: {
+          width: 240,
+      },
+      [theme.breakpoints.down('sm')]: {
+          width: 200,
+      },
       '& fieldset': {
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.info.main,
       },
       '&:hover fieldset': {
-        borderColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.dark,
       },
 
     },
@@ -33,16 +39,21 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.info.main,
     },
     ' & .MuiFormHelperText-contained': {
-      color: theme.palette.common.red,
+      color: theme.palette.common.orange,
+    },
+
+    '& .MuiFormLabel-asterisk': {
+      color: theme.palette.common.orange,
+      fontSize: 20
     },
 
    
     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.palette.common.red
+      borderColor: theme.palette.common.orange
     },
 
     '& .MuiFormLabel-root.Mui-error': {
-      color: theme.palette.common.red,
+      color: theme.palette.common.orange,
     }
 
   },
@@ -58,25 +69,40 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
-    ...theme.button,
-    margin: '1rem',
-    width: 200,
-    [theme.breakpoints.down('xs')]: {
-          width: 'auto', 
-      },
+   color: theme.palette.info.main,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.common.gray,
+
   },
 
   input: {
     textTransform: 'capitalize',
   },
 
+ 
   label: {
-    color: theme.palette.info.main,
+    color: theme.palette.info.main,  
+   
+    '&.shrink': {
+           color: theme.palette.info.main
+        },
+      },
+
+  checkBox: {
+     '&.Mui-checked': {    
+        color: theme.palette.info.main
+       }
+      
   },
 
   lyrics: {
     '& .MuiOutlinedInput-root': {
-      width: 'auto'
+      width: 'auto',
+      minWidth: 300,
+       [theme.breakpoints.down('sm')]: {
+          minWidth: 200,
+      },
     },
    
 
@@ -90,8 +116,8 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
-      background: theme.palette.secondary.main,
-      color: theme.palette.primary.main
+      background: theme.palette.primary.main,
+      color: theme.palette.background.default
     },
   },
 }));
@@ -100,8 +126,6 @@ const useStyles = makeStyles((theme) => ({
 const SongForm = ({ onSubmit, handleSubmit }) => {
 
   const classes = useStyles()
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const onFormSubmit = (formValues) => {
     onSubmit(formValues);
@@ -109,57 +133,87 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
   return (
   
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-        <Grid container  align="center" justify="center" >
-            <Grid container justify="center">
-              <Grid item xs={12} sm={12} lg={3}>
-                <Field classes={classes} required name="title" component={renderTextField} label="Title" />
+        <Grid container align="center" alignItems="flex-end" justify="center" >
+              
+              <Grid item xs={12}  md={6}>
+                <Field classes={classes} required name="title" component={renderTextField} label="Title" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}/>
               </Grid>
-              <Grid item xs={12} sm={12} lg={3}>
-                <Field classes={classes} required name="artist" component={renderTextField} label="Artist" />
+              <Grid item xs={12}  md={6}>
+                <Field classes={classes} required name="artist" component={renderTextField} label="Artist" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}/>
               </Grid>
-            </Grid>
-            <Grid container justify="center">
-              <Grid item  xs={12} sm={12} lg={3}>
-                <Field classes={classes} name="album" component={renderTextField} label="Album" />
+              
+              <Grid item  xs={12}  md={6}>
+                <Field classes={classes} name="album" component={renderTextField} label="Album" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} />
               </Grid>
-              <Grid item xs={12} sm={12} lg={3}>
+              <Grid item xs={12}  md={6}>
                 <Field
                   options={genres.sort((a, b) => (a.name > b.name ? 1 : -1))}
                   classes={classes}
                   name="genre"
                   component={renderAutoCompleteField}
                   label="Genre"
+                  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
                 />
               </Grid>
-            </Grid>
-            <Grid container justify="center">
-              <Grid item xs={12} sm={12} lg={3}>
-                <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" />
+                   
+              <Grid item xs={12}  md={6}>
+                <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} />
               </Grid>
-              <Grid item xs={12} sm={12} lg={3}>
-                <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" />
+              <Grid item xs={12}  md={6}>
+                <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} />
               </Grid>
-            </Grid>
-            <Grid container justify="center">
-              <Grid item xs={12} sm={12} lg={3}>
+                  
+              <Grid item xs={12}  md={6}>
                 <Field classes={classes} name="tempo" inputAdornment="BPM" component={renderTextField} label="Tempo" />
               </Grid>
-              <Grid item xs={12} sm={12} lg={3}>
+              <Grid item xs={12}  md={6}>
                 <Field
                   classes={classes}
                   name="time_signature"
                   inputAdornment="/4"
                   component={renderTextField}
                   label="Time Signature"
+                  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
                 />
               </Grid>
-            </Grid>
-            <Grid container align="center" justifyContent="center" alignItems="center">
-              <Grid item xs={12}>
-                <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
-              </Grid>
-              <Grid item xs={1} lg={2}></Grid>
-              <Grid item xs={10} lg={8}>
+        
+               
+              <Grid item xs={12} >
                 <Field
                   fullWidth
                   classes={classes}
@@ -169,18 +223,26 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
                   rows={8}
                   component={renderTextField}
                   label="Lyrics"
+                  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
                 />
               </Grid>
-               <Grid item xs={1} lg={2}></Grid>
-            </Grid>
-            <Grid container justify="center"> 
-              <Grid item xs={3}>
+            <Grid container  alignItems="flex-end" justify="space-between">
+            <Grid item xs={4}>
+              <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
+            </Grid> 
+            <Grid item xs={4}>
                 <Button type="submit" className={classes.button} variant="contained">
                   Submit
-                </Button>
+                </Button>                
               </Grid>
             </Grid>
-      </Grid>
+            </Grid>
+     
         </form>
 
   );

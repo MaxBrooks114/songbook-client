@@ -11,23 +11,36 @@ import modes from '../songs/modes';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
-    minHeight: '150vh', 
-      [theme.breakpoints.down('md')]: {
-          minHeight: '190vh', 
-      },
-
-      [theme.breakpoints.down('sm')]: {
-          minHeight: '205vh', 
-      },
-
-      [theme.breakpoints.down('xs')]: {
-          minHeight: '220vh', 
-      },
+    width: '50%',
+    margin: 'auto',
+    padding: '2rem',
+    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+    [theme.breakpoints.down('md')]: {
+      width: '75%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
+
+  container: {
+      minHeight: '150vh',
+    [theme.breakpoints.down('md')]: {
+       minHeight: '180vh',
+    },
+
+    [theme.breakpoints.down('sm')]: {
+       minHeight: '200vh',
+    },
+
+  },
+
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: '3em',
+    marginBottom: '2em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -81,13 +94,18 @@ const SectionCreate = () => {
   const classes = useStyles();
 
   return (
-      <div  className={classes.root}>
+    <div className={classes.container}>
         <div className={classes.toolbarMargin}></div>
+         <div  className={classes.root}>
         <Typography className={classes.title} variant="h2" align="center" gutterBottom>
           Create a Section
         </Typography>
+        <Typography className={classes.title} variant="subtitle2" align="center" gutterBottom>
+          This is the manual way to create a section. Most useful for original songs, though you can add anything you want( it needs to be tied to a song). Just note you will not be able to use the Spotify player features. 
+        </Typography>
         <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
+    </div>
   );
 };
 

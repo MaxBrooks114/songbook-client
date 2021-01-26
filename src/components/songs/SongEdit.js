@@ -9,19 +9,20 @@ import modes from './modes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-  
-    minHeight: '110vh', 
-      [theme.breakpoints.down('md')]: {
-          minHeight: '150vh', 
-      },
-
-      [theme.breakpoints.down('sm')]: {
-          minHeight: '165vh', 
-      },
-
-      [theme.breakpoints.down('xs')]: {
-          minHeight: '180vh', 
-      },
+    color: theme.palette.info.main,
+    width: '50%',
+    margin: 'auto',
+    padding: '2rem',
+    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+    [theme.breakpoints.down('md')]: {
+      width: '75%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+     
   },
 
   toolbarMargin: {
@@ -35,10 +36,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-   title: {
+    title: {
       color: theme.palette.info.main,
-  }, 
+     
+    container: {
+      minHeight: '110vh',
+       [theme.breakpoints.down('md')]: {
+          minHeight: '100vh', 
+      },
 
+      [theme.breakpoints.down('sm')]: {
+          minHeight: '180vh', 
+      },
+    }
+  }, 
 }));
 
 const SongEdit = ({ match }) => {
@@ -72,12 +83,14 @@ const SongEdit = ({ match }) => {
   const initialValues = song ? { ...song, key: renderText(keys, song.key), mode: renderText(modes, song.mode) } : null;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.container}>
       <div className={classes.toolbarMargin}></div>
-      <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
-        Edit a Song
-      </Typography>
-      <SongForm initialValues={initialValues} onSubmit={onSubmit} />
+      <div className={classes.root}>
+        <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
+          Edit a Song
+        </Typography>
+        <SongForm initialValues={initialValues} onSubmit={onSubmit} />
+      </div>
     </div>
   );
 };
