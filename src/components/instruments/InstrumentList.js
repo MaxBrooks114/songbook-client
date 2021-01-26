@@ -1,32 +1,60 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchInstruments, fetchInstrument } from '../../actions/instruments';
-import {checkIfPlaying} from '../../actions/spotify'
-import * as workerTimers from 'worker-timers';
-import Grid from '@material-ui/core/Grid';
+import React from 'react';
+import { fetchInstrument } from '../../actions/instruments';
 import { makeStyles } from '@material-ui/styles';
 import InstrumentCard from './InstrumentCard';
-import InstrumentDetail from './InstrumentDetail';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import useHeight from '../../hooks/useHeight'
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles((theme) => ({
-  cardGrid: {
-   
-    paddingBottom: theme.spacing(8),
-  },
 
   list: {
+   paddingTop: 0,
     minHeight: '100vh',
+    height: '80%',
     overflow: 'scroll',
+    borderRadius: '4px',
   },
+
+  listItem: {
+      '&:hover': {
+        transform: 'translate(10px, 10px)',
+        transition: 'transform 0.2s ease 0s',
+        cursor: 'pointer',
+        zIndex: 2,
+     },
+  
+     
+    },
+    
+    title: {
+      width: '95%',
+      fontWeight: '600',
+      textAlign: 'center',
+       [theme.breakpoints.down('xs')]: {
+         margin: 0,
+         width: '100%'
+      },  
+    },
+
+     sortBar: {
+
+      width: '95%',
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+
+     expand: {
+      height: 32,
+      width: 32,
+    },
 
    toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -43,58 +71,21 @@ const useStyles = makeStyles((theme) => ({
      height: '100%',
   },
 
-  drawer: {
-    background: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
-    width: '83%',
-    margin: 'auto',
-    marginTop: theme.spacing(6),
-    height: '50%',
-    [theme.breakpoints.down('xs')]: {
-      height: '40%',
-      
-    },
-   }, 
-
-   drawerIconContainer: {
-    backgroundColor: theme.palette.secondary.main,
-    height: '24px',
-    width: '24px',
-    marginLeft: 0,
-    position: 'fixed',
-    top: '50%',
-    right: 0,
-  
-    '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-    },
-  },
-
-  drawerIcon: {
-    height: '50px',
-    width: '50px',
-  },
-
+ 
 
 }));
 
 
-const InstrumentList = ({ match }) => {
-  const instruments = useSelector((state) => state.instruments);
+const InstrumentList = ({ instruments, height }) => {
 
-  const instrument = useSelector((state) => state.instruments[match.params.id]);
-  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
-  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const dispatch = useDispatch();
+  const location = useLocation()
+  const history = useHistory()
 
   const classes = useStyles();
-
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const sectionDOM = useRef(null);
-  const [height] = useHeight(sectionDOM);
 
   let transitionDuration = 50;
 
@@ -102,24 +93,17 @@ const InstrumentList = ({ match }) => {
     dispatch(fetchInstrument(id));
   };
 
-  useEffect(() => {
-   const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null
 
-    if (accessToken) {
-      return () => {
-      workerTimers.clearInterval(intervalId) 
-    }
-   }
-  }, [accessToken, refreshToken, dispatch])
 
-  const renderedList =
-    Object.values(instruments).length > 0
-      ? Object.values(instruments)
+  const renderedList = () => {
+   return Object.values(instruments).length > 0
+      ? 
+      Object.values(instruments)
           .sort((a, b) => (a['name'] > b['name'] ? 1 : -1))
           .map((instrument) => {
             transitionDuration += 50;
             return (
-              <ListItem key={instrument.id} dense>
+              <ListItem className={classes.listItem} key={instrument.id} dense>
                 <InstrumentCard
                   instrument={instrument}
                   transitionDuration={transitionDuration}
@@ -129,47 +113,23 @@ const InstrumentList = ({ match }) => {
             );
           })
       : null;
-
-  const renderDetail = () => {
-    return instrument ? <InstrumentDetail instrument={instrument} /> : null;
-  };
-
-
-  const drawer = (
-    <>
-      <IconButton  className={classes.drawerIconContainer}>
-        <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
-      </IconButton>
-      
-      <SwipeableDrawer
-        classes={{ paper: classes.drawer }}
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
-        open={openDrawer}
-        variant="persistent"
-        anchor="bottom"
-        onClose={() => setOpenDrawer(false)}
-        onOpen={() => setOpenDrawer(true)}
-      >
-        <List>{renderedList}</List>
-      </SwipeableDrawer>
-    </>
-  );
-
+    }
 
   return (
-     <div >
-        <Grid container justify='center' className={classes.cardGrid}>
-        {!matches ? <Grid item xs={3} md={3}  lg={3}  className={classes.list}>
-            <List style={{height: height}}>{renderedList}</List>  
-        </Grid> : drawer}
-        <Grid item lg={1} md={1} sm={0} xs={0}/>
-        <Grid item xs={10} md={8} lg={6}  ref={sectionDOM} className={classes.detail}>
-          {renderDetail()}
-        </Grid>
-    
-        </Grid>
-    </div>
+      <>
+        <Typography variant="h5" className={classes.title}>
+         Instruments
+        </Typography>
+        <div className={classes.sortBar}>
+          {location.pathname.includes('instruments/') ?
+          <IconButton>
+            <NavigateNextIcon className={classes.expand} onClick={(event) =>  history.push('/instruments')}/>
+          </IconButton>: null}    
+        </div>
+        <List className={classes.list} style={{height: height}}>
+          {renderedList()}
+        </List> 
+      </>
   );
 };
 

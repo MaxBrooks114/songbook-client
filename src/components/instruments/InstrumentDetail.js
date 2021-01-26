@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteInstrument } from '../../actions/instruments';
-import {playSection} from '../../actions/spotify'
+import {playSection } from '../../actions/spotify'
+import {renderBool, audioFeaturesToText, millisToMinutesAndSeconds, renderText} from '../../helpers/detailHelpers'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -17,8 +18,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Divider from '@material-ui/core/Divider';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Menu from '@material-ui/core/Menu';
@@ -26,33 +26,38 @@ import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
+import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
+import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.primary.main,
+  background: theme.palette.primary.main,
+    transition: '.3s ease',
     textTransform: 'capitalize',
     color: theme.palette.primary.main,
-    position: 'sticky',
-    marginTop: 11,
-    marginBottom: '3em',
+    position: 'relative',
+    marginBottom: '8rem',
+    padding: 22
   },
 
   details: {
     color: theme.palette.info.main,
-    paddingTop: theme.spacing(2),
   },
 
   accordion: {
-    background: theme.palette.primary.main,
+   background: theme.palette.primary.light,
     color: theme.palette.info.main,
+    borderRadius: 4,
+    margin: '1rem 0',
     '& .MuiAccordionSummary-content': {
       flexGrow: 0,
     },
 
     '& .MuiAccordionSummary-root': {
-      justifyContent: 'center',
-      padding: 0
+      justifyContent: 'space-between',
     },
 
     '& .MuiAccordionDetails-root': {
@@ -66,6 +71,10 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  accordionTitle:{
+      fontWeight: '500'
+  },
+
   buttonContainer: {
     paddingBottom: theme.spacing(2),
     margin: theme.spacing(2),
@@ -73,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
   dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.primary.main
+      background: theme.palette.secondary.main
     },
 
     '& .MuiTypography-root':{
@@ -87,48 +96,14 @@ const useStyles = makeStyles((theme) => ({
     
   },
 
-  delete: {
-    background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-      display: 'absolute',
-    },
-  },
-
-  button: {
-    background: 'linear-gradient(360deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 80%)',
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-    },
-    textDecoration: 'none',
-  },
-
   deleteChoice: {
-      color: theme.palette.primary.main,
-      background: `linear-gradient(90deg, ${theme.palette.common.red} 0%,  ${theme.palette.info.main} 150%)`,
-      '&:hover': {
-        background: theme.palette.common.red,
-        color: theme.palette.primary.main,
-      },
-
-    },
-
-  divider: {
-    ...theme.divider,
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2)
+    color: theme.palette.common.orange,
   },
 
-  verticalDivider: {
-    ...theme.divider,
-    height: '60px'
-    
-  },
+
 
    menu: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
     color: theme.palette.info.main,
 
   },
@@ -141,9 +116,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   playButton: {
-    color: theme.palette.secondary.main
+    color: theme.palette.background.default
   },
 
+ 
 
   link: {
     textDecoration: 'none',
@@ -165,22 +141,43 @@ const useStyles = makeStyles((theme) => ({
 
   songTitle: {
     fontWeight: 'bold',
-    textShadow: '-1px -1px 0 #000',
+   
   },
+
+   vert: {
+    padding: 0,
+    position: 'absolute',
+    right: 1,
+    top: 3
+  },
+
+   navRow: {
+      boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+      borderRadius: 4,
+    },
+
+    spinnerContainer: {
+      marginTop: '25%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
 }));
 
-const InstrumentDetail = ({ instrument }) => {
+const InstrumentDetail = ({ instrument, nextInstrument, prevInstrument }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
   const user = useSelector((state) => state.auth.user);
+  const player = useSelector(state => state.spotifyPlayer)
+  const loading = useSelector((state) => state.loading)
+  const [open, setOpen] = React.useState(false);
+  const history = useHistory()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const popped = Boolean(anchorEl);
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
-
-  const [open, setOpen] = React.useState(false);
   const sections = useSelector((state) =>
     Object.values(state.sections).filter((section) => instrument.sections.includes(section.id))
   );
@@ -204,12 +201,20 @@ const InstrumentDetail = ({ instrument }) => {
   };
 
   const handleSectionPlayClick = (section) => {
-    dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, deviceId));
+    dispatch(playSection(accessToken, section.song.spotify_url, refreshToken, section.start, section.duration, deviceId, section.id));
   };
 
- const renderSpotifyOptionSection = (section) => {
-    return accessToken && accessToken !== "" ?
-      <IconButton onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> : <a href={`http://http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with your Spotify Premium Account to use the play song feature!</a>
+  
+
+   const renderSpotifyOptionSection = (section) => {
+    if (accessToken && accessToken !== "" ) {
+      if(loading.loading && section.id === player.sectionId ){
+           return <IconButton><CircularProgress thickness={2.4} size={20} style={{color: 'white'}} /></IconButton>
+      } else {
+         return <IconButton  onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton> 
+      }
+    }
+    
   }
   
   
@@ -257,55 +262,76 @@ const InstrumentDetail = ({ instrument }) => {
   return instrument ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
       <Paper className={classes.root} elevation={3}>
-        <Grid container alignItems="center" className={classes.details}>
-          <Grid item xs={12}>
-             <Grid container align="right" justify="flex-end">
-              <Grid item xs={2} lg={1}>
-                <IconButton
+        <Grid container alignItems="center" justify="center" className={classes.details}>
+            <IconButton
+                    className={classes.vert}
                     aria-label="more"
                     aria-controls="long-menu"
                     aria-haspopup="true"
                     onClick={(event) =>handleMenuClick(event)}
                 > <MoreVertRoundedIcon />
-                </IconButton>
-              
-              </Grid>
-            </Grid>
-             <Grid item xs={12}>
-                <Grid container justify="space-evenly" align="center" alignItems="center">
-                    <Grid item xs={12}>
-                      <Typography variant="h6">{instrument.name}</Typography>
-                      <Divider  variant="middle" className={classes.divider} />
-                    </Grid> 
-                </Grid> 
-              <Grid item xs={12}>
-                  <Grid container align="left"  justify="space-around">
-                        <Grid item>
-                          <Typography>Make: {instrument.make}</Typography>
-                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.main}} />
-                          <Typography>Model: {instrument.model}</Typography>
-                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.main}} />
-                          <Typography>Year: {instrument.year}</Typography>
+            </IconButton>              
+            <Grid item xs={12} className={classes.navRow}>
+              <Grid container align='center' alignItems="center" justify="space-between">
+                <Grid item xs={2}>
+                  {prevInstrument ?
+                    <IconButton
+                        onClick={(event) =>  history.push(`/instruments/${instrument.id-1}`)}
+                    > <SkipPreviousRoundedIcon  className={classes.prev} />
+                    </IconButton> 
+                  : null }
+                </Grid>
+                <Grid item xs ={8}>
+                  <Typography variant={matches ? "h6" : "h5"} style={{display: 'inline', fontWeight: '600'}}>{instrument.name}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    {nextInstrument ? 
+                      <IconButton
+                          onClick={(event) =>  history.push(`/instruments/${instrument.id + 1}`)}
+                      > <SkipNextRoundedIcon className={classes.next}/> 
+                      </IconButton> : null}
+                </Grid>
+            </Grid> 
+          </Grid>
+          <Grid item xs={12}>
 
+             <Accordion className={classes.accordion}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                    <Typography className={classes.songTitle}>Instrument Info</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                     <Grid container alignItems="center">
+                        <Grid item xs={2}/>
+                        <Grid item xs={5}>
+                          <Typography>Make: <span style={{fontSize: '.9rem'}}>{instrument.make}</span></Typography>
                         </Grid>
-                        <Grid item>
-                          <Typography>Family: {instrument.family}</Typography>
-                          <Divider  variant="middle" className={classes.divider} style={{background: theme.palette.primary.main}} />
-                          <Typography>Tonality: {instrument.tonal_range}</Typography>
+                        <Grid item xs={5}>
+                          <Typography>Model: <span style={{fontSize: '.9rem'}}>{instrument.model}</span></Typography>
+                        </Grid>
+                        <Grid item xs={2}/>
+                        <Grid item xs={5}>
+                          <Typography>Year: <span style={{fontSize: '.9rem'}}>{instrument.year}</span></Typography>
+                        </Grid>                
+                       <Grid item xs={5}>
+                          <Typography>Family: <span style={{fontSize: '.9rem'}}>{instrument.family}</span></Typography>
+                        </Grid>
+                         <Grid item xs={2}/>
+                        <Grid item xs={5}>
+                          <Typography>Tonality: <span style={{fontSize: '.9rem'}}>{instrument.tonal_range}</span></Typography>
                         </Grid>
                       </Grid>
-                    </Grid>
+                  </AccordionDetails>        
+                </Accordion>           
                 </Grid>
             </Grid>
           <Grid item xs={12}>
-            <Accordion className={classes.accordion}>
+            <Accordion className={classes.accordion} style={{marginBottom: 0}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.songTitle}>Sections</Typography>
               </AccordionSummary>
               {renderSongs(songs)}  
             </Accordion>
           </Grid>
-        </Grid>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -317,7 +343,7 @@ const InstrumentDetail = ({ instrument }) => {
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this Instrument?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              By deleting this isntrument you will also lose any affiliation with the sections you have listed for this
+              By deleting this instrument you will also lose any affiliation with the sections you have listed for this
               instrument.
             </DialogContentText>
           </DialogContent>
@@ -332,7 +358,7 @@ const InstrumentDetail = ({ instrument }) => {
               }}
               color="primary"
               autoFocus
-              className={classes.deleteChoice}
+              style={{color: theme.palette.common.orange}}
 
             >
               Yes
@@ -351,12 +377,12 @@ const InstrumentDetail = ({ instrument }) => {
                     >
                       
                         <MenuItem             
-                            className={classes.menu}
+                            className={classes.menuItem}
                             onClick={handleMenuClose}>
                            <Link className={classes.link} to={`edit/${instrument.id}`}>Edit</Link>
                         </MenuItem>
                         <MenuItem 
-                            className={classes.menu}
+                            className={classes.deleteChoice}
                             onClick={() => {handleMenuClose(); handleClickOpen();  }}>
                            Delete
                         </MenuItem>

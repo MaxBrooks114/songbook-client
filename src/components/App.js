@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import Login from './auth/Login';
@@ -13,7 +13,7 @@ import SongContainer from './songs/SongContainer';
 import SongEdit from './songs/SongEdit';
 import InstrumentCreate from './instruments/InstrumentCreate';
 import InstrumentEdit from './instruments/InstrumentEdit';
-import InstrumentList from './instruments/InstrumentList';
+import InstrumentContainer from './instruments/InstrumentContainer';
 import SectionCreate from './sections/SectionCreate';
 import SectionEdit from './sections/SectionEdit';
 import SectionContainer from './sections/SectionContainer';
@@ -75,9 +75,8 @@ const App = () => {
                 <PrivateRoute exact path="/sections/edit/:id" component={SectionEdit} />
                 <PrivateRoute path="/sections" component={SectionContainer} />
                 <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
-                <PrivateRoute exact path="/instruments/:id" component={InstrumentList} />
-                <PrivateRoute exact path="/instruments" component={InstrumentList} />
                 <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
+                <PrivateRoute path="/instruments" component={InstrumentContainer} />
               </Switch>   
             </MuiThemeProvider>
           </div>   

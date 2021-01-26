@@ -4,32 +4,29 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
     display: 'flex',
-    width: '80%',
-    height: 'auto',
-    boxShadow: theme.shadows[24],
-    [theme.breakpoints.down('sm')]: {
-        textAlign: 'center',
-         width: '100%'
-      },
-    '&:hover': {
-      cursor: 'pointer',
-    },
+    width: '95%',
+    height: 85,
+    paddingTop: 0,
+    paddingBottom: 0,
     color: theme.palette.info.main,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+  
+    },
+    
   },
   
   cardContent: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: '60%',
-      display: 'flex',
-      flexDirection: "column",
-      justifyContent: 'center',
-    }
+    marginTop: 'auto',
+    marginLeft: '.6rem'
   }
   
  
@@ -37,12 +34,17 @@ const useStyles = makeStyles((theme) => ({
 
 const InstrumentCard = ({ instrument, transitionDuration, handleClick }) => {
   const classes = useStyles();
-
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+  const displayName = () => {
+    return instrument.make && instrument.model ? 
+      <>{instrument.make} {instrument.model} ({instrument.name})</> : instrument.name
+    }
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card className={classes.root} onClick={() => handleClick(instrument.id)}>
         <CardContent className={classes.cardContent}>
-          <Typography variant="subtitle1">{instrument.name}</Typography>
+          <Typography component="p" style={{fontWeight: '600', verticalAlign: 'middle'}} variant={matches ? "caption" : "subtitle2"}>{displayName()} </Typography>
         </CardContent>
       </Card>
     </Slide>
