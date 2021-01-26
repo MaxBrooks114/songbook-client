@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     height: '60px',
     zIndex: theme.zIndex.modal+1,
     color: theme.palette.info.main,
-  
+    clear: 'both'
   },
 
   logo: {
@@ -19,6 +19,13 @@ const useStyles = makeStyles((theme) => ({
     height: "4em",
     verticalAlign: 'bottom',
     marginLeft:'1em'
+  },
+
+  copy: {
+      display: 'inline-block', 
+      width: '210px',
+      wordWrap: 'break-word', 
+      whiteSpace: 'normal'
   }
 }));
 
@@ -27,7 +34,7 @@ const Footer = () => {
   return (
     <footer className={classes.footer}>
      <img src={footerLogo} alt="footer-logo" className={classes.logo}/>
-        SongBook by Max Brooks 2020
+     <span className={classes.copy} >SongBook by Max Brooks 2020</span>
     </footer>
     )
 };
