@@ -1,7 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Autocomplete } from '@material-ui/lab';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
@@ -11,30 +9,36 @@ import {renderTextField, renderAutoCompleteDataField} from '../../helpers/Materi
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: theme.palette.info.main,
 
     '& .MuiOutlinedInput-root': {
+      background: theme.palette.background.default,
       width: 300,
+      [theme.breakpoints.down('md')]: {
+          width: 240,
+      },
+      [theme.breakpoints.down('sm')]: {
+          width: 200,
+      },
       '& fieldset': {
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.info.main,
       },
       '&:hover fieldset': {
-        borderColor: 'rgb(254,123,235, 1)',
+        borderColor: theme.palette.secondary.dark,
       },
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
       color: theme.palette.info.main,
     },
     ' & .MuiFormHelperText-contained': {
-      color: theme.palette.common.red,
+      color: theme.palette.common.orange,
     },
 
      '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.palette.common.red
+      borderColor: theme.palette.common.orange
     },
 
     '& .MuiFormLabel-root.Mui-error': {
-      color: theme.palette.common.red,
+      color: theme.palette.common.orange,
     }
   },
 
@@ -47,12 +51,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
-   ...theme.button,
-    margin: '1rem',
-    width: 200,
-    [theme.breakpoints.down('xs')]: {
-          width: 'auto', 
-      },
+   color: theme.palette.info.main,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.common.gray,
   },
 
   input: {
@@ -61,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
 
   label: {
     color: theme.palette.info.main,
+     '&.shrink': {
+           color: theme.palette.info.main
+        },
+    
   },
 
   listbox: {
@@ -71,8 +77,8 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
 
     '&[data-focus="true"]': {
-      background: theme.palette.secondary.main,
-      color: theme.palette.primary.main
+      background: theme.palette.primary.main,
+      color: theme.palette.background.default
     },
   },
 }));
@@ -87,9 +93,8 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
   return (
     
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-      <Grid container alignItems="center" align="center" justify="center" >
-        <Grid container justify="center" alignItems="center">
-         <Grid item xs={12} sm={12} lg={3}>
+      <Grid container alignItems="flex-end" align="center" justify="flex-end" >
+         <Grid item style={{marginBottom: '4px'}} xs={12} md={6}>
             <Field
               classes={classes}
               required
@@ -99,15 +104,20 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               label="Name"
             />
           </Grid>
-         <Grid item xs={12} sm={12} lg={3}>
-            
+
+          <Grid item  xs={12} md={6}>
+            <Field classes={classes} name="year" component={renderTextField} label="Year" />
+          </Grid>
+         <Grid item style={{marginBottom: '4px'}} xs={12} md={6}>    
             <Field classes={classes} name="make" component={renderTextField} label="Make" />
           </Grid>
-        </Grid>
-        <Grid container  alignItems="center" justify="center">
-          <Grid item  xs={12} sm={12} lg={3}>
-             
+
+          <Grid item style={{marginBottom: '4px'}} xs={12} md={6}>
+           <Field classes={classes} name="model" component={renderTextField} label="Model" />
+          </Grid>
+          <Grid item style={{marginBottom: '4px'}} xs={12}  md={6}>         
             <Field
+
               options={instrumentFamilies.sort()}
               classes={classes}
               name="family"
@@ -115,12 +125,8 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               label="Family"
             />
           </Grid>
-          <Grid item xs={12} sm={12} lg={3}>
-           <Field classes={classes} name="model" component={renderTextField} label="Model" />
-          </Grid>
-          </Grid>
-          <Grid container alignItems="center"  justify="center">
-          <Grid item  xs={12} sm={12} lg={3}>
+         
+          <Grid item style={{marginBottom: '4px'}} xs={12} md={6}>
             <Field
               options={instrumentTonalities.sort()}
               classes={classes}
@@ -129,11 +135,8 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               label="Tonality"
             />
           </Grid>
-          <Grid item  xs={12} sm={12} lg={3}>
-            <Field classes={classes} name="year" component={renderTextField} label="Year" />
-          </Grid>
-          </Grid>
-          <Grid item xs={3}>
+         
+          <Grid item xs={12}  md={3} style={{marginTop: '12px'}} >
             <Button type="submit" className={classes.button} variant="contained">
               Submit
             </Button>
