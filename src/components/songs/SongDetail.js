@@ -26,7 +26,7 @@ import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRo
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import IconButton from '@material-ui/core/IconButton';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
@@ -203,16 +203,6 @@ const useStyles = makeStyles((theme) => ({
     top: 22
   },
 
-  close: {
-    padding: 0,
-    position: 'absolute',
-    right: '4%',
-    top: 22,
-     [theme.breakpoints.down('sm')]: {
-        right: '1%',
-        top: 55 
-      }, 
-  },
 
   next: {
     padding: 0,
