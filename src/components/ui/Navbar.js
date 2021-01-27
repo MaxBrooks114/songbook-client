@@ -178,7 +178,7 @@ const Navbar = () => {
      { name: 'New Section', link: '/sections/new', activeIndex: 1, selectedIndex: 3},
      { name: 'Instruments', link: '/instruments', activeIndex: 1, selectedIndex: 4},
      { name: 'New Instrument', link: '/instruments/new', activeIndex: 1, selectedIndex: 5},
-     { name: 'Profile', link: `/users/${user.id}`, activeIndex: 2, selectedIndex: 6},
+     { name: 'Profile', link: `/users/${user.id}/`, activeIndex: 2, selectedIndex: 6},
      { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 7},
   ] : [
     { name: 'Register', link: '/register', activeIndex: 0 },
