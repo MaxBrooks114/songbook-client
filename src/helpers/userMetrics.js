@@ -4,6 +4,19 @@ export const favorite = (list, attr) => {
   return _.maxBy(Object.values(_.groupBy(list, el => el[attr])), arr => arr.length)[0][attr];
 }
 
+export const topFiveByAttr = (list, attr) => {
+  const attrArray = []
+  const orderedArray = Object.values(_.groupBy(list, el => el[attr])).sort((a, b) => a.length < b.length ?  1 : -1 ).map(arr => arr[0])
+
+    if(orderedArray && orderedArray.length){
+      orderedArray.map(item => attrArray.push(item[attr]))
+    }
+  
+ 
+  return orderedArray.slice(0, 5)
+}
+
+
 export const favoriteInstrument = (sections, instruments) => {
   const instrumentMap = sections.filter((section) => {
       if (section.instruments.length) {
@@ -49,6 +62,14 @@ export const attrPreference = (songs, attr) => {
  export const maxAttr = (songs, feature) => {
   return songs.reduce((max, song) => max[feature] > song[feature] ? max : song)
 
+ }
+
+ export const topFive = (items, attr) => {
+   return items.sort((a, b) => a[attr] < b[attr] ? 1 : -1).slice(0, 5)
+ }
+
+ export const bottomFive = (items, attr) => {
+   return items.sort((a, b) => a[attr] > b[attr] ? 1 : -1).slice(0, 5)
  }
 
  export const minAttr = (songs, feature) => {
