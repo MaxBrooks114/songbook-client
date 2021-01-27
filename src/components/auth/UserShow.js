@@ -5,22 +5,33 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import Paper from '@material-ui/core/Paper';
+import Drawer from '@material-ui/core/Drawer';
+import UserProgress from './UserProgress'
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { NavLink, Router, Route, Switch, useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import {favorite, favoriteInstrument, sectionsLearned, attrPreference, minAttr, maxAttr} from '../../helpers/userMetrics'
+import {favorite, favoriteInstrument, sectionsLearned, attrPreference, minAttr, maxAttr, topFiveByAttr, topFive} from '../../helpers/userMetrics'
 import {renderText, millisToMinutesAndSeconds, sec2time} from '../../helpers/detailHelpers'
 import modes from '../songs/modes';
 import keys from '../songs/keys';
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
+    minHeight: '100vh',
+    display: 'flex',
+  
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
+    marginBottom: '4 rem',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -28,6 +39,40 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '1.25em',
     },
   },
+
+  title:{
+    width: '100%'
+  },
+
+  albumRow: {
+    width: 198,
+    height: 198,
+    borderRadius: 4
+  },
+
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+
+  drawerPaper: {
+    background: theme.palette.common.gray,
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    marginRight: 12
+  },
+
+  fixedHeight: {
+    height: 240,
+  },
+
+  songCard: {
+    background: theme.palette.primary.main,
+    borderRadius: 4
+  }
 }));
 
 const UserShow = () => {
@@ -37,96 +82,7 @@ const UserShow = () => {
   const songs = useSelector(state => state.songs)
   const sections = useSelector(state => state.sections)
   const instruments = useSelector(state => state.instruments)
-  let metrics = [];
-  if (Object.values(songs).length && Object.values(instruments).length && Object.values(sections).length) {
-    metrics = [{
-      title: "Songs",
-      data: Object.values(songs).length
-    }, {
-      title: "Instruments",
-      data: Object.values(instruments).length
-    },
-    {
-      title: "Sections",
-      data: Object.values(sections).length},
-    {
-      title: "Sections Learned",
-      data: sectionsLearned(Object.values(sections))
-    },
-    {
-      title: "Favorite Instrument",
-      data: favoriteInstrument(Object.values(sections), Object.values(instruments))
-    },
-    {
-      title: "Favorite Genre",
-      data: favorite(Object.values(songs), 'genre')
-    },
-    {
-      title: "Favorite Key",
-      data: renderText(keys, favorite(Object.values(sections), 'key'))
-    },
-    {
-      title: "Favorite Mode",
-      data: renderText(modes, favorite(Object.values(sections), 'mode'))
-    },
-    {
-      title: "Favorite Artist",
-      data: favorite(Object.values(songs), 'artist')
-    },
-    {
-      title: "Valence Preference",
-      data: attrPreference(Object.values(songs), 'valence')
-    },
-    {
-      title: "Instrumentalness Preference",
-      data: attrPreference(Object.values(songs), 'instrumentalness')
-    },
-    {
-      title: "Energy Preference",
-      data: attrPreference(Object.values(songs), 'energy')
-    },
-    {
-      title: "Speechiness Preference",
-      data: attrPreference(Object.values(songs), 'speechiness')
-    },
-    {
-      title: "Liveness Preference",
-      data: attrPreference(Object.values(songs), 'liveness')
-    },
-    {
-      title: "Shortest Song",
-      data: `${minAttr(Object.values(songs), 'duration').title} (${millisToMinutesAndSeconds(minAttr(Object.values(songs), 'duration').duration)})`
-    },
-    {
-      title: "Shortest Section",
-      data: `${minAttr(Object.values(sections), 'duration').name} of ${minAttr(Object.values(sections), 'duration').song.title} (${sec2time(minAttr(Object.values(sections), 'duration').duration)})`
-    }, {
-      title: "Longest Song",
-      data: `${maxAttr(Object.values(songs), 'duration').title} (${millisToMinutesAndSeconds(maxAttr(Object.values(songs), 'duration').duration)})`
-    },
-    {
-      title: "Longest Section",
-      data: `${maxAttr(Object.values(sections), 'duration').name} of ${maxAttr(Object.values(sections), 'duration').song.title} (${ sec2time(maxAttr(Object.values(sections), 'duration').duration)})`
-    },
-    {
-      title: "Fastest Song",
-      data: `${maxAttr(Object.values(songs), 'tempo').title} (${(maxAttr(Object.values(songs), 'tempo').tempo)}) BPM`
-    },
-    {
-      title: "Fastest Section",
-      data: `${maxAttr(Object.values(sections), 'tempo').name} of ${maxAttr(Object.values(sections), 'tempo').song.title} (${(maxAttr(Object.values(sections), 'tempo').tempo)}) BPM`
-    },
-    {
-      title: "Slowest Song",
-      data: `${minAttr(Object.values(songs), 'tempo').title} (${(minAttr(Object.values(songs), 'tempo').tempo)}) BPM`
-    },
-    {
-      title: "Slowest Section",
-      data: `${minAttr(Object.values(sections), 'tempo').name} of ${minAttr(Object.values(sections), 'tempo').song.title} (${(minAttr(Object.values(sections), 'tempo').tempo)}) BPM`
-    },
-
-   ]
-  }
+  const location = useLocation()
   
 
   const spotifyLoginButton = () => {
@@ -137,33 +93,54 @@ const UserShow = () => {
     );
   };
 
+
+  
+
   return (
-    <div className={classes.root}>
-      <h1>{user.username}'s Songbook</h1>
-      <Grid
-        container
-        spacing={4}
-        >
-        {metrics.map((metric, index) => {
-         return (
-           <Grid
-             key={metric.title + index}
-             item
-             component={Card}
-             lg={3}
-             sm={6}
-             xl={3}
-             xs={12}
-           >
-            {metric.title} <br/>
-            {metric.data}
-           </Grid>)
-           })}
+    <div className={classes.root}>  
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}    
+      > 
+      <List>
+          <ListItem style={{marginTop: '4rem'}}>
+            <NavLink to="progress">Progress</NavLink>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <NavLink to="favorites">Favorites</NavLink>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <NavLink to={`progress`}>Timing</NavLink>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <NavLink to={`progress`}>Audio Preferences</NavLink>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <NavLink to={`progress`}>Manage Account</NavLink>
+          </ListItem>
+          <Divider />
+      </List>
+      </Drawer>
+     <Grid style={{marginTop: '50px', marginBottom: '20px'}} container direction="column">
+      <Typography  className={classes.title} component="p" variant="h3">{user.username}'s Songbook</Typography>
+      <Switch>
+          <Route exact path="/users/:id/progress">
+             <UserProgress songs={Object.values(songs)} sections={Object.values(sections)}/>
+          </Route> 
+          <Route exact path="/users/:id/favorites">
+             <UserProgress songs={Object.values(songs)} sections={Object.values(sections)}/>
+          </Route> 
+      </Switch>
+
+
+      
       </Grid>
-      {spotifyLoginButton()}
-      <Link className={classes.link} to={`${user.id}/edit`}>
-          <Button className={classes.button}>Edit </Button>
-      </Link>
     </div>
   );
 };
