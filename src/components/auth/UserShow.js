@@ -99,7 +99,7 @@ const UserShow = () => {
         }}    
       > 
       <List>
-          <ListItem style={{marginTop: '4rem'}}>
+          <ListItem style={{marginTop: '6rem'}}>
             <NavLink to="progress">Progress</NavLink>
           </ListItem>
           <Divider />
