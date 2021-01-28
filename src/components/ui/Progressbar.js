@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(10),
     },
     position: 'fixed',
-    zIndex: 1303
   },
 }));
 
