@@ -123,6 +123,10 @@ const useStyles = makeStyles((theme) => ({
   profileIcon: {
     height: '36px',
     width: '36px'
+  },
+
+  progressbar:{
+    marginTop: 14,
   }
 }));
 
@@ -343,9 +347,10 @@ const Navbar = () => {
       </AppBar>
       </ElevationScroll>
     
-      <Progressbar />
-      <div className={classes.toolbarMargin} />  
-      
+      <div className={classes.toolbarMargin}/>
+      <div className={classes.progressbar}>
+        <Progressbar />
+      </div>
     </>
 
   );
