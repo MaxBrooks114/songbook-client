@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   title:{
     width: '100%',
     marginTop: 25,
-
+    
   },
 
 
@@ -140,7 +140,7 @@ const UserMetrics = ({songs, sections}) => {
 
   return (
     <>
-      <Typography  component="p" variant="h4">{titleCase(whichData)}</Typography>
+      <Typography className={classes.title} component="p" variant="h4">{titleCase(whichData)}</Typography>
       <Grid container justify="space-evenly">
         <Grid item xs= {12}>
           {renderRows(data[whichData])}
