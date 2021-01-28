@@ -17,13 +17,10 @@ import Typography from '@material-ui/core/Typography';
 import {renderText, normalize, titleCase, millisToMinutesAndSeconds} from '../helpers/detailHelpers'
 import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider} from '../helpers/MaterialUiReduxFormFields'
 import _ from 'lodash'
-
+import { useLocation} from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
-
-
-
   formControl: {
     marginBottom: 180,
     color: theme.palette.info.main,
@@ -48,37 +45,28 @@ const useStyles = makeStyles((theme) => ({
     '& input': {
         fontSize: '.8rem',
         [theme.breakpoints.down('sm')]: {
-          textAlign: "center",
-          
-      },
-      
+          textAlign: "center",        
+      },    
     },
 
     '& .MuiInputBase-input': {
       color: theme.palette.info.main,
-      textTransform: "capitalize",
-    
+      textTransform: "capitalize",   
     },
 
     '& .MuiTextField-root': {
-      color: theme.palette.info.main,
-      
-    
+      color: theme.palette.info.main,    
     },
     '& .MuiOutlinedInput-input': {
       color: theme.palette.info.main,
-  
     },
   
     '& .MuiFormControlLabel-label': {
       color: theme.palette.info.main,
       fontSize: '.8rem',
-
-
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
-      },
-       
+      },      
     },
 
     '& .MuiAccordionSummary-content': {
@@ -102,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTypography-body1':{
       [theme.breakpoints.down('sm')]: {
           fontSize: '.8rem',
-
       },
     }
 
@@ -184,7 +171,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     const dispatch = useDispatch();
     const filterForm = useSelector(state => state.form.FilterForm)
     const filterValues = useSelector(state => state.filter)
-    
+    const location = useLocation()
 
 
     const booleans = {
@@ -192,7 +179,13 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       'false': false
     }
       
+    useEffect(() => {
+      filterValues.filter = false
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[location])
+
     useEffect(() => {   
+      
       if (!filterValues.filter && filterForm && !filterForm.values) {
         dispatch(initialize('FilterForm', filterValues))     
       }
@@ -413,7 +406,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
                   component={renderAutoCompleteField} 
                   label="Mode"
                   InputLabelProps={{ 
-                classes: {
+                  classes: {
                   root: classes.label,
                   shrink: "shrink"
                  }
