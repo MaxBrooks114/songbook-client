@@ -1,23 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
+
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import Paper from '@material-ui/core/Paper';
 import Drawer from '@material-ui/core/Drawer';
-import UserProgress from './UserProgress'
-import Button from '@material-ui/core/Button';
-import { NavLink, Router, Route, Switch, useLocation} from 'react-router-dom';
+import UserMetrics from './UserMetrics'
+
+import { NavLink, Route, Switch, useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import {favorite, favoriteInstrument, sectionsLearned, attrPreference, minAttr, maxAttr, topFiveByAttr, topFive} from '../../helpers/userMetrics'
-import {renderText, millisToMinutesAndSeconds, sec2time} from '../../helpers/detailHelpers'
-import modes from '../songs/modes';
-import keys from '../songs/keys';
+
 
 const drawerWidth = 240;
 
@@ -114,15 +108,15 @@ const UserShow = () => {
           </ListItem>
           <Divider />
           <ListItem>
-            <NavLink to={`progress`}>Timing</NavLink>
+            <NavLink to="timing">Timing</NavLink>
           </ListItem>
           <Divider />
           <ListItem>
-            <NavLink to={`progress`}>Audio Preferences</NavLink>
+            <NavLink to='audioPreferences'>Audio Preferences</NavLink>
           </ListItem>
           <Divider />
           <ListItem>
-            <NavLink to={`progress`}>Manage Account</NavLink>
+            <NavLink to='edit'>Manage Account</NavLink>
           </ListItem>
           <Divider />
       </List>
@@ -131,10 +125,16 @@ const UserShow = () => {
       <Typography  className={classes.title} component="p" variant="h3">{user.username}'s Songbook</Typography>
       <Switch>
           <Route exact path="/users/:id/progress">
-             <UserProgress songs={Object.values(songs)} sections={Object.values(sections)}/>
+             <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
           </Route> 
           <Route exact path="/users/:id/favorites">
-             <UserProgress songs={Object.values(songs)} sections={Object.values(sections)}/>
+             <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
+          </Route> 
+          <Route exact path="/users/:id/timing">
+             <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
+          </Route> 
+          <Route exact path="/users/:id/audioPreferences">
+             <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
           </Route> 
       </Switch>
 
