@@ -115,8 +115,12 @@ const Sort = ({items, objectType }) => {
     
       if(!filterValues.sort && !filterValues.filter){
         filterValues.sort = objectType === 'songs' ? 'artist' : 'song'
-      }     
-    })
+      } 
+      
+      if(!itemProps.includes(filterValues.sort)){
+        filterValues.sort = 'created_at'
+      }
+    }, [filterValues.sort, filterValues.filter, objectType, itemProps])
     
     const classes = useStyles();
     
