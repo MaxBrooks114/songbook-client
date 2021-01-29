@@ -2,10 +2,9 @@ import React from 'react'
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   media: {
-    width: 203,
+    width: 208,
     height: 209,
     borderRadius: 4
   },
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     boxOrient: 'vertical',
     display: '-webkit-box',
-    lineClamp: '2',
+    lineClamp: '1',
     overflow: 'hidden',
     whiteSpace: 'normal'
   },
@@ -91,7 +90,6 @@ const ItemCard = ({index, picture, album, cardTitle, cardInfo1, cardInfo2, type,
                 {cardTitle}< br/>          
               </Typography>      
         </CardContent>
-         {/* <div id="spacer" style={{width: "200px", height: '12px', float: "left", display:"inline-block"}} />  */}
         
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.trackInfo} variant="subtitle2">
