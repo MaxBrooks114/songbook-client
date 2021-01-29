@@ -1,5 +1,5 @@
 import React from 'react'
-import {topFiveByAttr, topFive, bottomFive, attrPreference} from '../../helpers/userMetrics'
+import {topFiveByAttr, topFive, bottomFive, attrPreference, topFiveByAttrListLength} from '../../helpers/userMetrics'
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   title:{
     width: '100%',
     marginTop: 25,
-
   },
 
   rowTitle: {
@@ -38,7 +37,7 @@ const UserMetrics = ({songs, sections}) => {
     const whichData = location.pathname.split('/').slice(-1)[0]
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
-
+    
   const data = {
      'progress': { 
         'recentlyAddedSongs': [topFive(songs, 'created_at'), 'image', 'album', 'songs', 'title', 'artist', 'created_at', songs.length],
@@ -49,10 +48,10 @@ const UserMetrics = ({songs, sections}) => {
       },
 
       'favorites': {
-          'favoriteArtists': [topFiveByAttr(songs, 'artist'), 'image', 'album', 'songs', 'artist', 'title', 'album', _.uniq(songs.map(song => song.artist)).length],
-          'favoriteGenres': [topFiveByAttr(songs, 'genre'), 'image', 'album', 'songs', 'genre', 'title', 'artist', _.uniq(songs.map(song => song.genre)).length],
-          'favoriteKeys': [topFiveByAttr(songs, 'key'), 'image', 'album', 'songs', 'key', 'artist', 'album', 'songs', _.uniq(songs.map(song => song.key)).length], 
-          'favoriteAlbums': [topFiveByAttr(songs, 'album'), 'image', 'album', 'songs', 'album', 'title', 'artist', _.uniq(songs.map(song => song.album)).length]
+          'favoriteArtists': [topFiveByAttr(songs, 'artist'), 'image', 'album', 'songs', 'artist', 'title', 'album', _.uniq(songs.map(song => song.artist)).length, topFiveByAttrListLength(songs, 'artist')],
+          'favoriteGenres': [topFiveByAttr(songs, 'genre'), 'image', 'album', 'songs', 'genre', 'title', 'artist', _.uniq(songs.map(song => song.genre)).length, topFiveByAttrListLength(songs, 'genre')],
+          'favoriteKeys': [topFiveByAttr(songs, 'key'), 'image', 'album', 'songs', 'key', 'artist', 'album', _.uniq(songs.map(song => song['key'])).length, topFiveByAttrListLength(songs, 'key')], 
+          'favoriteAlbums': [topFiveByAttr(songs, 'album'), 'image', 'album', 'songs', 'album', 'title', 'artist', _.uniq(songs.map(song => song.album)).length, topFiveByAttrListLength(songs, 'album')]
       },
 
       'timing' : {
@@ -89,6 +88,7 @@ const UserMetrics = ({songs, sections}) => {
   
     const renderInfo = (item, attr) => {
       switch(true) {
+         
          case attr === 'key':
          return titleCase(renderText(keys, item[attr]))
         case attr === 'duration':
@@ -120,13 +120,14 @@ const UserMetrics = ({songs, sections}) => {
     const renderItemCards = (items) => {
     return items[0].length ? 
      items[0].map((item, index) => {
+       let title = items[8]  ? `${renderInfo(item, items[4])} (${items[8][index]} Songs)` : renderInfo(item, items[4])
           return (
                <Grid item xs={6} md={2}>
                 <ItemCard 
                     index={index} 
                     picture={renderInfo(item, items[1])} 
                     album={renderInfo(item, items[2])} 
-                    cardTitle={renderInfo(item, items[4])} 
+                    cardTitle={title} 
                     cardInfo1={renderInfo(item, items[5])} 
                     cardInfo2={renderInfo(item, items[6])} 
                     type={items[3]} 
@@ -139,7 +140,6 @@ const UserMetrics = ({songs, sections}) => {
 
     const renderRows = (metrics) => {
       return Object.keys(metrics).map(metric => {
-        console.log(metrics[metric][7])
       let title = metrics[metric][7] ? `${titleCase(metric)} (${titleCase(metrics[metric][7])})` : titleCase(metric)
        return( 
         <Grid container align={matches ? "center" : null} justify={matches ? "center": "space-evenly"} style={{marginTop: '25px'}}>
