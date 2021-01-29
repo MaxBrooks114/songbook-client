@@ -95,7 +95,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   detailHidden: {
-    display: 'none',
+    height: 0,
+      width: 0,
      transition: theme.transitions.create("all", {
       easing: theme.transitions.easing.easeInOut, 
       duration: 1000
@@ -165,6 +166,8 @@ const SectionContainer = () => {
   const [openDrawer, setOpenDrawer] = useState(true);
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
+  const [listColumnSize, setListColumnSize] = useState(8)
+  const [showDetail, setShowDetail] = useState(false)
   let transitionDuration = 50;
 
   useEffect(() => {
@@ -177,6 +180,14 @@ const SectionContainer = () => {
    }
   }, [accessToken, refreshToken, dispatch])
 
+
+   useEffect(( ) => {
+    setListColumnSize(8)
+    if(section) {
+      setShowDetail(true)
+      setListColumnSize(3)
+    }
+  },[section])
 
 
 
@@ -212,15 +223,17 @@ const SectionContainer = () => {
         {!matches ? 
             <>    
               <Grid 
-                  item xs={3} md={section ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !section, [classes.listShiftLeft]: section && openDrawer, [classes.listShiftSection]: section &&  !openDrawer,
-                  [classes.listSectionAlone]: !section && !openDrawer})}
+                  item xs={3} md={listColumnSize} 
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !section, [classes.listShiftLeft]: section && openDrawer, [classes.listShiftSection]:  listColumnSize !==8 &&  section &&  !openDrawer,
+                  [classes.listSectionAlone]: (!section || listColumnSize === 8) && !openDrawer})}
               >        
                 <SectionList 
                 filteredSections={filteredSections} 
                 fullDisplay={!section} 
                 transitionDuration={transitionDuration} 
                 sections={sections} 
+                setShowDetail={setShowDetail}
+                setListColumnSize={setListColumnSize}
                 orderedSongs = {orderedSongs}
                 height={height} 
                 /> 
@@ -235,7 +248,7 @@ const SectionContainer = () => {
         <Grid item      
               xs={12} md={6} lg={6} 
               ref={elementDOM} 
-              className={section ? classes.detailShown : classes.detailHidden}>
+              className={showDetail? classes.detailShown : classes.detailHidden}>
                 {renderDetail()}
         </Grid>
       </Grid>

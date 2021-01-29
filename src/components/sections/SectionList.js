@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
 
   
 }));
-const SectionList = ({sections, filteredSections, fullDisplay, transitionDuration, height, orderedSongs }) => {
+const SectionList = ({sections, filteredSections, setListColumnSize, setShowDetail, transitionDuration, height, orderedSongs }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const history = useHistory()
@@ -179,7 +179,7 @@ const renderedList = (sections) => {
       ? sections.map((section) => {
             return (
               <ListItem className={classes.listItem} key={section.id} disableGutters dense>
-                <SectionCard fullDisplay={fullDisplay} section={section} transitionDuration={transitionDuration} handleClick={handleClick} />
+                <SectionCard  section={section} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
             
             );
@@ -199,7 +199,11 @@ const renderedList = (sections) => {
           {renderSort()}
           {location.pathname.includes('sections/') ?
           <IconButton>
-            <NavigateNextIcon onClick={(event) =>  history.push('/sections')}/>
+            <NavigateNextIcon onClick={() => {
+              setListColumnSize(8)
+              setShowDetail(false)
+              window.history.pushState(null, null, '/sections')
+            }}/>
           </IconButton>: null}    
         </div>
         <List className={classes.list} style={{height: height}}>

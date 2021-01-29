@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Sort from '../Sort'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import IconButton from '@material-ui/core/IconButton';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -61,10 +61,9 @@ const useStyles = makeStyles((theme) => ({
     
 
 }));
-const SongList = ({songs, filteredSongs, fullDisplay, transitionDuration, height }) => {
+const SongList = ({songs, filteredSongs, setListColumnSize, setShowDetail, transitionDuration, height }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const history = useHistory()
     const location = useLocation()
 
     const handleClick = (id) => {
@@ -98,7 +97,11 @@ const renderedList = () => {
           {renderSort()}
           {location.pathname.includes('songs/') ?
           <IconButton>
-            <NavigateNextIcon className={classes.expand} onClick={(event) =>  history.push('/songs')}/>
+            <NavigateNextIcon className={classes.expand} onClick={() => {
+              setListColumnSize(8)
+              setShowDetail(false)
+              window.history.pushState(null, null, '/songs')
+            }}/>
           </IconButton>: null}    
         </div>
         <List className={classes.list} style={{height: height}}>

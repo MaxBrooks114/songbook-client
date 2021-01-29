@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const InstrumentList = ({ instruments, height }) => {
+const InstrumentList = ({ instruments, setListColumnSize, setShowDetail, height }) => {
 
   const dispatch = useDispatch();
   const location = useLocation()
@@ -123,7 +123,11 @@ const InstrumentList = ({ instruments, height }) => {
         <div className={classes.sortBar}>
           {location.pathname.includes('instruments/') ?
           <IconButton>
-            <NavigateNextIcon className={classes.expand} onClick={(event) =>  history.push('/instruments')}/>
+            <NavigateNextIcon className={classes.expand} onClick={(event) =>  {
+              setListColumnSize(8)
+              setShowDetail(false)
+              window.history.pushState(null, null, '/instruments')
+            }}/>
           </IconButton>: null}    
         </div>
         <List className={classes.list} style={{height: height}}>

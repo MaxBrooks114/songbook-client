@@ -46,10 +46,11 @@ const useStyles = makeStyles((theme) => ({
    marginTop:'7px', 
    minHeight: "100vh",
    flexGrow: 1,
-   transition: theme.transitions.create('all', {
+    transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeInOut,
-      duration: 1000,
+      duration: 1000
     }),
+    margin: 0
   },
 
   listShiftAlone: {
@@ -97,8 +98,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
   detailHidden: {
-    display: 'none',
-     transition: theme.transitions.create("all", {
+      height: 0,
+      width: 0,
+      transition: theme.transitions.create("all", {
       easing: theme.transitions.easing.easeInOut, 
       duration: 1000
     })
@@ -138,8 +140,6 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.modal+1      
     },
     }, 
-  
-  
 
 }));
 
@@ -158,11 +158,11 @@ const SongContainer = () => {
   const medScreen = useMediaQuery(theme.breakpoints.down('md'));
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-
+  const [listColumnSize, setListColumnSize] = useState(8)
+  const [showDetail, setShowDetail] = useState(false)
   const dispatch = useDispatch();
-
   const classes = useStyles();
   let transitionDuration = 50;
 
@@ -178,6 +178,13 @@ const SongContainer = () => {
    }
   }, [accessToken, refreshToken, dispatch])
 
+  useEffect(( ) => {
+    setListColumnSize(8)
+    if(song) {
+      setShowDetail(true)
+      setListColumnSize(3)
+    }
+  },[song])
 
 
   const renderFilter = () => {
@@ -210,12 +217,14 @@ const SongContainer = () => {
         {!matches ? 
             <>    
               <Grid 
-                  item xs={3} md={song ? 3 : 8} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer, [classes.listShiftSong]: song &&  !openDrawer, [classes.listShiftAlone]: !openDrawer && !song})}
+                  item xs={3} md={listColumnSize} 
+                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer && !medScreen, [classes.listShiftSong]: listColumnSize !==8 && song &&  !openDrawer, [classes.listShiftAlone]: !openDrawer && (!song || listColumnSize === 8) })}
               >        
                 <SongList 
                 filteredSongs={filteredSongs} 
                 transitionDuration={transitionDuration} 
+                setShowDetail={setShowDetail}
+                setListColumnSize={setListColumnSize}
                 songs={songs} 
                 height={height} 
                 /> 
@@ -228,7 +237,7 @@ const SongContainer = () => {
         <Grid item      
               xs={12} md={6}  
               ref={elementDOM} 
-              className={song ? classes.detailShown : classes.detailHidden}>
+              className={showDetail ? classes.detailShown : classes.detailHidden}>
                 {renderDetail()}
         </Grid>
       </Grid>
