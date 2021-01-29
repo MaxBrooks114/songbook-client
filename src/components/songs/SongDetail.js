@@ -208,17 +208,13 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     height: 24,
     width: 24,
-     [theme.breakpoints.down('sm')]: {
-        
-      }, 
+  
   },
   prev: {
     padding: 0,
     height: 24,
     width: 24,
-     [theme.breakpoints.down('sm')]: {
-        
-      }, 
+    
   },
 
   title: {
@@ -360,7 +356,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                 </IconButton>
              
           <Grid item xs={12}>
-            <Grid container justify="flex-start" alignItems="center">            
+            <Grid container justify={matches ? "center":"flex-start"} alignItems="center">            
               <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
                 {renderSpotifyOptionSong()}
                 <img
@@ -379,9 +375,9 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
             </Grid>
           </Grid>
           </Grid>
-          <Grid item xs={3} className={classes.navRow}>
+          <Grid item xs={6} md={3} className={classes.navRow}>
             <Grid container justify="space-between">
-              <Grid item xs={2}>
+              <Grid item  xs={2}>
                  {prevSong ?
                 <IconButton
                     onClick={(event) =>  history.push(`/songs/${prevSong.id}`)}
