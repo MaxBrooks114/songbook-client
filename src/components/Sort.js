@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTextField-root': {
       color: theme.palette.info.main, 
       width: 120,
-      marginRight: 15
+      marginRight: 15,
+      [theme.breakpoints.down('md')]: {
+         marginRight: 0
+      },  
     },
 
     '& .MuiOutlinedInput-input': {
