@@ -172,7 +172,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     const filterForm = useSelector(state => state.form.FilterForm)
     const filterValues = useSelector(state => state.filter)
     const location = useLocation()
-
+    let songOrSections = location.pathname.split('/')[1]
 
     const booleans = {
       'true': true,
@@ -182,7 +182,7 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     useEffect(() => {
       filterValues.filter = false
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[location])
+    },[songOrSections])
 
     useEffect(() => {   
       
