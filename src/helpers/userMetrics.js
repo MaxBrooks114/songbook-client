@@ -5,7 +5,11 @@ export const favorite = (list, attr) => {
 }
 
 export const topFiveByAttr = (list, attr) => {
-  return  Object.values(_.groupBy(list, el => el[attr])).sort((a, b) => a.length < b.length ?  1 : -1 ).map(arr => arr[0]).slice(0, 5)
+  return  Object.values(_.groupBy(list, el => el[attr])).sort((a, b) => a.length < b.length ?  1 : -1 ).map(arr =>  arr[0]).slice(0, 5)
+ 
+}
+export const topFiveByAttrListLength = (list, attr) => {
+  return  Object.values(_.groupBy(list, el => el[attr])).sort((a, b) => a.length < b.length ?  1 : -1 ).map(arr => arr.length).slice(0, 5)
  
 }
 
