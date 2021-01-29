@@ -8,12 +8,13 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import UserMetrics from './UserMetrics'
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import { NavLink, Route, Switch, useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    marginRight: 12
+    marginRight: 12,
+    zIndex: theme.zIndex.modal +1
   },
 
   fixedHeight: {
@@ -77,7 +79,9 @@ const UserShow = () => {
   const sections = useSelector(state => state.sections)
   const instruments = useSelector(state => state.instruments)
   const location = useLocation()
-  
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
 
   const spotifyLoginButton = () => {
     return accessToken && accessToken !== '' ? (
@@ -91,14 +95,16 @@ const UserShow = () => {
   
 
   return (
-    <div className={classes.root}>  
+    <div className={classes.root}>
+       {matches ? null :  
       <Drawer
         variant="permanent"
         classes={{
           paper: classes.drawerPaper,
         }}    
       > 
-      <List>
+     
+      <List style={{position: 'fixed'}}>
           <ListItem style={{marginTop: '6rem'}}>
             <NavLink to="progress">Progress</NavLink>
           </ListItem>
@@ -120,7 +126,7 @@ const UserShow = () => {
           </ListItem>
           <Divider />
       </List>
-      </Drawer>
+      </Drawer>}
      <Grid style={{marginTop: '50px', marginBottom: '20px'}} container direction="column">
       <Typography  className={classes.title} component="p" variant="h3">{user.username}'s Songbook</Typography>
       <Switch>
