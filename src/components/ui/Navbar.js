@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '.7rem',
+      marginBottom: '.5rem',
     },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1rem',
@@ -127,6 +127,9 @@ const useStyles = makeStyles((theme) => ({
 
   progressbar:{
     marginTop: 14,
+    [theme.breakpoints.down('md')]: {
+      marginTop: 8,
+    },
   }
 }));
 
@@ -182,8 +185,13 @@ const Navbar = () => {
      { name: 'New Section', link: '/sections/new', activeIndex: 1, selectedIndex: 3},
      { name: 'Instruments', link: '/instruments', activeIndex: 1, selectedIndex: 4},
      { name: 'New Instrument', link: '/instruments/new', activeIndex: 1, selectedIndex: 5},
-     { name: 'Profile', link: `/users/${user.id}/`, activeIndex: 2, selectedIndex: 6},
-     { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 7},
+     { name: 'Profile', link: `/users/${user.id}/progress`, activeIndex: 2, selectedIndex: 6},
+     { name: 'Progress', link: `/users/${user.id}/progress`, activeIndex: 2, selectedIndex: 7},
+     { name: 'Favorites', link: `/users/${user.id}/favorites`, activeIndex: 2, selectedIndex: 8},
+     { name: 'Timing', link: `/users/${user.id}/timing`, activeIndex: 2, selectedIndex: 9},
+     { name: 'Audio Preferences', link: `/users/${user.id}/audioPreferences`, activeIndex: 2, selectedIndex: 10},
+     { name: 'Manage Account', link: `/users/${user.id}/edit`, activeIndex: 2, selectedIndex: 11},
+     { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 12},
   ] : [
     { name: 'Register', link: '/register', activeIndex: 0 },
     { name: 'Log In', link: '/login', activeIndex: 1 },
