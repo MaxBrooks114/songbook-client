@@ -374,15 +374,19 @@ export const checkIfPlaying = (accessToken, refreshToken ) => async (dispatch) =
       }
     )
     if (response.data){
+      let song
+      if (response.data.item) {
+        song = response.data.item ? response.data.item.uri : null
+      }
     dispatch({
       type: CHECK_IF_PLAYING,
       playing: response.data.is_playing,
-      song: response.data.item.uri
+      song
     });
   }
   } catch (error) {
     dispatch(returnErrors(error));
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       const newAccessToken = await dispatch(refreshAccessToken(refreshToken));
       await dispatch(checkIfPlaying(newAccessToken, refreshToken));
     }
