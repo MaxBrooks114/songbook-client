@@ -8,6 +8,9 @@ import ItemCard from './ItemCard'
 import {titleCase, renderText, millisToMinutesAndSeconds} from '../../helpers/detailHelpers'
 import keys from '../songs/keys'
 import _ from 'lodash'
+import Carousel from 'react-material-ui-carousel'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -15,8 +18,15 @@ const useStyles = makeStyles((theme) => ({
   title:{
     width: '100%',
     marginTop: 25,
-    
+
   },
+
+  rowTitle: {
+    marginLeft: 29,
+    [theme.breakpoints.down('sm')]: {
+        marginLeft: 0
+      }, 
+  }
 
 
 
@@ -26,11 +36,15 @@ const UserMetrics = ({songs, sections}) => {
     const classes = useStyles();
     const location = useLocation()
     const whichData = location.pathname.split('/').slice(-1)[0]
+    const theme = useTheme()
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const data = {
      'progress': { 
         'recentlyAddedSongs': [topFive(songs, 'created_at'), 'image', 'album', 'songs', 'title', 'artist', 'created_at', songs.length],
         'recentlyAddedSections': [topFive(sections, 'created_at'), ['song','image'], ['song','album'],'sections', 'name', ['song','title'], 'created_at', sections.length],
+        'recentlyUpdatedSongs': [topFive(songs, 'updated_at'), 'image', 'album', 'songs', 'title', 'artist', 'updated_at', songs.length],
+        'recentlyUpdatedSections': [topFive(sections, 'updated_at'), ['song','image'], ['song','album'],'sections', 'name', ['song','title'], 'updated_at', sections.length],
         'recentlyLearnedSections': [sections.sort((a,b) => a.created_at > b.created_at ? 1 : -1 ).filter(section => section.learned).slice(0, 5), ['song','image'], ['song','album'],'sections', 'name', ['song','title'], 'created_at', `${sections.filter(section => section.learned).length}/${sections.length}`]
       },
 
@@ -84,6 +98,7 @@ const UserMetrics = ({songs, sections}) => {
         case attr === 'genre':
          return titleCase(item[attr])
         case attr === 'created_at':
+        case attr === 'updated_at':
          return item[attr].split('T')[0]
         case typeof attr === "object":
          return item[attr[0]][attr[1]]
@@ -106,7 +121,7 @@ const UserMetrics = ({songs, sections}) => {
     return items[0].length ? 
      items[0].map((item, index) => {
           return (
-               <Grid item xs={2}>
+               <Grid item xs={6} md={2}>
                 <ItemCard 
                     index={index} 
                     picture={renderInfo(item, items[1])} 
@@ -127,11 +142,15 @@ const UserMetrics = ({songs, sections}) => {
         console.log(metrics[metric][7])
       let title = metrics[metric][7] ? `${titleCase(metric)} (${titleCase(metrics[metric][7])})` : titleCase(metric)
        return( 
-        <Grid container justify="space-evenly" style={{marginTop: '25px'}}>
+        <Grid container align={matches ? "center" : null} justify={matches ? "center": "space-evenly"} style={{marginTop: '25px'}}>
             <Grid item xs={12}>
-               <Typography style={{marginLeft: '29px'}}  variant="h5" gutterBottom>{title}</Typography>
+               <Typography className={classes.rowTitle}  variant="h5" gutterBottom>{title}</Typography>
             </Grid>
-              {renderItemCards(metrics[metric])}
+            {matches ? 
+              <Grid item xs={12}>
+                <Carousel navButtonsAlwaysVisible={true}	autoPlay={false}>{renderItemCards(metrics[metric])}</Carousel> </Grid>:  renderItemCards(metrics[metric])
+              }
+             
           </Grid>
        )
       })
