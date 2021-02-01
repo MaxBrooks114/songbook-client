@@ -122,7 +122,8 @@ const UserMetrics = ({songs, sections}) => {
      items[0].map((item, index) => {
        let title = items[8]  ? `${renderInfo(item, items[4])} (${items[8][index]} Songs)` : renderInfo(item, items[4])
           return (
-               <Grid item xs={6} md={2}>
+      
+               <Grid item xs={6} md={2} style={{margin: '0 20px'}}>
                 <ItemCard 
                     index={index} 
                     picture={renderInfo(item, items[1])} 
@@ -130,9 +131,12 @@ const UserMetrics = ({songs, sections}) => {
                     cardTitle={title} 
                     cardInfo1={renderInfo(item, items[5])} 
                     cardInfo2={renderInfo(item, items[6])} 
+                    dispatchKey={whichData === 'favorites' ? items[4] : null}
+                    dispatchValue={whichData === 'favorites' ? item[items[4]] : null }
                     type={items[3]} 
                     id={item.id} />
               </Grid>
+        
           )
       })
      : null
@@ -142,7 +146,7 @@ const UserMetrics = ({songs, sections}) => {
       return Object.keys(metrics).map(metric => {
       let title = metrics[metric][7] ? `${titleCase(metric)} (${titleCase(metrics[metric][7])})` : titleCase(metric)
        return( 
-        <Grid container align={matches ? "center" : null} justify={matches ? "center": "space-evenly"} style={{marginTop: '25px'}}>
+        <Grid container align={matches ? "center" : null} justify={matches ? "center": "flex-start"} style={{margin: '25px auto 0'}}>
             <Grid item xs={12}>
                <Typography className={classes.rowTitle}  variant="h5" gutterBottom>{title}</Typography>
             </Grid>
@@ -160,7 +164,7 @@ const UserMetrics = ({songs, sections}) => {
   return (
     <>
       <Typography className={classes.title} component="p" variant="h4">{titleCase(whichData)}</Typography>
-      <Grid container justify="space-evenly">
+      <Grid container justify="center">
         <Grid item xs= {12}>
           {renderRows(data[whichData])}
         </Grid>
