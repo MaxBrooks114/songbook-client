@@ -11,11 +11,37 @@ import { Redirect } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
+    width: '50%',
+    margin: 'auto',
+    padding: '2rem',
+    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+    [theme.breakpoints.down('md')]: {
+      width: '75%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+  },
+
+  container: {
+      minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+       minHeight: "100vh",
+    },
+    [theme.breakpoints.down('sm')]: {
+       minHeight: '180vh',
+    },
+
+  },
+
+  link: {
+    color: theme.palette.info.main
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    // marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
       marginBottom: '2em',
     },
@@ -42,22 +68,22 @@ const Login = () => {
   return isAuthenticated && user ? (
     <Redirect to={`/users/${user.id}`} />
   ) : (
-    <>
+    <div className={classes.container}>
       <div className={classes.toolbarMargin}></div>
-      <div>
-        <Typography className={classes.root} variant="h2" align="center" gutterBottom>
+      <div className={classes.root}>
+        <Typography className={classes.title} variant="h2" align="center" gutterBottom>
           Log in To Songbook
         </Typography>
         <LoginForm onSubmit={onSubmit} />
         <div className={classes.toolbarMargin}></div>
-        <Typography className={classes.root} variant="subtitle1" align="center">
+        <Typography className={classes.title} variant="subtitle1" align="center">
           Don't have an account?{` `}
-          <Link component={RouterLink} to="/register">
+          <Link className={classes.link} component={RouterLink} to="/register">
             Register
           </Link>
         </Typography>
       </div>
-    </>
+    </div>
   );
 };
 

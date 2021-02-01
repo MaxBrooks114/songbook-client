@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
@@ -11,47 +10,51 @@ import {renderTextField} from '../../helpers/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    border: theme.palette.common.pastePurple,
-    color: '#D31DEA',
-    marginTop: '2rem',
 
     '& .MuiOutlinedInput-root': {
+      background: theme.palette.background.default,
+      width: 300,
+      [theme.breakpoints.down('md')]: {
+          width: 240,
+      },
+      [theme.breakpoints.down('sm')]: {
+          width: 200,
+      },
       '& fieldset': {
-        borderColor: '#294C77',
+        borderColor: theme.palette.info.main,
       },
       '&:hover fieldset': {
-        borderColor: 'rgb(254,123,235, 1)',
+        borderColor: theme.palette.secondary.dark,
       },
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: '#D31DEA',
+      color: theme.palette.info.main,
     },
     ' & .MuiFormHelperText-contained': {
-      color: 'red',
+      color: theme.palette.common.orange,
     },
+
+     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.common.orange
+    },
+
+    '& .MuiFormLabel-root.Mui-error': {
+      color: theme.palette.common.orange,
+    }
   },
 
-  value: {
-    color: '#D31DEA',
-  },
 
-  autoComplete: {
-    color: '#D31DEA',
-    width: '20%',
-    '& .MuiAutocomplete-root': {
-      width: 250,
-    },
-  },
 
   button: {
-    color: theme.palette.info.main,
-    marginTop: '1rem',
-    marginBottom: '2rem',
-    background: 'linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)',
+   color: theme.palette.info.main,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.common.gray,
     '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
+      background: theme.palette.common.gray,
+      color: theme.palette.secondary.dark,
     },
+    
   },
 
   input: {
@@ -59,26 +62,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   label: {
-    color: '#D31DEA',
+    color: theme.palette.info.main,
+     '&.shrink': {
+           color: theme.palette.info.main
+        },
+    
   },
 
-  lyrics: {
-    '& .MuiInputBase-root': {
-      width: 800,
-    },
-  },
-
-  listbox: {
-    background: theme.palette.background.default,
-  },
-  option: {
-    color: '#D31DEA',
-    textTransform: 'capitalize',
-
-    '&[data-focus="true"]': {
-      background: 'rgba(8,199,251,1)',
-    },
-  },
 }));
 
 
@@ -93,9 +83,14 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
 
   const renderPasswordField = () => {
     return !user ? 
-      (<Grid item>
-            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" />
-          </Grid>) : (<Link to="/passwordReset">Reset your Password</Link>)
+      (
+            <Field classes={classes}  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} type="password" name="password" component={renderTextField} label="Password" />
+          ) : (<Link to="/passwordReset">Reset your Password</Link>)
   }
 
   const renderErrorMessages = () => {
@@ -112,24 +107,27 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
   };
 
   return (
-    <div>
-      <Grid container justify="center" spacing={2}>
-        <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-          <Grid item>
-            <Field classes={classes} name="username" component={renderTextField} label="Username" />
+    <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
+      <Grid container alignItems="flex-end" align="center" justify="flex-end" >
+          <Grid item style={{marginBottom: '4px'}} xs={12}>
+            <Field classes={classes} name="username" component={renderTextField} label="Username"  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} />
           </Grid>
+          <Grid item xs={12}>
               {renderPasswordField()}
-          
-
-          <Grid item>
+          </Grid>
+          <Grid item xs={12}>
             <Button type="submit" className={classes.button} variant="contained">
               {user ? "Update Information" : "Login"}
             </Button>
           </Grid>
           {renderErrorMessages()}
-        </form>
       </Grid>
-    </div>
+    </form>
   );
 };
 

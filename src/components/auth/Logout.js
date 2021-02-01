@@ -9,16 +9,32 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/styles';
+import { useTheme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
-  dialog: {},
+
+const useStyles = makeStyles((theme) => ({
+    dialog: {
+       '& .MuiDialog-paper': {
+      background: theme.palette.secondary.main
+    },
+
+    '& .MuiTypography-root':{
+      color: theme.palette.info.main
+    },
+
+    '& .MuiButton-textPrimary':{
+      color: theme.palette.info.main
+    },
+
+    
+  },
 }));
 
 const Logout = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-
+  const theme = useTheme()
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
@@ -50,6 +66,7 @@ const Logout = () => {
               dispatch(logout());
               handleClose();
             }}
+            style={{color: theme.palette.common.orange}}
             color="primary"
             autoFocus
           >

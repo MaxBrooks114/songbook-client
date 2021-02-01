@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createMessage } from '../../actions/messages';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import {renderTextField} from '../../helpers/MaterialUiReduxFormFields'
@@ -11,48 +12,64 @@ import {resetPassword} from '../../actions/auth'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    border: theme.palette.common.pastePurple,
-    color: '#D31DEA',
-    marginTop: '2rem',
-    marginLeft: '4rem',
+    color: theme.palette.info.main,
+    width: '50%',
+    margin: 'auto',
+    padding: '2rem',
+    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+    [theme.breakpoints.down('md')]: {
+      width: '75%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
 
     '& .MuiOutlinedInput-root': {
+      background: theme.palette.background.default,
+      width: 300,
+      [theme.breakpoints.down('md')]: {
+          width: 240,
+      },
+      [theme.breakpoints.down('sm')]: {
+          width: 200,
+      },
       '& fieldset': {
-        borderColor: '#294C77',
+        borderColor: theme.palette.info.main,
       },
       '&:hover fieldset': {
-        borderColor: 'rgb(254,123,235, 1)',
+        borderColor: theme.palette.secondary.dark,
       },
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: '#D31DEA',
+      color: theme.palette.info.main,
     },
     ' & .MuiFormHelperText-contained': {
-      color: 'red',
+      color: theme.palette.common.orange,
     },
+
+     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.common.orange
+    },
+
+    '& .MuiFormLabel-root.Mui-error': {
+      color: theme.palette.common.orange,
+    }
   },
 
-  value: {
-    color: '#D31DEA',
-  },
 
-  autoComplete: {
-    color: '#D31DEA',
-    width: '20%',
-    '& .MuiAutocomplete-root': {
-      width: 250,
-    },
-  },
 
   button: {
-    color: theme.palette.info.main,
-    marginTop: '1rem',
-    marginBottom: '2rem',
-    background: 'linear-gradient(90deg, rgb(254,182,48,1) 0%,  rgb(254,123,235, 1) 100%)',
+   color: theme.palette.info.main,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.common.gray,
     '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
+      background: theme.palette.common.gray,
+      color: theme.palette.secondary.dark,
     },
+    
   },
 
   input: {
@@ -60,26 +77,25 @@ const useStyles = makeStyles((theme) => ({
   },
 
   label: {
-    color: '#D31DEA',
+    color: theme.palette.info.main,
+     '&.shrink': {
+           color: theme.palette.info.main
+        },
   },
 
-  lyrics: {
-    '& .MuiInputBase-root': {
-      width: 800,
+   container: {
+    marginTop: 50,
+    minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+       minHeight: "100vh",
     },
-  },
-
-  listbox: {
-    background: theme.palette.background.default,
-  },
-  option: {
-    color: '#D31DEA',
-    textTransform: 'capitalize',
-
-    '&[data-focus="true"]': {
-      background: 'rgba(8,199,251,1)',
+    [theme.breakpoints.down('sm')]: {
+       minHeight: '180vh',
     },
+
   },
+
+
 }));
 
 
@@ -110,30 +126,44 @@ const PasswordReset = ({ onSubmit, handleSubmit }) => {
     }
   };
   return (
-    <div>
-      <Grid container justify="center" spacing={2}>
-        <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-          <Grid item>
-            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" />
+    <div className={classes.container}>
+    <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
+       <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
+          Reset Your Password
+        </Typography>
+      <Grid container align="center" justify="center" spacing={2}>
+          <Grid item xs={12}>
+            <Field classes={classes}  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} type="password" name="password" component={renderTextField} label="Password" />
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <Field
               classes={classes}
               type="password"
               name="password2"
               component={renderTextField}
               label="Confirm Password"
+               InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
             />
           </Grid>
 
-          <Grid item>
+          <Grid item xs={12}>
             <Button type="submit" className={classes.button} variant="contained">
               Reset Password
             </Button>
           </Grid>
           {renderErrorMessages()}
-        </form>
       </Grid>
+        </form>
     </div>
   );
 };

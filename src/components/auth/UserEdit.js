@@ -8,24 +8,28 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import Accordion from '@material-ui/core/Accordion';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import LoginForm from './LoginForm'
 import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    color: theme.palette.info.main,
-  },
 
-  delete: {
-    background: `linear-gradient(360deg, ${theme.palette.error.light} 0%,  ${theme.palette.error.main} 80%)`,
-    '&:hover': {
-      background: 'rgba(8,199,251,1)',
-      color: 'rgba(86,3,114,1)',
-      display: 'absolute',
-    }
+root: {
+ 
+   color: theme.palette.info.main,
+    width: '50%',
+    margin: 'auto',
+    padding: '2rem',
+    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+    [theme.breakpoints.down('md')]: {
+      width: '75%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
 
   toolbarMargin: {
@@ -39,8 +43,48 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  buttonContainer: {
+      marginTop: '1rem'
+  },
+
+  button:{
+
+    color: theme.palette.info.main,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.common.orange,
+     '&:hover': {
+      color: theme.palette.common.orange,
+      background: theme.palette.info.main,
+    },
+  
+  },
+
+  title: {
+    color: theme.palette.info.main,
+    textAlign: "center",
+    width: '100%',
+      wordWrap: 'break-word', 
+      whiteSpace: 'normal',
+     [theme.breakpoints.down('sm')]: {
+      fontSize: '2rem',
+    },
+  },
+
+   container: {
+      minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+       minHeight: "100vh",
+    },
+    [theme.breakpoints.down('sm')]: {
+       minHeight: '180vh',
+    },
+
+  },
 
 }));
+
+
 
 const UserEdit = () => {
   const dispatch = useDispatch();
@@ -69,15 +113,15 @@ const UserEdit = () => {
   return !isAuthenticated ? (
     <Redirect to={`/login`} />
   ) : (
-    <>
+    <div className={classes.container}>
       <div className={classes.toolbarMargin}></div>
-      <div>
-        <Typography className={classes.root} variant="h2" align="center" gutterBottom>
+      <div className={classes.root} >
+        <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
           Edit Your Information
         </Typography>
         <LoginForm onSubmit={onSubmit} />
-        <Grid container justify="space-between" className={classes.buttonContainer}>
-            <Button className={classes.delete} onClick={handleClickOpen}>
+        <Grid container justify="center" className={classes.buttonContainer}>
+            <Button className={classes.button} onClick={handleClickOpen}>
               Delete
             </Button>
         </Grid>
@@ -110,7 +154,7 @@ const UserEdit = () => {
           </DialogActions>
         </Dialog>
       </div>
-    </>
+    </div>
   );
 };
 
