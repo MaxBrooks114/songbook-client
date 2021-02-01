@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { setFilter, clearFilter } from '../actions/filter';
-import { Field, reduxForm, reset, initialize } from 'redux-form';
+import { Field, reduxForm, reset, initialize, clearFields } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
@@ -17,7 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import {renderText, normalize, titleCase, millisToMinutesAndSeconds} from '../helpers/detailHelpers'
 import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider} from '../helpers/MaterialUiReduxFormFields'
 import _ from 'lodash'
-import { useLocation} from 'react-router-dom';
+import { useLocation, useHistory} from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -173,32 +173,46 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     const filterValues = useSelector(state => state.filter)
     const location = useLocation()
     let songOrSections = location.pathname.split('/')[1]
-
+  
     const booleans = {
       'true': true,
       'false': false
     }
       
     useEffect(() => {
-      filterValues.filter = false
+      if(filterForm && filterForm.values && !filterForm.values.title && !filterForm.values.name && !filterForm.values.album && !filterForm.values.artist && !filterForm.values.key && !filterForm.values.genre) {
+           dispatch(setFilter({filter: false}))
+      }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[songOrSections])
 
     useEffect(() => {   
       
-      if (!filterValues.filter && filterForm && !filterForm.values) {
-        dispatch(initialize('FilterForm', filterValues))     
-      }
+     
 
-      if(!filterValues.filter ){
-
-        filterValues.duration = [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.duration))+1))] 
-    
-        filterValues.tempo = [Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo))), Math.max(...items.filter(item => item.tempo || !isNaN(parseInt(item.tempo)) || item.tempo ===0).map((item) => parseInt(item.tempo+1)))]
+      if(filterValues){
+        if(!filterValues.duration.length){ 
+          dispatch(setFilter({ duration: [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.duration))+1))]}))
+        }
+        if(!filterValues.tempo.length){ dispatch(setFilter({
+          tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.tempo))+1))]}))
+        }
+        if(!filterValues.year.length){ dispatch(setFilter({
+          year: [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item)=>parseInt((item.year))+1))]}))
+        } 
         
-        filterValues.year = [Math.min(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0]))), Math.max(...songs.filter(item => !isNaN(parseInt(item.tempo))).map((song) => parseInt(song.year.split('-')[0])))]      
+         if (filterForm && !filterForm.values) {
+          dispatch(initialize('FilterForm', {...filterValues,
+            artist: '',
+            genre: '',
+            album: '',
+            key: '',
+          }))  
+        }
+        
       }
-    }, [objectType, dispatch, songs, items, filterForm, filterValues ])
+    
+  }, [objectType, dispatch, songs, items, filterForm, filterValues ])
 
     const renderAdvancedFilters = () => {      
        const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
@@ -290,8 +304,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       return objectType === 'songs' ? (
          <Grid item  sm={12} xs={12}>
           <Field classes={classes} 
-                 min={Math.min(...songs.filter(item => !isNaN(parseInt(item.year))).map((song) => parseInt(song.year.split('-')[0])))}
-                 max={Math.max(...songs.filter(item => !isNaN(parseInt(item.year))).map((song) => parseInt(song.year.split('-')[0])))} 
+                 min={Math.min(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt(item.year.split('-')[0])))}
+                 max={Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt(item.year.split('-')[0])))} 
 
                  valueLabelDisplay={true}
                  name="year" 
@@ -373,8 +387,9 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
             Filter
           </Button>
            <Button className={classes.clearButton} onClick={e => {
-                    dispatch(clearFilter(objectType))
                     dispatch(reset('FilterForm'))
+                    dispatch(clearFields('FilterForm'))
+                    dispatch(clearFilter())
                   }} variant="contained">
                     clear
             </Button>

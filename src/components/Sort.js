@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
+import {setFilter} from '../actions/filter'
 import { Field, reduxForm } from 'redux-form';
 import { makeStyles } from '@material-ui/styles';
 import {renderTextField} from '../helpers/MaterialUiReduxFormFields'
@@ -112,18 +113,25 @@ const Sort = ({items, objectType }) => {
     const filterForm = useSelector(state => state.form.FilterForm)
     const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
     const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k)) 
-
+    const dispatch = useDispatch()
     useEffect(() => {
 
     
       if(!filterValues.sort && !filterValues.filter){
-        filterValues.sort = objectType === 'songs' ? 'artist' : 'song'
+        if(objectType === 'songs') {
+            dispatch(setFilter({sort:'artist'})) 
+
+         } else{
+            dispatch(setFilter({sort:'song'}))
+          }
+         
       } 
       
       if(!itemProps.includes(filterValues.sort)){
-        filterValues.sort = 'created_at'
+        dispatch(setFilter({sort: 'created_at'}))
+       
       }
-    }, [filterValues.sort, filterValues.filter, objectType, itemProps])
+    }, [filterValues.sort, filterValues.filter, objectType, itemProps, dispatch])
     
     const classes = useStyles();
     
@@ -138,8 +146,8 @@ const Sort = ({items, objectType }) => {
                       options={ itemProps && itemProps.length ? itemProps.map(prop => prop) : null }
                       onChange={(e, v) => {   
                         // redux forms do not allow for submitting forms onChange in a neat way so this is my dirty work around    
-                          if(filterForm && filterForm.values) filterForm.values.sort = v;
-                          if(filterForm && filterForm.values.sort !== filterValues.sort) filterValues.sort = v
+                          if(filterForm && filterForm.values) dispatch(setFilter({sort: v, filter: true}))
+                          if(filterForm && filterForm.values.sort !== filterValues.sort) dispatch(setFilter({sort: v, filter: true}))
                         }
                       } 
 
@@ -160,9 +168,8 @@ const Sort = ({items, objectType }) => {
                     component={renderTextField} 
                     onChange={(e, v) => {   
                         // redux forms do not allow for submitting forms onChange in a neat way so this is my dirty work around    
-                          filterForm.values.order = v;
-                          filterValues.filter = true
-                          if(filterForm.values.order !== filterValues.order) filterValues.order = v
+                         dispatch(setFilter({order: v, filter: true}))
+                          if(filterForm.values.order !== filterValues.order) dispatch(setFilter({order: v, filter: true}))
                         }
                       } 
                     InputLabelProps={{ 
