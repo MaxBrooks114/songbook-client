@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-
+import PrivateRoute from '../PrivateRoute';
+import UserEdit from './UserEdit'
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,7 +11,7 @@ import Drawer from '@material-ui/core/Drawer';
 import UserMetrics from './UserMetrics'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import { NavLink, Route, Switch, useLocation} from 'react-router-dom';
+import { NavLink, Switch, useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 
 
@@ -130,22 +131,22 @@ const UserShow = () => {
      <Grid style={{marginTop: '50px', marginBottom: '20px'}} container direction="column">
       <Typography  className={classes.title} component="p" variant="h3">{user.username}'s Songbook</Typography>
       <Switch>
-          <Route exact path="/users/:id/progress">
+          <PrivateRoute exact path="/users/:id/progress">
              <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
-          </Route> 
-          <Route exact path="/users/:id/favorites">
+          </PrivateRoute> 
+          <PrivateRoute exact path="/users/:id/favorites">
              <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
-          </Route> 
-          <Route exact path="/users/:id/timing">
+          </PrivateRoute> 
+          <PrivateRoute exact path="/users/:id/timing">
              <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
-          </Route> 
-          <Route exact path="/users/:id/audioPreferences">
+          </PrivateRoute> 
+          <PrivateRoute exact path="/users/:id/audioPreferences">
              <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>
-          </Route> 
-      </Switch>
-
-
-      
+          </PrivateRoute> 
+          <PrivateRoute exact path="/users/:id/edit">
+              <UserEdit />
+          </PrivateRoute> 
+      </Switch>      
       </Grid>
     </div>
   );
