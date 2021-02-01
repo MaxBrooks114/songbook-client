@@ -172,7 +172,6 @@ const SectionContainer = () => {
 
   useEffect(() => {
     const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null 
-    dispatch(clearFilter())
     if (accessToken) {
       return () => {
       workerTimers.clearInterval(intervalId) 
@@ -192,7 +191,7 @@ const SectionContainer = () => {
 
 
   const renderFilter = () => {
-    return Object.values(sections).length > 0 ? <FilterControl items={Object.values(sections)} instruments={Object.values(instruments)} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} songs={Object.values(songs)}  objectType='sections'  /> : null
+    return Object.values(sections).length > 0 ? <FilterControl items={Object.values(filteredSections)} instruments={Object.values(instruments)} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} songs={Object.values(songs)}  objectType='sections'  /> : null
   }
 
   const renderDetail = () => {

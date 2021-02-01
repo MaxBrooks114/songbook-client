@@ -169,7 +169,6 @@ const SongContainer = () => {
 
 
   useEffect(() => {
-    dispatch(clearFilter())
     const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null
      if (accessToken) {
       return () => {
@@ -188,7 +187,7 @@ const SongContainer = () => {
 
 
   const renderFilter = () => {
-    return Object.values(songs).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} items={Object.values(songs)} songs={Object.values(songs)} objectType='songs' /> : null 
+    return Object.values(songs).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} items={Object.values(filteredSongs)} songs={Object.values(songs)} objectType='songs' /> : null 
   }
   
 
