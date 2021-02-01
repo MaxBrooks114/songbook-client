@@ -300,7 +300,7 @@ const Navbar = () => {
               </ListItemText>
             </ListItem>
           ))}
-          <SpotifySearchBar showButton={false}/>
+          {user ? <SpotifySearchBar showButton={false}/> : null }
         </List>
       </SwipeableDrawer>
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
@@ -321,7 +321,7 @@ const Navbar = () => {
             </Grid>
             { matches ? null :
             <Grid item xs={4} >
-                {location.pathname === '/search' ? null : <div><SpotifySearchBar showButton={false}/></div>}
+                {location.pathname === '/search' || !user ? null : <div><SpotifySearchBar showButton={false}/></div>}
             </Grid>}
                 {matches ? drawer : tabs}
             {user ?  <Menu 
