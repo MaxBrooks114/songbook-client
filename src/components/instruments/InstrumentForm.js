@@ -106,14 +106,29 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
           </Grid>
 
           <Grid item  xs={12} md={6}>
-            <Field classes={classes} name="year" component={renderTextField} label="Year" />
+            <Field classes={classes} name="year" component={renderTextField} label="Year"  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}/>
           </Grid>
          <Grid item style={{marginBottom: '4px'}} xs={12} md={6}>    
-            <Field classes={classes} name="make" component={renderTextField} label="Make" />
+            <Field classes={classes} name="make" component={renderTextField} label="Make"  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} />
           </Grid>
 
           <Grid item style={{marginBottom: '4px'}} xs={12} md={6}>
-           <Field classes={classes} name="model" component={renderTextField} label="Model" />
+           <Field classes={classes} name="model" component={renderTextField} label="Model"  InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}/>
           </Grid>
           <Grid item style={{marginBottom: '4px'}} xs={12}  md={6}>         
             <Field
@@ -123,6 +138,12 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               name="family"
               component={renderAutoCompleteDataField}
               label="Family"
+               InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
             />
           </Grid>
          
@@ -133,6 +154,12 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
               name="tonal_range"
               component={renderAutoCompleteDataField}
               label="Tonality"
+               InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
             />
           </Grid>
          
