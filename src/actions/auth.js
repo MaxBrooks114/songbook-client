@@ -97,7 +97,7 @@ export const editUser = (userId, formValues) => async (dispatch) => {
 
     dispatch(fetchUser())
     dispatch(showSuccessSnackbar('Your Profile Was Updated Successfully'))
-    history.push(`/users/${userId}`)
+    history.push(`/users/${userId}/progress`)
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
@@ -115,7 +115,7 @@ export const resetPassword = (userId, formValues) => async (dispatch) => {
 
     dispatch(fetchUser())
     dispatch(showSuccessSnackbar('Your Profile Was Updated Successfully'))
-    history.push(`/users/${userId}`)
+    history.push(`/users/${userId}/progress`)
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
