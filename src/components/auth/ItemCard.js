@@ -5,6 +5,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {SET_FILTER } from '../../actions/types'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,14 +76,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const ItemCard = ({index, picture, album, cardTitle, cardInfo1, cardInfo2, type, id }) => {  
+const ItemCard = ({index, picture, album, cardTitle, cardInfo1, cardInfo2, type, id, dispatchKey, dispatchValue }) => {  
 
   const classes = useStyles();
   const history = useHistory()
-
+  const dispatch = useDispatch()
 
   return (
-      <Card className={classes.root} onClick={() => history.push(`/${type}/${id}`)}>
+      <Card className={classes.root} onClick={() => {
+        
+        history.push(`/${type}/${id}`)
+        if(dispatchKey && dispatchValue) {
+        dispatch({type: SET_FILTER, payload: {
+         [dispatchKey]: dispatchValue, filter: true
+        }})
+      }
+      }}>
         <CardMedia
         ><img className={classes.media} alt={album} src={picture}/></CardMedia>
         <div className={classes.cardBody}>
