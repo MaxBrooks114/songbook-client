@@ -80,17 +80,15 @@ const UserForm = ({ onSubmit, handleSubmit }) => {
   const messages = useSelector((state) => state.messages);
   const errorMessages = useSelector((state) => state.errors.msg);
   const renderErrorMessages = () => {
-    for (let msg in messages) {
-      return messages[msg];
+    if(!errorMessages.headers){
+     return Object.values(errorMessages).map((msg) =><div className={classes.errorMessages}>{msg}</div>)
+     
     }
-    if (Object.keys(errorMessages).includes('username') || Object.keys(errorMessages).includes('email')) {
-      for (let key in errorMessages) {
-        for (let msg of errorMessages[key]) {
-          return msg;
-        }
-      }
     }
-  };
+
+  const renderMessages = () => {
+   return Object.values(messages).map(msg => <div>{msg}</div>)
+  }
   const onFormSubmit = (formValues) => {
     const { password, confirm_password } = formValues;
     if (password !== confirm_password) {
@@ -103,31 +101,55 @@ const UserForm = ({ onSubmit, handleSubmit }) => {
     <div>
       <Grid container align= "center" justify="center" spacing={2}>
         <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-          <Grid item>
-            <Field classes={classes} name="username" component={renderTextField} label="Username" />
+          <Grid item xs={12}>
+            <Field classes={classes} name="username" component={renderTextField} label="Username" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}/>
           </Grid>
-          <Grid item>
-            <Field classes={classes} type="email" name="email" component={renderTextField} label="E-Mail" />
+          <Grid item xs={12}>
+            <Field classes={classes} type="email" name="email" component={renderTextField} label="E-Mail" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}/>
           </Grid>
-          <Grid item>
-            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" />
+          <Grid item xs={12}>
+            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }} />
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <Field
               classes={classes}
               type="password"
               name="confirm_password"
               component={renderTextField}
               label="Confirm Password"
+              InputLabelProps={{ 
+                    classes: {
+                      root: classes.label,
+                      shrink: "shrink"
+                 }
+               }}
             />
           </Grid>
 
-          <Grid item>
+          <Grid item xs={12}>
             <Button type="submit" className={classes.button} variant="contained">
               Register
             </Button>
           </Grid>
+          <Grid item xs={12}>
           {renderErrorMessages()}
+          {renderMessages()}
+          </Grid>
         </form>
       </Grid>
     </div>

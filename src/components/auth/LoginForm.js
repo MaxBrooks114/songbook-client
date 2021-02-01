@@ -43,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  errorMessages: {
+      color: theme.palette.common.orange
+  },
+
 
 
   button: {
@@ -76,7 +80,8 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = ({ onSubmit, handleSubmit }) => {
   const classes = useStyles();
   const messages = useSelector((state) => state.messages);
-  const errorMessages = useSelector((state) => state.errors.msg);  const user = useSelector(state => state.auth.user)
+  const errorMessages = useSelector((state) => state.errors.msg);  
+  const user = useSelector(state => state.auth.user)
   const onFormSubmit = (formValues) => {
     onSubmit(formValues);
   };
@@ -94,17 +99,18 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
   }
 
   const renderErrorMessages = () => {
-    for (let msg in messages) {
-      return messages[msg];
+    if(!errorMessages.headers){
+     return Object.values(errorMessages).map((msg) =><div className={classes.errorMessages}>{msg}</div>)
+     
     }
-    if (Object.keys(errorMessages).includes('username') || Object.keys(errorMessages).includes('email')) {
-      for (let key in errorMessages) {
-        for (let msg of errorMessages[key]) {
-          return msg;
-        }
-      }
     }
-  };
+
+  const renderMessages = () => {
+   return Object.values(messages).map(msg => <div>{msg}</div>)
+  }
+   
+
+
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
@@ -125,7 +131,10 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
               {user ? "Update Information" : "Login"}
             </Button>
           </Grid>
-          {renderErrorMessages()}
+           <Grid item xs={12}>
+              {renderErrorMessages()}
+              {renderMessages()}
+          </Grid>
       </Grid>
     </form>
   );
