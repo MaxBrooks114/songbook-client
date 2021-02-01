@@ -121,6 +121,7 @@ const UserMetrics = ({songs, sections}) => {
     return items[0].length ? 
      items[0].map((item, index) => {
        let title = items[8]  ? `${renderInfo(item, items[4])} (${items[8][index]} Songs)` : renderInfo(item, items[4])
+       let dispatchValue = typeof item[items[4]] === 'string' ? item[items[4]] : item[items[4]].toString()
           return (
       
                <Grid item xs={6} md={2} style={{margin: '0 20px'}}>
@@ -132,7 +133,7 @@ const UserMetrics = ({songs, sections}) => {
                     cardInfo1={renderInfo(item, items[5])} 
                     cardInfo2={renderInfo(item, items[6])} 
                     dispatchKey={whichData === 'favorites' ? items[4] : null}
-                    dispatchValue={whichData === 'favorites' ? item[items[4]] : null }
+                    dispatchValue={whichData === 'favorites' ? dispatchValue : null }
                     type={items[3]} 
                     id={item.id} />
               </Grid>

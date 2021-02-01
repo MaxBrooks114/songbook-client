@@ -23,7 +23,7 @@ export const getFilteredItems = (state, objectType)  => {
           switch (prop) { 
             case 'key':
             case 'time_signature' :
-              return f[prop] === parseInt(filterProperties[prop])
+              return parseInt(f[prop]) === parseInt(filterProperties[prop])
             case 'mode' :
               return renderText(modes, f[prop]).toLowerCase() === renderText(modes, filterProperties[prop]).toLowerCase();
             case 'original':
