@@ -83,16 +83,6 @@ const UserShow = () => {
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-
-  const spotifyLoginButton = () => {
-    return accessToken && accessToken !== '' ? (
-      ''
-    ) : (
-      <a href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate with Spotify</a>
-    );
-  };
-
-
   
 
   return (
