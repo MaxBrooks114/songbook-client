@@ -5,7 +5,7 @@ import { getToken } from '../apis/spotifyToken';
 import { FETCH_SPOTIFY_TRACKS, CLEAR_SPOTIFY_TRACKS, GET_DEVICE_ID, REFRESH_ACCESS_TOKEN, CHECK_IF_PLAYING, SONGPLAY, SECTIONPLAY, PAUSE, IMPORT_SPOTIFY_TRACK } from './types';
 import { loading, notLoading } from './ui';
 import history from '../history';
-import { createSong } from './songs';
+import { createSong, fetchSongs } from './songs';
 import { createSection } from './sections';
 import { returnErrors } from './messages';
 import { showSuccessSnackbar } from './ui';
@@ -122,12 +122,11 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       spotify_id: trackData.data.id,
       sections: [],
     };
-    await dispatch(createSong(songData));
-    let state;
-    let song_id;
+   
+    
+    let song =  await dispatch(createSong(songData))
     for (const [i, section] of audioAnalysisData.data.sections.entries()) {
-      state = getState();
-      song_id = Object.keys(state.songs).pop();
+   
       let sectionData = {
         name: `section ${i + 1}`,
         start: section.start*1000,
@@ -139,13 +138,15 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
         lyrics: '',
         learned: false,
         time_signature: section.time_signature,
-        song: song_id,
+        song: song.id,
         instrument_id: null,
       };
       await dispatch(createSection(sectionData));
     }
+    dispatch(fetchSongs())
     dispatch(notLoading());
-    dispatch(showSuccessSnackbar(`Song Imported`, song_id));
+    
+    dispatch(showSuccessSnackbar(`Song Imported`, song.id));
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
     dispatch(notLoading());
