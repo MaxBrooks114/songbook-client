@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSection } from '../../actions/sections';
 import {createFile} from '../../actions/files'
 import { makeStyles } from '@material-ui/styles';
+import { Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import SectionForm from './SectionForm';
 import keys from '../songs/keys';
@@ -93,7 +94,7 @@ const SectionCreate = () => {
 
   const classes = useStyles();
 
-  return (
+  return Object.values(songs).length ? (
     <div className={classes.container}>
         <div className={classes.toolbarMargin}></div>
          <div  className={classes.root}>
@@ -105,8 +106,8 @@ const SectionCreate = () => {
         </Typography>
         <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
-    </div>
-  );
+    </div> 
+  ) : <Redirect to="/songs/new"/>
 };
 
 export default SectionCreate;
