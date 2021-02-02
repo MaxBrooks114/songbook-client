@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SongForm = ({ onSubmit, handleSubmit }) => {
+const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
 
   const classes = useStyles()
   const filesUploaded = useSelector(state => state.form.SongCreate.values)
@@ -231,8 +231,8 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
                }}
                 />
               </Grid>
+            {!initialValues || !initialValues.image ?
                <Grid item xs={12} >
-              
               <fieldset className={classes.uploadFieldSet}>
                 <legend>Image</legend>
                 <Grid container  justify='center'>
@@ -248,8 +248,7 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
                   </Grid>
                   </Grid>
                 </fieldset>
-
-              </Grid>
+              </Grid> : null}
                
               <Grid item xs={12} >
                 <Field
