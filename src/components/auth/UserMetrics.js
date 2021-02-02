@@ -37,6 +37,7 @@ const UserMetrics = ({songs, sections}) => {
     const whichData = location.pathname.split('/').slice(-1)[0]
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const spotifySongs = songs.filter(song => song.spotify_url)
     
   const data = {
      'progress': { 
@@ -66,22 +67,22 @@ const UserMetrics = ({songs, sections}) => {
       },
 
       "audioPreferences": {
-          'HighestValence': [topFive(songs, 'valence'), 'image', 'album', 'songs', 'valence', 'title', 'artist', `preference: ${attrPreference(songs, 'valence')}`],
-          'HighestEnergy': [topFive(songs, 'energy'), 'image', 'album', 'songs', 'energy', 'title', 'artist', `preference: ${attrPreference(songs, 'energy')}`],
-          'HighestInstrumentalness': [topFive(songs, 'instrumentalness'), 'image', 'album', 'songs', 'instrumentalness', 'title', 'artist',`preference: ${attrPreference(songs, 'instrumentalness')}`],
-          'HighestAcousticness': [topFive(songs, 'acousticness'), 'image', 'album', 'songs', 'acousticness', 'title', 'artist',`preference: ${attrPreference(songs, 'accousticness')}`],
-          'HighestDanceability': [topFive(songs, 'danceability'), 'image', 'album', 'songs', 'danceability', 'title', 'artist', `preference: ${attrPreference(songs, 'danceability')}`],
-          'HighestSpeechiness': [topFive(songs, 'speechiness'), 'image', 'album', 'songs', 'speechiness', 'title', 'artist', `preference: ${attrPreference(songs, 'speechiness')}`],
-          'HighestLiveness': [topFive(songs, 'liveness'), 'image', 'album', 'songs', 'liveness', 'title', 'artist', `preference: ${attrPreference(songs, 'liveness')}`],
-          'Loudest': [topFive(songs, 'loudness'), 'image', 'album', 'songs', 'loudness', 'title', 'artist'],
-          'LowestValence': [bottomFive(songs, 'valence'), 'image', 'album', 'songs', 'valence', 'title', 'artist', `preference: ${attrPreference(songs, 'valence')}`],
-          'LowestEnergy': [bottomFive(songs, 'energy'), 'image', 'album', 'songs', 'energy', 'title', 'artist', `preference: ${attrPreference(songs, 'energy')}`],
-          'LowestInstrumentalness': [bottomFive(songs, 'instrumentalness'), 'image', 'album', 'songs', 'instrumentalness', 'title', 'artist', `preference: ${attrPreference(songs, 'instrumentalness')}`],
-          'LowestAcousticness': [bottomFive(songs, 'acousticness'), 'image', 'album', 'songs', 'acousticness', 'title', 'artist', `preference: ${attrPreference(songs, 'acousticness')}`],
-          'LowestDanceability': [bottomFive(songs, 'danceability'), 'image', 'album', 'songs', 'danceability', 'title', 'artist', `preference: ${attrPreference(songs, 'danceability')}`],
-          'LowestSpeechiness': [bottomFive(songs, 'speechiness'), 'image', 'album', 'songs', 'speechiness', 'title', 'artist', `preference: ${attrPreference(songs, 'speechiness')}`],
-          'LowestLiveness': [bottomFive(songs, 'liveness'), 'image', 'album', 'songs', 'liveness', 'title', 'artist', `preference: ${attrPreference(songs, 'liveness')}`],
-          'Softest': [bottomFive(songs, 'loudness'), 'image', 'album', 'songs', 'loudness', 'title', 'artist'],
+          'HighestValence': [topFive(spotifySongs, 'valence'), 'image', 'album', 'songs', 'valence', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'valence')}`],
+          'HighestEnergy': [topFive(spotifySongs, 'energy'), 'image', 'album', 'songs', 'energy', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'energy')}`],
+          'HighestInstrumentalness': [topFive(spotifySongs, 'instrumentalness'), 'image', 'album', 'songs', 'instrumentalness', 'title', 'artist',`preference: ${attrPreference(spotifySongs, 'instrumentalness')}`],
+          'HighestAcousticness': [topFive(spotifySongs, 'acousticness'), 'image', 'album', 'songs', 'acousticness', 'title', 'artist',`preference: ${attrPreference(spotifySongs, 'accousticness')}`],
+          'HighestDanceability': [topFive(spotifySongs, 'danceability'), 'image', 'album', 'songs', 'danceability', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'danceability')}`],
+          'HighestSpeechiness': [topFive(spotifySongs, 'speechiness'), 'image', 'album', 'songs', 'speechiness', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'speechiness')}`],
+          'HighestLiveness': [topFive(spotifySongs, 'liveness'), 'image', 'album', 'songs', 'liveness', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'liveness')}`],
+          'Loudest': [topFive(spotifySongs, 'loudness'), 'image', 'album', 'songs', 'loudness', 'title', 'artist'],
+          'LowestValence': [bottomFive(spotifySongs, 'valence'), 'image', 'album', 'songs', 'valence', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'valence')}`],
+          'LowestEnergy': [bottomFive(spotifySongs, 'energy'), 'image', 'album', 'songs', 'energy', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'energy')}`],
+          'LowestInstrumentalness': [bottomFive(spotifySongs, 'instrumentalness'), 'image', 'album', 'songs', 'instrumentalness', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'instrumentalness')}`],
+          'LowestAcousticness': [bottomFive(spotifySongs, 'acousticness'), 'image', 'album', 'songs', 'acousticness', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'acousticness')}`],
+          'LowestDanceability': [bottomFive(spotifySongs, 'danceability'), 'image', 'album', 'songs', 'danceability', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'danceability')}`],
+          'LowestSpeechiness': [bottomFive(spotifySongs, 'speechiness'), 'image', 'album', 'songs', 'speechiness', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'speechiness')}`],
+          'LowestLiveness': [bottomFive(spotifySongs, 'liveness'), 'image', 'album', 'songs', 'liveness', 'title', 'artist', `preference: ${attrPreference(spotifySongs, 'liveness')}`],
+          'Softest': [bottomFive(spotifySongs, 'loudness'), 'image', 'album', 'songs', 'loudness', 'title', 'artist'],
       }
     }
 
@@ -121,7 +122,10 @@ const UserMetrics = ({songs, sections}) => {
     return items[0].length ? 
      items[0].map((item, index) => {
        let title = items[8]  ? `${renderInfo(item, items[4])} (${items[8][index]} Songs)` : renderInfo(item, items[4])
-       let dispatchValue = typeof item[items[4]] === 'string' ? item[items[4]] : item[items[4]].toString()
+       let dispatchValue
+       if(item[items[4]]) {
+         dispatchValue = typeof item[items[4]] === 'string' ? item[items[4]] : item[items[4]].toString()
+       }
           return (
       
                <Grid item xs={6} md={2} style={{margin: '0 20px'}}>
