@@ -2,8 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
-import {renderTextField, renderAutoCompleteField, renderCheckbox} from '../../helpers/MaterialUiReduxFormFields'
+import {useSelector} from 'react-redux'
+import {FileInput, renderTextField, renderAutoCompleteField, renderCheckbox} from '../../helpers/MaterialUiReduxFormFields'
 import { makeStyles } from '@material-ui/styles';
 import genres from './genres';
 import keys from './keys';
@@ -76,6 +76,19 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+  uploadButton: {
+    background: theme.palette.secondary.dark,
+    '&:hover': {
+        background: theme.palette.info.main,
+        color: theme.palette.primary.main,
+    },
+    margin: '1rem',
+    width: 400,
+    [theme.breakpoints.down('sm')]: {
+          width: 'auto', 
+      },
+  },
+
   input: {
     textTransform: 'capitalize',
   },
@@ -104,8 +117,13 @@ const useStyles = makeStyles((theme) => ({
           minWidth: 200,
       },
     },
-   
+  },
 
+  uploadFieldSet:{
+    borderRadius: '4px', 
+    borderColor:  theme.palette.info.main,
+    borderWidth: 'thin',
+    background: '#f0f0f0' 
   },
 
   listbox: {
@@ -126,6 +144,8 @@ const useStyles = makeStyles((theme) => ({
 const SongForm = ({ onSubmit, handleSubmit }) => {
 
   const classes = useStyles()
+  const filesUploaded = useSelector(state => state.form.SongCreate.values)
+
 
   const onFormSubmit = (formValues) => {
     onSubmit(formValues);
@@ -211,7 +231,25 @@ const SongForm = ({ onSubmit, handleSubmit }) => {
                }}
                 />
               </Grid>
-        
+               <Grid item xs={12} >
+              
+              <fieldset className={classes.uploadFieldSet}>
+                <legend>Image</legend>
+                <Grid container  justify='center'>
+                  <Grid item xs={12} md={12}>
+                    <Field
+                      component={FileInput}
+                      classes={classes}
+                      name="uploaded_image"
+                      label={filesUploaded && filesUploaded.uploaded_image ? filesUploaded.uploaded_image.name :"Upload Album Cover"}
+                      accept="image/*, application/pdf"
+                      type='file'
+                    />
+                  </Grid>
+                  </Grid>
+                </fieldset>
+
+              </Grid>
                
               <Grid item xs={12} >
                 <Field

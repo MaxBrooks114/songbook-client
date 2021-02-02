@@ -57,7 +57,6 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
   const classes = useStyles();
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
- 
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
@@ -66,7 +65,7 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
            <img
                   alt={song.album}
                   className={classes.media}
-                  src={song.image ? song.image : 'https://coverfiles.alphacoders.com/796/79685.jpg'}
+                  src={song.image ? song.image : song.uploaded_image}
                 />   
       
         </CardMedia>

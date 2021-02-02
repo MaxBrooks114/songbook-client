@@ -303,7 +303,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
        <IconButton className={classes.bigPlayButtonContainer} onClick={handleSongPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> 
 
   const renderSpotifyOptionSong = () => {
-    if (accessToken && accessToken !== "") {
+    if (accessToken && accessToken !== "" && song.spotify_url) {
         if(loading.loading) {
             return <div className={classes.bigPlayButtonContainer}><div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={88} /></div></div>
       } else {
@@ -362,7 +362,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                 <img
                   alt={song.album}
                   className={classes.media}
-                  src={song.image ? song.image : ''}
+                  src={song.image ? song.image : song.uploaded_image}
                 />   
               </Grid>
               <Grid item xs={1} ></Grid>

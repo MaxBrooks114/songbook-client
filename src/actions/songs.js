@@ -8,8 +8,23 @@ import songbook from '../apis/songbook';
 
 export const createSong = (formValues) => async (dispatch) => {
   dispatch(loading());
+   const formData = new FormData();
+   for(let field in formValues){
+     if(field === "sections"){
+       formData.append("sections[]", [])
+     } else{
+        formData.append(field, formValues[field])
+     }
+    
+   }  
+
   try {
-    const response = await songbook.post('/songs/', { ...formValues });
+   
+    const response = await songbook.post('/songs/', formData, {
+      headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+    });
 
     dispatch({
       type: CREATE_SONG,
@@ -83,8 +98,19 @@ export const deleteSong = (id, song) => async (dispatch) => {
 };
 
 export const editSong = (id, formValues) => async (dispatch) => {
+  const formData = new FormData();
+   for(let field in formValues){
+     if(field === "sections"){
+       formData.append("sections[]", [])
+     } else if(!formValues[field]){
+       continue
+     } else{
+        formData.append(field, formValues[field])
+     }
+    
+   }  
   try {
-    const response = await songbook.patch(`/songs/${id}/`, formValues);
+    const response = await songbook.patch(`/songs/${id}/`, formData);
 
     dispatch({
       type: EDIT_SONG,

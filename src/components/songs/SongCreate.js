@@ -64,13 +64,17 @@ const SongCreate = () => {
   };
 
   const onSubmit = (formValues) => {
-
+    
+    if(formValues.key){
+      formValues.key = normalize(keys, formValues.key)
+    } 
+    if(formValues.mode) {
+      formValues.mode = normalize(modes, formValues.mode)
+    }
 
     dispatch(
       createSong({
         ...formValues,
-        key: normalize(keys, formValues.key),
-        mode: normalize(modes, formValues.mode),
         sections: []
       })
     );

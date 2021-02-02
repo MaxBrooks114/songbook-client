@@ -349,12 +349,12 @@ const SectionDetail = ({ section, nextSection, prevSection }) => {
   const classes = useStyles();
  
  
-  const sectionButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === section.song.spotify_url && section.id === player.sectionId ?
+  const sectionButton = player.playing && (player.songPlay || player.sectionPlay) && player.song === section.song.spotify_url && section.id === player.sectionId  ?
    <IconButton className={classes.bigPauseButtonContainer} onClick={handlePauseClick}><PauseCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> : 
        <IconButton className={classes.bigPlayButtonContainer} onClick={handleSectionPlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton}  /></IconButton> 
 
 const renderSpotifyOption = () => {
-    if (accessToken && accessToken !== "") {
+    if (accessToken && accessToken !== "" && section.song.spotify_url) {
         if(loading.loading) {
             return <div className={classes.bigPlayButtonContainer}><div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={88} /></div></div>
       } else {
@@ -457,7 +457,7 @@ const renderSpotifyOption = () => {
                       <img
                         alt={section.song.album}
                         className={classes.media}
-                        src={section.song.image ? section.song.image : ''}
+                        src={section.song.image ? section.song.image : section.song.uploaded_image}
                       />
                     </Grid>   
                     <Grid item xs={1}/>
