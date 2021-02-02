@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import {checkIfPlaying} from '../../actions/spotify'
 import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import useHeight from '../../hooks/useHeight'
 import clsx from 'clsx';
+import Typography from '@material-ui/core/Typography';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +79,13 @@ const useStyles = makeStyles((theme) => ({
     })
   },
 
+  message: {
+      position: 'fixed',
+      zIndex: theme.zIndex.modal + 1,
+      top: '50%',
+      left: '15%'
+    }
+
 
 }));
 
@@ -132,7 +141,8 @@ const InstrumentContainer = () => {
   
 
 
-  return (
+  return Object.values(instruments).length ? (
+
 
       <Grid container justify='space-evenly' className={classes.cardGrid}>
         {!matches ? <Grid item xs={3} md={listColumnSize}  className={clsx(classes.list, {[classes.listShiftInstrument]: listColumnSize !==8 && instrument, [classes.listShiftAlone]: !instrument || listColumnSize === 8})}>
@@ -145,7 +155,7 @@ const InstrumentContainer = () => {
     
       </Grid>
    
-  );
+  ) :  <Grid container justify='space-evenly' className={classes.cardGrid}><Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/instruments/new">link</Link></Typography></Grid> 
 };
 
 export default InstrumentContainer;

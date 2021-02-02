@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {clearFilter} from '../../actions/filter'
 import { getFilteredItems } from '../../selectors/filterSelectors';
 import * as workerTimers from 'worker-timers';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +14,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { checkIfPlaying } from '../../actions/spotify';
 import useHeight from '../../hooks/useHeight'
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import clsx from 'clsx';
 import filter_arrow_right from '../../assets/filter_arrow_right.svg';
@@ -141,6 +141,13 @@ const useStyles = makeStyles((theme) => ({
     },
     }, 
 
+    message: {
+      position: 'fixed',
+      zIndex: theme.zIndex.modal + 1,
+      top: '50%',
+      left: '15%'
+    }
+
 }));
 
 const SongContainer = () => {
@@ -197,9 +204,12 @@ const SongContainer = () => {
 
   return (
     <div >
+      {Object.values(songs).length ?
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
           <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
-      </IconButton>
+      </IconButton> : 
+        <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
+      }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}

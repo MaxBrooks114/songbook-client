@@ -1,10 +1,9 @@
 import React, {useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import * as workerTimers from 'worker-timers';
 import { getFilteredItems } from '../../selectors/filterSelectors';
 import {checkIfPlaying} from '../../actions/spotify'
-import {clearFilter} from '../../actions/filter'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import SectionList from './SectionList';
@@ -17,6 +16,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import useHeight from '../../hooks/useHeight'
 import filter_arrow_right from '../../assets/filter_arrow_right.svg';
+import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 
 const drawerWidth = 244;
@@ -138,6 +138,13 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.modal+1      
     },
     }, 
+
+     message: {
+      position: 'fixed',
+      zIndex: theme.zIndex.modal + 1,
+      top: '50%',
+      left: '15%'
+    }
   
 }));
 
@@ -163,7 +170,7 @@ const SectionContainer = () => {
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const medScreen = useMediaQuery(theme.breakpoints.down('md'));
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const elementDOM = useRef(null);
   const [height] = useHeight(elementDOM);
   const [listColumnSize, setListColumnSize] = useState(8)
@@ -203,9 +210,12 @@ const SectionContainer = () => {
  
    return (
     <div className={classes.root}>
+     {Object.values(sections).length ?
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
           <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
-      </IconButton>
+      </IconButton> : 
+        <Typography className={classes.message}>You have no sections! Import a song by using the Spotify Search function in the navbar or by adding one by following this <Link to="/sections/new">link</Link></Typography>
+      }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
