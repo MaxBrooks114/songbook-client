@@ -437,6 +437,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                 </Grid>
               </AccordionDetails>
             </Accordion>
+            {song.spotify_url ? 
             <Accordion className={classes.accordion}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.accordionTitle}>Audio Properties</Typography>
@@ -478,7 +479,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
                   
                 </Grid>
               </AccordionDetails>
-            </Accordion>
+            </Accordion> : null }
             <Accordion className={classes.accordion} style={{marginBottom: 0}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Typography className={classes.accordionTitle}>Lyrics</Typography>
