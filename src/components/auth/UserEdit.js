@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import LoginForm from './LoginForm'
 import { Redirect } from 'react-router-dom';
+import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -47,7 +48,7 @@ root: {
       marginTop: '1rem'
   },
 
-  button:{
+  delete:{
 
     color: theme.palette.info.main,
     display: 'inline-block',
@@ -59,6 +60,28 @@ root: {
     },
   
   },
+  button:{
+    color: theme.palette.background.default,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.info.main,
+     '&:hover': {
+      color: theme.palette.common.gray,
+      background: theme.palette.info.main,
+    },
+  
+  },
+
+  link: {
+    color: theme.palette.background.default,
+    textDecoration: 'none'
+  },
+
+  spotifyLogo:{
+    height: 21,
+    width: 21,
+    verticalAlign: 'middle',
+  }, 
 
   title: {
     color: theme.palette.info.main,
@@ -89,6 +112,7 @@ root: {
 const UserEdit = () => {
   const dispatch = useDispatch();
   const userId = useSelector(state => state.auth.user.id)
+  const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const onSubmit = (formValues) => {
     dispatch(
@@ -121,8 +145,14 @@ const UserEdit = () => {
         </Typography>
         <LoginForm onSubmit={onSubmit} />
         <Grid container justify="center" className={classes.buttonContainer}>
-            <Button className={classes.button} onClick={handleClickOpen}>
-              Delete
+            <Button className={classes.button} >
+               <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${userId}`}>Integrate Spotify</a>
+              <img className={classes.spotifyLogo} src={Spotify_Icon_RGB_Green} alt="SpotifyLogo"/>
+            </Button>
+        </Grid>
+        <Grid container justify="center" className={classes.buttonContainer}>
+            <Button className={classes.delete} onClick={handleClickOpen}>
+              Delete Account
             </Button>
         </Grid>
         <Dialog

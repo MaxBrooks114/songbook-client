@@ -17,7 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import {renderText, normalize, titleCase, millisToMinutesAndSeconds} from '../helpers/detailHelpers'
 import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider} from '../helpers/MaterialUiReduxFormFields'
 import _ from 'lodash'
-import { useLocation, useHistory} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import Spotify_Icon_RGB_Green from '../assets/Spotify_Icon_RGB_Green.png'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -118,6 +120,29 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+   spotify:{
+    color: theme.palette.background.default,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.info.main,
+     '&:hover': {
+      color: theme.palette.common.gray,
+      background: theme.palette.info.main,
+    },
+  
+  },
+
+  link: {
+    color: theme.palette.background.default,
+    textDecoration: 'none'
+  },
+
+  spotifyLogo:{
+    height: 21,
+    width: 21,
+    verticalAlign: 'middle',
+  }, 
+
    button: {
     color: theme.palette.info.light,
     display: 'inline-block',
@@ -172,6 +197,8 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
     const filterForm = useSelector(state => state.form.FilterForm)
     const filterValues = useSelector(state => state.filter)
     const location = useLocation()
+    const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
+    const userId = useSelector(state => state.auth.user.id)
     let songOrSections = location.pathname.split('/')[1]
   
     const booleans = {
@@ -213,6 +240,11 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
       }
     
   }, [objectType, dispatch, songs, items, filterForm, filterValues ])
+
+
+  useEffect(() => {
+    if(songs.length === 0) setOpenDrawer(false)
+  })
 
     const renderAdvancedFilters = () => {      
        const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
@@ -382,6 +414,12 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
             onSubmit={handleSubmit(onFormSubmit)}
             >
       <Grid container direction="column" align="center" spacing={2} className={classes.root} alignItems="space-around" justify="center" >
+        {!accessToken ? <Grid item xs={12}> 
+            <Button className={classes.spotify} >
+               <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${userId}`}>Integrate Spotify</a>
+              <img className={classes.spotifyLogo} src={Spotify_Icon_RGB_Green} alt="SpotifyLogo"/>
+            </Button>
+          </Grid> : null }
         <Grid item xs={12}>
           <Button className={classes.button} type="submit" variant="contained">
             Filter
