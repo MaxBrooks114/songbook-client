@@ -292,7 +292,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SectionDetail = ({ section, nextSection, prevSection }) => {
+const SectionDetail = ({ section, nextSection, prevSection, showDetail }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id, shallowEqual);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token, shallowEqual);
@@ -436,7 +436,7 @@ const renderSpotifyOption = () => {
  
 
 
-  return section ? (
+  return section && showDetail ? (
     <>
         <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
           <Paper className={classes.root} elevation={3}>

@@ -3,7 +3,7 @@ import {topFiveByAttr, topFive, bottomFive, attrPreference, topFiveByAttrListLen
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link  } from 'react-router-dom';
 import ItemCard from './ItemCard'
 import {titleCase, renderText, millisToMinutesAndSeconds} from '../../helpers/detailHelpers'
 import keys from '../songs/keys'
@@ -11,6 +11,7 @@ import _ from 'lodash'
 import Carousel from 'react-material-ui-carousel'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import Quaver from '../../assets/Quaver.png'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -25,7 +26,20 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
         marginLeft: 0
       }, 
-  }
+  },
+
+   message: {
+      display: 'inline-block',
+      margin: '0 auto',
+      overflowWrap: 'normal',
+    },
+
+    graphic: {
+      display: 'block',
+      margin: '50px auto',
+      width: 160,
+      height: 320
+  },
 
 
 
@@ -171,7 +185,10 @@ const UserMetrics = ({songs, sections}) => {
       <Typography className={classes.title} component="p" variant="h4">{titleCase(whichData)}</Typography>
       <Grid container justify="center">
         <Grid item xs= {12}>
-          {renderRows(data[whichData])}
+          {songs.length ? renderRows(data[whichData]) :  <div style={{textAlign: 'center'}}> 
+            <img className={classes.graphic} src={Quaver} alt="Quaver"/> 
+            <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
+          </div> }
         </Grid>
       </Grid>
     </>

@@ -18,6 +18,7 @@ import useHeight from '../../hooks/useHeight'
 import filter_arrow_right from '../../assets/filter_arrow_right.svg';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
+import trebleClef from '../../assets/trebleClef.png'
 
 const drawerWidth = 244;
 
@@ -140,11 +141,18 @@ const useStyles = makeStyles((theme) => ({
     }, 
 
      message: {
-      position: 'fixed',
-      zIndex: theme.zIndex.modal + 1,
-      top: '50%',
-      left: '15%'
-    }
+      display: 'block',
+      margin: '0 auto',
+
+      overflowWrap: 'normal'
+    },
+
+    graphic: {
+      display: 'block',
+      margin: '50px auto',
+      width: 160,
+      height: 320
+  },
   
 }));
 
@@ -202,34 +210,11 @@ const SectionContainer = () => {
   }
 
   const renderDetail = () => {
-    return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} /> : null;
+    return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} showDetail={showDetail} /> : null;
   };
 
-    
-
- 
-   return (
-    <div className={classes.root}>
-     {Object.values(sections).length ?
-      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
-          <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
-      </IconButton> : 
-        <Typography className={classes.message}>You have no sections! Import a song by using the Spotify Search function in the navbar or by adding one by following this <Link to="/sections/new">link</Link></Typography>
-      }
-      <SwipeableDrawer
-        classes={{ paper: classes.drawer }}
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
-        open={openDrawer}
-        variant="persistent"
-        anchor="left"
-        onClose={() => setOpenDrawer(false)}
-        onOpen={() => setOpenDrawer(true)}
-      >  
-        {renderFilter()}
-      </SwipeableDrawer>  
-      <Grid container justify='space-evenly' className={classes.cardGrid}>  
-        {!matches ? 
+  const renderList = () => {
+   return !matches ? 
             <>    
               <Grid 
                   item xs={3} md={listColumnSize} 
@@ -253,7 +238,37 @@ const SectionContainer = () => {
                             renderFilter={renderFilter} 
                             filteredSections={filteredSections} 
                             transitionDuration={transitionDuration} 
-                            sections={sections} />}
+                            sections={sections} />
+  }
+
+    
+
+ 
+   return (
+    <div className={classes.root}>
+     {Object.values(sections).length ?
+      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+          <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
+      </IconButton> : null }
+      <SwipeableDrawer
+        classes={{ paper: classes.drawer }}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        variant="persistent"
+        anchor="left"
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+      >  
+        {renderFilter()}
+      </SwipeableDrawer>  
+      <Grid container justify='space-evenly' className={classes.cardGrid}>  
+        {Object.values(sections).length ? renderList() : 
+           <div> 
+            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/> 
+            <Typography className={classes.message}>You have no sections! Import a song by using the Spotify Search function in the navbar or by adding one by following this <Link to="/sections/new">link</Link></Typography>
+          </div>
+        }
         <Grid item      
               xs={12} md={6} lg={6} 
               ref={elementDOM} 

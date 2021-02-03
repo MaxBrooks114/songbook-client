@@ -13,6 +13,7 @@ import { useTheme } from '@material-ui/core/styles';
 import useHeight from '../../hooks/useHeight'
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
+import trebleClef from '../../assets/trebleClef.png'
 
 
 
@@ -79,12 +80,20 @@ const useStyles = makeStyles((theme) => ({
     })
   },
 
-  message: {
-      position: 'fixed',
-      zIndex: theme.zIndex.modal + 1,
-      top: '50%',
-      left: '15%'
-    }
+ 
+    message: {
+      display: 'block',
+      margin: '0 auto',
+      overflowWrap: 'normal',
+      width: 500
+    },
+
+    graphic: {
+      display: 'block',
+      margin: '0 auto',
+      width: 160,
+      height: 320
+  },
 
 
 }));
@@ -134,28 +143,40 @@ const InstrumentContainer = () => {
   },[instrument])
 
   const renderDetail = () => {
-    return instrument ? <InstrumentDetail instrument={instrument} nextInstrument={Object.values(instruments)[nextInstrumentIdx]} prevInstrument={Object.values(instruments)[prevInstrumentIdx]}/> : null;
+    return instrument ? <InstrumentDetail instrument={instrument} nextInstrument={Object.values(instruments)[nextInstrumentIdx]} prevInstrument={Object.values(instruments)[prevInstrumentIdx]} showDetail={showDetail}/> : null;
   };
+
+
+  const renderList = () => {
+    return !matches ? <Grid item xs={3} md={listColumnSize}  className={clsx(classes.list, {[classes.listShiftInstrument]: listColumnSize !==8 && instrument, [classes.listShiftAlone]: !instrument || listColumnSize === 8})}>
+            <InstrumentList height={height} setShowDetail={setShowDetail}
+                setListColumnSize={setListColumnSize} instruments={instruments} />  
+        </Grid> : <InstrumentDrawer instruments={instruments} transitionDuration={transitionDuration}/>
+  }
 
 
   
 
 
-  return Object.values(instruments).length ? (
+  return  (
 
 
       <Grid container justify='space-evenly' className={classes.cardGrid}>
-        {!matches ? <Grid item xs={3} md={listColumnSize}  className={clsx(classes.list, {[classes.listShiftInstrument]: listColumnSize !==8 && instrument, [classes.listShiftAlone]: !instrument || listColumnSize === 8})}>
-            <InstrumentList height={height} setShowDetail={setShowDetail}
-                setListColumnSize={setListColumnSize} instruments={instruments} />  
-        </Grid> : <InstrumentDrawer instruments={instruments} transitionDuration={transitionDuration}/>}
+        {Object.values(instruments).length ?
+          renderList(): 
+           <Grid item xs={12}> 
+            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/> 
+            <Typography className={classes.message}>You have no instruments! Add one by following this <Link to="/instruments/new">link</Link></Typography>
+          </Grid>
+        
+        }
         <Grid item xs={12} md={6}  ref={elementDOM} className={showDetail ? classes.detailShown : classes.detailHidden}>
           {renderDetail()}
         </Grid>
     
       </Grid>
    
-  ) :  <Grid container justify='space-evenly' className={classes.cardGrid}><Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/instruments/new">link</Link></Typography></Grid> 
+  ) 
 };
 
 export default InstrumentContainer;

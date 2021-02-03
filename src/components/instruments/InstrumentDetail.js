@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteInstrument } from '../../actions/instruments';
 import {playSection } from '../../actions/spotify'
-import {renderBool, audioFeaturesToText, millisToMinutesAndSeconds, renderText} from '../../helpers/detailHelpers'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -27,7 +26,6 @@ import IconButton from '@material-ui/core/IconButton';
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
 import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
 
@@ -164,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const InstrumentDetail = ({ instrument, nextInstrument, prevInstrument }) => {
+const InstrumentDetail = ({ instrument, nextInstrument, prevInstrument, showDetail }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -259,7 +257,7 @@ const InstrumentDetail = ({ instrument, nextInstrument, prevInstrument }) => {
 
   const classes = useStyles();
 
-  return instrument ? (
+  return instrument && showDetail ? (
     <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
       <Paper className={classes.root} elevation={3}>
         <Grid container alignItems="center" justify="center" className={classes.details}>

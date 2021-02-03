@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import clsx from 'clsx';
 import filter_arrow_right from '../../assets/filter_arrow_right.svg';
-
+import trebleClef from '../../assets/trebleClef.png'
 
 const drawerWidth = 244;
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
   list: {
    marginTop:'7px', 
-   minHeight: "100vh",
+  //  minHeight: "100vh",
    flexGrow: 1,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeInOut,
@@ -123,6 +123,8 @@ const useStyles = makeStyles((theme) => ({
     },
     
   },
+
+ 
   
    drawerIcon: {
     height: '54px',
@@ -142,11 +144,18 @@ const useStyles = makeStyles((theme) => ({
     }, 
 
     message: {
-      position: 'fixed',
-      zIndex: theme.zIndex.modal + 1,
-      top: '50%',
-      left: '15%'
-    }
+      display: 'block',
+      margin: '0 auto',
+
+      overflowWrap: 'normal'
+    },
+
+    graphic: {
+      display: 'block',
+      margin: '50px auto',
+      width: 160,
+      height: 320
+  },
 
 }));
 
@@ -199,32 +208,12 @@ const SongContainer = () => {
   
 
   const renderDetail = () => {
-    return song ? <SongDetail nextSong={filteredSongs[nextSongIdx]} prevSong={filteredSongs[prevSongIdx]} song={song} /> : null;
+    return song ? <SongDetail showDetail={showDetail} nextSong={filteredSongs[nextSongIdx]} prevSong={filteredSongs[prevSongIdx]} song={song} /> : null;
   };
 
-  return (
-    <div >
-      {Object.values(songs).length ?
-      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
-          <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
-      </IconButton> : 
-        <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
-      }
-      <SwipeableDrawer
-        classes={{ paper: classes.drawer }}
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
-        open={openDrawer}
-        variant="persistent"
-        anchor="left"
-        onClose={() => setOpenDrawer(false)}
-        onOpen={() => setOpenDrawer(true)}
-      >  
-        {renderFilter()}
-      </SwipeableDrawer>  
-      <Grid container justify='space-evenly' className={classes.cardGrid}>  
-        {!matches ? 
-            <>    
+  const renderList = () => {
+    return Object.values(songs).length ? (
+       <>    
               <Grid 
                   item xs={3} md={listColumnSize} 
                   className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer && !medScreen, [classes.listShiftSong]: listColumnSize !==8 && song &&  !openDrawer, [classes.listShiftAlone]: !openDrawer && (!song || listColumnSize === 8) })}
@@ -238,16 +227,47 @@ const SongContainer = () => {
                 height={height} 
                 /> 
               </Grid> 
-            </>: 
-                <SongDrawer renderFilter={renderFilter} 
+            </> )
+     :  (<SongDrawer renderFilter={renderFilter} 
                             filteredSongs={filteredSongs} 
                             transitionDuration={transitionDuration} 
-                            songs={songs} />}
+                            songs={songs} /> )
+  }
+
+  return (
+    <div >
+      {Object.values(songs).length ?
+      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+          <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
+      </IconButton> : null }
+          
+      <SwipeableDrawer
+        classes={{ paper: classes.drawer }}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        variant="persistent"
+        anchor="left"
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+      >  
+        {renderFilter()}
+      </SwipeableDrawer>  
+      <Grid container justify='space-evenly' className={classes.cardGrid}>  
+        {Object.values(songs).length ? 
+          renderList() : 
+          <div> 
+            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/> 
+            <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
+          </div>
+          }
+   
         <Grid item      
               xs={12} md={6}  
               ref={elementDOM} 
               className={showDetail ? classes.detailShown : classes.detailHidden}>
                 {renderDetail()}
+        
         </Grid>
       </Grid>
     </div>

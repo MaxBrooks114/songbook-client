@@ -239,7 +239,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SongDetail = ({ song, nextSong, prevSong }) => {
+const SongDetail = ({ song, nextSong, prevSong, showDetail }) => {
   const dispatch = useDispatch();
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id);
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
@@ -341,7 +341,7 @@ const SongDetail = ({ song, nextSong, prevSong }) => {
 
 
 
-  return song ? (
+  return song && showDetail ? (
     <>
     <Slide in transition={1000}>
       <Paper className={classes.root} elevation={3}>
