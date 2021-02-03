@@ -31,6 +31,7 @@ import { fetchInstruments } from '../actions/instruments';
 import { fetchSongs } from '../actions/songs';
 import { fetchSections } from '../actions/sections';
 import { fetchFiles } from '../actions/files';
+import ErrorPage from './ui/ErrorPage'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const App = () => {
                 <PrivateRoute exact path="/instruments/new" component={InstrumentCreate} />
                 <PrivateRoute exact path="/instruments/edit/:id" component={InstrumentEdit} />
                 <PrivateRoute path="/instruments" component={InstrumentContainer} />
+                <Route path='*' component={ErrorPage} />
               </Switch>   
             </MuiThemeProvider>
           </div>   
