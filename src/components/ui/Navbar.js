@@ -314,7 +314,7 @@ const Navbar = () => {
         <Toolbar disableGutters>
           <Grid container alignItems="center" justify="space-between">
             <Grid item xs={4}>
-           <Button component={RouterLink} to="/songs" onClick={e => setValue(0)} >
+           <Button component={RouterLink} to="/" onClick={e => setValue(0)} >
               <img alt="logo" src={logo} variant="h6"  className={classes.logo}/>
             </Button>
             </Grid>

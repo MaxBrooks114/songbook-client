@@ -32,6 +32,7 @@ import { fetchSongs } from '../actions/songs';
 import { fetchSections } from '../actions/sections';
 import { fetchFiles } from '../actions/files';
 import ErrorPage from './ui/ErrorPage'
+import Home from './ui/Home'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const App = () => {
         <div id="body">       
           <MuiThemeProvider>
               <Switch>
+                <Route exact path="/" component={Home} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/login" exact component={Login} />
                 <Route path='/passwordReset' exact component={PasswordReset} />
