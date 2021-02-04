@@ -65,8 +65,8 @@ const UserMetrics = ({songs, sections}) => {
       'favorites': {
           'favoriteArtists': [topFiveByAttr(songs, 'artist'), 'image', 'album', 'songs', 'artist', 'title', 'album', _.uniq(songs.map(song => song.artist)).length, topFiveByAttrListLength(songs, 'artist')],
           'favoriteGenres': [topFiveByAttr(songs, 'genre'), 'image', 'album', 'songs', 'genre', 'title', 'artist', _.uniq(songs.map(song => song.genre)).length, topFiveByAttrListLength(songs, 'genre')],
-          'favoriteKeys': [topFiveByAttr(songs, 'key'), 'image', 'album', 'songs', 'key', 'artist', 'album', _.uniq(songs.map(song => song['key'])).length, topFiveByAttrListLength(songs, 'key')], 
-          'favoriteAlbums': [topFiveByAttr(songs, 'album'), 'image', 'album', 'songs', 'album', 'title', 'artist', _.uniq(songs.map(song => song.album)).length, topFiveByAttrListLength(songs, 'album')]
+          'favoriteKeys': [topFiveByAttr(songs.filter(song => song.key), 'key'), 'image', 'album', 'songs', 'key', 'artist', 'album', _.uniq(songs.map(song => song['key'])).length, topFiveByAttrListLength(songs, 'key')], 
+          'favoriteAlbums': [topFiveByAttr(songs.filter(song => song.key), 'album'), 'image', 'album', 'songs', 'album', 'title', 'artist', _.uniq(songs.map(song => song.album)).length, topFiveByAttrListLength(songs, 'album')]
       },
 
       'timing' : {
