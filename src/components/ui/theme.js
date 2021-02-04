@@ -48,9 +48,6 @@ const theme = createMuiTheme({
     }
    },
 
-   divider: {
-    background: black,
   
-  },
 });
 export default theme;
