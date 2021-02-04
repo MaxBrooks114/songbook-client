@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   container: {
-      minHeight: '110vh',
+      minHeight: '120vh',
     [theme.breakpoints.down('md')]: {
        minHeight: "100vh",
     },
