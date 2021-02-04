@@ -36,6 +36,8 @@ export const createSong = (formValues) => async (dispatch) => {
       dispatch(showSuccessSnackbar('Song Created'))
 
     }
+    dispatch(fetchSongs())
+    dispatch(notLoading());
     return response.data
 
   } catch (error) {

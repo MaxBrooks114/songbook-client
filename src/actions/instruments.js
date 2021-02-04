@@ -14,6 +14,7 @@ export const createInstrument = (formValues) => async (dispatch) => {
       payload: response.data,
     });
     history.push('/instruments');
+    dispatch(fetchInstruments)
     dispatch(showSuccessSnackbar('Instrument Added'))
 
   } catch (error) {

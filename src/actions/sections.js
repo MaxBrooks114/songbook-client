@@ -18,11 +18,11 @@ export const createSection = (formValues) => async (dispatch) => {
       history.push('/sections');
       dispatch(showSuccessSnackbar('Section Created'))
     }
-    
+     dispatch(fetchSections())
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status));
   }
-
+ 
   dispatch(notLoading());
 };
 
