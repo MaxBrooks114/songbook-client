@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
 
     transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeInOut,
-      duration: 1000
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
     }),
     width: 349,
 
     "&:hover": {
        transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeInOut,
+      easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
 

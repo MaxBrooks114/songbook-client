@@ -30,15 +30,15 @@ const useStyles = makeStyles((theme) => ({
    minHeight: "100vh",
    flexGrow: 1,
    transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeInOut,
-      duration: 1000,
+      easing: theme.transitions.easing.easeOut,
+      duration: 500,
     }),
   },
 
    listShiftAlone: {
       transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeInOut,
-      duration: 1000
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
     }),
 
     marginLeft: 47 
@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
   listShiftInstrument: {
     transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeInOut,
-      duration: 1000
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
     })
   },
 
@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
      minHeight: '100vh',
      marginTop: 95,
       transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeInOut, 
-      duration: 1000
+      easing: theme.transitions.easing.easeOut, 
+      duration: 500
       })
   },
 
@@ -75,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     width: 0,
      transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeInOut, 
-      duration: 1000
+      easing: theme.transitions.easing.easeOut, 
+      duration: 500
     })
   },
 
