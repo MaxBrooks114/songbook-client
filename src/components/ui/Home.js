@@ -17,6 +17,7 @@ import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
 import { useHistory  } from 'react-router-dom';
 import Blurb from './Blurb'
 import * as workerTimers from 'worker-timers';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -64,14 +65,17 @@ const useStyles = makeStyles((theme) => ({
   },
 
   graphic: {
-  
     width: '100%',
     cursor: 'pointer',
      '&:hover': {
         filter: 'brightness(120%) drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
-     }
-    
-    
+     }    
+  },
+
+  graphicActive: {
+    width: '100%',
+    cursor: 'pointer',
+    filter: 'brightness(120%) drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
   },
 
   cta: {
@@ -86,7 +90,9 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.default,
       color: theme.palette.common.darkGreen,
 
-    }
+    },
+
+   
   },
 
 
@@ -148,7 +154,7 @@ const Home = () => {
      return pngs.map((png, index) => {
        return (
           <Grid key={index} item xs={2} lg={1}>
-            <img onClick={() =>setBlurbShow(index)} className={classes.graphic} src={png} alt={`${png}`}/>
+            <img onClick={() =>setBlurbShow(index)} className={clsx(classes.graphic, {[classes.graphicActive]: blurbShow === index })} src={png} alt={`${png}`}/>
           </Grid>
        )
      })
