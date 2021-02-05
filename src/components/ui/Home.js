@@ -30,20 +30,16 @@ const useStyles = makeStyles((theme) => ({
   },
 
   hero: {
-    padding: '3rem',
+    padding: '5rem 0',
     background: theme.palette.primary.main,
-    textAlign: 'center',
+    textAlign: 'left',
     color: theme.palette.info.main,
-    [theme.breakpoints.down('md')]: {
-          padding: '2rem'
-      },
-    [theme.breakpoints.down('sm')]: {
-          padding: '1rem'
-      },
+    
   },
 
   title: { 
     fontWeight: 600,
+    fontSize: '2.8rem',
     [theme.breakpoints.down('md')]: {
           fontSize: '2.5rem'
       },
@@ -71,26 +67,24 @@ const useStyles = makeStyles((theme) => ({
   
     width: '100%',
     cursor: 'pointer',
-   
+    
   },
 
   cta: {
-    color: theme.palette.info.main,
-    background: `linear-gradient(90deg, ${theme.palette.common.gray} 0%,  ${theme.palette.secondary.light} 150%)`,
+    color: theme.palette.background.default,
+    background: theme.palette.common.darkGreen,
     height: 60,
-    width: '50%',
+    width: '100%',
     minWidth: 200,
-    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)'
+    maxWidth: 337,
+    boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
+    '&:hover':{
+      background: theme.palette.background.default,
+      color: theme.palette.common.darkGreen,
+
+    }
   },
 
-
-
-  video: {
-    outline: 'none',
-    borderRadius: 4,
-    width: '100%',
-    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)'
-  }
 
 }));
 const Home = () => {
@@ -115,19 +109,19 @@ const Home = () => {
     {
       title: 'Instruments',
       subtitle: 'Tools of the Trade',
-      desc: 'A more optional feature of Songbook, you can add any instrument you can think of and link it to any section you want. Perfect for multi-instrumentalists who know a section or song on more than one instrument. When viewing any particular instrument, you can see a list of all songs and sections you know on that instrument.',
+      desc: 'A more optional feature of SongBook, you can add any instrument you can think of and link it to any section you want. Perfect for multi-instrumentalists who know a section or song on more than one instrument. When viewing any particular instrument, you can see a list of all songs and sections you know on that instrument.',
       video: InstrumentDemo
     },
     {
       title: 'Profile',
       subtitle: 'Uncover Trends In your own Tastes',
-      desc: `Songbook keeps track of all the music you add and aggregates all that data to tell you more about your musical taste, as well as track your progress. Everything from how many songs you have added to your favorite artists can be found in your profile section of Songbook. Furthermore, every song imported from Spotify has the following audio metrics: Valence, Energy, Acousticness, Danceability, Instrumentalness, Speechiness and Loudness among others. Songbook tracks your preferences for those too to see what kind of music you prefer how to play.`,
+      desc: `SongBook keeps track of all the music you add and aggregates all that data to tell you more about your musical taste, as well as track your progress. Everything from how many songs you have added to your favorite artists can be found in your profile section of SongBook. Furthermore, every song imported from Spotify has the following audio metrics: Valence, Energy, Acousticness, Danceability, Instrumentalness, Speechiness and Loudness among others. SongBook tracks your preferences for those too to see what kind of music you prefer how to play.`,
       video: userMetricsDemo
     },
     {
       title: 'Deeper Integration with Spotify',
       subtitle: '(Premium members only)',
-      desc: 'If you have Spotify premium you can give Songbook access to your Spotify player. You can do this by hitting the “integrate spotify” button found on the filter drawer on the list pages or the manage account page. Once you do this you will see play buttons on every song or section you imported through Spotify. This is especially useful for playing along with songs, sections when learning covers.' ,
+      desc: 'If you have Spotify premium you can give SongBook access to your Spotify player. You can do this by hitting the “integrate spotify” button found on the filter drawer on the list pages or the manage account page. Once you do this you will see play buttons on every song or section you imported through Spotify. This is especially useful for playing along with songs, sections when learning covers.' ,
       video: IntegrateSpotifyDemo
     },
 
@@ -158,16 +152,16 @@ const Home = () => {
 
   return (
     <div className={classes.root}>
-        <Grid container justify="space-around" alignItems="center" className={classes.hero}>
-          <Grid item xs={10} md={5}>
-            <Typography variant="h2" className={classes.title} gutterBottom>Welcome To Songbook</Typography>
-            <Typography variant="subtitle1" gutterBottom className={classes.subtitle}>Songbook is a musical library web app for musicians to keep track of their song repertoire, instrument collection, and learning progress. </Typography>
+        <Grid container justify="space-around"  alignItems="center" className={classes.hero}>
+          <Grid item xs={10} md={6}>
+            <Typography variant="h2" className={classes.title} gutterBottom>Welcome To SongBook</Typography>
+            <Typography variant="subtitle1" gutterBottom className={classes.subtitle}>SongBook is a musical library web app for musicians to keep track of their song repertoire, instrument collection, and learning progress. </Typography>
           </Grid>
-          <Grid item xs={10} md={5}>
+          <Grid item xs={10} md={5} style={{textAlign: 'center'}}>
             <Button className={classes.cta} onClick={() => {
               user ? history.push('/search') : history.push('/register')
             }}>
-               { user ? "Start Adding Songs Now" : "Register Now"}
+               <span style={{fontWeight: 600}}>{ user ? "Start Adding Songs Now" : "Register Now"}</span>
             </Button>
           </Grid>
         </Grid>
