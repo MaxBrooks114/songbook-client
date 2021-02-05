@@ -4,16 +4,15 @@ import Grid from '@material-ui/core/Grid';
 import PrivateRoute from '../PrivateRoute';
 import UserEdit from './UserEdit'
 import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
 import UserMetrics from './UserMetrics'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import { NavLink, Switch, useLocation} from 'react-router-dom';
+import { NavLink, Switch, useLocation, useHistory} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 
 const drawerWidth = 180;
 
@@ -37,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   title:{
-    width: '100%'
+    width: '100%',
+    fontSize: '3rem',
+    fontWeight: 600,
+    marginLeft: '1.7rem',
   },
 
   albumRow: {
@@ -69,7 +71,20 @@ const useStyles = makeStyles((theme) => ({
   songCard: {
     background: theme.palette.primary.main,
     borderRadius: 4
-  }
+  },
+
+   tabContainer: {
+     marginLeft: '1rem'
+   },
+
+  tab: {
+    ...theme.typography.tab,
+    marginLeft: '2rem',
+    color: theme.palette.info.main,
+    minWidth: 10,
+    opacity: 1,
+    alignText: 'left'
+  },
 }));
 
 const UserShow = () => {
@@ -82,44 +97,27 @@ const UserShow = () => {
   const location = useLocation()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'));
-
+  const history = useHistory()
   
 
   return (
     <div className={classes.root}>
-       {matches ? null :  
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}    
-      > 
-     
-      <List style={{position: 'fixed'}}>
-          <ListItem style={{marginTop: '6rem'}}>
-            <NavLink to="progress">Progress</NavLink>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <NavLink to="favorites">Favorites</NavLink>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <NavLink to="timing">Timing</NavLink>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <NavLink to='audioPreferences'>Audio Preferences</NavLink>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <NavLink to='edit'>Manage Account</NavLink>
-          </ListItem>
-          <Divider />
-      </List>
-      </Drawer>}
-     <Grid style={{marginTop: '50px', marginBottom: '20px'}} container direction="column">
-      <Typography  className={classes.title} component="p" variant="h3">{user.username}'s Songbook</Typography>
+    
+     <Grid style={{marginTop: '50px', marginBottom: '20px'}} container justify="flex-start" >
+       <Grid item xs={10}>
+          <Typography  className={classes.title} component="p" variant="h3" gutterBottom>Library Stats</Typography>
+        </Grid>
+      {matches ? null :
+      <Grid item xs={12}>      
+          <Tabs className={classes.tabContainer}>
+            <Tab label="Progress" onClick={() => history.push('progress')} className={classes.tab}/>    
+            <Tab label="Favorites" onClick={() => history.push('favorites')} className={classes.tab}/>        
+            <Tab label="Timing" onClick={() => history.push('timing')} className={classes.tab}/>       
+            <Tab label="Audio Preferences" onClick={() => history.push('audioPreferences')} className={classes.tab}/>
+            <Tab label="Manage Account" onClick={() => history.push('edit')} className={classes.tab}/>
+          </Tabs>
+        </Grid>
+      }
       <Switch>
           <PrivateRoute exact path="/users/:id/progress">
              <UserMetrics songs={Object.values(songs)} sections={Object.values(sections)}/>

@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
   rowTitle: {
     marginLeft: 29,
+    marginBottom: '1rem',
     [theme.breakpoints.down('sm')]: {
         marginLeft: 0
       }, 
@@ -37,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
     graphic: {
       display: 'block',
       margin: '50px auto',
-      width: 160,
-      height: 320
+       width: 150,
+      height: 310
   },
 
 
@@ -142,7 +143,7 @@ const UserMetrics = ({songs, sections}) => {
        }
           return (
       
-               <Grid item xs={6} md={2} style={{margin: '0 20px'}}>
+               <Grid item xs={6} md={2} style={{marginLeft: '30px'}}>
                 <ItemCard 
                     index={index} 
                     picture={renderInfo(item, items[1])} 
@@ -181,8 +182,6 @@ const UserMetrics = ({songs, sections}) => {
     }
 
   return (
-    <>
-      <Typography className={classes.title} component="p" variant="h4">{titleCase(whichData)}</Typography>
       <Grid container justify="center">
         <Grid item xs= {12}>
           {songs.length ? renderRows(data[whichData]) :  <div style={{textAlign: 'center'}}> 
@@ -191,7 +190,6 @@ const UserMetrics = ({songs, sections}) => {
           </div> }
         </Grid>
       </Grid>
-    </>
   )
 }
 
