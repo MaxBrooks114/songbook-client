@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     borderRadius: 4,
     width: '100%',
-    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)'
+    boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
+
   }
 
  
