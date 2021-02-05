@@ -181,7 +181,10 @@ const useStyles = makeStyles((theme) => ({
 
   link: {
     textDecoration: 'none',
-    color: theme.palette.info.main
+    color: theme.palette.info.main,
+     "&:hover": {
+      color: theme.palette.primary.dark
+    }
   },
 
   cardContent: {
@@ -217,7 +220,7 @@ const useStyles = makeStyles((theme) => ({
     
   },
 
-  title: {
+  title: { fontSize: '2.8rem', fontWeight: 600,
       width: '95%',
       textAlign: 'center' 
     },
