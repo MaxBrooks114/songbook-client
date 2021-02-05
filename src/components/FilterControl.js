@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import { setFilter, clearFilter } from '../actions/filter';
-import { Field, reduxForm, reset, initialize, clearFields } from 'redux-form';
+import { setFilter, clearFilter, clearNonArrayFields } from '../actions/filter';
+import { Field, reduxForm, reset, initialize, clearFields, submit } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import keys from '../components/songs/keys'
@@ -218,13 +218,13 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
      
 
       if(filterValues){
-        if(!filterValues.duration.length){ 
+        if(!filterValues.duration.length || filterValues.duration.some(val => val === null)){ 
           dispatch(setFilter({ duration: [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.duration))+1))]}))
         }
-        if(!filterValues.tempo.length){ dispatch(setFilter({
+        if(!filterValues.tempo.length || filterValues.tempo.some(val => val === null)){ dispatch(setFilter({
           tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.tempo))+1))]}))
         }
-        if(!filterValues.year.length){ dispatch(setFilter({
+        if(!filterValues.year.length || filterValues.year.some(val => val === null)){ dispatch(setFilter({
           year: [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item)=>parseInt((item.year))+1))]}))
         } 
         
@@ -238,9 +238,16 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
         }
         
       }
-    
-  }, [objectType, dispatch, songs, items, filterForm, filterValues ])
 
+    
+  }, [objectType, dispatch, songs, items, filterForm, filterValues, location.pathname])
+
+
+  useEffect(() => {
+    return() => {
+      dispatch(clearNonArrayFields())
+    }
+  }, [])
 
   useEffect(() => {
     if(songs.length === 0) setOpenDrawer(false)

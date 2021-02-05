@@ -1,4 +1,4 @@
-import { SET_FILTER, CLEAR_FILTER } from '../../actions/types';
+import { SET_FILTER, CLEAR_FILTER, CLEAR_NON_ARRAY_FIELDS } from '../../actions/types';
 
 const initialState = {
   title: '',
@@ -32,6 +32,24 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case SET_FILTER:
       return { ...state, ...action.payload };
+    case CLEAR_NON_ARRAY_FIELDS:
+      return { ...state, 
+        title: '',
+        artist: '',
+        album: '',
+        genre: '',
+        original: '',
+        key: '',
+        mode: '',
+        time_signature: '',
+        explicit: '',
+        song: '',
+        instrument: '',
+        learned: '',
+        filter: false,
+        sort: '',
+        order: 'ascending' 
+      };
     case CLEAR_FILTER:
       return initialState;
     default:
