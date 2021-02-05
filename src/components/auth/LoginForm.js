@@ -129,7 +129,7 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
           </Grid>
           <Grid item xs={12}>
             <Button type="submit" className={classes.button} variant="contained">
-              {user ? "Update Information" : "Login"}
+              {user ? "Change Username" : "Login"}
             </Button>
           </Grid>
            <Grid item xs={12}>
