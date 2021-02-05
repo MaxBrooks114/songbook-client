@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
     margin: 'auto',
     padding: '2rem',
-    boxShadow: '6px 6px 6px rgba(0,0,0,0.2)',
+    boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
     [theme.breakpoints.down('md')]: {

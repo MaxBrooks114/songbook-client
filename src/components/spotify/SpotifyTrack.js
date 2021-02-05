@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
 
    dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.primary.main
+      background: theme.palette.secondary.main,
+    
     },
 
     '& .MuiTypography-root':{
@@ -67,12 +68,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: '10px',
     right: '.5rem',
     borderRadius: 4,
-    '&:hover': {
-      background: theme.palette.primary.main,
-      transition: '.4s',
    
-      boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.26)'
-    },
     
   },
 
@@ -80,6 +76,11 @@ const useStyles = makeStyles((theme) => ({
     height: 32,
     width: 32,
     color: theme.palette.background.default,
+    '&:hover': {
+      transition: '.4s',
+      filter: 'drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
+     
+    },
   
   },
 

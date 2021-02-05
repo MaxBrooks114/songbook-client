@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    boxShadow: theme.shadows[24],
+    boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
     alignItems: 'flex-start',
     position: 'relative',
     '&:hover': {
