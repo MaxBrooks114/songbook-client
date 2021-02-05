@@ -13,7 +13,7 @@ export const createInstrument = (formValues) => async (dispatch) => {
       type: CREATE_INSTRUMENT,
       payload: response.data,
     });
-    history.push('/instruments');
+    history.push(`/instruments/${response.data.id}`);
     dispatch(fetchInstruments)
     dispatch(showSuccessSnackbar('Instrument Added'))
 

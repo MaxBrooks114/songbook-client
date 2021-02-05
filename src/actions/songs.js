@@ -32,7 +32,7 @@ export const createSong = (formValues) => async (dispatch) => {
     });
 
     if (history.location.pathname.includes('songs/new')) {
-      history.push('/songs');
+      history.push(`/songs/${response.data.id}`);
       dispatch(showSuccessSnackbar('Song Created'))
 
     }

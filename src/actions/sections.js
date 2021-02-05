@@ -15,7 +15,7 @@ export const createSection = (formValues) => async (dispatch) => {
       payload: response.data,
     });
     if (history.location.pathname.includes('sections/new')) {
-      history.push('/sections');
+      history.push(`/sections/${response.data.id}`);
       dispatch(showSuccessSnackbar('Section Created'))
     }
      dispatch(fetchSections())
