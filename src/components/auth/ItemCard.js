@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {SET_FILTER } from '../../actions/types'
+import {SET_FILTER} from '../../actions/types'
 
 
 
@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
     color: 'black',
-    height: '100%',
+    height: '85%',
+    width: '85%',
     display: 'flex',
     flexDirection: 'column',
     boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
@@ -29,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   media: {
-    width: 208,
-    height: 209,
+    width: '100%',
     borderRadius: 4
   },
   
@@ -42,10 +42,16 @@ const useStyles = makeStyles((theme) => ({
 
   
 
-  cardContent: {
+  cardContent1: {
     color: theme.palette.info.main,
     padding: '10px',
-    height: '85px',   
+    height: 80,   
+  },
+
+  cardContent2: {
+    color: theme.palette.info.main,
+    padding: '10px',
+    height: 120,   
   },
 
   trackInfo: {
@@ -85,24 +91,28 @@ const ItemCard = ({index, picture, album, cardTitle, cardInfo1, cardInfo2, type,
   return (
       <Card className={classes.root} onClick={() => {
         
-        history.push(`/${type}/${id}`)
+         history.push(`/${type}/${id}`)
         if(dispatchKey && dispatchValue) {
-        dispatch({type: SET_FILTER, payload: {
-         [dispatchKey]: dispatchValue, filter: true
+         
+          dispatch({type: SET_FILTER, payload: {
+
+            [dispatchKey]: dispatchValue, filter: true
         }})
+       
       }
+      
       }}>
         <CardMedia
         ><img className={classes.media} alt={album} src={picture}/></CardMedia>
         <div className={classes.cardBody}>
-        <CardContent className={classes.cardContent}>
+        <CardContent className={classes.cardContent1}>
               <Typography variant="h6">{index + 1}</Typography>
               <Typography className={classes.trackTitle} variant="subtitle1">
                 {cardTitle}< br/>          
               </Typography>      
         </CardContent>
         
-        <CardContent className={classes.cardContent}>
+        <CardContent className={classes.cardContent2}>
           <Typography component="p" className={classes.trackInfo} variant="subtitle2">
            {cardInfo1} </Typography>
           <Typography component="p" className={classes.trackInfo} variant="subtitle2">
