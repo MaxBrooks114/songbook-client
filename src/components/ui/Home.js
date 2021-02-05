@@ -67,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
   
     width: '100%',
     cursor: 'pointer',
+     '&:hover': {
+        filter: 'brightness(120%) drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
+     }
+    
     
   },
 
