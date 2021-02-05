@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     verticalAlign: 'top',
     marginBottom: 10,
+    marginLeft: 16,
     height: "3.5rem",
     [theme.breakpoints.down('md')]: {
       height:"3rem",
