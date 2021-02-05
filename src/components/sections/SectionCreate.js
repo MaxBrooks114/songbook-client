@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  title: {
+  title: { fontSize: '2.8rem', fontWeight: 600,
     color: theme.palette.info.main
   }
 }));

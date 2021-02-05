@@ -6,16 +6,18 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
 
 
-  title: {
+  title: { 
+    fontSize: '2rem', 
+    fontWeight: 600,
      [theme.breakpoints.down('md')]: {
-          fontSize: '2.5rem'
+          fontSize: '2.3rem'
       },
     [theme.breakpoints.down('sm')]: {
           fontSize: '2rem'
       },
   },
 
-  subtitle: {
+  subtitle: { 
     [theme.breakpoints.down('md')]: {
           fontSize: '1.5rem'
       },

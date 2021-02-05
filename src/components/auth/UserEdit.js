@@ -83,7 +83,7 @@ root: {
     verticalAlign: 'middle',
   }, 
 
-  title: {
+  title: { fontSize: '2.8rem', fontWeight: 600,
     color: theme.palette.info.main,
     textAlign: "center",
     width: '100%',
@@ -143,7 +143,9 @@ const UserEdit = () => {
         <Typography className={classes.title} component="h1" variant="h2" align="center" gutterBottom>
           Edit Your Information
         </Typography>
-        <LoginForm onSubmit={onSubmit} />
+        <fieldset>
+          <LoginForm onSubmit={onSubmit} />
+        </fieldset>
         <Grid container justify="center" className={classes.buttonContainer}>
             <Button className={classes.button} >
                <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${userId}`}>Integrate Spotify</a>

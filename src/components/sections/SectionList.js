@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     
   title: {
       width: '95%',
-      fontWeight: '600',
+      fontWeight: 600,
       textAlign: 'center',
       [theme.breakpoints.down('xs')]: {
         margin: 0,
