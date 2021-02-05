@@ -25,6 +25,7 @@ const theme = createMuiTheme({
     common: {
         orange,
         gray,
+        darkGreen
     },
     primary: { main: mintTransparent },
     secondary: { main: mint },
