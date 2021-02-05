@@ -91,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
     graphic: {
       display: 'block',
       margin: '0 auto',
-      width: 160,
-      height: 320
+      width: 150,
+      height: 310
   },
 
 
