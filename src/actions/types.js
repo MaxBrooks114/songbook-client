@@ -48,3 +48,4 @@ export const CHECK_IF_PLAYING = 'CHECK_IF_PLAYING';
 export const SONGPLAY = 'SONGPLAY';
 export const SECTIONPLAY = 'SECTIONPLAY';
 export const PAUSE = 'PAUSE';
+export const CLEAR_NON_ARRAY_FIELDS = 'CLEAR_NON_ARRAY_FIELDS';
