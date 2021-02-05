@@ -79,17 +79,18 @@ const useStyles = makeStyles((theme) => ({
   },
 
   cta: {
-    color: theme.palette.background.default,
-    background: theme.palette.common.darkGreen,
+    color: theme.palette.common.darkGreen,
+    background: theme.palette.background.default,
     height: 60,
     width: '100%',
     minWidth: 200,
     maxWidth: 337,
     boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
+     filter: 'brightness(110%)',
     '&:hover':{
       background: theme.palette.background.default,
       color: theme.palette.common.darkGreen,
-
+      filter: 'brightness(150%)'
     },
 
    
