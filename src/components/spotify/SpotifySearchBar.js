@@ -1,13 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchSpotifyTracks } from '../../actions/spotify';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField'
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
+import { makeStyles } from '@material-ui/styles'
+import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
+import { fetchSpotifyTracks } from '../../actions/spotify'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,71 +21,69 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: 349,
 
-    "&:hover": {
-       transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeOut,
-      duration: 500
-    }),
+    '&:hover': {
+      transition: theme.transitions.create('all', {
+        easing: theme.transitions.easing.easeOut,
+        duration: 500
+      }),
 
-    width: 467,
+      width: 467
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: theme.palette.info.main,
-        
+        borderColor: theme.palette.info.main
+
       },
 
-       '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.info.main,
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.info.main
       },
 
       '&:hover fieldset': {
-        borderColor: theme.palette.primary.main,
-      },
-      
+        borderColor: theme.palette.primary.main
+      }
+
     },
 
     [theme.breakpoints.down('xs')]: {
       minWidth: 0
-  
-    },
+
+    }
   },
 
   input: {
     color: 'white',
     background: theme.palette.info.light,
     opacity: '.4',
-    textAlign: 'center',
-     
+    textAlign: 'center'
+
   },
 
   searchIcon: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.main
   },
 
   label: {
     color: theme.palette.info.light,
     opacity: '.6',
-    '&.shrink': {           
-           display: 'none'
-          },
-      },
-}));
+    '&.shrink': {
+      display: 'none'
+    }
+  }
+}))
 
 const SpotifySearchBar = () => {
-  const [query, setQuery] = useState('');
-  const dispatch = useDispatch();
-  const input = useRef(null);
-  const classes = useStyles();
-
- 
+  const [query, setQuery] = useState('')
+  const dispatch = useDispatch()
+  const input = useRef(null)
+  const classes = useStyles()
 
   return (
-        <form className={classes.root}          
+        <form className={classes.root}
           onSubmit={(e) => {
-            e.preventDefault();
+            e.preventDefault()
             input.current.lastChild.firstChild.value = ''
-            dispatch(fetchSpotifyTracks(query));
+            dispatch(fetchSpotifyTracks(query))
             setQuery('')
           }}
         >
@@ -106,15 +104,15 @@ const SpotifySearchBar = () => {
                 className: classes.input,
                 notched: false
               }}
-              InputLabelProps={{ 
+              InputLabelProps={{
                 classes: {
                   root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
+                  shrink: 'shrink'
+                }
+              }}
             />
         </form>
-  );
-};
+  )
+}
 
-export default SpotifySearchBar;
+export default SpotifySearchBar

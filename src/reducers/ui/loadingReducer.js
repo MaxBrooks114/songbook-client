@@ -1,20 +1,20 @@
-import { LOADING, NOT_LOADING } from '../../actions/types';
+import { LOADING, NOT_LOADING } from '../../actions/types'
 
 const loadingReducer = (state = { loading: false }, action) => {
   switch (action.type) {
     case LOADING:
       return {
         ...state,
-        loading: true,
-      };
+        loading: true
+      }
     case NOT_LOADING:
       return {
         ...state,
-        loading: false,
-      };
+        loading: false
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default loadingReducer;
+export default loadingReducer

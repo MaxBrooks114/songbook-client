@@ -1,12 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../actions/auth';
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import UserForm from './UserForm';
-import { Link as RouterLink } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import Link from '@material-ui/core/Link'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
+
+import { register } from '../../actions/auth'
+import UserForm from './UserForm'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,32 +18,34 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
     [theme.breakpoints.down('md')]: {
-      width: '75%',
+      width: '75%'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
+      width: '100%'
+    }
   },
 
-  title: { fontSize: '2.8rem', fontWeight: 600,
+  title: {
+    fontSize: '2.8rem',
+    fontWeight: 600,
     color: theme.palette.info.main,
-    textAlign: "center",
+    textAlign: 'center',
     width: '100%',
-      wordWrap: 'break-word', 
-      whiteSpace: 'normal',
-     [theme.breakpoints.down('sm')]: {
-      fontSize: '2rem',
-    },
+    wordWrap: 'break-word',
+    whiteSpace: 'normal',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '2rem'
+    }
   },
 
-   container: {
-      minHeight: '110vh',
+  container: {
+    minHeight: '110vh',
     [theme.breakpoints.down('md')]: {
-       minHeight: "100vh",
+      minHeight: '100vh'
     },
     [theme.breakpoints.down('sm')]: {
-       minHeight: '180vh',
-    },
+      minHeight: '180vh'
+    }
 
   },
 
@@ -54,31 +56,33 @@ const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '2em',
+      marginBottom: '2em'
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em',
-    },
-  },
-}));
+      marginBottom: '1.25em'
+    }
+  }
+}))
 
 const Register = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const user = useSelector(state => state.auth.user)
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const onSubmit = (formValues) => {
     dispatch(
       register({
-        ...formValues,
+        ...formValues
       })
-    );
-  };
+    )
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
-  return isAuthenticated ? (
+  return isAuthenticated
+    ? (
     <Redirect to={`/users/${user.Id}`} />
-  ) : (
+      )
+    : (
       <div className={classes.container}>
         <div className={classes.toolbarMargin}></div>
         <div className={classes.root}>
@@ -95,8 +99,8 @@ const Register = () => {
         </Typography>
         </div>
       </div>
-    
-  );
-};
 
-export default Register;
+      )
+}
+
+export default Register

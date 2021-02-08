@@ -1,24 +1,25 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { editUser, deleteUser } from '../../actions/auth';
-import { makeStyles } from '@material-ui/styles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import LoginForm from './LoginForm'
-import { Redirect } from 'react-router-dom';
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
+import { deleteUser, editUser } from '../../actions/auth'
 import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
+import LoginForm from './LoginForm'
 
 const useStyles = makeStyles((theme) => ({
 
-root: {
- 
-   color: theme.palette.info.main,
+  root: {
+
+    color: theme.palette.info.main,
     width: '50%',
     margin: 'auto',
     padding: '2rem',
@@ -26,50 +27,50 @@ root: {
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
     [theme.breakpoints.down('md')]: {
-      width: '75%',
+      width: '75%'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
+      width: '100%'
+    }
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
     // marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '2em',
+      marginBottom: '2em'
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em',
-    },
+      marginBottom: '1.25em'
+    }
   },
 
   buttonContainer: {
-      marginTop: '1rem'
+    marginTop: '1rem'
   },
 
-  delete:{
+  delete: {
 
     color: theme.palette.info.main,
     display: 'inline-block',
     borderRadius: 4,
     background: theme.palette.common.orange,
-     '&:hover': {
+    '&:hover': {
       color: theme.palette.common.orange,
-      background: theme.palette.info.main,
-    },
-  
+      background: theme.palette.info.main
+    }
+
   },
-  button:{
+  button: {
     color: theme.palette.background.default,
     display: 'inline-block',
     borderRadius: 4,
     background: theme.palette.info.main,
-     '&:hover': {
+    '&:hover': {
       color: theme.palette.common.gray,
-      background: theme.palette.info.main,
-    },
-  
+      background: theme.palette.info.main
+    }
+
   },
 
   link: {
@@ -77,66 +78,68 @@ root: {
     textDecoration: 'none'
   },
 
-  spotifyLogo:{
+  spotifyLogo: {
     height: 21,
     width: 21,
-    verticalAlign: 'middle',
-  }, 
-
-  title: { fontSize: '2.8rem', fontWeight: 600,
-    color: theme.palette.info.main,
-    textAlign: "center",
-    width: '100%',
-      wordWrap: 'break-word', 
-      whiteSpace: 'normal',
-     [theme.breakpoints.down('sm')]: {
-      fontSize: '2rem',
-    },
+    verticalAlign: 'middle'
   },
 
-   container: {
-      minHeight: '110vh',
+  title: {
+    fontSize: '2.8rem',
+    fontWeight: 600,
+    color: theme.palette.info.main,
+    textAlign: 'center',
+    width: '100%',
+    wordWrap: 'break-word',
+    whiteSpace: 'normal',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '2rem'
+    }
+  },
+
+  container: {
+    minHeight: '110vh',
     [theme.breakpoints.down('md')]: {
-       minHeight: "100vh",
+      minHeight: '100vh'
     },
     [theme.breakpoints.down('sm')]: {
-       minHeight: '180vh',
-    },
+      minHeight: '180vh'
+    }
 
-  },
+  }
 
-}));
-
-
+}))
 
 const UserEdit = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const userId = useSelector(state => state.auth.user.id)
   const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const onSubmit = (formValues) => {
     dispatch(
       editUser(userId, {
-       ...formValues,
+        ...formValues
       })
-    );
-  };
+    )
+  }
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
-  return !isAuthenticated ? (
-    <Redirect to={`/login`} />
-  ) : (
+  return !isAuthenticated
+    ? (
+    <Redirect to={'/login'} />
+      )
+    : (
     <div className={classes.container}>
       <div className={classes.toolbarMargin}></div>
       <div className={classes.root} >
@@ -166,7 +169,7 @@ const UserEdit = () => {
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete your account?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              You will lose all data associated with your account including songs, instruments and sections. 
+              You will lose all data associated with your account including songs, instruments and sections.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -175,8 +178,8 @@ const UserEdit = () => {
             </Button>
             <Button
               onClick={() => {
-                handleClose();
-                dispatch(deleteUser());
+                handleClose()
+                dispatch(deleteUser())
               }}
               color="primary"
               autoFocus
@@ -187,7 +190,7 @@ const UserEdit = () => {
         </Dialog>
       </div>
     </div>
-  );
-};
+      )
+}
 
-export default UserEdit;
+export default UserEdit

@@ -1,23 +1,24 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/styles';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Slide from '@material-ui/core/Slide';
-import { Link } from 'react-router-dom';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { importSpotifyTrack } from '../../actions/spotify';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import Slide from '@material-ui/core/Slide'
+import Typography from '@material-ui/core/Typography'
+import GetAppIcon from '@material-ui/icons/GetApp'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+
+import { importSpotifyTrack } from '../../actions/spotify'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,43 +34,39 @@ const useStyles = makeStyles((theme) => ({
 
   media: {
     height: '100%',
-    objectFit: "contain",
-    width: '100%',
+    objectFit: 'contain',
+    width: '100%'
   },
-  
 
-   link: {
+  link: {
     textDecoration: 'none',
     color: theme.palette.info.main
   },
 
-   dialog: {
+  dialog: {
     '& .MuiDialog-paper': {
-      background: theme.palette.secondary.main,
-    
+      background: theme.palette.secondary.main
+
     },
 
-    '& .MuiTypography-root':{
+    '& .MuiTypography-root': {
       color: theme.palette.info.main
     },
 
-    '& .MuiButton-textPrimary':{
+    '& .MuiButton-textPrimary': {
       color: theme.palette.info.main
-    },
+    }
 
-    
   },
 
-
   buttonContainer: {
-    position:'absolute',
+    position: 'absolute',
     height: 34,
     width: 34,
     bottom: '10px',
     right: '.5rem',
-    borderRadius: 4,
-   
-    
+    borderRadius: 4
+
   },
 
   button: {
@@ -79,14 +76,14 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       transition: '.4s',
       filter: 'drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
-     
-    },
-  
+
+    }
+
   },
 
   cardContent: {
     color: theme.palette.info.main,
-    height: '64px',   
+    height: '64px'
   },
 
   trackInfo: {
@@ -111,34 +108,31 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'normal'
   },
 
-    spinnerContainer: {
-      marginTop: '25%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
-}));
+  spinnerContainer: {
+    marginTop: '25%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+}))
 
 const SpotifyTrack = ({ track, transitionDuration }) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  const classes = useStyles()
+  const dispatch = useDispatch()
   const songs = useSelector(state => (state.songs))
   const loading = useSelector(state => (state.loading))
   const importer = useSelector(state => state.spotifyTracks)
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
     if (!Object.values(songs).length || !Object.values(songs).some(song => song.spotify_id)) {
-        setOpen(true);
+      setOpen(true)
     }
-    
-  };
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
-
-
+    setOpen(false)
+  }
 
   return (
     <>
@@ -150,27 +144,28 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
         <CardContent className={classes.cardContent}>
               <Typography className={classes.trackTitle} variant="subtitle1">
                 {track.name} < br/>
-               
-              </Typography>      
+
+              </Typography>
         </CardContent>
         <CardContent className={classes.cardContent}>
-          <Typography clasName={classes.trackInfo} style={{fontWeight: '600'}} variant="subtitle2">
+          <Typography clasName={classes.trackInfo} style={{ fontWeight: '600' }} variant="subtitle2">
             {track.artists[0].name} < br/>
             {track.album.name}
           </Typography>
         </CardContent>
 
-        <div id="spacer" style={{width: "200px", height: '48px', float: "left", display:"inline-block"}} /> 
+        <div id="spacer" style={{ width: '200px', height: '48px', float: 'left', display: 'inline-block' }} />
         </div>
         <CardActions className={classes.cardActions}>
           <IconButton
             className={classes.buttonContainer}
             disableRipple
-            onClick={() =>  {
+            onClick={() => {
               handleClickOpen()
-              dispatch(importSpotifyTrack(track.id))}}
+              dispatch(importSpotifyTrack(track.id))
+            }}
           >
-           {loading.loading && importer.importedSong === track.id  ? <div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={20} style={{color: "white"}} /></div> : <GetAppIcon className={classes.button}/> }
+           {loading.loading && importer.importedSong === track.id ? <div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={20} style={{ color: 'white' }} /></div> : <GetAppIcon className={classes.button}/> }
           </IconButton>
         </CardActions>
       </Card>
@@ -191,12 +186,12 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
           <DialogActions>
             <Grid container justify="space-evenly">
               <Grid item >
-                <Link to={"/songs"} className={classes.link}>
+                <Link to={'/songs'} className={classes.link}>
                   Songs
                 </Link>
               </Grid>
               <Grid item>
-                <Link to={"/sections"} className={classes.link}>
+                <Link to={'/sections'} className={classes.link}>
                   Sections
                 </Link>
               </Grid>
@@ -209,7 +204,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
           </DialogActions>
         </Dialog>
       </>
-  );
-};
+  )
+}
 
-export default SpotifyTrack;
+export default SpotifyTrack

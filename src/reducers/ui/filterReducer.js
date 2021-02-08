@@ -1,4 +1,4 @@
-import { SET_FILTER, CLEAR_FILTER, CLEAR_NON_ARRAY_FIELDS } from '../../actions/types';
+import { CLEAR_FILTER, CLEAR_NON_ARRAY_FIELDS, SET_FILTER } from '../../actions/types'
 
 const initialState = {
   title: '',
@@ -13,27 +13,28 @@ const initialState = {
   duration: [],
   year: [],
   tempo: [],
-  acousticness: [1,3],
-  danceability: [1,3],
-  energy: [1,3],
-  instrumentalness: [1,3],
-  speechiness: [1,3],
-  liveness: [1,3],
-  valence: [1,3],
+  acousticness: [1, 3],
+  danceability: [1, 3],
+  energy: [1, 3],
+  instrumentalness: [1, 3],
+  speechiness: [1, 3],
+  liveness: [1, 3],
+  valence: [1, 3],
   song: '',
   instrument: '',
   learned: '',
   filter: false,
   sort: '',
   order: 'ascending'
-};
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_FILTER:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload }
     case CLEAR_NON_ARRAY_FIELDS:
-      return { ...state, 
+      return {
+        ...state,
         title: '',
         artist: '',
         album: '',
@@ -48,11 +49,11 @@ export default (state = initialState, action) => {
         learned: '',
         filter: false,
         sort: '',
-        order: 'ascending' 
-      };
+        order: 'ascending'
+      }
     case CLEAR_FILTER:
-      return initialState;
+      return initialState
     default:
-      return state;
+      return state
   }
-};
+}

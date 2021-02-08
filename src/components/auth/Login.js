@@ -1,12 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../actions/auth';
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import LoginForm from './LoginForm';
-import { Link as RouterLink } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import Link from '@material-ui/core/Link'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
+
+import { login } from '../../actions/auth'
+import LoginForm from './LoginForm'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,21 +18,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
     [theme.breakpoints.down('md')]: {
-      width: '75%',
+      width: '75%'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
+      width: '100%'
+    }
   },
 
   container: {
-      minHeight: '110vh',
+    minHeight: '110vh',
     [theme.breakpoints.down('md')]: {
-       minHeight: "100vh",
+      minHeight: '100vh'
     },
     [theme.breakpoints.down('sm')]: {
-       minHeight: '180vh',
-    },
+      minHeight: '180vh'
+    }
 
   },
 
@@ -43,31 +43,33 @@ const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '2em',
+      marginBottom: '2em'
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em',
-    },
-  },
-}));
+      marginBottom: '1.25em'
+    }
+  }
+}))
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const user = useSelector(state => state.auth.user)
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const onSubmit = (formValues) => {
     dispatch(
       login({
-        ...formValues,
+        ...formValues
       })
-    );
-  };
+    )
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
-  return isAuthenticated && user ? (
+  return isAuthenticated && user
+    ? (
     <Redirect to={`/users/${user.id}`} />
-  ) : (
+      )
+    : (
     <div className={classes.container}>
       <div className={classes.toolbarMargin}></div>
       <div className={classes.root}>
@@ -77,14 +79,14 @@ const Login = () => {
         <LoginForm onSubmit={onSubmit} />
         <div className={classes.toolbarMargin}></div>
         <Typography className={classes.title} variant="subtitle1" align="center">
-          Don't have an account?{` `}
+          Don't have an account?{' '}
           <Link className={classes.link} component={RouterLink} to="/register">
             Register
           </Link>
         </Typography>
       </div>
     </div>
-  );
-};
+      )
+}
 
-export default Login;
+export default Login

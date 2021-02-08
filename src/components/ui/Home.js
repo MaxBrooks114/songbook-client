@@ -1,75 +1,75 @@
-import React, {useState, useEffect} from 'react'
-import {useSelector} from 'react-redux'
-import userMetricsDemo from '../../assets/userMetricsDemo.mp4'
-import SongsDemo from '../../assets/SongsDemo.mp4'
-import InstrumentDemo from '../../assets/InstrumentDemo.mp4'
-import SectionDemo from '../../assets/SectionDemo.mp4'
-import IntegrateSpotifyDemo from '../../assets/IntegrateSpotifyDemo.js.mp4'
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import piano from '../../assets/piano.png'
-import music from '../../assets/music.png'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import clsx from 'clsx'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import * as workerTimers from 'worker-timers'
+
 import dashboard from '../../assets/dashboard.png'
+import InstrumentDemo from '../../assets/InstrumentDemo.mp4'
+import IntegrateSpotifyDemo from '../../assets/IntegrateSpotifyDemo.js.mp4'
+import music from '../../assets/music.png'
+import piano from '../../assets/piano.png'
+import SectionDemo from '../../assets/SectionDemo.mp4'
 import sheetmusic from '../../assets/sheetmusic.png'
+import SongsDemo from '../../assets/SongsDemo.mp4'
 import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
-import { useHistory  } from 'react-router-dom';
+import userMetricsDemo from '../../assets/userMetricsDemo.mp4'
 import Blurb from './Blurb'
-import * as workerTimers from 'worker-timers';
-import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 
-
-  root:{
+  root: {
     minHeight: '100vh',
     marginBottom: 50,
-     [theme.breakpoints.down('md')]: {
-          marginBottom: 25
-      },
+    [theme.breakpoints.down('md')]: {
+      marginBottom: 25
+    }
   },
 
   hero: {
     padding: '5rem 0',
     background: theme.palette.primary.main,
     textAlign: 'left',
-    color: theme.palette.info.main,
-    
+    color: theme.palette.info.main
+
   },
 
-  title: { 
+  title: {
     fontWeight: 600,
     fontSize: '2.8rem',
     [theme.breakpoints.down('md')]: {
-          fontSize: '2.5rem'
-      },
+      fontSize: '2.5rem'
+    },
     [theme.breakpoints.down('sm')]: {
-          fontSize: '2.3rem'
-      },
+      fontSize: '2.3rem'
+    },
     [theme.breakpoints.down('xs')]: {
-          fontSize: '1.2rem'
-      },
+      fontSize: '1.2rem'
+    }
   },
 
   subtitle: {
     [theme.breakpoints.down('md')]: {
-          fontSize: '1.5rem'
-      },
+      fontSize: '1.5rem'
+    },
     [theme.breakpoints.down('sm')]: {
-          fontSize: '.8rem'
-      },
+      fontSize: '.8rem'
+    },
     [theme.breakpoints.down('xs')]: {
-          fontSize: '.8rem'
-      },
+      fontSize: '.8rem'
+    }
   },
 
   graphic: {
     width: '100%',
     cursor: 'pointer',
-     '&:hover': {
-        filter: 'brightness(120%) drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
-     }    
+    '&:hover': {
+      filter: 'brightness(120%) drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
+    }
   },
 
   graphicActive: {
@@ -86,21 +86,19 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 200,
     maxWidth: 337,
     boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
-     filter: 'brightness(110%)',
-    '&:hover':{
+    filter: 'brightness(110%)',
+    '&:hover': {
       background: theme.palette.background.default,
       color: theme.palette.common.darkGreen,
       filter: 'brightness(150%)'
-    },
+    }
 
-   
-  },
+  }
 
-
-}));
+}))
 const Home = () => {
   const classes = useStyles()
-  const pngs = [music, sheetmusic, piano, dashboard, Spotify_Icon_RGB_Green ]
+  const pngs = [music, sheetmusic, piano, dashboard, Spotify_Icon_RGB_Green]
   const [blurbShow, setBlurbShow] = useState(0)
   const user = useSelector(state => state.auth.user)
   const history = useHistory()
@@ -126,57 +124,57 @@ const Home = () => {
     {
       title: 'Profile',
       subtitle: 'Uncover Trends In your own Tastes',
-      desc: `SongBook keeps track of all the music you add and aggregates all that data to tell you more about your musical taste, as well as track your progress. Everything from how many songs you have added to your favorite artists can be found in your profile section of SongBook. Furthermore, every song imported from Spotify has the following audio metrics: Valence, Energy, Acousticness, Danceability, Instrumentalness, Speechiness and Loudness among others. SongBook tracks your preferences for those too to see what kind of music you prefer how to play.`,
+      desc: 'SongBook keeps track of all the music you add and aggregates all that data to tell you more about your musical taste, as well as track your progress. Everything from how many songs you have added to your favorite artists can be found in your profile section of SongBook. Furthermore, every song imported from Spotify has the following audio metrics: Valence, Energy, Acousticness, Danceability, Instrumentalness, Speechiness and Loudness among others. SongBook tracks your preferences for those too to see what kind of music you prefer how to play.',
       video: userMetricsDemo
     },
     {
       title: 'Deeper Integration with Spotify',
       subtitle: '(Premium members only)',
-      desc: 'If you have Spotify premium you can give SongBook access to your Spotify player. You can do this by hitting the “integrate spotify” button found on the filter drawer on the list pages or the manage account page. Once you do this you will see play buttons on every song or section you imported through Spotify. This is especially useful for playing along with songs, sections when learning covers.' ,
+      desc: 'If you have Spotify premium you can give SongBook access to your Spotify player. You can do this by hitting the “integrate spotify” button found on the filter drawer on the list pages or the manage account page. Once you do this you will see play buttons on every song or section you imported through Spotify. This is especially useful for playing along with songs, sections when learning covers.',
       video: IntegrateSpotifyDemo
-    },
+    }
 
   ]
 
   useEffect(() => {
     const intervalId = workerTimers.setInterval(() => {
-      if(blurbShow === 4) {
-        setBlurbShow(0) 
+      if (blurbShow === 4) {
+        setBlurbShow(0)
       } else {
-         setBlurbShow(blurbShow + 1)
-      }   
-    }, 60000) 
+        setBlurbShow(blurbShow + 1)
+      }
+    }, 60000)
 
     return () => {
-      workerTimers.clearInterval(intervalId) 
+      workerTimers.clearInterval(intervalId)
     }
   })
   const renderSvgs = () => {
-     return pngs.map((png, index) => {
-       return (
+    return pngs.map((png, index) => {
+      return (
           <Grid key={index} item xs={2} lg={1}>
-            <img onClick={() =>setBlurbShow(index)} className={clsx(classes.graphic, {[classes.graphicActive]: blurbShow === index })} src={png} alt={`${png}`}/>
+            <img onClick={() => setBlurbShow(index)} className={clsx(classes.graphic, { [classes.graphicActive]: blurbShow === index })} src={png} alt={`${png}`}/>
           </Grid>
-       )
-     })
-   }
+      )
+    })
+  }
 
   return (
     <div className={classes.root}>
-        <Grid container justify="space-around"  alignItems="center" className={classes.hero}>
+        <Grid container justify="space-around" alignItems="center" className={classes.hero}>
           <Grid item xs={10} md={6}>
             <Typography variant="h2" className={classes.title} gutterBottom>Welcome To SongBook</Typography>
             <Typography variant="subtitle1" gutterBottom className={classes.subtitle}>SongBook is a musical library web app for musicians to keep track of their song repertoire, instrument collection, and learning progress. </Typography>
           </Grid>
-          <Grid item xs={10} md={5} style={{textAlign: 'center'}}>
+          <Grid item xs={10} md={5} style={{ textAlign: 'center' }}>
             <Button className={classes.cta} onClick={() => {
               user ? history.push('/search') : history.push('/register')
             }}>
-               <span style={{fontWeight: 600}}>{ user ? "Start Adding Songs Now" : "Register Now"}</span>
+               <span style={{ fontWeight: 600 }}>{ user ? 'Start Adding Songs Now' : 'Register Now'}</span>
             </Button>
           </Grid>
         </Grid>
-        <Grid style={{margin: '2rem 0'}} container justify="space-evenly" alignItems="center">
+        <Grid style={{ margin: '2rem 0' }} container justify="space-evenly" alignItems="center">
           {renderSvgs()}
         </Grid>
         <Blurb blurb={blurbs[blurbShow]}/>

@@ -1,25 +1,23 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
-
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Redirect, Route } from 'react-router-dom'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth)
   return (
-    < Route 
+    < Route
       {...rest}
       render={(props) => {
         if (auth.isLoading) {
-          return ' ';
+          return ' '
         } else if (!auth.isAuthenticated && !auth.isLoading) {
-          return <Redirect to="/login" />;
+          return <Redirect to="/login" />
         } else {
-          return <Component {...props} />;
+          return <Component {...props} />
         }
       }}
     />
-  );
-};
+  )
+}
 
-export default PrivateRoute;
+export default PrivateRoute

@@ -1,4 +1,4 @@
-import { SNACKBAR_SUCCESS, SNACKBAR_CLEAR } from '../../actions/types';
+import { SNACKBAR_CLEAR, SNACKBAR_SUCCESS } from '../../actions/types'
 
 const snackbarReducer = (state = {}, action) => {
   switch (action.type) {
@@ -8,7 +8,7 @@ const snackbarReducer = (state = {}, action) => {
         successSnackbarOpen: true,
         successSnackbarMessage: action.message,
         songId: action.songId
-      };
+      }
     case SNACKBAR_CLEAR:
       return {
         ...state,
@@ -16,10 +16,10 @@ const snackbarReducer = (state = {}, action) => {
         errorSnackbarOpen: false,
         infoSnackbarOpen: false,
         songId: ''
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default snackbarReducer;
+export default snackbarReducer

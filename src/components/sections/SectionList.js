@@ -1,20 +1,20 @@
-import React, {useState} from 'react'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import SectionCard from './SectionCard';
-import { useDispatch } from 'react-redux';
-import {fetchSection } from '../../actions/sections';
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
+import Accordion from '@material-ui/core/Accordion'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import IconButton from '@material-ui/core/IconButton'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import { makeStyles } from '@material-ui/styles'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+
+import { fetchSection } from '../../actions/sections'
 import Sort from '../Sort'
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import IconButton from '@material-ui/core/IconButton';
-import { useHistory, useLocation } from 'react-router-dom';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Link } from 'react-router-dom';
+import SectionCard from './SectionCard'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -23,54 +23,51 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     height: '80%',
     overflow: 'scroll',
-    borderRadius: '4px',
-   
+    borderRadius: '4px'
+
   },
-
-
 
   listItem: {
-      display: 'block',
-      '&:hover': {
-        transform: 'translate(10px, 10px)',
-        transition: 'transform 0.2s ease 0s',
-        cursor: 'pointer',
-        zIndex: 2,
-     },
-  
-     
+    display: 'block',
+    '&:hover': {
+      transform: 'translate(10px, 10px)',
+      transition: 'transform 0.2s ease 0s',
+      cursor: 'pointer',
+      zIndex: 2
+    }
+
   },
-    
+
   title: {
-      width: '95%',
-      fontWeight: 600,
-      textAlign: 'center',
-      [theme.breakpoints.down('xs')]: {
-        margin: 0,
-        width: '100%'
-      },  
+    width: '95%',
+    fontWeight: 600,
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      margin: 0,
+      width: '100%'
+    }
   },
 
-    sortBar: {
-      width: '95%',
-      display: 'flex',
-      justifyContent: 'flex-end' 
-    },
+  sortBar: {
+    width: '95%',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
 
-    accordion: {
+  accordion: {
     width: '95%',
     background: theme.palette.primary.light,
     color: theme.palette.info.main,
     borderRadius: 4,
     margin: '1rem 0',
-     '&:hover': {
-        transform: 'translate(10px, 10px)',
-        transition: 'transform 0.2s ease 0s',
-        cursor: 'pointer',
-        zIndex: 2,
-     },
+    '&:hover': {
+      transform: 'translate(10px, 10px)',
+      transition: 'transform 0.2s ease 0s',
+      cursor: 'pointer',
+      zIndex: 2
+    },
     '& .MuiAccordionSummary-content': {
-      flexGrow: 0,
+      flexGrow: 0
     },
 
     '& .MuiAccordionSummary-root': {
@@ -82,14 +79,13 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
       padding: 0,
       marginBottom: theme.spacing(2)
-    },  
+    },
 
     '& .MuiGrid-grid-xs-10': {
       margin: 0,
       justifyContent: 'center'
     }
   },
-
 
   media: {
     width: 85,
@@ -99,16 +95,16 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     [theme.breakpoints.down('md')]: {
       width: 0
-  
+
     },
     [theme.breakpoints.down('sm')]: {
       width: 85,
-       objectFit: 'contain',
+      objectFit: 'contain'
     },
     [theme.breakpoints.down('sm')]: {
-      width: 0,
-      
-    },
+      width: 0
+
+    }
   },
 
   songTitle: {
@@ -119,98 +115,94 @@ const useStyles = makeStyles((theme) => ({
 
   songLink: {
     color: theme.palette.info.main,
-    "&:hover": {
-      color: theme.palette.primary.dark
+    '&:hover': {
+      color: theme.palette.common.darkGreen
     }
   }
 
-  
-}));
-const SectionList = ({sections, filteredSections, setListColumnSize, setShowDetail, transitionDuration, height, orderedSongs }) => {
-    const dispatch = useDispatch();
-    const classes = useStyles();
-    const history = useHistory()
-    const location = useLocation()
-    const [expanded, setExpanded] = useState(false)
+}))
+const SectionList = ({ sections, filteredSections, setListColumnSize, setShowDetail, transitionDuration, height, orderedSongs }) => {
+  const dispatch = useDispatch()
+  const classes = useStyles()
+  const history = useHistory()
+  const location = useLocation()
+  const [expanded, setExpanded] = useState(false)
 
-    const handleClick = (id) => {
-    dispatch(fetchSection(id));
-  };
+  const handleClick = (id) => {
+    dispatch(fetchSection(id))
+  }
 
-
-  
   const renderSort = () => {
-    return Object.values(sections).length > 0 ? <Sort items={Object.values(sections)} sections={Object.values(sections)} objectType='sections' /> : null 
+    return Object.values(sections).length > 0 ? <Sort items={Object.values(sections)} sections={Object.values(sections)} objectType='sections' /> : null
   }
 
-  let renderSongTitle = (song, expanded, sections) => {
-    return expanded ? <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} style={{textDecoration: "none"}} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography> : 
-      <Typography className={classes.songTitle} component="p">{song.title} ({sections.length})</Typography> 
+  const renderSongTitle = (song, expanded, sections) => {
+    return expanded
+      ? <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} style={{ textDecoration: 'none' }} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography>
+      : <Typography className={classes.songTitle} component="p">{song.title} ({sections.length})</Typography>
   }
-    const renderSongs = () => {
-      
-      return orderedSongs.length ?
-        orderedSongs.map((song) => {
-          let sections = filteredSections.filter(section => song.id === section.song.id )
-          return  sections.length ? 
-              ( 
+  const renderSongs = () => {
+    return orderedSongs.length
+      ? orderedSongs.map((song) => {
+        const sections = filteredSections.filter(section => song.id === section.song.id)
+        return sections.length
+          ? (
                 <Accordion className={classes.accordion} onChange={(event, expanded) => {
-                   setExpanded(expanded)
-                }}>        
+                  setExpanded(expanded)
+                }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                       <img
                         alt={song.album}
                         className={classes.media}
                         src={song.image ? song.image : song.uploaded_image}
-                      />   
+                      />
                      {renderSongTitle(song, expanded, sections)}
                     </AccordionSummary>
                     <AccordionDetails>
                         {renderedList(sections)}
                     </AccordionDetails>
-                  </Accordion> 
-            ) : null
-          }) 
-      : null;
+                  </Accordion>
+            )
+          : null
+      })
+      : null
   }
 
-const renderedList = (sections) => {
-   return sections.length > 0 
+  const renderedList = (sections) => {
+    return sections.length > 0
       ? sections.map((section) => {
-            return (
+        return (
               <ListItem className={classes.listItem} key={section.id} disableGutters dense>
-                <SectionCard  section={section} transitionDuration={transitionDuration} handleClick={handleClick} />
+                <SectionCard section={section} transitionDuration={transitionDuration} handleClick={handleClick} />
               </ListItem>
-            
-            );
-          })
-      : null;
-    }
 
+        )
+      })
+      : null
+  }
 
-
-
-   return (
+  return (
       <>
         <Typography variant="h5" className={classes.title}>
           Sections
         </Typography>
         <div className={classes.sortBar}>
           {renderSort()}
-          {location.pathname.includes('sections/') ?
-          <IconButton>
+          {location.pathname.includes('sections/')
+            ? <IconButton>
             <NavigateNextIcon onClick={() => {
               setListColumnSize(8)
               setShowDetail(false)
               window.history.pushState(null, null, '/sections')
             }}/>
-          </IconButton>: null}    
+          </IconButton>
+            : null}
         </div>
-        <List className={classes.list} style={{height: height}}>
+        <List className={classes.list} style={{ height: height }}>
           {renderSongs()}
-        </List> 
+        </List>
       </>
-   )
+  )
 }
 
 export default React.memo(SectionList)

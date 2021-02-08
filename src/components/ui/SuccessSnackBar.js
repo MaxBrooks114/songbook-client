@@ -1,38 +1,39 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Snackbar from '@material-ui/core/Snackbar';
-import { Link } from 'react-router-dom';
-import { clearSnackbar } from '../../actions/ui';
-import { makeStyles } from '@material-ui/styles';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+import { clearSnackbar } from '../../actions/ui'
+
+function Alert (props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.secondary.main,
     textTransform: 'capitalize',
     color: theme.palette.info.main,
-    position: 'fixed',
-  },
-}));
+    position: 'fixed'
+  }
+}))
 
-export default function SuccessSnackbar() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+export default function SuccessSnackbar () {
+  const classes = useStyles()
+  const dispatch = useDispatch()
 
-  const { successSnackbarMessage, successSnackbarOpen, songId } = useSelector((state) => state.snackbar);
+  const { successSnackbarMessage, successSnackbarOpen, songId } = useSelector((state) => state.snackbar)
 
-  function handleClose() {
-    dispatch(clearSnackbar());
+  function handleClose () {
+    dispatch(clearSnackbar())
   }
 
   return (
     <Snackbar
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'left',
+        horizontal: 'left'
       }}
       open={successSnackbarOpen}
       autoHideDuration={4000}
@@ -41,9 +42,10 @@ export default function SuccessSnackbar() {
     >
       <Alert onClose={handleClose} className={classes.root} severity="success">
         {successSnackbarMessage}< br/>
-        {songId ? 
-        <Link to={`/songs/${songId}`}>Check it out!</Link> : '' }
+        {songId
+          ? <Link to={`/songs/${songId}`}>Check it out!</Link>
+          : '' }
       </Alert>
     </Snackbar>
-  );
+  )
 }

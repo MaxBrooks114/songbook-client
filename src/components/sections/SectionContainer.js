@@ -1,27 +1,27 @@
-import React, {useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, Link } from 'react-router-dom';
-import * as workerTimers from 'worker-timers';
-import { getFilteredItems } from '../../selectors/filterSelectors';
-import {checkIfPlaying} from '../../actions/spotify'
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
-import SectionList from './SectionList';
-import SectionDrawer from './SectionDrawer';
-import SectionDetail from './SectionDetail';
-import FilterControl from '../FilterControl';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import IconButton from '@material-ui/core/IconButton';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
-import useHeight from '../../hooks/useHeight'
-import filter_arrow_right from '../../assets/filter_arrow_right.svg';
-import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import { useTheme } from '@material-ui/core/styles'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import Typography from '@material-ui/core/Typography'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@material-ui/styles'
+import clsx from 'clsx'
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useLocation } from 'react-router-dom'
+import * as workerTimers from 'worker-timers'
+
+import { checkIfPlaying } from '../../actions/spotify'
+import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import trebleClef from '../../assets/trebleClef.png'
+import useHeight from '../../hooks/useHeight'
+import { getFilteredItems } from '../../selectors/filterSelectors'
+import FilterControl from '../FilterControl'
+import SectionDetail from './SectionDetail'
+import SectionDrawer from './SectionDrawer'
+import SectionList from './SectionList'
 
-const drawerWidth = 244;
-
+const drawerWidth = 244
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -31,24 +31,24 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-   toolbarMargin: {
+  toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '.7rem',
+      marginBottom: '.7rem'
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1rem',
-    },
+      marginBottom: '1rem'
+    }
   },
 
   list: {
-   marginTop:'7px', 
-   minHeight: "100vh",
-   flexGrow: 1,
-   transition: theme.transitions.create('all', {
+    marginTop: '7px',
+    minHeight: '100vh',
+    flexGrow: 1,
+    transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
-      duration: 500,
-    }),
+      duration: 500
+    })
 
   },
 
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
-    }),
+    })
   },
 
   listShiftRight: {
@@ -73,39 +73,38 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
-    marginLeft: 290,
+    marginLeft: 290
   },
 
   listShiftLeft: {
-    transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
-      duration: 500,
-  }),
-
-  marginLeft: 244
-},
-
-    detailShown: {
-     height: '100%',
-     minHeight: '100vh',
-     marginTop: 95,
-      transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
       duration: 500
-      })
+    }),
+
+    marginLeft: 244
+  },
+
+  detailShown: {
+    height: '100%',
+    minHeight: '100vh',
+    marginTop: 95,
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
+    })
   },
 
   detailHidden: {
     height: 0,
-      width: 0,
-     transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
+    width: 0,
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
       duration: 500
     })
   },
-  
 
- drawerIconContainer: {
+  drawerIconContainer: {
     height: '72px',
     width: '72px',
     marginLeft: 0,
@@ -118,14 +117,14 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       top: '5%',
-      position: 'sticky',
-    },
-    
+      position: 'sticky'
+    }
+
   },
-  
-   drawerIcon: {
+
+  drawerIcon: {
     height: '54px',
-    width: '54px',
+    width: '54px'
   },
 
   drawer: {
@@ -136,120 +135,119 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'scroll',
     background: theme.palette.common.gray,
     [theme.breakpoints.down('md')]: {
-        zIndex: theme.zIndex.modal+1      
-    },
-    }, 
-
-     message: {
-      display: 'block',
-      margin: '0 auto',
-
-      overflowWrap: 'normal'
-    },
-
-    graphic: {
-      display: 'block',
-      margin: '50px auto',
-       width: 150,
-      height: 310
+      zIndex: theme.zIndex.modal + 1
+    }
   },
-  
-}));
+
+  message: {
+    display: 'block',
+    margin: '0 auto',
+
+    overflowWrap: 'normal'
+  },
+
+  graphic: {
+    display: 'block',
+    margin: '50px auto',
+    width: 150,
+    height: 310
+  }
+
+}))
 
 const SectionContainer = () => {
-  const filteredSections = useSelector(state => getFilteredItems(state, 'sections'));
-  const sections = useSelector((state) => state.sections);
+  const filteredSections = useSelector(state => getFilteredItems(state, 'sections'))
+  const sections = useSelector((state) => state.sections)
   const location = useLocation()
-  let id = location.pathname.split('/').splice(-1)
-  const section = useSelector((state) => state.sections[id]);
-  const nextSectionIdx = filteredSections.indexOf(section) + 1 
+  const id = location.pathname.split('/').splice(-1)
+  const section = useSelector((state) => state.sections[id])
+  const nextSectionIdx = filteredSections.indexOf(section) + 1
   const prevSectionIdx = filteredSections.indexOf(section) - 1
-  const instruments = useSelector((state) => state.instruments);
-  const songs = useSelector((state) => state.songs )
-  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
-  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
-  const dispatch = useDispatch();
-  const filter = useSelector((state) => state.filter )
-  let order = filter.order === "ascending" ? [ 1 , -1] : [-1, 1]
-  const orderedSongs = filter.sort === 'song' ?
-      Object.values(songs).sort((a, b) => (a.title > b.title ? order[0] : order[1])) : Object.values(songs)
-  const theme = useTheme();
-  const classes = useStyles();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
-  const medScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const elementDOM = useRef(null);
-  const [height] = useHeight(elementDOM);
+  const songs = useSelector((state) => state.songs)
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token)
+  const dispatch = useDispatch()
+  const filter = useSelector((state) => state.filter)
+  const order = filter.order === 'ascending' ? [1, -1] : [-1, 1]
+  const orderedSongs = filter.sort === 'song'
+    ? Object.values(songs).sort((a, b) => (a.title > b.title ? order[0] : order[1]))
+    : Object.values(songs)
+  const theme = useTheme()
+  const classes = useStyles()
+  const matches = useMediaQuery(theme.breakpoints.down('sm'))
+  const medScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
+  const [openDrawer, setOpenDrawer] = useState(false)
+  const elementDOM = useRef(null)
+  const [height] = useHeight(elementDOM)
   const [listColumnSize, setListColumnSize] = useState(8)
   const [showDetail, setShowDetail] = useState(false)
-  let transitionDuration = 50;
+  const transitionDuration = 50
 
   useEffect(() => {
-    const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null 
+    const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
     if (accessToken) {
       return () => {
-      workerTimers.clearInterval(intervalId) 
+        workerTimers.clearInterval(intervalId)
+      }
     }
-   }
   }, [accessToken, refreshToken, dispatch])
 
-
-   useEffect(( ) => {
+  useEffect(() => {
     setListColumnSize(8)
-    if(section) {
+    if (section) {
       setShowDetail(true)
       setListColumnSize(3)
     }
-  },[section])
-
-
+  }, [section])
 
   const renderFilter = () => {
-    return Object.values(sections).length > 0 ? <FilterControl items={Object.values(filteredSections)} instruments={Object.values(instruments)} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} songs={Object.values(songs)}  objectType='sections'  /> : null
+    return Object.values(sections).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} objectType='sections' /> : null
   }
 
   const renderDetail = () => {
-    return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} showDetail={showDetail} /> : null;
-  };
+    return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} showDetail={showDetail} /> : null
+  }
 
   const renderList = () => {
-   return !matches ? 
-            <>    
-              <Grid 
-                  item xs={3} md={listColumnSize} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !section, [classes.listShiftLeft]: section && openDrawer, [classes.listShiftSection]:  listColumnSize !==8 &&  section &&  !openDrawer,
-                  [classes.listSectionAlone]: (!section || listColumnSize === 8) && !openDrawer})}
-              >        
-                <SectionList 
-                filteredSections={filteredSections} 
-                fullDisplay={!section} 
-                transitionDuration={transitionDuration} 
-                sections={sections} 
+    return !matches
+      ? <>
+              <Grid
+                  item xs={3} md={listColumnSize}
+                  className={clsx(classes.list, {
+                    [classes.listShiftRight]: openDrawer && !medScreen && !section,
+                    [classes.listShiftLeft]: section && openDrawer,
+                    [classes.listShiftSection]: listColumnSize !== 8 && section && !openDrawer,
+                    [classes.listSectionAlone]: (!section || listColumnSize === 8) && !openDrawer
+                  })}
+              >
+                <SectionList
+                filteredSections={filteredSections}
+                fullDisplay={!section}
+                transitionDuration={transitionDuration}
+                sections={sections}
                 setShowDetail={setShowDetail}
                 setListColumnSize={setListColumnSize}
                 orderedSongs = {orderedSongs}
-                height={height} 
-                /> 
-              </Grid> 
-            </>: 
-                <SectionDrawer 
+                height={height}
+                />
+              </Grid>
+            </>
+      : <SectionDrawer
                             orderedSongs = {orderedSongs}
-                            renderFilter={renderFilter} 
-                            filteredSections={filteredSections} 
-                            transitionDuration={transitionDuration} 
+                            renderFilter={renderFilter}
+                            filteredSections={filteredSections}
+                            transitionDuration={transitionDuration}
                             sections={sections} />
   }
 
-    
-
- 
-   return (
+  return (
     <div className={classes.root}>
-     {Object.values(sections).length ?
-      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+     {Object.values(sections).length
+       ? <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
           <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
-      </IconButton> : null }
+      </IconButton>
+       : null }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
@@ -259,25 +257,26 @@ const SectionContainer = () => {
         anchor="left"
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
-      >  
+      >
         {renderFilter()}
-      </SwipeableDrawer>  
-      <Grid container justify='space-evenly' className={classes.cardGrid}>  
-        {Object.values(sections).length ? renderList() : 
-           <div> 
-            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/> 
+      </SwipeableDrawer>
+      <Grid container justify='space-evenly' className={classes.cardGrid}>
+        {Object.values(sections).length
+          ? renderList()
+          : <div>
+            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/>
             <Typography className={classes.message}>You have no sections! Import a song by using the Spotify Search function in the navbar or by adding one by following this <Link to="/sections/new">link</Link></Typography>
           </div>
         }
-        <Grid item      
-              xs={12} md={6} lg={6} 
-              ref={elementDOM} 
-              className={showDetail? classes.detailShown : classes.detailHidden}>
+        <Grid item
+              xs={12} md={6} lg={6}
+              ref={elementDOM}
+              className={showDetail ? classes.detailShown : classes.detailHidden}>
                 {renderDetail()}
         </Grid>
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(SectionContainer);
+export default React.memo(SectionContainer)

@@ -1,129 +1,126 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { createMessage } from '../../actions/messages';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
-import {renderTextField} from '../../helpers/MaterialUiReduxFormFields'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
 
+import { createMessage } from '../../actions/messages'
+import { renderTextField } from '../../helpers/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+  root: {
 
-  '& .MuiOutlinedInput-root': {
+    '& .MuiOutlinedInput-root': {
       background: theme.palette.background.default,
       width: 300,
       [theme.breakpoints.down('md')]: {
-          width: 240,
+        width: 240
       },
       [theme.breakpoints.down('sm')]: {
-          width: 200,
+        width: 200
       },
       '& fieldset': {
-        borderColor: theme.palette.info.main,
+        borderColor: theme.palette.info.main
       },
       '&:hover fieldset': {
-        borderColor: theme.palette.secondary.dark,
-      },
+        borderColor: theme.palette.secondary.dark
+      }
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: theme.palette.info.main,
+      color: theme.palette.info.main
     },
     ' & .MuiFormHelperText-contained': {
-      color: theme.palette.common.orange,
+      color: theme.palette.common.orange
     },
 
-     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+    '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.common.orange
     },
 
     '& .MuiFormLabel-root.Mui-error': {
-      color: theme.palette.common.orange,
+      color: theme.palette.common.orange
     }
   },
 
   value: {
-    color: theme.palette.info.main,
+    color: theme.palette.info.main
   },
 
   autoComplete: {
-    color: theme.palette.info.main,
+    color: theme.palette.info.main
   },
 
   button: {
-   color: theme.palette.info.main,
+    color: theme.palette.info.main,
     display: 'inline-block',
     borderRadius: 4,
-    background: theme.palette.common.gray,
+    background: theme.palette.common.gray
   },
 
   input: {
-    textTransform: 'capitalize',
+    textTransform: 'capitalize'
   },
 
   label: {
     color: theme.palette.info.main,
-     '&.shrink': {
-           color: theme.palette.info.main
-        },
-    
-  },
+    '&.shrink': {
+      color: theme.palette.info.main
+    }
 
- 
-}));
+  }
 
+}))
 
 const UserForm = ({ onSubmit, handleSubmit }) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const messages = useSelector((state) => state.messages);
-  const errorMessages = useSelector((state) => state.errors.msg);
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const messages = useSelector((state) => state.messages)
+  const errorMessages = useSelector((state) => state.errors.msg)
   const renderErrorMessages = () => {
-    if(!errorMessages.headers){
-     return Object.values(errorMessages).map((msg) =><div className={classes.errorMessages}>{msg}</div>)
-     
+    if (!errorMessages.headers) {
+      return Object.values(errorMessages).map((msg) => <div className={classes.errorMessages}>{msg}</div>)
     }
-    }
+  }
 
   const renderMessages = () => {
-   return Object.values(messages).map(msg => <div>{msg}</div>)
+    return Object.values(messages).map(msg => <div>{msg}</div>)
   }
   const onFormSubmit = (formValues) => {
-    const { password, confirm_password } = formValues;
+    const { password, confirm_password } = formValues
     if (password !== confirm_password) {
-      dispatch(createMessage({ passwordNotMatch: 'Passwords must match' }));
+      dispatch(createMessage({ passwordNotMatch: 'Passwords must match' }))
     } else {
-      onSubmit(formValues);
+      onSubmit(formValues)
     }
-  };
+  }
   return (
     <div>
       <Grid container align= "center" justify="center" spacing={2}>
         <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
           <Grid item xs={12}>
-            <Field classes={classes} name="username" component={renderTextField} label="Username" InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
-                 }
-               }}/>
+            <Field classes={classes} name="username" component={renderTextField} label="Username" InputLabelProps={{
+              classes: {
+                root: classes.label,
+                shrink: 'shrink'
+              }
+            }}/>
           </Grid>
           <Grid item xs={12}>
-            <Field classes={classes} type="email" name="email" component={renderTextField} label="E-Mail" InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
-                 }
-               }}/>
+            <Field classes={classes} type="email" name="email" component={renderTextField} label="E-Mail" InputLabelProps={{
+              classes: {
+                root: classes.label,
+                shrink: 'shrink'
+              }
+            }}/>
           </Grid>
           <Grid item xs={12}>
-            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
-                 }
-               }} />
+            <Field classes={classes} type="password" name="password" component={renderTextField} label="Password" InputLabelProps={{
+              classes: {
+                root: classes.label,
+                shrink: 'shrink'
+              }
+            }} />
           </Grid>
           <Grid item xs={12}>
             <Field
@@ -132,12 +129,12 @@ const UserForm = ({ onSubmit, handleSubmit }) => {
               name="confirm_password"
               component={renderTextField}
               label="Confirm Password"
-              InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
-                 }
-               }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }}
             />
           </Grid>
 
@@ -153,21 +150,21 @@ const UserForm = ({ onSubmit, handleSubmit }) => {
         </form>
       </Grid>
     </div>
-  );
-};
+  )
+}
 
 const validate = (formValues) => {
-  const errors = {};
-  const requiredFields = ['username', 'email', 'password', 'confirm_password'];
+  const errors = {}
+  const requiredFields = ['username', 'email', 'password', 'confirm_password']
   requiredFields.forEach((field) => {
     if (!formValues[field]) {
-      errors[field] = 'Required';
+      errors[field] = 'Required'
     }
-  });
-  return errors;
-};
+  })
+  return errors
+}
 
 export default reduxForm({
   form: 'Register',
-  validate,
-})(UserForm);
+  validate
+})(UserForm)

@@ -1,17 +1,18 @@
-import { combineReducers } from 'redux';
-import spotifyTracksReducer from './spotify/spotifyTracksReducer';
-import spotifyPlayerReducer from './spotify/spotifyPlayerReducer';
-import songsReducer from './songs/songsReducer';
-import sectionsReducer from './sections/sectionsReducer';
-import instrumentsReducer from './instruments/instrumentsReducer';
+import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
+import authReducer from './auth/authReducer'
+import errorsReducer from './errorsReducer'
 import filesReducer from './filesReducer'
-import snackbarReducer from './ui/snackbarReducer';
-import filterReducer from './ui/filterReducer';
-import { reducer as formReducer } from 'redux-form';
-import loadingReducer from './ui/loadingReducer';
-import authReducer from './auth/authReducer';
-import messagesReducer from './messagesReducer';
-import errorsReducer from './errorsReducer';
+import instrumentsReducer from './instruments/instrumentsReducer'
+import messagesReducer from './messagesReducer'
+import sectionsReducer from './sections/sectionsReducer'
+import songsReducer from './songs/songsReducer'
+import spotifyPlayerReducer from './spotify/spotifyPlayerReducer'
+import spotifyTracksReducer from './spotify/spotifyTracksReducer'
+import filterReducer from './ui/filterReducer'
+import loadingReducer from './ui/loadingReducer'
+import snackbarReducer from './ui/snackbarReducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -26,5 +27,5 @@ export default combineReducers({
   files: filesReducer,
   snackbar: snackbarReducer,
   loading: loadingReducer,
-  filter: filterReducer,
-});
+  filter: filterReducer
+})

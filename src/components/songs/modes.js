@@ -1,8 +1,8 @@
 const modes = [
   {
-    0: "Minor",
+    0: 'Minor'
   },
-  { 1: "Major" },
-];
+  { 1: 'Major' }
+]
 
-export default modes;
+export default modes

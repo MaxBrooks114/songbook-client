@@ -1,13 +1,14 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createSection } from '../../actions/sections';
-import {createFile} from '../../actions/files'
-import { makeStyles } from '@material-ui/styles';
-import { Redirect } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import SectionForm from './SectionForm';
-import keys from '../songs/keys';
-import modes from '../songs/modes';
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
+import { createFile } from '../../actions/files'
+import { createSection } from '../../actions/sections'
+import keys from '../songs/keys'
+import modes from '../songs/modes'
+import SectionForm from './SectionForm'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,56 +20,57 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
     [theme.breakpoints.down('md')]: {
-      width: '75%',
+      width: '75%'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
+      width: '100%'
+    }
   },
 
   container: {
-      minHeight: '150vh',
+    minHeight: '150vh',
     [theme.breakpoints.down('md')]: {
-       minHeight: '180vh',
+      minHeight: '180vh'
     },
 
     [theme.breakpoints.down('sm')]: {
-       minHeight: '200vh',
-    },
+      minHeight: '200vh'
+    }
 
   },
-
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
     marginBottom: '2em',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '2em',
+      marginBottom: '2em'
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em',
-    },
+      marginBottom: '1.25em'
+    }
   },
 
-  title: { fontSize: '2.8rem', fontWeight: 600,
+  title: {
+    fontSize: '2.8rem',
+    fontWeight: 600,
     color: theme.palette.info.main
   }
-}));
+}))
 
 const SectionCreate = () => {
-  const dispatch = useDispatch();
-  const songs = useSelector((state) => state.songs);
-  const instruments = useSelector((state)=> state.instruments)
+  const dispatch = useDispatch()
+  const songs = useSelector((state) => state.songs)
+  const instruments = useSelector((state) => state.instruments)
   const normalize = (list, v) => {
-    return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null;
-  };
+    return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null
+  }
 
   const songId = (title) => {
-    const song = Object.values(songs).find((song) => song.title === title);
-    return song.id;
-  };
+    const song = Object.values(songs).find((song) => song.title === title)
+    return song.id
+  }
   const onSubmit = (formValues) => {
-    if(!formValues.tempo) {
+    if (!formValues.tempo) {
       formValues.tempo = 0
     }
     dispatch(
@@ -80,34 +82,35 @@ const SectionCreate = () => {
         duration: formValues.duration * 1000,
         start: formValues.start * 1000,
         learned: !!formValues.learned
-      
+
       })
-    );
+    )
     if (formValues.recording) {
-        dispatch(createFile({file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song)})) 
+      dispatch(createFile({ file: formValues.recording, extension: formValues.recording.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song) }))
     }
     if (formValues.tab) {
-        dispatch(createFile({file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song)})) 
+      dispatch(createFile({ file: formValues.tab, extension: formValues.tab.name.split('.').slice(-1)[0], section: formValues.id, song: songId(formValues.song) }))
     }
-    
-  };
+  }
 
-  const classes = useStyles();
+  const classes = useStyles()
 
-  return Object.values(songs).length ? (
+  return Object.values(songs).length
+    ? (
     <div className={classes.container}>
         <div className={classes.toolbarMargin}></div>
-         <div  className={classes.root}>
-        <Typography className={classes.title} variant="h2" align="center" gutterBottom>
+         <div className={classes.root}>
+        <Typography className={classes.title} variant="h2" align="center" >
           Create a Section
         </Typography>
-        <Typography className={classes.title} variant="subtitle2" align="center" gutterBottom>
-          This is the manual way to create a section. Most useful for original songs, though you can add anything you want( it needs to be tied to a song). Just note you will not be able to use the Spotify player features. 
+        <Typography variant="subtitle2" align="center" gutterBottom>
+          This is the manual way to create a section. Most useful for original songs, though you can add anything you want( it needs to be tied to a song). Just note you will not be able to use the Spotify player features.
         </Typography>
         <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
-    </div> 
-  ) : <Redirect to="/songs/new"/>
-};
+    </div>
+      )
+    : <Redirect to="/songs/new"/>
+}
 
-export default SectionCreate;
+export default SectionCreate

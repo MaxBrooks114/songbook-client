@@ -1,14 +1,13 @@
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import {SET_FILTER} from '../../actions/types'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-
+import { SET_FILTER } from '../../actions/types'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,42 +21,39 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
     position: 'relative',
     '&:hover': {
-        transform: 'translate(10px, 10px)',
-        transition: 'transform 0.2s ease 0s',
-        cursor: 'pointer',
-        zIndex: 2,
-     },
+      transform: 'translate(10px, 10px)',
+      transition: 'transform 0.2s ease 0s',
+      cursor: 'pointer',
+      zIndex: 2
+    }
   },
 
   media: {
     width: '100%',
     borderRadius: 4
   },
-  
 
-   link: {
+  link: {
     textDecoration: 'none',
     color: theme.palette.info.main
   },
 
-  
-
   cardContent1: {
     color: theme.palette.info.main,
     padding: '10px',
-    height: 80,   
+    height: 80,
     [theme.breakpoints.down('sm')]: {
-          height: 60
-      }, 
+      height: 60
+    }
   },
 
   cardContent2: {
     color: theme.palette.info.main,
     padding: '10px',
-    height: 120,  
+    height: 120,
     [theme.breakpoints.down('sm')]: {
-          height: 80
-      }, 
+      height: 80
+    }
   },
 
   trackInfo: {
@@ -70,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'normal',
     [theme.breakpoints.down('sm')]: {
-          lineClamp: '4'
-      },
+      lineClamp: '4'
+    }
   },
 
   trackTitle: {
@@ -83,34 +79,29 @@ const useStyles = makeStyles((theme) => ({
     lineClamp: '2',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'normal',
-    
-  },
+    whiteSpace: 'normal'
 
-}));
+  }
 
+}))
 
-
-
-const ItemCard = ({index, picture, album, cardTitle, cardInfo1, cardInfo2, type, id, dispatchKey, dispatchValue }) => {  
-
-  const classes = useStyles();
+const ItemCard = ({ index, picture, album, cardTitle, cardInfo1, cardInfo2, type, id, dispatchKey, dispatchValue }) => {
+  const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
 
   return (
       <Card className={classes.root} onClick={() => {
-        
-         history.push(`/${type}/${id}`)
-        if(dispatchKey && dispatchValue) {
-         
-          dispatch({type: SET_FILTER, payload: {
+        history.push(`/${type}/${id}`)
+        if (dispatchKey && dispatchValue) {
+          dispatch({
+            type: SET_FILTER,
+            payload: {
 
-            [dispatchKey]: dispatchValue, filter: true
-        }})
-       
-      }
-      
+              [dispatchKey]: dispatchValue, filter: true
+            }
+          })
+        }
       }}>
         <CardMedia
         ><img className={classes.media} alt={album} src={picture}/></CardMedia>
@@ -118,16 +109,16 @@ const ItemCard = ({index, picture, album, cardTitle, cardInfo1, cardInfo2, type,
         <CardContent className={classes.cardContent1}>
               <Typography variant="h6">{index + 1}</Typography>
               <Typography className={classes.trackTitle} variant="subtitle1">
-                {cardTitle}< br/>          
-              </Typography>      
+                {cardTitle}< br/>
+              </Typography>
         </CardContent>
-        
+
         <CardContent className={classes.cardContent2}>
           <Typography component="p" className={classes.trackInfo} variant="subtitle2">
            {cardInfo1} </Typography>
           <Typography component="p" className={classes.trackInfo} variant="subtitle2">
            {cardInfo2} </Typography>
-         
+
         </CardContent>
         </div>
       </Card>

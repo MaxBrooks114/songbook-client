@@ -1,46 +1,45 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import history from '../../history';
-import { logout } from '../../actions/auth';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import { useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
+import { logout } from '../../actions/auth'
+import history from '../../history'
 
 const useStyles = makeStyles((theme) => ({
-    dialog: {
-       '& .MuiDialog-paper': {
+  dialog: {
+    '& .MuiDialog-paper': {
       background: theme.palette.secondary.main
     },
 
-    '& .MuiTypography-root':{
+    '& .MuiTypography-root': {
       color: theme.palette.info.main
     },
 
-    '& .MuiButton-textPrimary':{
+    '& .MuiButton-textPrimary': {
       color: theme.palette.info.main
-    },
+    }
 
-    
-  },
-}));
+  }
+}))
 
 const Logout = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const theme = useTheme()
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true)
 
   const handleClose = () => {
-    setOpen(false);
-    history.push('/songs');
-  };
+    setOpen(false)
+    history.push('/songs')
+  }
 
   return (
     <div>
@@ -63,10 +62,10 @@ const Logout = () => {
           </Button>
           <Button
             onClick={() => {
-              dispatch(logout());
-              handleClose();
+              dispatch(logout())
+              handleClose()
             }}
-            style={{color: theme.palette.common.orange}}
+            style={{ color: theme.palette.common.orange }}
             color="primary"
             autoFocus
           >
@@ -75,7 +74,7 @@ const Logout = () => {
         </DialogActions>
       </Dialog>
     </div>
-  );
-};
+  )
+}
 
-export default Logout;
+export default Logout

@@ -1,57 +1,50 @@
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
 
-
-  title: { 
-    fontSize: '1.8rem', 
+  title: {
+    fontSize: '1.8rem',
     fontWeight: 600,
-     [theme.breakpoints.down('md')]: {
-          fontSize: '1.6rem'
-      },
+    [theme.breakpoints.down('md')]: {
+      fontSize: '1.6rem'
+    },
     [theme.breakpoints.down('sm')]: {
-          fontSize: '1.4rem'
-      },
+      fontSize: '1.4rem'
+    }
   },
 
-  subtitle: { 
+  subtitle: {
     [theme.breakpoints.down('md')]: {
-          fontSize: '1.5rem'
-      },
+      fontSize: '1.5rem'
+    },
     [theme.breakpoints.down('sm')]: {
-          fontSize: '1rem'
-      },
+      fontSize: '1rem'
+    }
   },
 
   desc: {
     [theme.breakpoints.down('md')]: {
-          fontSize: '1rem'
-      },
+      fontSize: '1rem'
+    },
     [theme.breakpoints.down('sm')]: {
-         fontSize: '.6rem'
-      },
+      fontSize: '.6rem'
+    }
   },
 
   video: {
     outline: 'none',
     borderRadius: 4,
     width: '100%',
-    boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
+    boxShadow: '0px 3px 15px rgba(0,0,0,0.2)'
 
   }
 
- 
-  
+}))
 
-
-
-}));
-
-const Blurb = ({blurb}) => {
-
+const Blurb = ({ blurb }) => {
   const classes = useStyles()
   return (
    <Grid container justify="space-around" alignItems="center">
@@ -62,7 +55,7 @@ const Blurb = ({blurb}) => {
             </Typography>
           </Grid>
           <Grid item xs={10} lg={5}>
-            <video className={classes.video} autoplay="true" preload="auto" loop src={blurb.video}/>
+            <video className={classes.video} autoPlay="true" preload="auto" loop src={blurb.video}/>
           </Grid>
         </Grid>
   )

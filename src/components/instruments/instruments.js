@@ -73,8 +73,8 @@ export const instrumentList = [
   'Voice',
   'Wood block',
   'Xylophone',
-  'Other',
-];
+  'Other'
+]
 
-export const instrumentFamilies = ['Woodwind', 'Brass', 'String', 'Percussion', 'Other'];
-export const instrumentTonalities = ['Soprano', 'Alto', 'Tenor', 'Baritone', 'Bass', 'N/A'];
+export const instrumentFamilies = ['Woodwind', 'Brass', 'String', 'Percussion', 'Other']
+export const instrumentTonalities = ['Soprano', 'Alto', 'Tenor', 'Baritone', 'Bass', 'N/A']

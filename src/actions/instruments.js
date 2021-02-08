@@ -1,93 +1,90 @@
-import history from '../history';
-import { CREATE_INSTRUMENT, FETCH_INSTRUMENTS, FETCH_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT } from './types';
-import { loading, notLoading, showSuccessSnackbar } from './ui';
-import { returnErrors } from './messages';
-import songbook from '../apis/songbook';
+import songbook from '../apis/songbook'
+import history from '../history'
+import { returnErrors } from './messages'
+import { CREATE_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT, FETCH_INSTRUMENT, FETCH_INSTRUMENTS } from './types'
+import { loading, notLoading, showSuccessSnackbar } from './ui'
 
 export const createInstrument = (formValues) => async (dispatch) => {
-  dispatch(loading());
+  dispatch(loading())
 
   try {
-    const response = await songbook.post('/instruments/', { ...formValues });
+    const response = await songbook.post('/instruments/', { ...formValues })
     dispatch({
       type: CREATE_INSTRUMENT,
-      payload: response.data,
-    });
-    history.push(`/instruments/${response.data.id}`);
+      payload: response.data
+    })
+    history.push(`/instruments/${response.data.id}`)
     dispatch(fetchInstruments)
     dispatch(showSuccessSnackbar('Instrument Added'))
-
   } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
+    dispatch(returnErrors(error.response.data, error.response.status))
   }
 
-  dispatch(notLoading());
-};
+  dispatch(notLoading())
+}
 
 export const fetchInstruments = () => async (dispatch) => {
-  dispatch(loading());
+  dispatch(loading())
 
   try {
-    const response = await songbook.get('/instruments/');
+    const response = await songbook.get('/instruments/')
     dispatch({
       type: FETCH_INSTRUMENTS,
-      payload: response.data,
-    });
+      payload: response.data
+    })
   } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
+    dispatch(returnErrors(error.response.data, error.response.status))
   }
-  dispatch(notLoading());
-};
+  dispatch(notLoading())
+}
 
 export const fetchInstrument = (id) => async (dispatch) => {
-  dispatch(loading());
+  dispatch(loading())
 
   try {
-    const response = await songbook.get(`/instruments/${id}/`);
+    const response = await songbook.get(`/instruments/${id}/`)
     dispatch({
       type: FETCH_INSTRUMENT,
-      payload: response.data,
-    });
+      payload: response.data
+    })
     if (!history.location.pathname.includes('edit')) {
-      history.push(`/instruments/${id}`);
+      history.push(`/instruments/${id}`)
     }
   } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
+    dispatch(returnErrors(error.response.data, error.response.status))
   }
 
-  dispatch(notLoading());
-};
+  dispatch(notLoading())
+}
 
 export const deleteInstrument = (id) => async (dispatch) => {
   try {
-    await songbook.delete(`/instruments/${id}`);
+    await songbook.delete(`/instruments/${id}`)
 
     dispatch({
       type: DELETE_INSTRUMENT,
-      payload: id,
-    });
+      payload: id
+    })
 
-    history.push('/instruments');
+    history.push('/instruments')
     dispatch(showSuccessSnackbar('Instrument Deleted'))
-
   } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
+    dispatch(returnErrors(error.response.data, error.response.status))
   }
-};
+}
 
 export const editInstrument = (id, formValues) => async (dispatch) => {
   try {
-    const response = await songbook.patch(`/instruments/${id}/`, formValues);
+    const response = await songbook.patch(`/instruments/${id}/`, formValues)
 
     dispatch({
       type: EDIT_INSTRUMENT,
-      payload: response.data,
-    });
+      payload: response.data
+    })
 
-    history.push(`/instruments/${id}`);
+    history.push(`/instruments/${id}`)
     dispatch(showSuccessSnackbar('Instrument Updated Succesfully'))
-
   } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status));
+    dispatch(returnErrors(error.response.data, error.response.status))
   }
-};
+}

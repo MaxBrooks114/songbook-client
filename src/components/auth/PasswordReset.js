@@ -1,14 +1,14 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { createMessage } from '../../actions/messages';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
-import {renderTextField} from '../../helpers/MaterialUiReduxFormFields'
-import {resetPassword} from '../../actions/auth'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
 
+import { resetPassword } from '../../actions/auth'
+import { createMessage } from '../../actions/messages'
+import { renderTextField } from '../../helpers/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,111 +20,107 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
     [theme.breakpoints.down('md')]: {
-      width: '75%',
+      width: '75%'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      width: '100%'
     },
 
     '& .MuiOutlinedInput-root': {
       background: theme.palette.background.default,
       width: 300,
       [theme.breakpoints.down('md')]: {
-          width: 240,
+        width: 240
       },
       [theme.breakpoints.down('sm')]: {
-          width: 200,
+        width: 200
       },
       '& fieldset': {
-        borderColor: theme.palette.info.main,
+        borderColor: theme.palette.info.main
       },
       '&:hover fieldset': {
-        borderColor: theme.palette.secondary.dark,
-      },
+        borderColor: theme.palette.secondary.dark
+      }
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: theme.palette.info.main,
+      color: theme.palette.info.main
     },
     ' & .MuiFormHelperText-contained': {
-      color: theme.palette.common.orange,
+      color: theme.palette.common.orange
     },
 
-     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+    '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.common.orange
     },
 
     '& .MuiFormLabel-root.Mui-error': {
-      color: theme.palette.common.orange,
+      color: theme.palette.common.orange
     }
   },
 
-
-
   button: {
-   color: theme.palette.info.main,
+    color: theme.palette.info.main,
     display: 'inline-block',
     borderRadius: 4,
     background: theme.palette.common.gray,
     '&:hover': {
       background: theme.palette.common.gray,
-      color: theme.palette.secondary.dark,
-    },
-    
+      color: theme.palette.secondary.dark
+    }
+
   },
 
   input: {
-    textTransform: 'capitalize',
+    textTransform: 'capitalize'
   },
 
   label: {
     color: theme.palette.info.main,
-     '&.shrink': {
-           color: theme.palette.info.main
-        },
+    '&.shrink': {
+      color: theme.palette.info.main
+    }
   },
 
-   container: {
+  container: {
     marginTop: 50,
     minHeight: '110vh',
     [theme.breakpoints.down('md')]: {
-       minHeight: "100vh",
+      minHeight: '100vh'
     },
     [theme.breakpoints.down('sm')]: {
-       minHeight: '180vh',
-    },
+      minHeight: '180vh'
+    }
 
-  },
+  }
 
-
-}));
-
+}))
 
 const PasswordReset = ({ onSubmit, handleSubmit }) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const messages = useSelector((state) => state.messages);
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const messages = useSelector((state) => state.messages)
   const user = useSelector((state) => state.auth.user)
-  const errorMessages = useSelector((state) => state.errors.msg);
+  const errorMessages = useSelector((state) => state.errors.msg)
   const renderErrorMessages = () => {
-    for (let msg in messages) {
-      return messages[msg];
+    for (const msg in messages) {
+      return messages[msg]
     }
     if (Object.keys(errorMessages).includes('password')) {
-      for (let key in errorMessages) {
-        for (let msg of errorMessages[key]) {
-          return msg;
+      for (const key in errorMessages) {
+        for (const msg of errorMessages[key]) {
+          return msg
         }
       }
     }
-  };
+  }
   const onFormSubmit = (formValues) => {
-    const { password, password2 } = formValues;
+    const { password, password2 } = formValues
     if (password !== password2) {
-      dispatch(createMessage({ passwordNotMatch: 'Passwords must match' }));
+      dispatch(createMessage({ passwordNotMatch: 'Passwords must match' }))
     } else {
-      dispatch(resetPassword(user.id, formValues));
+      dispatch(resetPassword(user.id, formValues))
     }
-  };
+  }
   return (
     <div className={classes.container}>
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
@@ -133,12 +129,12 @@ const PasswordReset = ({ onSubmit, handleSubmit }) => {
         </Typography>
       <Grid container align="center" justify="center" spacing={2}>
           <Grid item xs={12}>
-            <Field classes={classes}  InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
-                 }
-               }} type="password" name="password" component={renderTextField} label="Password" />
+            <Field classes={classes} InputLabelProps={{
+              classes: {
+                root: classes.label,
+                shrink: 'shrink'
+              }
+            }} type="password" name="password" component={renderTextField} label="Password" />
           </Grid>
           <Grid item xs={12}>
             <Field
@@ -147,10 +143,10 @@ const PasswordReset = ({ onSubmit, handleSubmit }) => {
               name="password2"
               component={renderTextField}
               label="Confirm Password"
-               InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
+               InputLabelProps={{
+                 classes: {
+                   root: classes.label,
+                   shrink: 'shrink'
                  }
                }}
             />
@@ -165,21 +161,21 @@ const PasswordReset = ({ onSubmit, handleSubmit }) => {
       </Grid>
         </form>
     </div>
-  );
-};
+  )
+}
 
 const validate = (formValues) => {
-  const errors = {};
-  const requiredFields = [ 'password', 'password2'];
+  const errors = {}
+  const requiredFields = ['password', 'password2']
   requiredFields.forEach((field) => {
     if (!formValues[field]) {
-      errors[field] = 'Required';
+      errors[field] = 'Required'
     }
-  });
-  return errors;
-};
+  })
+  return errors
+}
 
 export default reduxForm({
   form: 'PasswordReset',
-  validate,
-})(PasswordReset);
+  validate
+})(PasswordReset)
