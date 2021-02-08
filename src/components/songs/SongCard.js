@@ -1,13 +1,12 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/styles';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Slide from '@material-ui/core/Slide';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import Slide from '@material-ui/core/Slide'
+import { useTheme } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@material-ui/styles'
+import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,15 +14,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '95%',
     height: 85,
-    paddingTop: 0,
-    paddingBottom: 0,
     color: theme.palette.info.main,
     [theme.breakpoints.down('xs')]: {
       width: '100%'
-  
-    },
-    
-
+    }
   },
 
   cardContent: {
@@ -31,7 +25,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '.6rem'
   },
 
-  
+  title: {
+    fontWeight: 600, 
+  },
 
   media: {
     width: 85,
@@ -40,46 +36,46 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     [theme.breakpoints.down('md')]: {
       width: 0
-  
     },
     [theme.breakpoints.down('sm')]: {
       width: 85,
-       objectFit: 'contain',
+      objectFit: 'contain'
     },
     [theme.breakpoints.down('sm')]: {
-      width: 0,
-      
-    },
-  },
-}));
+      width: 0
+
+    }
+  }
+}))
 
 const SongCard = ({ song, transitionDuration, handleClick }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
+  const matches = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card  className={classes.root} onClick={() => handleClick(song.id)}>
+      <Card className={classes.root} onClick={() => handleClick(song.id)}>
         <CardMedia>
            <img
                   alt={song.album}
                   className={classes.media}
+                  //always try to load imported album artwork before uploaded 
                   src={song.image ? song.image : song.uploaded_image}
-                />   
-      
+                />
+
         </CardMedia>
         <CardContent className={classes.cardContent}>
-          <Typography component="p" style={{fontWeight: '600', verticalAlign: 'middle'}} variant={matches ? "caption" : "subtitle2"}>
-            {song.title} 
+          <Typography component="p" className={classes.title} variant={matches ? 'caption' : 'subtitle2'}>
+            {song.title}
           </Typography>
-          <Typography style={{fontWeight: '400'}} variant="caption">
+          <Typography style={{ fontWeight: 400 }} variant="caption">
             {song.artist}
           </Typography>
         </CardContent>
       </Card>
     </Slide>
-  );
-};
+  )
+}
 
-export default SongCard;
+export default SongCard

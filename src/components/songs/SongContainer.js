@@ -1,51 +1,55 @@
-import React, { useEffect, useRef, useState} from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getFilteredItems } from '../../selectors/filterSelectors';
-import * as workerTimers from 'worker-timers';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
-import SongDetail from './SongDetail';
-import SongDrawer from './SongDrawer';
-import SongList from './SongList';
-import FilterControl from '../FilterControl';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { checkIfPlaying } from '../../actions/spotify';
-import useHeight from '../../hooks/useHeight'
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import clsx from 'clsx';
-import filter_arrow_right from '../../assets/filter_arrow_right.svg';
-import trebleClef from '../../assets/trebleClef.png'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import { useTheme } from '@material-ui/core/styles'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import Typography from '@material-ui/core/Typography'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
+import { makeStyles } from '@material-ui/styles'
+import clsx from 'clsx'
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, Switch, useHistory, useLocation } from 'react-router-dom'
+import * as workerTimers from 'worker-timers'
 
-const drawerWidth = 244;
+import { checkIfPlaying } from '../../actions/spotify'
+import filter_arrow_right from '../../assets/filter_arrow_right.svg'
+import trebleClef from '../../assets/trebleClef.png'
+import useHeight from '../../hooks/useHeight'
+import FilterControl from '../FilterControl'
+import PrivateRoute from '../PrivateRoute'
+import SongCreate from './SongCreate'
+import SongDetail from './SongDetail'
+import SongDrawer from './SongDrawer'
+import SongEdit from './SongEdit'
+import SongList from './SongList'
+import NoMusicMessage from './NoMusicMessage'
+
+const drawerWidth = 244
+const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
-  
- 
+
   cardGrid: {
-   minHeight: '100vh',
-   position: 'relative',
-   marginTop: 50
+    minHeight: '100vh',
+    position: 'relative',
+    marginTop: 50
   },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '.7rem',
+      marginBottom: '.7rem'
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1rem',
-    },
+      marginBottom: '1rem'
+    }
   },
-   
 
   list: {
-   marginTop:'7px', 
-  //  minHeight: "100vh",
-   flexGrow: 1,
+    minHeight: '100vh',
+    marginTop: 7,
+    flexGrow: 1,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
@@ -53,16 +57,17 @@ const useStyles = makeStyles((theme) => ({
     margin: 0
   },
 
+  
   listShiftAlone: {
-      transition: theme.transitions.create('all', {
+    transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
 
-    marginLeft: 47 
+    marginLeft: 47
   },
 
-  listShiftSong: {
+  listShiftDetail: {
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
@@ -74,41 +79,40 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
-    marginLeft: 290,
+    marginLeft: 290
   },
 
   listShiftLeft: {
-    transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
-      duration: 500,
-  }),
-    marginLeft: 244
-},
-
-  
-
-  detailShown: {
-     height: '100%',
-     minHeight: '100vh',
-     marginTop: 95,
-      transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
       duration: 500
-      })
+    }),
+    marginLeft: 244
   },
 
-  detailHidden: {
-      height: 0,
-      width: 0,
-      transition: theme.transitions.create("all", {
-      easing: theme.transitions.easing.easeOut, 
+  detail: {
+    height: '100%',
+    minHeight: '100vh',
+    marginTop: 96,
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
       duration: 500
     })
   },
-  
+
+  detail: {
+    height: '100%',
+    minHeight: '100vh',
+    marginTop: 96,
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
+    })
+  },
+
   drawerIconContainer: {
-    height: '72px',
-    width: '72px',
+    height: 72,
+    width: 72,
     marginLeft: 0,
     position: 'fixed',
     top: '12%',
@@ -119,16 +123,32 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       top: '5%',
-      position: 'sticky',
-    },
-    
+      position: 'sticky'
+    }
+
   },
 
- 
-  
-   drawerIcon: {
-    height: '54px',
-    width: '54px',
+  addIconContainer: {
+    height: 72,
+    width: 72,
+    marginLeft: 0,
+    position: 'fixed',
+    top: '12%',
+    zIndex: 3,
+    right: '1%',
+    '&:hover': {
+      background: theme.palette.background.default
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '5%',
+      position: 'sticky'
+    }
+
+  },
+
+  drawerIcon: {
+    height: 54,
+    width: 54
   },
 
   drawer: {
@@ -139,108 +159,110 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'scroll',
     background: theme.palette.common.gray,
     [theme.breakpoints.down('md')]: {
-        zIndex: theme.zIndex.modal+1      
-    },
-    }, 
-
-    message: {
-      display: 'block',
-      margin: '0 auto',
-
-      overflowWrap: 'normal'
-    },
-
-    graphic: {
-      display: 'block',
-      margin: '50px auto',
-      width: 150,
-      height: 310
+      zIndex: theme.zIndex.modal + 1
+    }
   },
 
-}));
+  message: {
+    display: 'block',
+    margin: '0 auto',
+    overflowWrap: 'normal'
+  },
+
+  graphic: {
+    display: 'block',
+    margin: '50px auto',
+    width: 150,
+    height: 310
+  }
+
+}))
 
 const SongContainer = () => {
-  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'));
-  const songs = useSelector((state) => state.songs);
+  const songs = useSelector((state) => state.songs)
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token)
   const location = useLocation()
-  let id = location.pathname.split('/').splice(-1)
-  const song = useSelector((state) => state.songs[id]);
-  const nextSongIdx = filteredSongs.indexOf(song) + 1 
-  const prevSongIdx = filteredSongs.indexOf(song) - 1
-  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token);
-  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token);
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
-  const medScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const elementDOM = useRef(null);
-  const [height] = useHeight(elementDOM);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const theme = useTheme()
+  const classes = useStyles()
+  const elementDOM = useRef(null)
   const [listColumnSize, setListColumnSize] = useState(8)
-  const [showDetail, setShowDetail] = useState(false)
-  const dispatch = useDispatch();
-  const classes = useStyles();
-  let transitionDuration = 50;
+  const [height] = useHeight(elementDOM)
+  const [openDrawer, setOpenDrawer] = useState(false)
+  const medScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
+  const detailShow = location.pathname.includes('/songs/')
 
 
-
+  //constantly check if the user's Spotify player is playing something 
   useEffect(() => {
-    const intervalId = accessToken ? workerTimers.setInterval(() => {dispatch(checkIfPlaying(accessToken,refreshToken))}, 1000) : null
-     if (accessToken) {
+    const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
+    if (accessToken) {
       return () => {
-      workerTimers.clearInterval(intervalId) 
+        workerTimers.clearInterval(intervalId)
+      }
     }
-   }
   }, [accessToken, refreshToken, dispatch])
 
-  useEffect(( ) => {
+  useEffect(() => {
     setListColumnSize(8)
-    if(song) {
-      setShowDetail(true)
+    if (detailShow) {
       setListColumnSize(3)
     }
-  },[song])
-
+  }, [detailShow])
 
   const renderFilter = () => {
-    return Object.values(songs).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} items={Object.values(filteredSongs)} songs={Object.values(songs)} objectType='songs' /> : null 
+    return Object.values(songs).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} objectType='songs' /> : null
   }
-  
-
-  const renderDetail = () => {
-    return song ? <SongDetail showDetail={showDetail} nextSong={filteredSongs[nextSongIdx]} prevSong={filteredSongs[prevSongIdx]} song={song} /> : null;
-  };
 
   const renderList = () => {
-    return Object.values(songs).length ? (
-       <>    
-              <Grid 
-                  item xs={3} md={listColumnSize} 
-                  className={clsx(classes.list, {[classes.listShiftRight]: openDrawer && !medScreen && !song, [classes.listShiftLeft]: song && openDrawer && !medScreen, [classes.listShiftSong]: listColumnSize !==8 && song &&  !openDrawer, [classes.listShiftAlone]: !openDrawer && (!song || listColumnSize === 8) })}
-              >        
-                <SongList 
-                filteredSongs={filteredSongs} 
-                transitionDuration={transitionDuration} 
-                setShowDetail={setShowDetail}
-                setListColumnSize={setListColumnSize}
-                songs={songs} 
-                height={height} 
-                /> 
-              </Grid> 
-            </> )
-     :  (<SongDrawer renderFilter={renderFilter} 
-                            filteredSongs={filteredSongs} 
-                            transitionDuration={transitionDuration} 
-                            songs={songs} /> )
+    return !smallScreen
+      ? (
+      <>
+        <Grid
+          item xs={3} md={listColumnSize}
+          className={clsx(classes.list, {
+            [classes.listShiftRight]: openDrawer && !medScreen && !detailShow,
+            [classes.listShiftLeft]: detailShow && openDrawer && !medScreen,
+            [classes.listShiftDetail]: listColumnSize !== 8 && detailShow && !openDrawer,
+            [classes.listShiftAlone]: !openDrawer && (!detailShow || listColumnSize === 8)
+          })
+          }
+        >
+          <SongList
+            transitionDuration={transitionDuration}
+            listColumnSize={listColumnSize}
+            setListColumnSize={setListColumnSize}
+            height={height}
+          />
+        </Grid>
+      </>)
+      : (
+      <SongDrawer renderFilter={renderFilter} transitionDuration={transitionDuration} />)
   }
 
   return (
     <div >
-      {Object.values(songs).length ?
-      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
-          <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
-      </IconButton> : null }
-          
+      {Object.values(songs).length
+        ? <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
+            <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
+        </IconButton>
+        : null
+      }
+      {location.pathname !== '/songs/new'
+        ? <IconButton
+          onClick={() => history.push('/songs/new')}
+          className={classes.addIconContainer}
+        >
+          <AddRoundedIcon className={classes.drawerIcon}/>
+        </IconButton>
+        : null
+      }
+
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
@@ -250,28 +272,30 @@ const SongContainer = () => {
         anchor="left"
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
-      >  
+      >
         {renderFilter()}
-      </SwipeableDrawer>  
-      <Grid container justify='space-evenly' className={classes.cardGrid}>  
-        {Object.values(songs).length ? 
-          renderList() : 
-          <div> 
-            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/> 
-            <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
-          </div>
-          }
-   
-        <Grid item      
-              xs={12} md={6}  
-              ref={elementDOM} 
-              className={showDetail ? classes.detailShown : classes.detailHidden}>
-                {renderDetail()}
-        
-        </Grid>
-      </Grid>
+      </SwipeableDrawer>
+      <Grid container justify='space-evenly' className={classes.cardGrid}>
+        {Object.values(songs).length
+          ? renderList()
+          : <NoMusicMessage /> }
+      {detailShow ? 
+        <Grid item xs={12} md={6} ref={elementDOM} className={classes.detail}>
+          <Switch>
+            <PrivateRoute exact path="/songs/new">
+                <SongCreate />
+            </PrivateRoute>
+            <PrivateRoute exact path="/songs/:id">
+                <SongDetail />
+            </PrivateRoute>
+            <PrivateRoute exact path="/songs/edit/:id">
+                <SongEdit />
+            </PrivateRoute>
+          </Switch>
+        </Grid> : null }
+      </Grid> 
     </div>
-  );
-};
+  )
+}
 
-export default SongContainer;
+export default SongContainer
