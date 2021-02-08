@@ -46,12 +46,18 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     padding: '10px',
     height: 80,   
+    [theme.breakpoints.down('sm')]: {
+          height: 60
+      }, 
   },
 
   cardContent2: {
     color: theme.palette.info.main,
     padding: '10px',
-    height: 120,   
+    height: 120,  
+    [theme.breakpoints.down('sm')]: {
+          height: 80
+      }, 
   },
 
   trackInfo: {
@@ -62,7 +68,10 @@ const useStyles = makeStyles((theme) => ({
     display: '-webkit-box',
     lineClamp: '1',
     overflow: 'hidden',
-    whiteSpace: 'normal'
+    whiteSpace: 'normal',
+    [theme.breakpoints.down('sm')]: {
+          lineClamp: '4'
+      },
   },
 
   trackTitle: {
@@ -74,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
     lineClamp: '2',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'normal'
+    whiteSpace: 'normal',
+    
   },
 
 }));

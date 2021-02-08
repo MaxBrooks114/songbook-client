@@ -7,13 +7,13 @@ const useStyles = makeStyles((theme) => ({
 
 
   title: { 
-    fontSize: '2rem', 
+    fontSize: '1.8rem', 
     fontWeight: 600,
      [theme.breakpoints.down('md')]: {
-          fontSize: '2.3rem'
+          fontSize: '1.6rem'
       },
     [theme.breakpoints.down('sm')]: {
-          fontSize: '2rem'
+          fontSize: '1.4rem'
       },
   },
 

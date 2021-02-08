@@ -16,16 +16,12 @@ import Quaver from '../../assets/Quaver.png'
 const useStyles = makeStyles((theme) => ({
 
 
-  title:{
-    width: '100%',
-    marginTop: 25,
-  },
-
   rowTitle: {
     marginLeft: 29,
     marginBottom: '1rem',
     [theme.breakpoints.down('sm')]: {
-        marginLeft: 0
+        marginLeft: 0,
+        fontSize: '1rem'
       }, 
   },
 
@@ -143,7 +139,7 @@ const UserMetrics = ({songs, sections}) => {
        }
           return (
       
-               <Grid item xs={6} md={2} style={{marginLeft: '30px'}}>
+               <Grid item xs={6} md={2} style={!matches ? {marginLeft: '30px'} : null}>
                 <ItemCard 
                     index={index} 
                     picture={renderInfo(item, items[1])} 

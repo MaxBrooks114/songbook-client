@@ -40,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '3rem',
     fontWeight: 600,
     marginLeft: '1.7rem',
+    [theme.breakpoints.down('sm')]: {
+          fontSize: '2rem',
+          marginLeft: '1.3rem',
+      },
   },
 
   albumRow: {
