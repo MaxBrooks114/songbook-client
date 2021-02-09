@@ -67,7 +67,7 @@ const App = () => {
                 <Route exact path="/" component={Home} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/login" exact component={Login} />
-                <Route path='/passwordReset' exact component={PasswordReset} />
+                <PrivateRoute path='/passwordReset' exact component={PasswordReset} />
                 <PrivateRoute path="/users/:id" component={UserShow} />
                 <PrivateRoute exact path="/logout" component={Logout} />
                 <PrivateRoute exact path="/search" component={SpotifySearch} />
