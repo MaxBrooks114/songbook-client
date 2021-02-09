@@ -1,20 +1,14 @@
-import Accordion from '@material-ui/core/Accordion'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
-import AccordionSummary from '@material-ui/core/AccordionSummary'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import { makeStyles } from '@material-ui/styles'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link, useHistory, useLocation } from 'react-router-dom'
-
-import { fetchSection } from '../../actions/sections'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory  } from 'react-router-dom'
+import { getFilteredItems } from '../../selectors/filterSelectors'
+import SongAccordion from './SongAccordion'
 import Sort from '../Sort'
-import SectionCard from './SectionCard'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -23,20 +17,17 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     height: '80%',
     overflow: 'scroll',
-    borderRadius: '4px'
+    borderRadius: 4
 
   },
 
-  listItem: {
-    display: 'block',
-    '&:hover': {
-      transform: 'translate(10px, 10px)',
-      transition: 'transform 0.2s ease 0s',
-      cursor: 'pointer',
-      zIndex: 2
-    }
 
+  sortBar: {
+    width: '95%',
+    display: 'flex',
+    justifyContent: 'flex-end'
   },
+
 
   title: {
     width: '95%',
@@ -48,138 +39,31 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  sortBar: {
-    width: '95%',
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-
-  accordion: {
-    width: '95%',
-    background: theme.palette.primary.light,
-    color: theme.palette.info.main,
-    borderRadius: 4,
-    margin: '1rem 0',
-    '&:hover': {
-      transform: 'translate(10px, 10px)',
-      transition: 'transform 0.2s ease 0s',
-      cursor: 'pointer',
-      zIndex: 2
-    },
-    '& .MuiAccordionSummary-content': {
-      flexGrow: 0
-    },
-
-    '& .MuiAccordionSummary-root': {
-      justifyContent: 'space-between',
-      padding: '0, 16'
-    },
-
-    '& .MuiAccordionDetails-root': {
-      display: 'block',
-      padding: 0,
-      marginBottom: theme.spacing(2)
-    },
-
-    '& .MuiGrid-grid-xs-10': {
-      margin: 0,
-      justifyContent: 'center'
-    }
-  },
-
-  media: {
-    width: 85,
-    height: 85,
-    marginRight: 12,
-    objectFit: 'fill',
-    borderRadius: '4px',
-    [theme.breakpoints.down('md')]: {
-      width: 0
-
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: 85,
-      objectFit: 'contain'
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: 0
-
-    }
-  },
-
-  songTitle: {
-    margin: 'auto',
-    fontWeight: '600',
-    color: theme.palette.info.main
-  },
-
-  songLink: {
-    color: theme.palette.info.main,
-    '&:hover': {
-      color: theme.palette.common.darkGreen
-    }
-  }
-
 }))
-const SectionList = ({ sections, filteredSections, setListColumnSize, setShowDetail, transitionDuration, height, orderedSongs }) => {
-  const dispatch = useDispatch()
+const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, height }) => {
+  const filteredSections = useSelector((state) => getFilteredItems(state, 'sections'))
+  const sections = useSelector((state) => state.sections)
+  const songs = useSelector((state) => state.songs)
+  const filter = useSelector((state) => state.filter)
+  const order = filter.order === 'ascending' ? [1, -1] : [-1, 1]
+  const orderedSongs = filter.sort === 'song'
+    ? Object.values(songs).sort((a, b) => (a.title > b.title ? order[0] : order[1]))
+    : Object.values(songs)
   const classes = useStyles()
   const history = useHistory()
-  const location = useLocation()
-  const [expanded, setExpanded] = useState(false)
 
-  const handleClick = (id) => {
-    dispatch(fetchSection(id))
-  }
-
-  const renderSort = () => {
-    return Object.values(sections).length > 0 ? <Sort items={Object.values(sections)} sections={Object.values(sections)} objectType='sections' /> : null
-  }
-
-  const renderSongTitle = (song, expanded, sections) => {
-    return expanded
-      ? <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} style={{ textDecoration: 'none' }} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography>
-      : <Typography className={classes.songTitle} component="p">{song.title} ({sections.length})</Typography>
-  }
+ 
   const renderSongs = () => {
     return orderedSongs.length
       ? orderedSongs.map((song) => {
         const sections = filteredSections.filter(section => song.id === section.song.id)
         return sections.length
-          ? (
-                <Accordion className={classes.accordion} onChange={(event, expanded) => {
-                  setExpanded(expanded)
-                }}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                      <img
-                        alt={song.album}
-                        className={classes.media}
-                        src={song.image ? song.image : song.uploaded_image}
-                      />
-                     {renderSongTitle(song, expanded, sections)}
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        {renderedList(sections)}
-                    </AccordionDetails>
-                  </Accordion>
-            )
+          ?  <SongAccordion song={song} transitionDuration={transitionDuration} sections={sections} /> 
           : null
       })
       : null
   }
 
-  const renderedList = (sections) => {
-    return sections.length > 0
-      ? sections.map((section) => {
-        return (
-              <ListItem className={classes.listItem} key={section.id} disableGutters dense>
-                <SectionCard section={section} transitionDuration={transitionDuration} handleClick={handleClick} />
-              </ListItem>
-
-        )
-      })
-      : null
-  }
 
   return (
       <>
@@ -187,13 +71,12 @@ const SectionList = ({ sections, filteredSections, setListColumnSize, setShowDet
           Sections
         </Typography>
         <div className={classes.sortBar}>
-          {renderSort()}
-          {location.pathname.includes('sections/')
+          <Sort objectType='sections'/>
+          {listColumnSize === 3
             ? <IconButton>
             <NavigateNextIcon onClick={() => {
               setListColumnSize(8)
-              setShowDetail(false)
-              window.history.pushState(null, null, '/sections')
+              history.push('/sections')
             }}/>
           </IconButton>
             : null}

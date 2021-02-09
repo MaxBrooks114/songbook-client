@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { normalize, renderText } from '../../helpers/detailHelpers'
 
 import { createFile } from '../../actions/files'
 import { createSection } from '../../actions/sections'
@@ -13,7 +14,7 @@ import SectionForm from './SectionForm'
 const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.info.main,
-    width: '50%',
+    width: '100%',
     margin: 'auto',
     padding: '2rem',
     boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
@@ -27,28 +28,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  container: {
-    minHeight: '150vh',
-    [theme.breakpoints.down('md')]: {
-      minHeight: '180vh'
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '200vh'
-    }
-
-  },
-
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '2em',
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '2em'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em'
-    }
-  },
 
   title: {
     fontSize: '2.8rem',
@@ -61,9 +40,7 @@ const SectionCreate = () => {
   const dispatch = useDispatch()
   const songs = useSelector((state) => state.songs)
   const instruments = useSelector((state) => state.instruments)
-  const normalize = (list, v) => {
-    return v ? Object.keys(list.find((value) => Object.values(value)[0] === v))[0] : null
-  }
+  
 
   const songId = (title) => {
     const song = Object.values(songs).find((song) => song.title === title)
@@ -97,9 +74,8 @@ const SectionCreate = () => {
 
   return Object.values(songs).length
     ? (
-    <div className={classes.container}>
-        <div className={classes.toolbarMargin}></div>
-         <div className={classes.root}>
+   
+      <div className={classes.root}>
         <Typography className={classes.title} variant="h2" align="center" >
           Create a Section
         </Typography>
@@ -108,7 +84,7 @@ const SectionCreate = () => {
         </Typography>
         <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
-    </div>
+  
       )
     : <Redirect to="/songs/new"/>
 }

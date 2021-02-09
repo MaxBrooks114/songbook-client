@@ -45,10 +45,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  value: {
-    color: theme.palette.info.main
-  },
-
   autoComplete: {
     color: theme.palette.info.main
   },
@@ -61,41 +57,9 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  uploadButton: {
-    background: theme.palette.secondary.dark,
-    '&:hover': {
-      background: theme.palette.info.main,
-      color: theme.palette.primary.main
-    },
-    margin: '1rem',
-    width: 400,
-    [theme.breakpoints.down('sm')]: {
-      width: 'auto'
-    }
-  },
-
-  input: {
-    textTransform: 'capitalize'
-  },
-
   checkBox: {
     '&.Mui-checked': {
       color: theme.palette.info.main
-    }
-
-  },
-
-  label: {
-    color: theme.palette.info.main,
-    '&.shrink': {
-      color: theme.palette.info.main
-    }
-  },
-
-  lyrics: {
-    borderColor: theme.palette.info.main,
-    '& .MuiInputBase-root': {
-      width: 'auto'
     }
   },
 
@@ -109,17 +73,29 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left'
   },
 
-  uploadFieldSet: {
-    borderRadius: '4px',
-    borderColor: theme.palette.info.main,
-    borderWidth: 'thin',
-    background: '#f0f0f0'
+   input: {
+    textTransform: 'capitalize'
+  },
+
+  label: {
+    color: theme.palette.info.main,
+    '&.shrink': {
+      color: theme.palette.info.main
+    }
   },
 
   listbox: {
     background: theme.palette.background.default
   },
-  option: {
+
+  lyrics: {
+    borderColor: theme.palette.info.main,
+    '& .MuiInputBase-root': {
+      width: 'auto'
+    }
+  },
+
+   option: {
     color: theme.palette.info.main,
     textTransform: 'capitalize',
 
@@ -127,7 +103,20 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.primary.main,
       color: theme.palette.info.main
     }
-  }
+  },
+
+  uploadFieldSet: {
+    borderRadius: '4px',
+    borderColor: theme.palette.info.main,
+    borderWidth: 'thin',
+    background: '#f0f0f0'
+  },
+  
+
+  value: {
+    color: theme.palette.info.main
+  },
+ 
 }))
 
 const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {

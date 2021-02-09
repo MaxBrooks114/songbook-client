@@ -27,18 +27,22 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     marginTop: 'auto',
     marginLeft: '.6rem'
+  },
+
+  title: {
+    fontWeight: 600,
   }
 
 }))
 
-const SectionCard = ({ section, transitionDuration, fullDisplay, handleClick }) => {
+const SectionCard = ({ section, transitionDuration }) => {
   const classes = useStyles()
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card style={fullDisplay ? { margin: 'auto' } : null} className={classes.root} onClick={() => handleClick(section.id)}>
+      <Card  className={classes.root}>
         <CardContent className={classes.cardContent}>
-          <Typography component="p" style={{ fontWeight: '600', verticalAlign: 'middle' }} variant="subtitle1">{section.name}</Typography>
+          <Typography  className={classes.title} variant="subtitle1">{section.name}</Typography>
         </CardContent>
       </Card>
     </Slide>

@@ -2,28 +2,51 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import { useTheme } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Switch, useHistory, useLocation } from 'react-router-dom'
 import * as workerTimers from 'worker-timers'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 import { checkIfPlaying } from '../../actions/spotify'
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
-import trebleClef from '../../assets/trebleClef.png'
 import useHeight from '../../hooks/useHeight'
 import { getFilteredItems } from '../../selectors/filterSelectors'
 import FilterControl from '../FilterControl'
 import SectionDetail from './SectionDetail'
 import SectionDrawer from './SectionDrawer'
 import SectionList from './SectionList'
+import SectionCreate from './SectionCreate'
+import SectionEdit from './SectionEdit'
+import NoMusicMessage from '../ui/NoMusicMessage'
+import PrivateRoute from '../PrivateRoute'
 
 const drawerWidth = 244
+let transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
+
+  addIconContainer: {
+    height: 72,
+    width: 72,
+    marginLeft: 0,
+    position: 'fixed',
+    top: '12%',
+    zIndex: 3,
+    right: '1%',
+    '&:hover': {
+      background: theme.palette.background.default
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '5%',
+      position: 'sticky'
+    }
+
+  },
+
   cardGrid: {
     minHeight: '100vh',
     position: 'relative',
@@ -85,19 +108,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 244
   },
 
-  detailShown: {
+ detail: {
     height: '100%',
     minHeight: '100vh',
-    marginTop: 95,
-    transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeOut,
-      duration: 500
-    })
-  },
-
-  detailHidden: {
-    height: 0,
-    width: 0,
+    marginTop: 96,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
@@ -167,23 +181,23 @@ const SectionContainer = () => {
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token)
   const dispatch = useDispatch()
+  const history = useHistory()
   const filter = useSelector((state) => state.filter)
-  const order = filter.order === 'ascending' ? [1, -1] : [-1, 1]
-  const orderedSongs = filter.sort === 'song'
-    ? Object.values(songs).sort((a, b) => (a.title > b.title ? order[0] : order[1]))
-    : Object.values(songs)
+
+  
   const theme = useTheme()
   const classes = useStyles()
-  const matches = useMediaQuery(theme.breakpoints.down('sm'))
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const medScreen = useMediaQuery(theme.breakpoints.down('md'))
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
   const [openDrawer, setOpenDrawer] = useState(false)
   const elementDOM = useRef(null)
   const [height] = useHeight(elementDOM)
   const [listColumnSize, setListColumnSize] = useState(8)
-  const [showDetail, setShowDetail] = useState(false)
-  const transitionDuration = 50
+  const detailShow = location.pathname.includes('/sections/')
 
+
+  //constantly check if the user's Spotify player is playing 
   useEffect(() => {
     const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
     if (accessToken) {
@@ -195,50 +209,37 @@ const SectionContainer = () => {
 
   useEffect(() => {
     setListColumnSize(8)
-    if (section) {
-      setShowDetail(true)
+    if (detailShow) {
       setListColumnSize(3)
     }
-  }, [section])
+  }, [detailShow])
 
   const renderFilter = () => {
     return Object.values(sections).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} objectType='sections' /> : null
   }
 
-  const renderDetail = () => {
-    return section ? <SectionDetail nextSection={filteredSections[nextSectionIdx]} prevSection={filteredSections[prevSectionIdx]} section={section} showDetail={showDetail} /> : null
-  }
 
   const renderList = () => {
-    return !matches
+    return !smallScreen
       ? <>
-              <Grid
-                  item xs={3} md={listColumnSize}
-                  className={clsx(classes.list, {
-                    [classes.listShiftRight]: openDrawer && !medScreen && !section,
-                    [classes.listShiftLeft]: section && openDrawer,
-                    [classes.listShiftSection]: listColumnSize !== 8 && section && !openDrawer,
-                    [classes.listSectionAlone]: (!section || listColumnSize === 8) && !openDrawer
-                  })}
-              >
-                <SectionList
-                filteredSections={filteredSections}
-                fullDisplay={!section}
-                transitionDuration={transitionDuration}
-                sections={sections}
-                setShowDetail={setShowDetail}
-                setListColumnSize={setListColumnSize}
-                orderedSongs = {orderedSongs}
-                height={height}
-                />
-              </Grid>
-            </>
-      : <SectionDrawer
-                            orderedSongs = {orderedSongs}
-                            renderFilter={renderFilter}
-                            filteredSections={filteredSections}
-                            transitionDuration={transitionDuration}
-                            sections={sections} />
+          <Grid
+              item xs={3} md={listColumnSize}
+              className={clsx(classes.list, {
+                [classes.listShiftRight]: openDrawer && !medScreen && !detailShow,
+                [classes.listShiftLeft]: detailShow && openDrawer,
+                [classes.listShiftSection]: listColumnSize !== 8 && detailShow && !openDrawer,
+                [classes.listSectionAlone]: (!detailShow || listColumnSize === 8) && !openDrawer
+              })}
+          >
+           <SectionList
+             transitionDuration={transitionDuration}
+             listColumnSize={listColumnSize}
+             setListColumnSize={setListColumnSize}           
+             height={height}
+           />
+          </Grid>
+        </>
+      : <SectionDrawer renderFilter={renderFilter} transitionDuration={transitionDuration}/>
   }
 
   return (
@@ -248,6 +249,15 @@ const SectionContainer = () => {
           <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
       </IconButton>
        : null }
+      {location.pathname !== '/sections/new'
+        ? <IconButton
+          onClick={() => history.push('/sections/new')}
+          className={classes.addIconContainer}
+        >
+          <AddRoundedIcon className={classes.drawerIcon}/>
+        </IconButton>
+        : null
+      }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
@@ -263,16 +273,19 @@ const SectionContainer = () => {
       <Grid container justify='space-evenly' className={classes.cardGrid}>
         {Object.values(sections).length
           ? renderList()
-          : <div>
-            <img className={classes.graphic} src={trebleClef} alt="treble-clef"/>
-            <Typography className={classes.message}>You have no sections! Import a song by using the Spotify Search function in the navbar or by adding one by following this <Link to="/sections/new">link</Link></Typography>
-          </div>
-        }
-        <Grid item
-              xs={12} md={6} lg={6}
-              ref={elementDOM}
-              className={showDetail ? classes.detailShown : classes.detailHidden}>
-                {renderDetail()}
+          : <NoMusicMessage objectType="sections"/> }
+        <Grid item xs={12} md={6} lg={6} ref={elementDOM} className={classes.detail}>
+          <Switch>
+            <PrivateRoute exact path="/sections/new">
+                <SectionCreate />
+            </PrivateRoute>
+            <PrivateRoute exact path="/sections/:id">
+                <SectionDetail />
+            </PrivateRoute>
+            <PrivateRoute exact path="/sections/edit/:id">
+                <SectionEdit />
+            </PrivateRoute>
+          </Switch>
         </Grid>
       </Grid>
     </div>
