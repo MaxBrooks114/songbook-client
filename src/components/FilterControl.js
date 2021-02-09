@@ -103,6 +103,10 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   button: {
     color: theme.palette.info.light,
     display: 'inline-block',
@@ -128,7 +132,11 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+<<<<<<< HEAD
   drawerIcon: {
+=======
+   drawerIcon: {
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     height: '54px',
     width: '54px'
   },
@@ -139,7 +147,11 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+<<<<<<< HEAD
   label: {
+=======
+   label: {
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     color: theme.palette.info.main,
     fontSize: '.8rem',
     '&.shrink': {
@@ -147,7 +159,12 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+<<<<<<< HEAD
   link: {
+=======
+
+   link: {
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     color: theme.palette.background.default,
     textDecoration: 'none'
   },
@@ -157,6 +174,10 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   option: {
     color: theme.palette.info.main,
     textTransform: 'capitalize',
@@ -167,7 +188,11 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+<<<<<<< HEAD
   select: {
+=======
+   select: {
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     height: 40
   },
 
@@ -183,11 +208,20 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   spotifyLogo: {
     height: 21,
     width: 21,
     verticalAlign: 'middle'
+<<<<<<< HEAD
   }
+=======
+  },
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
 }))
 

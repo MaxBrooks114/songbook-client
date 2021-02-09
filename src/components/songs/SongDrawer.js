@@ -16,10 +16,18 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+<<<<<<< HEAD
   drawerIcon: {
     height: 50,
     width: 50
   },
+=======
+   drawerIcon: {
+    height: 50,
+    width: 50
+  },
+
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
   drawerIconContainer: {
     backgroundColor: theme.palette.common.gray,
@@ -34,7 +42,13 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.palette.primary.main
     }
+<<<<<<< HEAD
   }
+=======
+  },
+
+ 
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
 }))
 const SongDrawer = () => {

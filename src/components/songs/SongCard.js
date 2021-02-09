@@ -25,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '.6rem'
   },
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   media: {
     width: 85,
     height: 85,
@@ -43,9 +47,15 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+<<<<<<< HEAD
   title: {
     fontWeight: 600
   }
+=======
+   title: {
+    fontWeight: 600
+  },
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 }))
 
 const SongCard = ({ song, transitionDuration, handleClick }) => {

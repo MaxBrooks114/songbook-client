@@ -15,11 +15,19 @@ import SongCard from './SongCard'
 
 const useStyles = makeStyles((theme) => ({
 
+<<<<<<< HEAD
   expand: {
     height: 32,
     width: 32
   },
 
+=======
+   expand: {
+    height: 32,
+    width: 32
+  },
+  
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   list: {
     paddingTop: 0,
     height: '80%',
@@ -51,7 +59,13 @@ const useStyles = makeStyles((theme) => ({
     width: '95%',
     display: 'flex',
     justifyContent: 'flex-end'
+<<<<<<< HEAD
   }
+=======
+  },
+
+ 
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
 }))
 const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, height }) => {

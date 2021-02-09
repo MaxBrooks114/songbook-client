@@ -26,7 +26,11 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+<<<<<<< HEAD
   container: {
+=======
+    container: {
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     minHeight: '120vh',
     [theme.breakpoints.down('md')]: {
       minHeight: '100vh'
@@ -53,7 +57,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1.25em'
     }
+<<<<<<< HEAD
   }
+=======
+  },
+
+>>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
 }))
 
