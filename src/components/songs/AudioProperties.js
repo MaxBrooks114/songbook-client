@@ -9,8 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-
-import { audioFeaturesToText, millisToMinutesAndSeconds, renderBool, renderText, titleCase } from '../../helpers/detailHelpers'
+import { audioFeaturesToText, titleCase } from '../../helpers/detailHelpers'
 
 const useStyles = makeStyles((theme) => ({
 
