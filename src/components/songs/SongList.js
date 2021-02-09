@@ -7,8 +7,6 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-
-import { fetchSong } from '../../actions/songs'
 import { getFilteredItems } from '../../selectors/filterSelectors'
 import Sort from '../Sort'
 import SongCard from './SongCard'
@@ -60,9 +58,7 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
   const history = useHistory()
   const dispatch = useDispatch()
   const classes = useStyles()
-  const handleClick = (id) => {
-    dispatch(fetchSong(id))
-  }
+
 
   const renderedList = () => {
     return Object.values(songs).length > 0
@@ -72,7 +68,7 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
               <ListItem onClick={() => {
                 history.push(`/songs/${song.id}`)
               }} className={classes.listItem} key={song.id} disableGutters dense>
-                <SongCard song={song} transitionDuration={transitionDuration} handleClick={handleClick} />
+                <SongCard song={song} transitionDuration={transitionDuration}  />
               </ListItem>
         )
       })

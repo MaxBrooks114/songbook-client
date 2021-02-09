@@ -28,16 +28,6 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  container: {
-    minHeight: '110vh',
-    [theme.breakpoints.down('md')]: {
-      minHeight: '100vh'
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '180vh'
-    }
-  },
 
   title: {
     fontSize: '2.8rem',
@@ -46,16 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '3em',
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '2em'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em'
-    }
-  }
+ 
 
 }))
 

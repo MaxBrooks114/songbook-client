@@ -55,7 +55,7 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card className={classes.root} onClick={() => handleClick(song.id)}>
+      <Card className={classes.root} >
         <CardMedia>
            <img
                   alt={song.album}

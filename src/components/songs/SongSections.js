@@ -10,9 +10,9 @@ import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRo
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { playSection, playSong, pressPausePlayer } from '../../actions/spotify'
+import { playSection } from '../../actions/spotify'
 
 const useStyles = makeStyles((theme) => ({
 
