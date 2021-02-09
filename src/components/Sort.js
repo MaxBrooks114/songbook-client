@@ -78,7 +78,14 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
       width: '100%'
     }
+  },
 
+  label: {
+    color: theme.palette.info.main,
+    fontSize: '.8rem',
+    '&.shrink': {
+      color: theme.palette.primary.dark
+    }
   },
 
   listbox: {
@@ -97,13 +104,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  label: {
-    color: theme.palette.info.main,
-    fontSize: '.8rem',
-    '&.shrink': {
-      color: theme.palette.primary.dark
-    }
-  }
+
 }))
 
 const Sort = ({ objectType }) => {

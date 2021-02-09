@@ -15,10 +15,15 @@ import SongCard from './SongCard'
 
 const useStyles = makeStyles((theme) => ({
 
+   expand: {
+    height: 32,
+    width: 32
+  },
+  
   list: {
     paddingTop: 0,
     height: '80%',
-    overflow: 'scroll',
+    overflow: 'scroll'
 
   },
 
@@ -48,10 +53,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end'
   },
 
-  expand: {
-    height: 32,
-    width: 32
-  }
+ 
 
 }))
 const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, height }) => {
@@ -63,7 +65,6 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
   const handleClick = (id) => {
     dispatch(fetchSong(id))
   }
-
 
   const renderedList = () => {
     return Object.values(songs).length > 0
@@ -88,11 +89,11 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
         <div className={classes.sortBar}>
          <Sort objectType='songs'/>
           {listColumnSize === 3
-            ? <IconButton>
-            <NavigateNextIcon className={classes.expand} onClick={() => {
+            ? <IconButton onClick={() => {
               setListColumnSize(8)
               history.push('/songs')
-            }}/>
+            }}>
+            <NavigateNextIcon className={classes.expand} />
           </IconButton>
             : null}
         </div>

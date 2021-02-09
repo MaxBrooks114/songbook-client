@@ -8,6 +8,19 @@ import React, { useState } from 'react'
 import SongList from './SongList'
 
 const useStyles = makeStyles((theme) => ({
+  drawer: {
+    background: theme.palette.background.default,
+    height: '85%',
+    margin: 'auto',
+    marginTop: theme.spacing(8)
+
+  },
+
+   drawerIcon: {
+    height: 50,
+    width: 50
+  },
+
 
   drawerIconContainer: {
     backgroundColor: theme.palette.common.gray,
@@ -24,18 +37,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  drawerIcon: {
-    height: 50,
-    width: 50
-  },
+ 
 
-  drawer: {
-    background: theme.palette.background.default,
-    height: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(8)
-
-  }
 }))
 const SongDrawer = () => {
   const classes = useStyles()

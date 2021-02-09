@@ -11,7 +11,7 @@ import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { clearFields, Field, initialize, reduxForm, reset, submit } from 'redux-form'
+import { clearFields, Field, initialize, reduxForm, reset } from 'redux-form'
 
 import { clearFilter, clearNonArrayFields, setFilter } from '../actions/filter'
 import filter_arrow_left from '../assets/filter_arrow_left.svg'
@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
       }
     },
 
-   
     '& .MuiGrid-item': {
 
       [theme.breakpoints.down('sm')]: {
@@ -84,16 +83,15 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.down('sm')]: {
         fontSize: '.8rem'
       }
-    },
+    }
 
- 
   },
 
-   accordion: {
+  accordion: {
     background: theme.palette.common.gray,
     color: theme.palette.info.main,
     marginBottom: '1em',
-     '& .MuiAccordionSummary-content': {
+    '& .MuiAccordionSummary-content': {
       flexGrow: 0
     },
 
@@ -102,51 +100,9 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.down('sm')]: {
         fontSize: '.8rem'
       }
-    },
-  },
-
-  
-  select: {
-    height: 40
-  },
-
-  listbox: {
-    background: theme.palette.common.gray
-
-  },
-
-  option: {
-    color: theme.palette.info.main,
-    textTransform: 'capitalize',
-    fontSize: '.8rem',
-    '&[data-focus="true"]': {
-      background: theme.palette.background.default,
-      color: theme.palette.info.main
     }
   },
 
-  spotify: {
-    color: theme.palette.background.default,
-    display: 'inline-block',
-    borderRadius: 4,
-    background: theme.palette.info.main,
-    '&:hover': {
-      color: theme.palette.common.gray,
-      background: theme.palette.info.main
-    }
-
-  },
-
-  link: {
-    color: theme.palette.background.default,
-    textDecoration: 'none'
-  },
-
-  spotifyLogo: {
-    height: 21,
-    width: 21,
-    verticalAlign: 'middle'
-  },
 
   button: {
     color: theme.palette.info.light,
@@ -173,15 +129,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  label: {
-    color: theme.palette.info.main,
-    fontSize: '.8rem',
-    '&.shrink': {
-      color: theme.palette.primary.dark
-    }
-  },
-
-  drawerIcon: {
+   drawerIcon: {
     height: '54px',
     width: '54px'
   },
@@ -190,7 +138,61 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       background: theme.palette.common.gray
     }
-  }
+  },
+
+   label: {
+    color: theme.palette.info.main,
+    fontSize: '.8rem',
+    '&.shrink': {
+      color: theme.palette.primary.dark
+    }
+  },
+
+
+   link: {
+    color: theme.palette.background.default,
+    textDecoration: 'none'
+  },
+
+  listbox: {
+    background: theme.palette.common.gray
+
+  },
+
+
+  option: {
+    color: theme.palette.info.main,
+    textTransform: 'capitalize',
+    fontSize: '.8rem',
+    '&[data-focus="true"]': {
+      background: theme.palette.background.default,
+      color: theme.palette.info.main
+    }
+  },
+
+   select: {
+    height: 40
+  },
+
+  spotify: {
+    color: theme.palette.background.default,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.info.main,
+    '&:hover': {
+      color: theme.palette.common.gray,
+      background: theme.palette.info.main
+    }
+
+  },
+
+
+
+  spotifyLogo: {
+    height: 21,
+    width: 21,
+    verticalAlign: 'middle'
+  },
 
 }))
 
@@ -305,7 +307,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                   options={_.uniq(songs.map((song) => song[field])).sort()}
                   classes={classes}
                   name={field}
-                  
+
                   component={renderAutoCompleteDataField}
                   label={titleCase(field)}
                    InputLabelProps={{
@@ -326,10 +328,10 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
     return fields.length > 0
       ? fields.map((field) => {
         return (
-        
-          <Grid container direction="row" justify="center"  key={field}>
+
+          <Grid container direction="row" justify="center" key={field}>
           <Grid item xs={8}>
-            <Field  classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{
+            <Field classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{
               classes: {
                 formControlLabel: classes.label,
                 label: classes.label
@@ -354,7 +356,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                  name="year"
                  component={renderSlider}
                  label="Year Released"
-                
+
                  />
 
           </Grid>
@@ -411,13 +413,13 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
      <div >
 
       <IconButton className={classes.drawerIconContainer} onClick={() => setOpenDrawer(!openDrawer)}>
-          <img src={filter_arrow_left} alt='close filter drawer'  className={classes.drawerIcon} />
+          <img src={filter_arrow_left} alt='close filter drawer' className={classes.drawerIcon} />
       </IconButton>
        <form
             className={classes.root}
             onSubmit={handleSubmit(onFormSubmit)}
             >
-      <Grid container direction="column" align="center" spacing={2}  justify="center" >
+      <Grid container direction="column" align="center" spacing={2} justify="center" >
         {!accessToken
           ? <Grid item xs={12}>
             <Button className={classes.spotify} >
@@ -445,7 +447,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                 options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key))).sort()}
                 classes={classes}
                 name="key"
-                
+
                 component={renderAutoCompleteDataField}
                 label="Key"
                 InputLabelProps={{
@@ -458,7 +460,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
             </Grid>
             <Grid item xs={12} sm={12}>
               <Field
-                  
+
                   options={modes}
                   classes={classes}
                   name="mode"
@@ -473,7 +475,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
             </Grid>
             <Grid item sm={12} xs={12}>
               <Field
-                  
+
                   options={_.uniq(items.map((item) => `${item.time_signature}/4`))}
                   classes={classes}
                   name="time_signature"
