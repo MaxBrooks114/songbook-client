@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const NoMusicMessage = () => {
+const NoMusicMessage = ({objectType}) => {
   const classes = useStyles()
   const location = useLocation()
   return !location.pathname.includes('new')
     ? (
     <div style={{ marginTop: 70 }}>
       <img className={classes.graphic} src={trebleClef} alt="treble-clef"/>
-      <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
+      <Typography className={classes.message}>You have no {objectType}! Add one by following this <Link to={`/${objectType}/new`}>link</Link></Typography>
     </div>
       )
     : null

@@ -16,7 +16,7 @@ import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import useHeight from '../../hooks/useHeight'
 import FilterControl from '../FilterControl'
 import PrivateRoute from '../PrivateRoute'
-import NoMusicMessage from './NoMusicMessage'
+import NoMusicMessage from '../ui/NoMusicMessage'
 import SongCreate from './SongCreate'
 import SongDetail from './SongDetail'
 import SongDrawer from './SongDrawer'
@@ -24,7 +24,7 @@ import SongEdit from './SongEdit'
 import SongList from './SongList'
 
 const drawerWidth = 244
-const transitionDuration = 50
+let transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
@@ -173,7 +173,7 @@ const SongContainer = () => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
   const detailShow = location.pathname.includes('/songs/')
 
-  // constantly check if the user's Spotify player is playing something
+  // constantly check if the user's Spotify player is playing 
   useEffect(() => {
     const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
     if (accessToken) {
@@ -253,7 +253,7 @@ const SongContainer = () => {
       <Grid container justify='space-evenly' className={classes.cardGrid}>
         {Object.values(songs).length
           ? renderList()
-          : <NoMusicMessage /> }
+          : <NoMusicMessage objectType="songs"/> }
       {detailShow
         ? <Grid item xs={12} md={6} ref={elementDOM} className={classes.detail}>
           <Switch>
