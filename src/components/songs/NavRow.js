@@ -5,6 +5,8 @@ import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { getFilteredItems } from '../../selectors/filterSelectors'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -22,8 +24,13 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const NavRow = ({ nextSong, prevSong }) => {
+const NavRow = ({song }) => {
+  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'))
+  const nextSong = filteredSongs[filteredSongs.indexOf(song) + 1]
+  const prevSong = filteredSongs[filteredSongs.indexOf(song) - 1]
+
   const history = useHistory()
+  
   const classes = useStyles()
   return (
     <Grid container justify="space-between" className={classes.navRow}>
