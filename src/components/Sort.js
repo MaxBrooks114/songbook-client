@@ -102,12 +102,7 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.common.gray,
       color: theme.palette.info.main
     }
-<<<<<<< HEAD
   }
-=======
-  },
-
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
 }))
 

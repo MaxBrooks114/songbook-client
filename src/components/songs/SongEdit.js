@@ -28,32 +28,8 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-<<<<<<< HEAD
   container: {
     minHeight: '110vh',
-=======
-   container: {
-      minHeight: '110vh',
-      [theme.breakpoints.down('md')]: {
-        minHeight: '100vh'
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        minHeight: '180vh'
-      }
-    },
-
-  title: {
-    fontSize: '2.8rem',
-    fontWeight: 600,
-    color: theme.palette.info.main,
-
-  },
-
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '3em',
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     [theme.breakpoints.down('md')]: {
       minHeight: '100vh'
     },
@@ -63,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-<<<<<<< HEAD
   title: {
     fontSize: '2.8rem',
     fontWeight: 600,
@@ -82,9 +57,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 
-=======
-  
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 }))
 
 const SongEdit = () => {

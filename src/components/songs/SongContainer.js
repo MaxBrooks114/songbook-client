@@ -52,11 +52,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 50
   },
 
-<<<<<<< HEAD
   detail: {
-=======
-   detail: {
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     height: '100%',
     minHeight: '100vh',
     marginTop: 96,
@@ -66,11 +62,7 @@ const useStyles = makeStyles((theme) => ({
     })
   },
 
-<<<<<<< HEAD
   drawer: {
-=======
-   drawer: {
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     width: drawerWidth,
     height: '100%',
     flexShrink: 0,
@@ -87,10 +79,6 @@ const useStyles = makeStyles((theme) => ({
     width: 54
   },
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   drawerIconContainer: {
     height: 72,
     width: 72,
@@ -161,12 +149,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1rem'
     }
-<<<<<<< HEAD
-  }
-=======
   },
 
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 
 }))
 

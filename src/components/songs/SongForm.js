@@ -58,11 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-<<<<<<< HEAD
   autoComplete: {
-=======
-   autoComplete: {
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     color: theme.palette.info.main
   },
 
@@ -74,11 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-<<<<<<< HEAD
   checkBox: {
-=======
-    checkBox: {
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     '&.Mui-checked': {
       color: theme.palette.info.main
     }
@@ -97,12 +89,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-<<<<<<< HEAD
   listbox: {
-=======
-
-   listbox: {
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
     background: theme.palette.background.default
   },
 
@@ -131,11 +118,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main
   },
 
-<<<<<<< HEAD
-=======
- 
-
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   uploadButton: {
     background: theme.palette.secondary.dark,
     '&:hover': {
@@ -149,27 +131,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-<<<<<<< HEAD
-=======
- 
-
-  
-
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
   uploadFieldSet: {
     borderRadius: '4px',
     borderColor: theme.palette.info.main,
     borderWidth: 'thin',
     background: theme.palette.background.default
-<<<<<<< HEAD
   }
 
-=======
-  },
-
- 
-  
->>>>>>> ff91a19deb010658e6da411f21ed72123b272dcf
 }))
 
 const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
