@@ -53,7 +53,7 @@ export const login = (formValues) => async (dispatch) => {
     dispatch(fetchSections())
     dispatch(fetchSongs())
     dispatch(fetchInstruments())
-    history.push('/search')
+    history.push('/')
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status))
     dispatch({
