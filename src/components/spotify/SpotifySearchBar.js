@@ -97,7 +97,6 @@ const SpotifySearchBar = () => {
               autoComplete="off"
               margin="dense"
               fullWidth
-              notched= {false}
               ref= {input}
               InputProps={{
                 endAdornment: <InputAdornment position="end"><IconButton type="submit"><SearchRoundedIcon className={classes.searchIcon} /></IconButton></InputAdornment>,

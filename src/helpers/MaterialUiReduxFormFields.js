@@ -22,7 +22,7 @@ const adaptFileEventToValue = delegate => e => {
 export const FileInput = ({
   label,
   classes,
-  input: { value: omitValue, onChange, onBlur, ...inputProps },
+  input: { value: omitValue, onChange, onBlur, ...InputProps },
   meta: omitMeta,
   ...props
 }) => {
@@ -82,7 +82,6 @@ export const renderTextField = ({
       options={options}
       fullWidth={fullWidth}
       autoComplete="off"
-      classes={{ menu: classes.listbox, input: classes.input, menuItem: classes.option }}
       InputProps={{
         endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
         className: classes.input
@@ -105,7 +104,7 @@ export const renderTextField = ({
       }}
       {...input}
       {...custom}
-    >{select ? options.map(option => <MenuItem className = {classes.option} value={option}>{titleCase(option)}</MenuItem>) : null}</TextField>
+    >{select ? options.map(option => <MenuItem key={option} className = {classes.option} value={option}>{titleCase(option)}</MenuItem>) : null}</TextField>
   )
 }
 
@@ -127,26 +126,14 @@ export const renderSlider = ({
   onChange = input.onChange
   return (
     <RangedSlider
-    helperText={touched && error}
-    error={touched && invalid}
-
-    value={input.value}
-    onChange={(e, v) => {
-      input.onChange(v.value) // update redux-form value
-      onChange(v.value) // call your additional listener
-    }}
+ 
     label={label}
     min={min}
     max={max}
     valueLabelDisplay={valueLabelDisplay}
     valueLabelFormat={valueLabelFormat}
     marks={marks}
-    InputProps={{
-      endAdornment: <InputAdornment position="end">{inputAdornment || ''}</InputAdornment>,
-      className: classes.value
-
-    }}
-    InputLabelProps={{ className: classes.label }}
+    
 
     {...input}
     {...custom}
@@ -157,9 +144,8 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
   return (
       <Autocomplete
       options={options || ''}
-      getOptionLabel={(option) => option[Object.keys(option)] || ''}
+      getOptionLabel={(option) => option[Object.keys(option)]}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      value={options.find((option) => option[Object.keys(option)] === input.value) || ''}
       renderInput={(params) => (
         <TextField
         {...params}
@@ -185,12 +171,11 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
 export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, ...custom }) => {
   return (
           <Autocomplete
-          options={options || ''}
+          options={options}
           getOptionLabel={getOptionLabel}
           renderOption= {renderOption}
           onSelect={onChange}
           classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-          value={options.find((option) => option === input.value) || ''}
           renderInput={(params) => (
             <TextField
             {...params}

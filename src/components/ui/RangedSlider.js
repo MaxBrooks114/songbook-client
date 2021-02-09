@@ -45,9 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RangedSlider = ({ min, max, label, marks, valueLabelDisplay, valueLabelFormat, onChange, ...other }) => {
   const classes = useStyles()
-  const [value, setValue] = React.useState([min, max])
   const handleChange = (event, newValue, other) => {
-    setValue(newValue)
     onChange(newValue)
   }
   return (
@@ -55,8 +53,6 @@ const RangedSlider = ({ min, max, label, marks, valueLabelDisplay, valueLabelFor
      <Typography align="center" className={classes.title} id="range-slider" gutterBottom>{label}</Typography>
       <Slider
         className={classes.root}
-        value={value}
-        {...other}
         onChange={handleChange}
         valueLabelDisplay={valueLabelDisplay}
         valueLabelFormat={valueLabelFormat}

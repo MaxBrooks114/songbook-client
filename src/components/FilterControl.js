@@ -1,113 +1,118 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
-import { setFilter, clearFilter, clearNonArrayFields } from '../actions/filter';
-import { Field, reduxForm, reset, initialize, clearFields, submit } from 'redux-form';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Accordion from '@material-ui/core/Accordion'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { makeStyles } from '@material-ui/styles'
+import _ from 'lodash'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import { clearFields, Field, initialize, reduxForm, reset, submit } from 'redux-form'
+
+import { clearFilter, clearNonArrayFields, setFilter } from '../actions/filter'
+import filter_arrow_left from '../assets/filter_arrow_left.svg'
+import Spotify_Icon_RGB_Green from '../assets/Spotify_Icon_RGB_Green.png'
 import keys from '../components/songs/keys'
 import modes from '../components/songs/modes'
-import IconButton from '@material-ui/core/IconButton';
-import filter_arrow_left from '../assets/filter_arrow_left.svg';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import { makeStyles } from '@material-ui/styles';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography';
-import {renderText, normalize, titleCase, millisToMinutesAndSeconds} from '../helpers/detailHelpers'
-import {renderTextField, renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider} from '../helpers/MaterialUiReduxFormFields'
-import _ from 'lodash'
-import { useLocation } from 'react-router-dom';
-import Spotify_Icon_RGB_Green from '../assets/Spotify_Icon_RGB_Green.png'
-
-
+import { millisToMinutesAndSeconds, normalize, renderText, titleCase } from '../helpers/detailHelpers'
+import { renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider, renderTextField } from '../helpers/MaterialUiReduxFormFields'
+import { getFilteredItems } from './../selectors/filterSelectors'
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
+  root: {
     marginBottom: 180,
     color: theme.palette.info.main,
-      textTransform: "capitalize",
+    textTransform: 'capitalize',
 
-  '& .MuiOutlinedInput-root': {
+    '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.info.main,
-        color: theme.palette.info.main,
+        color: theme.palette.info.main
       },
 
-      '&.Mui-focused fieldset': { 
-          borderColor: theme.palette.primary.dark,
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.primary.dark
       },
 
       '&:hover fieldset': {
-        borderColor: theme.palette.primary.dark,
-      },
-         
+        borderColor: theme.palette.primary.dark
+      }
+
     },
 
     '& input': {
-        fontSize: '.8rem',
-        [theme.breakpoints.down('sm')]: {
-          textAlign: "center",        
-      },    
+      fontSize: '.8rem',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center'
+      }
     },
 
     '& .MuiInputBase-input': {
       color: theme.palette.info.main,
-      textTransform: "capitalize",   
+      textTransform: 'capitalize'
     },
 
     '& .MuiTextField-root': {
-      color: theme.palette.info.main,    
+      color: theme.palette.info.main
     },
     '& .MuiOutlinedInput-input': {
-      color: theme.palette.info.main,
+      color: theme.palette.info.main
     },
-  
+
     '& .MuiFormControlLabel-label': {
       color: theme.palette.info.main,
       fontSize: '.8rem',
       [theme.breakpoints.down('sm')]: {
-          fontSize: '.8rem',
-      },      
+        fontSize: '.8rem'
+      }
     },
 
-    '& .MuiAccordionSummary-content': {
-      flexGrow: 0,
+   
+    '& .MuiGrid-item': {
+
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '0px !important'
+      }
+
+    },
+
+    '& .MuiTypography-body1': {
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '.8rem'
+      }
+    },
+
+ 
+  },
+
+   accordion: {
+    background: theme.palette.common.gray,
+    color: theme.palette.info.main,
+    marginBottom: '1em',
+     '& .MuiAccordionSummary-content': {
+      flexGrow: 0
     },
 
     '& .MuiAccordionSummary-root': {
       justifyContent: 'flex-start',
       [theme.breakpoints.down('sm')]: {
-          fontSize: '.8rem',
-      },
+        fontSize: '.8rem'
+      }
     },
-     '& .MuiGrid-item': {
-
-      [theme.breakpoints.down('sm')]: {
-        marginLeft: '0px !important',
-      },
-     
-    },
-
-    '& .MuiTypography-body1':{
-      [theme.breakpoints.down('sm')]: {
-          fontSize: '.8rem',
-      },
-    }
-
   },
-   accordion: {
-    background: theme.palette.common.gray,
-    color: theme.palette.info.main,
-    marginBottom: '1em'
-  },
+
+  
   select: {
-    height: 40,
+    height: 40
   },
 
-    listbox: {
-        background: theme.palette.common.gray
-    
+  listbox: {
+    background: theme.palette.common.gray
+
   },
 
   option: {
@@ -117,19 +122,19 @@ const useStyles = makeStyles((theme) => ({
     '&[data-focus="true"]': {
       background: theme.palette.background.default,
       color: theme.palette.info.main
-    },
+    }
   },
 
-   spotify:{
+  spotify: {
     color: theme.palette.background.default,
     display: 'inline-block',
     borderRadius: 4,
     background: theme.palette.info.main,
-     '&:hover': {
+    '&:hover': {
       color: theme.palette.common.gray,
-      background: theme.palette.info.main,
-    },
-  
+      background: theme.palette.info.main
+    }
+
   },
 
   link: {
@@ -137,26 +142,25 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none'
   },
 
-  spotifyLogo:{
+  spotifyLogo: {
     height: 21,
     width: 21,
-    verticalAlign: 'middle',
-  }, 
+    verticalAlign: 'middle'
+  },
 
-   button: {
+  button: {
     color: theme.palette.info.light,
     display: 'inline-block',
     borderRadius: 4,
     background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%,  ${theme.palette.common.gray} 150%)`,
     '&:hover': {
       background: theme.palette.common.gray,
-      color: theme.palette.secondary.dark,
-    },
-    
-    
+      color: theme.palette.secondary.dark
+    }
+
   },
 
-   clearButton: {
+  clearButton: {
     borderRadius: 4,
     display: 'inline-block',
     marginLeft: 26,
@@ -164,22 +168,22 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.info.light,
     '&:hover': {
       color: theme.palette.info.light,
-      background: theme.palette.common.gray,
-    },
+      background: theme.palette.common.gray
+    }
 
   },
 
   label: {
-    color: theme.palette.info.main,  
+    color: theme.palette.info.main,
     fontSize: '.8rem',
     '&.shrink': {
-           color: theme.palette.primary.dark
-        },
-      },
+      color: theme.palette.primary.dark
+    }
+  },
 
-   drawerIcon: {
+  drawerIcon: {
     height: '54px',
-    width: '54px',
+    width: '54px'
   },
 
   drawerIconContainer: {
@@ -188,254 +192,249 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 
-  
-}));
+}))
 
-
-const FilterControl = ({items, objectType, songs, instruments, handleSubmit, setOpenDrawer, openDrawer }) => {
-    const dispatch = useDispatch();
-    const filterForm = useSelector(state => state.form.FilterForm)
-    const filterValues = useSelector(state => state.filter)
-    const location = useLocation()
-    const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
-    const userId = useSelector(state => state.auth.user.id)
-    let songOrSections = location.pathname.split('/')[1]
-  
-    const booleans = {
-      'true': true,
-      'false': false
-    }
-      
-    useEffect(() => {
-      if(filterForm && filterForm.values && !filterForm.values.title && !filterForm.values.name && !filterForm.values.album && !filterForm.values.artist && !filterForm.values.key && !filterForm.values.genre) {
-           dispatch(setFilter({filter: false}))
-      }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[songOrSections])
-
-    useEffect(() => {   
-      
-     
-
-      if(filterValues){
-        if(!filterValues.duration.length || filterValues.duration.some(val => val === null)){ 
-          dispatch(setFilter({ duration: [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.duration))+1))]}))
-        }
-        if(!filterValues.tempo.length || filterValues.tempo.some(val => val === null)){ dispatch(setFilter({
-          tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item)=>parseInt((item.tempo))+1))]}))
-        }
-        if(!filterValues.year.length || filterValues.year.some(val => val === null)){ dispatch(setFilter({
-          year: [0,  Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item)=>parseInt((item.year))+1))]}))
-        } 
-        
-         if (filterForm && !filterForm.values) {
-          dispatch(initialize('FilterForm', {...filterValues,
-            artist: '',
-            genre: '',
-            album: '',
-            key: '',
-          }))  
-        }
-        
-      }
-
-    
-  }, [objectType, dispatch, songs, items, filterForm, filterValues, location.pathname])
-
+const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) => {
+  const dispatch = useDispatch()
+  const filterForm = useSelector(state => state.form.FilterForm)
+  const filterValues = useSelector(state => state.filter)
+  const instruments = useSelector(state => state.instruments)
+  const songs = Object.values(useSelector(state => state.songs))
+  const location = useLocation()
+  const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
+  const items = useSelector((state) => getFilteredItems(state, objectType))
+  const userId = useSelector(state => state.auth.user.id)
+  const songOrSections = location.pathname.split('/')[1]
+  const booleans = {
+    true: true,
+    false: false
+  }
 
   useEffect(() => {
-    return() => {
+    if (filterForm && filterForm.values && !filterForm.values.title && !filterForm.values.name && !filterForm.values.album && !filterForm.values.artist && !filterForm.values.key && !filterForm.values.genre) {
+      dispatch(setFilter({ filter: false }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [songOrSections])
+
+  useEffect(() => {
+    if (filterValues) {
+      if (!filterValues.duration.length || filterValues.duration.some(val => val === null)) {
+        dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))] }))
+      }
+      if (!filterValues.tempo.length || filterValues.tempo.some(val => val === null)) {
+        dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
+      }
+      if (!filterValues.year.length || filterValues.year.some(val => val === null)) {
+        dispatch(setFilter({ year: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt((item.year)) + 1))] }))
+      }
+
+      if (filterForm && !filterForm.values) {
+        dispatch(initialize('FilterForm', {
+          ...filterValues,
+          artist: '',
+          genre: '',
+          album: '',
+          key: ''
+        }))
+      }
+    }
+  }, [objectType, dispatch, songs, items, filterForm, filterValues, location.pathname])
+
+  useEffect(() => {
+    return () => {
       dispatch(clearNonArrayFields())
     }
   }, [])
 
   useEffect(() => {
-    if(songs.length === 0) setOpenDrawer(false)
+    if (songs.length === 0) setOpenDrawer(false)
   })
 
-    const renderAdvancedFilters = () => {      
-       const advancedOptions = objectType === 'songs' ? ["acousticness", "danceability", "energy", "instrumentalness", "liveness", "speechiness","valence"] : []
-      return advancedOptions.length ? 
-        advancedOptions.map(option => {
-          return (
-            <AccordionDetails>
+  const renderAdvancedFilters = () => {
+    const advancedOptions = objectType === 'songs' ? ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'] : []
+    return advancedOptions.length
+      ? advancedOptions.map(option => {
+        return (
+            <AccordionDetails key={option}>
                <Grid item sm={12} xs={12}>
-              <Field classes={classes} 
+              <Field classes={classes}
                   min={1}
-                  max={3} 
-                  marks={[{value: 1, label: "Low" }, {value: 2, label: "Medium"}, {value: 3, label: "High"}]}
+                  max={3}
+                  marks={[{ value: 1, label: 'Low' }, { value: 2, label: 'Medium' }, { value: 3, label: 'High' }]}
                   valueLabelDisplay={'off'}
 
                   name= {option}
-                  component={renderSlider} 
+                  component={renderSlider}
                   label={titleCase(option)}
                   />
               </Grid>
             </AccordionDetails>
-        )  
-      }) : null
-    }
+        )
+      })
+      : null
+  }
 
-    const renderTextFields = () => {
-      const fields = objectType === 'songs' ? ['title'] : ['name']
+  const renderTextFields = () => {
+    const fields = objectType === 'songs' ? ['title'] : ['name']
 
-      return fields.length > 0 ? fields.map(field => {
+    return fields.length > 0
+      ? fields.map(field => {
         return (
-           <Grid item sm={12} xs={12} >
-              <Field  classes={classes} style={{width: '80%'}} name={field} label={titleCase(field)}
-                   InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}  component={renderTextField} />
+           <Grid item sm={12} xs={12} key={field}>
+              <Field classes={classes} style={{ width: '80%' }} name={field} label={titleCase(field)}
+                   InputLabelProps={{
+                     classes: {
+                       root: classes.label,
+                       shrink: 'shrink'
+                     }
+                   }} component={renderTextField} />
            </Grid>
         )
-      }) : null
-    }
-    
-    const renderStringFields = () => {
-      const fields = objectType === 'songs' ? ['artist', 'album', 'genre'] : []
-      return fields.length > 0 ? fields.map(field => {
+      })
+      : null
+  }
+
+  const renderStringFields = () => {
+    const fields = objectType === 'songs' ? ['artist', 'album', 'genre'] : []
+    return fields.length > 0
+      ? fields.map(field => {
         return (
-           <Grid item  sm={12} xs={12}>
+           <Grid item sm={12} xs={12} key={field}>
               <Field
                   options={_.uniq(songs.map((song) => song[field])).sort()}
                   classes={classes}
                   name={field}
-                  fullWidth= {false}
+                  
                   component={renderAutoCompleteDataField}
                   label={titleCase(field)}
-                   InputLabelProps={{ 
-                    classes: {
-                      root: classes.label,
-                      shrink: "shrink"
-                 }
-               }}
-                  /> 
+                   InputLabelProps={{
+                     classes: {
+                       root: classes.label,
+                       shrink: 'shrink'
+                     }
+                   }}
+                  />
               </Grid>
         )
-      }) : null
-    }
+      })
+      : null
+  }
 
-    
-    const renderRadioFields = () => {
-      const fields = objectType === 'songs' ? ['original', 'explicit'] : ['learned']
-      return fields.length > 0 ? fields.map((field) => {
+  const renderRadioFields = () => {
+    const fields = objectType === 'songs' ? ['original', 'explicit'] : ['learned']
+    return fields.length > 0
+      ? fields.map((field) => {
         return (
-          <>
-          <Grid item xs={1}></Grid>
+        
+          <Grid container direction="row" justify="center"  key={field}>
           <Grid item xs={8}>
-            <Field classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{ 
-                  classes: {
-                    formControlLabel: classes.label,
-                    label: classes.label
-                  }
-                }} />  
-          </Grid>  
-          <Grid item xs={3}/> 
-        </>   
-        )
-      }) : null
-    }
-
-    const renderYearField = () => {
-      return objectType === 'songs' ? (
-         <Grid item  sm={12} xs={12}>
-          <Field classes={classes} 
-                 min={Math.min(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt(item.year.split('-')[0])))}
-                 max={Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt(item.year.split('-')[0])))} 
-
-                 valueLabelDisplay={true}
-                 name="year" 
-                 component={renderSlider} 
-                 label="Year Released" 
-                 InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
-                 />
-          
-          
+            <Field  classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{
+              classes: {
+                formControlLabel: classes.label,
+                label: classes.label
+              }
+            }} />
           </Grid>
-      ) : null
-    }
+        </Grid>
+        )
+      })
+      : null
+  }
 
-    const renderSongAndInstrumentFields = () => {
-      const fields = ['song', 'instrument']
-      return objectType === 'sections' ? 
-        fields.map((field) => {
-          const fieldProp = field === 'song' ? 'title' : 'name'
-          const items = field === 'song' ? songs.filter( song => !!song.sections.length).sort((a, b) => a.title > b.title ? 1 : -1) : instruments
-          return (
-            <Grid item >
-              <Field 
-                classes={classes} 
-                name={field} 
-                label={titleCase(field)} 
-                InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
-                component={renderAutoCompleteDataField}   
-                options={items.sort().map(item => item[fieldProp])}/>
+  const renderYearField = () => {
+    return objectType === 'songs'
+      ? (
+         <Grid item sm={12} xs={12}>
+          <Field classes={classes}
+                 min={Math.min(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt(item.year.split('-')[0])))}
+                 max={Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt(item.year.split('-')[0])))}
+
+                 valueLabelDisplay='auto'
+                 name="year"
+                 component={renderSlider}
+                 label="Year Released"
+                
+                 />
+
+          </Grid>
+        )
+      : null
+  }
+
+  const renderSongAndInstrumentFields = () => {
+    const fields = ['song', 'instrument']
+    return objectType === 'sections'
+      ? fields.map((field) => {
+        const fieldProp = field === 'song' ? 'title' : 'name'
+        const choices = field === 'song' ? songs.filter(song => !!song.sections.length).sort((a, b) => a.title > b.title ? 1 : -1) : Object.values(instruments)
+        return (
+            <Grid item key={field}>
+              <Field
+                classes={classes}
+                name={field}
+                label={titleCase(field)}
+                InputLabelProps={{
+                  classes: {
+                    root: classes.label,
+                    shrink: 'shrink'
+                  }
+                }}
+                component={renderAutoCompleteDataField}
+                options={choices.map(choice => choice[fieldProp])}/>
             </Grid>
-          )
-        }) : null
-      
-    }
+        )
+      })
+      : null
+  }
 
-    const onFormSubmit = (formValues) => {
-            onSubmit(formValues);
-     };
-    
-    
-    const onSubmit = (formValues) => {
-      dispatch(
-        setFilter({
-          ...formValues, 
-          key: normalize(keys, formValues.key),
-          mode: normalize(modes, formValues.mode),
-          original: formValues.original !== '' ? booleans[formValues.original] : formValues.original,
-          explicit: formValues.explicit !== '' ? booleans[formValues.explicit] : formValues.explicit,
-          learned: formValues.learned !== '' ? booleans[formValues.learned]: formValues.learned,
-          filter: true
-        })
-      );
-    }    
-    const classes = useStyles();
-    
-   
-    return (
+  const onFormSubmit = (formValues) => {
+    onSubmit(formValues)
+  }
+
+  const onSubmit = (formValues) => {
+    dispatch(
+      setFilter({
+        ...formValues,
+        key: normalize(keys, formValues.key),
+        mode: normalize(modes, formValues.mode),
+        original: formValues.original !== '' ? booleans[formValues.original] : formValues.original,
+        explicit: formValues.explicit !== '' ? booleans[formValues.explicit] : formValues.explicit,
+        learned: formValues.learned !== '' ? booleans[formValues.learned] : formValues.learned,
+        filter: true
+      })
+    )
+  }
+  const classes = useStyles()
+
+  return (
      <div >
-     
-      <IconButton className={classes.drawerIconContainer}>
-          <img src={filter_arrow_left} alt='close filter drawer' onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon} />
+
+      <IconButton className={classes.drawerIconContainer} onClick={() => setOpenDrawer(!openDrawer)}>
+          <img src={filter_arrow_left} alt='close filter drawer'  className={classes.drawerIcon} />
       </IconButton>
        <form
-            className={classes.formControl}
+            className={classes.root}
             onSubmit={handleSubmit(onFormSubmit)}
             >
-      <Grid container direction="column" align="center" spacing={2} className={classes.root} alignItems="space-around" justify="center" >
-        {!accessToken ? <Grid item xs={12}> 
+      <Grid container direction="column" align="center" spacing={2}  justify="center" >
+        {!accessToken
+          ? <Grid item xs={12}>
             <Button className={classes.spotify} >
                <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${userId}`}>Integrate Spotify</a>
               <img className={classes.spotifyLogo} src={Spotify_Icon_RGB_Green} alt="SpotifyLogo"/>
             </Button>
-          </Grid> : null }
+          </Grid>
+          : null }
         <Grid item xs={12}>
           <Button className={classes.button} type="submit" variant="contained">
             Filter
           </Button>
            <Button className={classes.clearButton} onClick={e => {
-                    dispatch(reset('FilterForm'))
-                    dispatch(clearFields('FilterForm'))
-                    dispatch(clearFilter())
-                  }} variant="contained">
+             dispatch(reset('FilterForm'))
+             dispatch(clearFields('FilterForm'))
+             dispatch(clearFilter())
+           }} variant="contained">
                     clear
             </Button>
         </Grid>
@@ -446,93 +445,93 @@ const FilterControl = ({items, objectType, songs, instruments, handleSubmit, set
                 options={_.uniq(items.filter(item => item.key !== null).map((item) => renderText(keys, item.key))).sort()}
                 classes={classes}
                 name="key"
-                fullWidth= {false}
+                
                 component={renderAutoCompleteDataField}
                 label="Key"
-                InputLabelProps={{ 
-                classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }}
+                InputLabelProps={{
+                  classes: {
+                    root: classes.label,
+                    shrink: 'shrink'
+                  }
+                }}
                 />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <Field  
-                  fullWidth= {false}
-                  options={modes} 
-                  classes={classes} 
-                  name="mode" 
-                  component={renderAutoCompleteField} 
+              <Field
+                  
+                  options={modes}
+                  classes={classes}
+                  name="mode"
+                  component={renderAutoCompleteField}
                   label="Mode"
-                  InputLabelProps={{ 
-                  classes: {
-                  root: classes.label,
-                  shrink: "shrink"
-                 }
-               }} />
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.label,
+                      shrink: 'shrink'
+                    }
+                  }} />
             </Grid>
-            <Grid item  sm={12} xs={12}> 
-              <Field  
-                  fullWidth= {false}
-                  options={_.uniq(items.map((item) => `${item.time_signature}/4`))} 
-                  classes={classes} 
-                  name="time_signature" 
-                  component={renderAutoCompleteDataField} 
+            <Grid item sm={12} xs={12}>
+              <Field
+                  
+                  options={_.uniq(items.map((item) => `${item.time_signature}/4`))}
+                  classes={classes}
+                  name="time_signature"
+                  component={renderAutoCompleteDataField}
                   label="Time Signature" />
             </Grid>
-           
-            <Grid item xs={12} style={{margin: 'auto'}}>
-              <Grid container direction="row" justify={objectType === 'songs' ? "flex-start" : 'center'}>
+
+            <Grid item xs={12} style={{ margin: 'auto' }}>
+              <Grid container direction="row" justify={objectType === 'songs' ? 'flex-start' : 'center'}>
                 { renderRadioFields() }
               </Grid>
           </Grid>
-          <Grid container  justify="center" align="center" alignItems="center">
+          <Grid container justify="center" align="center" alignItems="center">
           <Grid item sm={12} xs={10}>
-              <Field 
-                classes={classes} 
+              <Field
+                classes={classes}
                 min={0}
-                max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration))+1))} 
-                name="duration" 
-                valueLabelDisplay={true}
-                valueLabelFormat={x => millisToMinutesAndSeconds(x) }	
-                component={renderSlider} 
-                label="Duration" 
+                max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))}
+                name="duration"
+                valueLabelDisplay='auto'
+                valueLabelFormat={x => millisToMinutesAndSeconds(x) }
+                component={renderSlider}
+                label="Duration"
 
                 />
               </Grid>
               {renderYearField()}
             <Grid item sm={10} xs={10} >
-              <Field classes={classes} 
+              <Field classes={classes}
                     min={Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))}
-                    max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))} 
-                    name="tempo" 
-                    valueLabelDisplay={true}
-                    component={renderSlider} 
-                    label="Tempo" 
+                    max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))}
+                    name="tempo"
+                    valueLabelDisplay='auto'
+                    component={renderSlider}
+                    label="Tempo"
                     />
             </Grid>
           </Grid>
             {renderSongAndInstrumentFields()}
-         
-        { objectType === 'songs' ? 
-          <Grid item xs={12}>
+
+        { objectType === 'songs'
+          ? <Grid item xs={12}>
              <Accordion className={classes.accordion}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography  className={classes.accordionHeader}>Advanced</Typography>
+                        <Typography className={classes.accordionHeader}>Advanced</Typography>
                 </AccordionSummary>
                 <Grid container justify="space-evenly">
                       {renderAdvancedFilters()}
                 </Grid>
              </Accordion>
-          </Grid> : null}
-          </Grid> 
+          </Grid>
+          : null}
+          </Grid>
       </form>
     </div>
-  );
-};
+  )
+}
 
 export default React.memo(reduxForm({
-  form: 'FilterForm',
-})(FilterControl));
-
+  form: 'FilterForm'
+})(FilterControl))
