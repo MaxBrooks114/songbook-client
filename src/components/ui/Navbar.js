@@ -234,7 +234,7 @@ const Navbar = () => {
         className={classes.tabContainer}
         value={value}
         onChange={(e, value) => setValue(value)}
-        indicatorColor={location.pathname === '/search' || location.pathname === '/' ? theme.palette.common.gray : 'secondary'}
+        indicatorColor={location.pathname === '/search' || location.pathname === '/' ? '' : 'secondary'}
       >
 
         {routes.map((route) => (

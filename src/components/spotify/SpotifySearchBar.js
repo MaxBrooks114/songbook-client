@@ -1,4 +1,3 @@
-import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
@@ -51,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  
+
   input: {
     color: 'white',
     background: theme.palette.info.light,
@@ -59,17 +60,19 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  searchIcon: {
-    color: theme.palette.primary.main
-  },
-
-  label: {
+    label: {
     color: theme.palette.info.light,
     opacity: '.6',
     '&.shrink': {
       display: 'none'
     }
-  }
+  },
+
+  searchIcon: {
+    color: theme.palette.primary.main
+  },
+
+
 }))
 
 const SpotifySearchBar = () => {

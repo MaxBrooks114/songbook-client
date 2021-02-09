@@ -32,15 +32,30 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative'
   },
 
-  media: {
-    height: '100%',
-    objectFit: 'contain',
-    width: '100%'
+   button: {
+    height: 32,
+    width: 32,
+    color: theme.palette.background.default,
+    '&:hover': {
+      transition: '.4s',
+      filter: 'drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
+    }
   },
 
-  link: {
-    textDecoration: 'none',
-    color: theme.palette.info.main
+  buttonContainer: {
+    position: 'absolute',
+    height: 34,
+    width: 34,
+    bottom: '10px',
+    right: '.5rem',
+    borderRadius: 4
+
+  },
+
+
+  cardContent: {
+    color: theme.palette.info.main,
+    height: '64px'
   },
 
   dialog: {
@@ -59,31 +74,29 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  buttonContainer: {
-    position: 'absolute',
-    height: 34,
-    width: 34,
-    bottom: '10px',
-    right: '.5rem',
-    borderRadius: 4
-
+  link: {
+    textDecoration: 'none',
+    color: theme.palette.info.main
   },
 
-  button: {
-    height: 32,
-    width: 32,
-    color: theme.palette.background.default,
-    '&:hover': {
-      transition: '.4s',
-      filter: 'drop-shadow(0px 3px 15px rgba(0,0,0,.2))'
-
-    }
-
+  media: {
+    height: '100%',
+    objectFit: 'contain',
+    width: '100%'
   },
 
-  cardContent: {
-    color: theme.palette.info.main,
-    height: '64px'
+  spacer: {
+    width: 200, 
+    height: 48, 
+    float: 'left', 
+    display: 'inline-block' 
+  },
+
+  spinnerContainer: {
+    marginTop: '25%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   trackInfo: {
@@ -108,12 +121,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'normal'
   },
 
-  spinnerContainer: {
-    marginTop: '25%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+
 }))
 
 const SpotifyTrack = ({ track, transitionDuration }) => {
@@ -141,20 +149,18 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
         <CardMedia
         ><img className={classes.media} alt={track.album.name} src={track.album.images.length > 0 ? track.album.images[0].url : null}/></CardMedia>
         <div className={classes.cardBody}>
-        <CardContent className={classes.cardContent}>
-              <Typography className={classes.trackTitle} variant="subtitle1">
-                {track.name} < br/>
-
-              </Typography>
-        </CardContent>
-        <CardContent className={classes.cardContent}>
-          <Typography clasName={classes.trackInfo} style={{ fontWeight: '600' }} variant="subtitle2">
-            {track.artists[0].name} < br/>
-            {track.album.name}
-          </Typography>
-        </CardContent>
-
-        <div id="spacer" style={{ width: '200px', height: '48px', float: 'left', display: 'inline-block' }} />
+          <CardContent className={classes.cardContent}>
+            <Typography className={classes.trackTitle} variant="subtitle1">
+              {track.name} < br/>
+            </Typography>
+          </CardContent>
+          <CardContent className={classes.cardContent}>
+            <Typography className={classes.trackInfo} style={{ fontWeight: '600' }} variant="subtitle2">
+              {track.artists[0].name} < br/>
+              {track.album.name}
+            </Typography>
+          </CardContent>
+          <div id="spacer" className={classes.spacer} />
         </div>
         <CardActions className={classes.cardActions}>
           <IconButton
@@ -186,19 +192,19 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
           <DialogActions>
             <Grid container justify="space-evenly">
               <Grid item >
-                <Link to={'/songs'} className={classes.link}>
+                <Link to='/songs' className={classes.link}>
                   Songs
                 </Link>
               </Grid>
               <Grid item>
-                <Link to={'/sections'} className={classes.link}>
+                <Link to='/sections' className={classes.link}>
                   Sections
                 </Link>
               </Grid>
               <Grid item>
-                <Link onClick={handleClose} className={classes.link}>
+                <Typography onClick={handleClose} className={classes.link}>
                   Stay
-                </Link>
+                </Typography>
               </Grid>
             </Grid>
           </DialogActions>

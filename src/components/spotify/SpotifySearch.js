@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+    cardGrid: {
+    marginBottom: theme.spacing(8)
+  },
+
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
@@ -24,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  cardGrid: {
-    marginBottom: theme.spacing(8)
-  }
+
 
 }))
 
@@ -54,7 +56,7 @@ const SpotifySearch = () => {
         </Typography>
       </Grid>
       <Grid item xs={10}>
-        <SpotifySearchBar showButton={true} />
+        <SpotifySearchBar  />
       </Grid>
       <Grid item xs={10} >
       {renderTracklist()}
