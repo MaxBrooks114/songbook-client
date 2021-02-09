@@ -79,14 +79,12 @@ const SongCreate = () => {
 
   return (
       <div className={classes.root}>
-
           <Typography className={classes.title} variant="h2" align="center" >
             Create a Song
           </Typography>
           <Typography variant="subtitle2" align="center" gutterBottom>
             This is the manual way to add a song. Most useful for original songs, you will not be able to use the Spotify Player feature using this method of song creation.
           </Typography>
-
           <SongForm onSubmit={onSubmit} />
     </div>
   )

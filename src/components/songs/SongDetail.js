@@ -88,16 +88,10 @@ const SongDetail = () => {
           </Grid>
           <Grid item xs={12}>
             <SongFeatures song={song} />
-          </Grid>
-          <Grid item xs={12}>
             <SongSections song={song}/>
-          </Grid>
-          <Grid item xs={12}>
             {song.spotify_url
               ? <AudioProperties song={song} />
               : null }
-          </Grid>
-          <Grid item xs={12}>
             <SongLyrics song={song} />
           </Grid>
         </Grid>
