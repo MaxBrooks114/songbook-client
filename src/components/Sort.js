@@ -111,7 +111,8 @@ const Sort = ({ objectType }) => {
   const filterForm = useSelector(state => state.form.FilterForm)
   const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
   const items = useSelector((state) => getFilteredItems(state, objectType))
-  const itemProps = Object.keys(Object.values(items)[0]).filter(k => !omitFields.includes(k))
+  const itemProps = Object.keys(items[0]).filter(k => !omitFields.includes(k))
+
   const dispatch = useDispatch()
 
   useEffect(() => {
