@@ -126,14 +126,13 @@ export const renderSlider = ({
   onChange = input.onChange
   return (
     <RangedSlider
- 
+
     label={label}
     min={min}
     max={max}
     valueLabelDisplay={valueLabelDisplay}
     valueLabelFormat={valueLabelFormat}
     marks={marks}
-    
 
     {...input}
     {...custom}

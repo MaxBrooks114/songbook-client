@@ -1,14 +1,13 @@
-import { useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { createSong } from '../../actions/songs'
+import { normalize } from '../../helpers/detailHelpers'
 import keys from './keys'
 import modes from './modes'
 import SongForm from './SongForm'
-import {normalize} from '../../helpers/detailHelpers'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +22,17 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       width: '100%'
+    }
+
+  },
+
+  container: {
+    minHeight: '120vh',
+    [theme.breakpoints.down('md')]: {
+      minHeight: '100vh'
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '180vh'
     }
 
   },
@@ -43,24 +53,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1.25em'
     }
-  },
-
-  container: {
-    minHeight: '120vh',
-    [theme.breakpoints.down('md')]: {
-      minHeight: '100vh'
-    },
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '180vh'
-    }
-
   }
+
 }))
 
 const SongCreate = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
-
 
   const onSubmit = (formValues) => {
     if (formValues.key) {

@@ -58,10 +58,6 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  value: {
-    color: theme.palette.info.main
-  },
-
   autoComplete: {
     color: theme.palette.info.main
   },
@@ -72,6 +68,53 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     background: theme.palette.common.gray
 
+  },
+
+  checkBox: {
+    '&.Mui-checked': {
+      color: theme.palette.info.main
+    }
+
+  },
+
+  input: {
+    textTransform: 'capitalize'
+  },
+
+  label: {
+    color: theme.palette.info.main,
+
+    '&.shrink': {
+      color: theme.palette.info.main
+    }
+  },
+
+  listbox: {
+    background: theme.palette.background.default
+  },
+
+  lyrics: {
+    '& .MuiOutlinedInput-root': {
+      width: 'auto',
+      minWidth: 300,
+      [theme.breakpoints.down('sm')]: {
+        minWidth: 200
+      }
+    }
+  },
+
+  option: {
+    color: theme.palette.info.main,
+    textTransform: 'capitalize',
+
+    '&[data-focus="true"]': {
+      background: theme.palette.primary.main,
+      color: theme.palette.background.default
+    }
+  },
+
+  value: {
+    color: theme.palette.info.main
   },
 
   uploadButton: {
@@ -87,58 +130,17 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  input: {
-    textTransform: 'capitalize'
-  },
-
-  label: {
-    color: theme.palette.info.main,
-
-    '&.shrink': {
-      color: theme.palette.info.main
-    }
-  },
-
-  checkBox: {
-    '&.Mui-checked': {
-      color: theme.palette.info.main
-    }
-
-  },
-
-  lyrics: {
-    '& .MuiOutlinedInput-root': {
-      width: 'auto',
-      minWidth: 300,
-      [theme.breakpoints.down('sm')]: {
-        minWidth: 200
-      }
-    }
-  },
-
   uploadFieldSet: {
     borderRadius: '4px',
     borderColor: theme.palette.info.main,
     borderWidth: 'thin',
     background: theme.palette.background.default
-  },
-
-  listbox: {
-    background: theme.palette.background.default
-  },
-  option: {
-    color: theme.palette.info.main,
-    textTransform: 'capitalize',
-
-    '&[data-focus="true"]': {
-      background: theme.palette.primary.main,
-      color: theme.palette.background.default
-    }
   }
+
 }))
 
 const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
-  //this is for album image upload name
+  // this is for album image upload name
   const filesUploaded = useSelector(state => state.form.SongCreate.values)
   const classes = useStyles()
 
@@ -226,7 +228,7 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                   }}
                 />
               </Grid>
-            {/*Only show this button for non imported songs*/}
+            {/* Only show this button for non imported songs */}
             {!initialValues || !initialValues.image
               ? <Grid item xs={12} >
               <fieldset className={classes.uploadFieldSet}>

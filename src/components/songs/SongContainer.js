@@ -2,33 +2,49 @@ import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import { useTheme } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Switch, useHistory, useLocation } from 'react-router-dom'
+import { Switch, useHistory, useLocation } from 'react-router-dom'
 import * as workerTimers from 'worker-timers'
 
 import { checkIfPlaying } from '../../actions/spotify'
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
-import trebleClef from '../../assets/trebleClef.png'
 import useHeight from '../../hooks/useHeight'
 import FilterControl from '../FilterControl'
 import PrivateRoute from '../PrivateRoute'
+import NoMusicMessage from './NoMusicMessage'
 import SongCreate from './SongCreate'
 import SongDetail from './SongDetail'
 import SongDrawer from './SongDrawer'
 import SongEdit from './SongEdit'
 import SongList from './SongList'
-import NoMusicMessage from './NoMusicMessage'
 
 const drawerWidth = 244
 const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
+
+  addIconContainer: {
+    height: 72,
+    width: 72,
+    marginLeft: 0,
+    position: 'fixed',
+    top: '12%',
+    zIndex: 3,
+    right: '1%',
+    '&:hover': {
+      background: theme.palette.background.default
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '5%',
+      position: 'sticky'
+    }
+
+  },
 
   cardGrid: {
     minHeight: '100vh',
@@ -36,14 +52,49 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 50
   },
 
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
+  detail: {
+    height: '100%',
+    minHeight: '100vh',
+    marginTop: 96,
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
+    })
+  },
+
+  drawer: {
+    width: drawerWidth,
+    height: '100%',
+    flexShrink: 0,
+    marginTop: theme.spacing(9),
+    overflowY: 'scroll',
+    background: theme.palette.common.gray,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '.7rem'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1rem'
+      zIndex: theme.zIndex.modal + 1
     }
+  },
+
+  drawerIcon: {
+    height: 54,
+    width: 54
+  },
+
+  drawerIconContainer: {
+    height: 72,
+    width: 72,
+    marginLeft: 0,
+    position: 'fixed',
+    top: '12%',
+    zIndex: 3,
+    left: '1%',
+    '&:hover': {
+      background: theme.palette.background.default
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '5%',
+      position: 'sticky'
+    }
+
   },
 
   list: {
@@ -57,7 +108,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 0
   },
 
-  
   listShiftAlone: {
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
@@ -90,90 +140,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 244
   },
 
-  detail: {
-    height: '100%',
-    minHeight: '100vh',
-    marginTop: 96,
-    transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeOut,
-      duration: 500
-    })
-  },
-
-  detail: {
-    height: '100%',
-    minHeight: '100vh',
-    marginTop: 96,
-    transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeOut,
-      duration: 500
-    })
-  },
-
-  drawerIconContainer: {
-    height: 72,
-    width: 72,
-    marginLeft: 0,
-    position: 'fixed',
-    top: '12%',
-    zIndex: 3,
-    left: '1%',
-    '&:hover': {
-      background: theme.palette.background.default
-    },
-    [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
-    }
-
-  },
-
-  addIconContainer: {
-    height: 72,
-    width: 72,
-    marginLeft: 0,
-    position: 'fixed',
-    top: '12%',
-    zIndex: 3,
-    right: '1%',
-    '&:hover': {
-      background: theme.palette.background.default
-    },
-    [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
-    }
-
-  },
-
-  drawerIcon: {
-    height: 54,
-    width: 54
-  },
-
-  drawer: {
-    width: drawerWidth,
-    height: '100%',
-    flexShrink: 0,
-    marginTop: theme.spacing(9),
-    overflowY: 'scroll',
-    background: theme.palette.common.gray,
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
-      zIndex: theme.zIndex.modal + 1
+      marginBottom: '.7rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '1rem'
     }
-  },
-
-  message: {
-    display: 'block',
-    margin: '0 auto',
-    overflowWrap: 'normal'
-  },
-
-  graphic: {
-    display: 'block',
-    margin: '50px auto',
-    width: 150,
-    height: 310
   }
 
 }))
@@ -197,8 +171,7 @@ const SongContainer = () => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
   const detailShow = location.pathname.includes('/songs/')
 
-
-  //constantly check if the user's Spotify player is playing something 
+  // constantly check if the user's Spotify player is playing something
   useEffect(() => {
     const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
     if (accessToken) {
@@ -279,8 +252,8 @@ const SongContainer = () => {
         {Object.values(songs).length
           ? renderList()
           : <NoMusicMessage /> }
-      {detailShow ? 
-        <Grid item xs={12} md={6} ref={elementDOM} className={classes.detail}>
+      {detailShow
+        ? <Grid item xs={12} md={6} ref={elementDOM} className={classes.detail}>
           <Switch>
             <PrivateRoute exact path="/songs/new">
                 <SongCreate />
@@ -292,8 +265,9 @@ const SongContainer = () => {
                 <SongEdit />
             </PrivateRoute>
           </Switch>
-        </Grid> : null }
-      </Grid> 
+        </Grid>
+        : null }
+      </Grid>
     </div>
   )
 }

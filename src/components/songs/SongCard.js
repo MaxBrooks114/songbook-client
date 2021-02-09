@@ -25,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '.6rem'
   },
 
-  title: {
-    fontWeight: 600, 
-  },
-
   media: {
     width: 85,
     height: 85,
@@ -45,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
       width: 0
 
     }
+  },
+
+  title: {
+    fontWeight: 600
   }
 }))
 
@@ -60,7 +60,7 @@ const SongCard = ({ song, transitionDuration, handleClick }) => {
            <img
                   alt={song.album}
                   className={classes.media}
-                  //always try to load imported album artwork before uploaded 
+                  // always try to load imported album artwork before uploaded
                   src={song.image ? song.image : song.uploaded_image}
                 />
 

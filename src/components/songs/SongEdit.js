@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { editSong } from '../../actions/songs'
+import { normalize, renderText } from '../../helpers/detailHelpers'
 import keys from './keys'
 import modes from './modes'
 import SongForm from './SongForm'
-import {normalize, renderText} from '../../helpers/detailHelpers'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +28,24 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+  container: {
+    minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+      minHeight: '100vh'
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '180vh'
+    }
+  },
+
+  title: {
+    fontSize: '2.8rem',
+    fontWeight: 600,
+    color: theme.palette.info.main
+
+  },
+
   toolbarMargin: {
     ...theme.mixins.toolbar,
     marginBottom: '3em',
@@ -37,24 +55,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1.25em'
     }
-  },
-
-  title: {
-    fontSize: '2.8rem',
-    fontWeight: 600,
-    color: theme.palette.info.main,
-
-    container: {
-      minHeight: '110vh',
-      [theme.breakpoints.down('md')]: {
-        minHeight: '100vh'
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        minHeight: '180vh'
-      }
-    }
   }
+
 }))
 
 const SongEdit = () => {
@@ -73,11 +75,6 @@ const SongEdit = () => {
       })
     )
   }
-
-
- 
-
-  
 
   return (
       <div className={classes.root}>
