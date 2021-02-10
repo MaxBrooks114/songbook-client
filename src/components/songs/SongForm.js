@@ -5,10 +5,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
-import { FileInput, renderAutoCompleteField, renderCheckbox, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
-import genres from '../dataToImport/genres'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
+import genres from '../../dataToImport/genres'
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
+import { FileInput, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -151,38 +151,54 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
 
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
         <Grid container align="center" alignItems="flex-end" justify="center" >
-
               <Grid item xs={12} md={6}>
-                <Field classes={classes} required name="title" component={renderTextField} label="Title" InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                    shrink: 'shrink'
-                  }
-                }}/>
+                <Field 
+                  classes={classes} 
+                  required 
+                  name="title" 
+                  component={renderTextField} 
+                  label="Title" 
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.label,
+                      shrink: 'shrink'
+                    }
+                  }}/>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Field classes={classes} required name="artist" component={renderTextField} label="Artist" InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                    shrink: 'shrink'
-                  }
-                }}/>
+                <Field 
+                  classes={classes} 
+                  required 
+                  name="artist" 
+                  component={renderTextField} 
+                  label="Artist" 
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.label,
+                      shrink: 'shrink'
+                    }
+                  }}/>
               </Grid>
-
               <Grid item xs={12} md={6}>
-                <Field classes={classes} name="album" component={renderTextField} label="Album" InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                    shrink: 'shrink'
-                  }
-                }} />
+                <Field 
+                  classes={classes} 
+                  name="album" 
+                  component={renderTextField} 
+                  label="Album" 
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.label,
+                      shrink: 'shrink'
+                    }
+                  }}/>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Field
-                  options={genres.sort((a, b) => (a.name > b.name ? 1 : -1))}
+                  options={genres.sort()}
                   classes={classes}
+                  inputValue={initialValues ? initialValues.genre : undefined}
                   name="genre"
-                  component={renderAutoCompleteField}
+                  component={renderAutoCompleteDataField}
                   label="Genre"
                   InputLabelProps={{
                     classes: {
@@ -192,24 +208,37 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                   }}
                 />
               </Grid>
-
               <Grid item xs={12} md={6}>
-                <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                    shrink: 'shrink'
-                  }
-                }} />
+                <Field 
+                  options={keys} 
+                  classes={classes} 
+                  name="key" 
+                  inputValue={initialValues ? initialValues.key : undefined} 
+                  component={renderAutoCompleteField} 
+                  label="Key" 
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.label,
+                      shrink: 'shrink'
+                    }
+                  }} 
+                />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" InputLabelProps={{
-                  classes: {
-                    root: classes.label,
-                    shrink: 'shrink'
-                  }
-                }} />
+                <Field 
+                  options={modes} 
+                  classes={classes} 
+                  name="mode" 
+                  inputValue={initialValues ? initialValues.mode : undefined} 
+                  component={renderAutoCompleteField} 
+                  label="Mode" 
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.label,
+                      shrink: 'shrink'
+                    }
+                  }} />
               </Grid>
-
               <Grid item xs={12} md={6}>
                 <Field classes={classes} name="tempo" inputAdornment="BPM" component={renderTextField} label="Tempo" />
               </Grid>
@@ -248,7 +277,6 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                 </fieldset>
               </Grid>
               : null}
-
               <Grid item xs={12} >
                 <Field
                   fullWidth
@@ -278,9 +306,7 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
               </Grid>
             </Grid>
             </Grid>
-
         </form>
-
   )
 }
 

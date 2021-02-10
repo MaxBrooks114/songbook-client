@@ -1,4 +1,3 @@
-import './metronome.css'
 
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
@@ -20,6 +19,7 @@ import SectionFiles from './SectionFiles'
 import SectionInstruments from './SectionInstruments'
 import SectionMetronome from './SectionMetronome'
 import SectionRecorder from './SectionRecorder'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

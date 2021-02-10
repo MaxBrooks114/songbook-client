@@ -6,9 +6,9 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
 import { FileInput, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderCheckboxGroup, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,6 +105,19 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+   uploadButton: {
+    background: theme.palette.secondary.dark,
+    '&:hover': {
+      background: theme.palette.info.main,
+      color: theme.palette.primary.main
+    },
+    margin: '1rem',
+    width: 400,
+    [theme.breakpoints.down('sm')]: {
+      width: 'auto'
+    }
+  },
+
   uploadFieldSet: {
     borderRadius: '4px',
     borderColor: theme.palette.info.main,
@@ -112,35 +125,45 @@ const useStyles = makeStyles((theme) => ({
     background: '#f0f0f0'
   },
 
+
+
   value: {
     color: theme.palette.info.main
   }
 
 }))
 
-const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
+const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues }) => {
   const classes = useStyles()
   const filesUploaded = useSelector(state => state.form.SectionCreate.values)
   const onFormSubmit = (formValues) => {
     onSubmit(formValues)
   }
+  console.log(initialValues)
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
       <Grid container alignItems="flex-end" align="center" justify="center" >
 
           <Grid item xs={12} md={6}>
-            <Field classes={classes} required name="name" component={renderTextField} label="Name" InputLabelProps={{
-              classes: {
-                root: classes.label,
-                shrink: 'shrink'
-              }
-            }}/>
+            <Field 
+              classes={classes} 
+              required 
+              name="name" 
+              component={renderTextField} 
+              label="Name" 
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }}/>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field
+            <Field         
               options={_.uniq(Object.values(songs).map(song => song.title))}
               classes={classes}
               name="song"
+              inputValue={initialValues && initialValues.song ? initialValues.song : undefined}
               style={{ height: '44px' }}
               component={renderAutoCompleteDataField}
               label="Song"
@@ -187,31 +210,49 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
               }}
             />
           </Grid>
-
           <Grid item xs={12} md={6}>
-            <Field options={keys} classes={classes} name="key" component={renderAutoCompleteField} label="Key" InputLabelProps={{
-              classes: {
-                root: classes.label,
-                shrink: 'shrink'
-              }
-            }} />
+            <Field 
+              options={keys} 
+              classes={classes} 
+              name="key" 
+              inputValue={initialValues && initialValues.key ? initialValues.key : undefined} 
+              component={renderAutoCompleteField} 
+              label="Key" 
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field options={modes} classes={classes} name="mode" component={renderAutoCompleteField} label="Mode" InputLabelProps={{
+            <Field 
+              options={modes} 
+              classes={classes} 
+              name="mode" 
+              component={renderAutoCompleteField} 
+              inputValue={initialValues && initialValues.mode ? initialValues.mode : undefined} 
+              label="Mode" 
+              InputLabelProps={{
               classes: {
                 root: classes.label,
                 shrink: 'shrink'
               }
             }}/>
           </Grid>
-
           <Grid item xs={12} md={6}>
-            <Field classes={classes} name="tempo" inputAdornment="BPM" component={renderTextField} label="Tempo" InputLabelProps={{
-              classes: {
-                root: classes.label,
-                shrink: 'shrink'
-              }
-            }} />
+            <Field 
+              classes={classes} 
+              name="tempo" 
+              inputAdornment="BPM" 
+              component={renderTextField} 
+              label="Tempo" 
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }} />
           </Grid>
           <Grid item xs={12} md={6}>
             <Field
@@ -255,10 +296,8 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
                   options={instruments}
               />
             </fieldset>
-         </Grid>
-
-        <Grid item xs={12} >
-
+          </Grid>
+          <Grid item xs={12} >
               <fieldset className={classes.uploadFieldSet}>
                 <legend>Uploads</legend>
                 <Grid container justify='center'>
@@ -284,9 +323,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {
                   </Grid>
                   </Grid>
                 </fieldset>
-
               </Grid>
-
             <Grid container alignItems="flex-end" justify="space-between">
               <Grid item xs={12} sm={2}>
                 <Field classes={classes} name="original" component={renderCheckbox} label="Original" />

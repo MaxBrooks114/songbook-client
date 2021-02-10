@@ -139,12 +139,13 @@ export const renderSlider = ({
     />
   )
 }
-export const renderAutoCompleteField = ({ options, classes, input, label, fullWidth, ...custom }) => {
+export const renderAutoCompleteField = ({ options, classes, input, label, fullWidth, inputValue, ...custom }) => {
   return (
       <Autocomplete
-      options={options || ''}
+      options={options}
       getOptionLabel={(option) => option[Object.keys(option)]}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
+      inputValue={inputValue}
       renderInput={(params) => (
         <TextField
         {...params}
@@ -167,13 +168,14 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
   )
 }
 
-export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, ...custom }) => {
+export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, inputValue, ...custom }) => {
   return (
           <Autocomplete
           options={options}
           getOptionLabel={getOptionLabel}
           renderOption= {renderOption}
           onSelect={onChange}
+          inputValue={inputValue}
           classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
           renderInput={(params) => (
             <TextField
