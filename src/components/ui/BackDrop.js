@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const BackDrop = ({ showBackdrop }) => {
+const BackDrop = ({ count, showBackdrop }) => {
   const classes = useStyles()
 
   const renderCounter = () => {

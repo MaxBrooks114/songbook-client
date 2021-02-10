@@ -151,20 +151,20 @@ const DetailTitle = ({ song, section }) => {
     }
   }, [accessToken, refreshToken, dispatch])
 
+  const sectionPlay = () => {
+        setShowBackdrop(true)
+        const timeout = workerTimers.setTimeout(() => {
+          dispatch(playSection(accessToken, spotifyUri, refreshToken, section.start, section.duration, deviceId, section.id))
+          setShowBackdrop(false)
+          workerTimers.clearTimeout(timeout)
+        }, 3000)
+  }
   const handlePlayClick = () => {
-    song
-      ? dispatch(playSong(accessToken, spotifyUri, refreshToken, deviceId))
-
-      : setShowBackdrop(true)
-    const timeout = workerTimers.setTimeout(() => {
-      dispatch(playSection(accessToken, spotifyUri, refreshToken, section.start, section.duration, deviceId, section.id))
-      setShowBackdrop(false)
-      workerTimers.clearTimeout(timeout)
-    }, 3000)
+    song ? dispatch(playSong(accessToken, spotifyUri, refreshToken, deviceId)) : sectionPlay()
   }
 
   const handlePauseClick = () => {
-    dispatch(pressPausePlayer(accessToken, refreshToken, deviceId, song.spotify_url))
+    dispatch(pressPausePlayer(accessToken, refreshToken, deviceId, spotifyUri))
   }
 
   const renderSpotifyOption = () => {
@@ -197,7 +197,7 @@ const DetailTitle = ({ song, section }) => {
         <Typography variant={matches ? 'subtitle1' : 'h6'}>{subtitle1}</Typography>
         <Typography variant={matches ? 'subtitle1' : 'h6'} style={{ display: 'inline' }}>{subtitle2}</ Typography>
       </Grid>
-      <BackDrop className={classes.backdrop} count={4} backdropShow={showBackdrop}/>
+      <BackDrop showBackdrop={showBackdrop}/>
     </Grid>
 
   )
