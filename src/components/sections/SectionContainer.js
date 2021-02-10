@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
   detail: {
     height: '100%',
     minHeight: '100vh',
-    marginTop: 96,
+    marginTop: 91,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
