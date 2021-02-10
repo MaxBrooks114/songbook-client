@@ -9,9 +9,9 @@ import Carousel from 'react-material-ui-carousel'
 import { Link, useLocation } from 'react-router-dom'
 
 import Quaver from '../../assets/Quaver.png'
+import keys from '../../dataToImport/keys'
 import { millisToMinutesAndSeconds, renderText, titleCase } from '../../helpers/detailHelpers'
 import { attrPreference, bottomFive, topFive, topFiveByAttr, topFiveByAttrListLength } from '../../helpers/userMetrics'
-import keys from '../dataToImport/keys'
 import ItemCard from './ItemCard'
 
 const useStyles = makeStyles((theme) => ({

@@ -1,4 +1,4 @@
-import modes from '../components/dataToImport/modes'
+import modes from '../dataToImport/modes'
 import { audioFeaturesToNumbers, renderText } from '../helpers/detailHelpers'
 
 const getFilters = (state) => state.filter

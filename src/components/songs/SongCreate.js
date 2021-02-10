@@ -4,9 +4,9 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { createSong } from '../../actions/songs'
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
 import { normalize } from '../../helpers/detailHelpers'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
 import SongForm from './SongForm'
 
 const useStyles = makeStyles((theme) => ({

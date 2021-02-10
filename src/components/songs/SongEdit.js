@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { editSong } from '../../actions/songs'
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
 import { normalize, renderText } from '../../helpers/detailHelpers'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
 import SongForm from './SongForm'
 
 const useStyles = makeStyles((theme) => ({

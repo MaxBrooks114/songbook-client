@@ -5,9 +5,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
 import { renderBool, renderText, titleCase } from '../../helpers/detailHelpers'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
 import DetailAccordion from './DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({

@@ -6,9 +6,9 @@ import { Redirect } from 'react-router-dom'
 
 import { createFile } from '../../actions/files'
 import { createSection } from '../../actions/sections'
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
 import { normalize, renderText } from '../../helpers/detailHelpers'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
 import SectionForm from './SectionForm'
 
 const useStyles = makeStyles((theme) => ({
