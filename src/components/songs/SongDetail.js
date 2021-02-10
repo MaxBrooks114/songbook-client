@@ -9,13 +9,13 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import AudioProperties from './AudioProperties'
-import NavRow from './NavRow'
-import SongDetailTitle from './SongDetailTitle'
-import SongDialog from './SongDialog'
-import SongFeatures from './SongFeatures'
-import SongLyrics from './SongLyrics'
+import NavRow from '../sharedDetails/NavRow'
+import DetailTitle from '../sharedDetails/DetailTitle'
+import DeleteDialog from '../sharedDetails/DeleteDialog'
+import Features from '../sharedDetails/Features'
+import Lyrics from '../sharedDetails/Lyrics'
 import SongSections from './SongSections'
-import VertMenu from './VertMenu'
+import VertMenu from '../sharedDetails/VertMenu'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,21 +74,21 @@ const SongDetail = () => {
               setOpen={setOpen}
           />
           <Grid item xs={12}>
-            <SongDetailTitle song={song}/>
+            <DetailTitle song={song}/>
           </Grid>
           <Grid item xs={6} md={3} >
             <NavRow song={song}/>
           </Grid>
           <Grid item xs={12}>
-            <SongFeatures song={song} />
+            <Features song={song} />
             <SongSections song={song}/>
             {song.spotify_url
               ? <AudioProperties song={song} />
               : null }
-            <SongLyrics song={song} />
+            <Lyrics lyrics={song.lyrics} />
           </Grid>
         </Grid>
-        <SongDialog song={song} open={open} setOpen={setOpen}/>
+        <DeleteDialog song={song} open={open} setOpen={setOpen} message="By deleting this song you will also delete all affiliated sections."/>
       </Paper>
     </Slide>
       )

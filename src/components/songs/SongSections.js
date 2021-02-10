@@ -13,36 +13,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { playSection } from '../../actions/spotify'
+import DetailAccordion from '../sharedDetails/DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
 
-  accordion: {
-    background: theme.palette.primary.light,
-    color: theme.palette.info.main,
-    borderRadius: 4,
-    margin: '1rem 0',
-    '& .MuiAccordionSummary-content': {
-      flexGrow: 0
-    },
-
-    '& .MuiAccordionSummary-root': {
-      justifyContent: 'space-between'
-    },
-
-    '& .MuiAccordionDetails-root': {
-      padding: 0,
-      marginBottom: theme.spacing(2)
-    },
-
-    '& .MuiGrid-grid-xs-10': {
-      margin: 0,
-      justifyContent: 'center'
-    }
-  },
-
-  accordionTitle: {
-    fontWeight: '500'
-  },
 
   buttonContainer: {
     marginTop: theme.spacing(2),
@@ -96,31 +70,32 @@ const SongSections = ({ song }) => {
     }
   }
 
-  const renderSections = (sections) => {
+  const renderSections = () => {
     return sections
-      ? sections.map((section) => {
-        return (
-              <Grid key={section.id} item xs={4}>
+      ? sections.map((section, index) => {
+        return index % 3 === 0 ? (
+            <>
+              <Grid item xs={2}/>
+              <Grid key={section.id} item xs={3}>
                 <Typography>
                   <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     {renderSpotifyOptionSection(section)}
                   </Typography>
               </Grid>
+            </>
+        ) : (
+          <Grid key={section.id} item xs={3}>
+            <Typography>
+              <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
+              {renderSpotifyOptionSection(section)}
+            </Typography>
+          </Grid>
         )
       })
       : null
   }
   return (
-    <Accordion className={classes.accordion}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-        <Typography className={classes.accordionTitle}>Sections</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-         <Grid container align="center" alignItems="center" justify="flex-start">
-          {renderSections(sections)}
-        </Grid>
-      </AccordionDetails>
-    </Accordion>
+   <DetailAccordion title="Sections" renderFunction={renderSections}/>
   )
 }
 

@@ -10,20 +10,25 @@ const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff'
+  },
+
+  countIn: {
+    display: 'inline',
+    textTransform: 'none'
   }
 
 }))
 
-const BackDrop = ({ show }) => {
+const BackDrop = ({ showBackdrop }) => {
   const classes = useStyles()
 
   const renderCounter = () => {
-    return show ? <Countdown/> : ''
+    return showBackdrop ? <Countdown/> : ''
   }
   return (
     <>
-       <Backdrop className={classes.backdrop} open={show}>
-            <Typography><span style={{ display: 'inline', textTransform: 'none' }}>Playing in</span> {renderCounter()}</Typography>
+       <Backdrop className={classes.backdrop} open={showBackdrop}>
+            <Typography className={classes.countIn}>Playing in {renderCounter()}</Typography>
         </Backdrop>
     </>
   )

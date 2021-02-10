@@ -32,8 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const VertMenu = ({ song, popped, setAnchorEl, anchorEl, setOpen }) => {
+const VertMenu = ({ song, section, popped, setAnchorEl, anchorEl, setOpen }) => {
+  const item = song ? song : section
+  const objectType = song ? 'songs' : 'sections'
   const classes = useStyles()
+  
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -56,7 +59,7 @@ const VertMenu = ({ song, popped, setAnchorEl, anchorEl, setOpen }) => {
         onClick={() => {
           handleMenuClose()
         }}>
-        <Link className={classes.link} to={`/songs/edit/${song.id}`}>Edit</Link>
+        <Link className={classes.link} to={`/${objectType}/edit/${item.id}`}>Edit</Link>
       </MenuItem>
         <MenuItem
           className={classes.deleteChoice}

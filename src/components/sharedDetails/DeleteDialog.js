@@ -29,10 +29,12 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const SongDialog = ({ song, open, setOpen }) => {
+const DeleteDialog = ({ song, open, setOpen, section, message }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const theme = useTheme()
+
+  const item = song ? song : section
 
   const handleClose = () => {
     setOpen(false)
@@ -49,7 +51,7 @@ const SongDialog = ({ song, open, setOpen }) => {
           <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this song?'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              By deleting this song you will also delete all affiliated sections.
+              {message}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -59,7 +61,7 @@ const SongDialog = ({ song, open, setOpen }) => {
             <Button
               onClick={() => {
                 handleClose()
-                dispatch(deleteSong(song.id, song))
+                dispatch(deleteSong(item.id, item))
               }}
               color="primary"
               style={{ color: theme.palette.common.orange }}
@@ -72,4 +74,4 @@ const SongDialog = ({ song, open, setOpen }) => {
   )
 }
 
-export default SongDialog
+export default DeleteDialog

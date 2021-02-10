@@ -7,6 +7,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getFilteredItems } from '../../selectors/filterSelectors'
+import SectionContainer from '../sections/SectionContainer'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -24,10 +25,13 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const NavRow = ({song }) => {
-  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'))
-  const nextSong = filteredSongs[filteredSongs.indexOf(song) + 1]
-  const prevSong = filteredSongs[filteredSongs.indexOf(song) - 1]
+const NavRow = ({song, section }) => {
+  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs')) 
+  const filteredSections = useSelector((state) => getFilteredItems(state, 'sections'))
+
+  const next = song ? filteredSongs[filteredSongs.indexOf(song) + 1] : filteredSections[filteredSections.indexOf(section) + 1]
+  const prev = song ? filteredSongs[filteredSongs.indexOf(song) - 1] : filteredSections[filteredSections.indexOf(section) - 1]
+  const objectType = song ? 'songs' : 'sections'
 
   const history = useHistory()
   
@@ -35,17 +39,17 @@ const NavRow = ({song }) => {
   return (
     <Grid container justify="space-between" className={classes.navRow}>
               <Grid item xs={2}>
-                 {prevSong
+                 {prev
                    ? <IconButton
-                    onClick={(event) => history.push(`/songs/${prevSong.id}`)}
+                    onClick={(event) => history.push(`/${objectType}/${prev.id}`)}
                 > <SkipPreviousRoundedIcon className={classes.navButton} />
                 </IconButton>
                    : null }
               </Grid>
                 <Grid item xs={2} style={{ marginRight: 18 }}>
-                  {nextSong
+                  {next
                     ? <IconButton
-                        onClick={(event) => history.push(`/songs/${nextSong.id}`)}
+                        onClick={(event) => history.push(`/${objectType}/${next.id}`)}
                     > <SkipNextRoundedIcon className={classes.navButton}/>
                     </IconButton>
                     : null}
