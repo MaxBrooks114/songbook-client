@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { FileInput, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderCheckboxGroup, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
-import keys from '../songs/keys'
-import modes from '../songs/modes'
+import keys from '../dataToImport/keys'
+import modes from '../dataToImport/modes'
 
 const useStyles = makeStyles((theme) => ({
   root: {

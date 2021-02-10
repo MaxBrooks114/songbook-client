@@ -6,9 +6,9 @@ import { useSelector } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { FileInput, renderAutoCompleteField, renderCheckbox, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
-import genres from './genres'
-import keys from './keys'
-import modes from './modes'
+import genres from '../dataToImport/genres'
+import keys from '../dataToImport/keys'
+import modes from '../dataToImport/modes'
 
 const useStyles = makeStyles((theme) => ({
 

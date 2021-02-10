@@ -156,11 +156,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SongContainer = () => {
   const songs = useSelector((state) => state.songs)
-  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
-  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token)
   const location = useLocation()
   const history = useHistory()
-  const dispatch = useDispatch()
 
   const theme = useTheme()
   const classes = useStyles()
@@ -173,16 +170,7 @@ const SongContainer = () => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
   const detailShow = location.pathname.includes('/songs/')
 
-  // constantly check if the user's Spotify player is playing 
-  useEffect(() => {
-    const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
-    if (accessToken) {
-      return () => {
-        workerTimers.clearInterval(intervalId)
-      }
-    }
-  }, [accessToken, refreshToken, dispatch])
-
+ 
   useEffect(() => {
     setListColumnSize(8)
     if (detailShow) {

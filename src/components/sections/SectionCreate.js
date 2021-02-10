@@ -7,8 +7,8 @@ import { normalize, renderText } from '../../helpers/detailHelpers'
 
 import { createFile } from '../../actions/files'
 import { createSection } from '../../actions/sections'
-import keys from '../songs/keys'
-import modes from '../songs/modes'
+import keys from '../dataToImport/keys'
+import modes from '../dataToImport/modes'
 import SectionForm from './SectionForm'
 
 const useStyles = makeStyles((theme) => ({

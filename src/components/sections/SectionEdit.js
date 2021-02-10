@@ -6,8 +6,8 @@ import { useParams } from 'react-router-dom'
 
 import { createFile } from '../../actions/files'
 import { editSection } from '../../actions/sections'
-import keys from '../songs/keys'
-import modes from '../songs/modes'
+import keys from '../dataToImport/keys'
+import modes from '../dataToImport/modes'
 import SectionForm from './SectionForm'
 import { normalize, renderText } from '../../helpers/detailHelpers'
 
@@ -58,10 +58,6 @@ const SectionEdit = () => {
 
   
   
-  const initialValues = section
-    ? { ...section, start: section.start / 1000, duration: section.duration / 1000, key: renderText(keys, section.key), mode: renderText(modes, section.mode), song: renderTitle() }
-    : null
-
   const songId = (title) => {
     const song = Object.values(songs).find((song) => song.title === title)
     return song.id
@@ -70,6 +66,12 @@ const SectionEdit = () => {
   const renderTitle = () => {
     return section.song.title
   }
+
+  const initialValues = section
+    ? { ...section, start: section.start / 1000, duration: section.duration / 1000, key: renderText(keys, section.key), mode: renderText(modes, section.mode), song: renderTitle() }
+    : null
+
+
 
   const onSubmit = (formValues) => {
     if (!formValues.tempo) {
