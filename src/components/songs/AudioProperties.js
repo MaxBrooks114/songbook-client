@@ -5,6 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
+
 import { audioFeaturesToText, titleCase } from '../../helpers/detailHelpers'
 import DetailAccordion from '../sharedDetails/DetailAccordion'
 

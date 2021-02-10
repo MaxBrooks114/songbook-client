@@ -5,10 +5,11 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory  } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+
 import { getFilteredItems } from '../../selectors/filterSelectors'
-import SongAccordion from './SongAccordion'
 import Sort from '../Sort'
+import SongAccordion from './SongAccordion'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -21,13 +22,11 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-
   sortBar: {
     width: '95%',
     display: 'flex',
     justifyContent: 'flex-end'
   },
-
 
   title: {
     width: '95%',
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
       width: '100%'
     }
-  },
+  }
 
 }))
 const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, height }) => {
@@ -52,18 +51,16 @@ const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, he
   const classes = useStyles()
   const history = useHistory()
 
- 
   const renderSongs = () => {
     return orderedSongs.length
       ? orderedSongs.map((song) => {
         const sections = filteredSections.filter(section => song.id === section.song.id)
         return sections.length
-          ?  <SongAccordion song={song} transitionDuration={transitionDuration} sections={sections} /> 
+          ? <SongAccordion song={song} transitionDuration={transitionDuration} sections={sections} />
           : null
       })
       : null
   }
-
 
   return (
       <>

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   title: {
-    fontWeight: 600,
+    fontWeight: 600
   }
 
 }))
@@ -40,9 +40,9 @@ const SectionCard = ({ section, transitionDuration }) => {
 
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card  className={classes.root}>
+      <Card className={classes.root}>
         <CardContent className={classes.cardContent}>
-          <Typography  className={classes.title} variant="subtitle1">{section.name}</Typography>
+          <Typography className={classes.title} variant="subtitle1">{section.name}</Typography>
         </CardContent>
       </Card>
     </Slide>

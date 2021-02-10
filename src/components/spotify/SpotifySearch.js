@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-    cardGrid: {
+  cardGrid: {
     marginBottom: theme.spacing(8)
   },
 
@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1.25em'
     }
-  },
-
-
+  }
 
 }))
 
@@ -56,7 +54,7 @@ const SpotifySearch = () => {
         </Typography>
       </Grid>
       <Grid item xs={10}>
-        <SpotifySearchBar  />
+        <SpotifySearchBar />
       </Grid>
       <Grid item xs={10} >
       {renderTracklist()}

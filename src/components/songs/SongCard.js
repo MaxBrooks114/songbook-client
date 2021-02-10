@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
     }
   },
-  
+
   title: {
     fontWeight: 600
   }

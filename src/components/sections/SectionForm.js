@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left'
   },
 
-   input: {
+  input: {
     textTransform: 'capitalize'
   },
 
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-   option: {
+  option: {
     color: theme.palette.info.main,
     textTransform: 'capitalize',
 
@@ -111,12 +111,11 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 'thin',
     background: '#f0f0f0'
   },
-  
 
   value: {
     color: theme.palette.info.main
-  },
- 
+  }
+
 }))
 
 const SectionForm = ({ songs, onSubmit, handleSubmit, instruments }) => {

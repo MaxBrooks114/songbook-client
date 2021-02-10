@@ -24,7 +24,7 @@ import SongEdit from './SongEdit'
 import SongList from './SongList'
 
 const drawerWidth = 244
-let transitionDuration = 50
+const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
@@ -97,8 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-
-   list: {
+  list: {
     minHeight: '100vh',
     marginTop: 7,
     flexGrow: 1,
@@ -149,8 +148,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1rem'
     }
-  },
-
+  }
 
 }))
 
@@ -170,7 +168,6 @@ const SongContainer = () => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
   const detailShow = location.pathname.includes('/songs/')
 
- 
   useEffect(() => {
     setListColumnSize(8)
     if (detailShow) {

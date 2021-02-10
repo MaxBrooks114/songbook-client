@@ -3,26 +3,26 @@ import IconButton from '@material-ui/core/IconButton'
 import { useTheme } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Switch, useHistory, useLocation } from 'react-router-dom'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import useHeight from '../../hooks/useHeight'
 import FilterControl from '../FilterControl'
+import PrivateRoute from '../PrivateRoute'
+import NoMusicMessage from '../ui/NoMusicMessage'
+import SectionCreate from './SectionCreate'
 import SectionDetail from './SectionDetail'
 import SectionDrawer from './SectionDrawer'
-import SectionList from './SectionList'
-import SectionCreate from './SectionCreate'
 import SectionEdit from './SectionEdit'
-import NoMusicMessage from '../ui/NoMusicMessage'
-import PrivateRoute from '../PrivateRoute'
+import SectionList from './SectionList'
 
 const drawerWidth = 244
-let transitionDuration = 50
+const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 244
   },
 
- detail: {
+  detail: {
     height: '100%',
     minHeight: '100vh',
     marginTop: 96,
@@ -171,7 +171,6 @@ const SectionContainer = () => {
   const location = useLocation()
   const history = useHistory()
 
-  
   const theme = useTheme()
   const classes = useStyles()
   const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
@@ -194,7 +193,6 @@ const SectionContainer = () => {
     return Object.values(sections).length > 0 ? <FilterControl setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} objectType='sections' /> : null
   }
 
-
   const renderList = () => {
     return !smallScreen
       ? <>
@@ -210,7 +208,7 @@ const SectionContainer = () => {
            <SectionList
              transitionDuration={transitionDuration}
              listColumnSize={listColumnSize}
-             setListColumnSize={setListColumnSize}           
+             setListColumnSize={setListColumnSize}
              height={height}
            />
           </Grid>
@@ -250,8 +248,8 @@ const SectionContainer = () => {
         {Object.values(sections).length
           ? renderList()
           : <NoMusicMessage objectType="sections"/> }
-      {detailShow ?
-        <Grid item xs={12} md={6} lg={6} ref={elementDOM} className={classes.detail}>
+      {detailShow
+        ? <Grid item xs={12} md={6} lg={6} ref={elementDOM} className={classes.detail}>
           <Switch>
             <PrivateRoute exact path="/sections/new">
                 <SectionCreate />
@@ -263,7 +261,8 @@ const SectionContainer = () => {
                 <SectionEdit />
             </PrivateRoute>
           </Switch>
-        </Grid> : null }
+        </Grid>
+        : null }
       </Grid>
     </div>
   )

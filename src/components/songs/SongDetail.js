@@ -8,14 +8,15 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import AudioProperties from './AudioProperties'
-import NavRow from '../sharedDetails/NavRow'
-import DetailTitle from '../sharedDetails/DetailTitle'
+
 import DeleteDialog from '../sharedDetails/DeleteDialog'
+import DetailTitle from '../sharedDetails/DetailTitle'
 import Features from '../sharedDetails/Features'
 import Lyrics from '../sharedDetails/Lyrics'
-import SongSections from './SongSections'
+import NavRow from '../sharedDetails/NavRow'
 import VertMenu from '../sharedDetails/VertMenu'
+import AudioProperties from './AudioProperties'
+import SongSections from './SongSections'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const SongDetail = () => {
   const params = useParams()
   const song = useSelector(state => state.songs[params.id])
-  
+
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)

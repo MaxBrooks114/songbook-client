@@ -2,27 +2,24 @@ import './metronome.css'
 
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-
 import Paper from '@material-ui/core/Paper'
 import Slide from '@material-ui/core/Slide'
-
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded'
-
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
+import DeleteDialog from '../sharedDetails/DeleteDialog'
 import DetailTitle from '../sharedDetails/DetailTitle'
-import NavRow from '../sharedDetails/NavRow'
 import Features from '../sharedDetails/Features'
 import Lyrics from '../sharedDetails/Lyrics'
+import NavRow from '../sharedDetails/NavRow'
+import VertMenu from '../sharedDetails/VertMenu'
+import SectionFiles from './SectionFiles'
 import SectionInstruments from './SectionInstruments'
 import SectionMetronome from './SectionMetronome'
 import SectionRecorder from './SectionRecorder'
-import SectionFiles from './SectionFiles'
-import DeleteDialog from '../sharedDetails/DeleteDialog'
-import VertMenu from '../sharedDetails/VertMenu'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     right: '1%',
     top: 22
-  },
- 
+  }
+
 }))
 
 const SectionDetail = () => {
@@ -54,16 +51,15 @@ const SectionDetail = () => {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
   const popped = Boolean(anchorEl)
- 
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
-  return section 
+  return section
     ? (
         <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
-          <Paper className={classes.root} elevation={3}>    
+          <Paper className={classes.root} elevation={3}>
             <Grid container alignItems="center" className={classes.details}>
                 <IconButton
                     className={classes.vert}
@@ -87,7 +83,7 @@ const SectionDetail = () => {
                     <NavRow section={section}/>
                 </Grid>
                 <Grid item xs={12}>
-                  <Features section={section}/>           
+                  <Features section={section}/>
                   <Lyrics lyrics={section.lyrics}/>
                   <SectionInstruments section={section} />
                   <SectionMetronome section={section} />

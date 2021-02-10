@@ -7,11 +7,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded'
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded'
 import { makeStyles } from '@material-ui/styles'
-import React, {useState, useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import * as workerTimers from 'worker-timers'
 import { Link } from 'react-router-dom'
-import { playSong, pressPausePlayer, playSection, checkIfPlaying } from '../../actions/spotify'
+import * as workerTimers from 'worker-timers'
+
+import { checkIfPlaying, playSection, playSong, pressPausePlayer } from '../../actions/spotify'
 import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
 import BackDrop from '../ui/BackDrop'
 
@@ -129,18 +130,18 @@ const DetailTitle = ({ song, section }) => {
   const [showBackdrop, setShowBackdrop] = useState(false)
 
   const spotifyUri = song ? song.spotify_url : section.song.spotify_url
-  
-  const title = song ? <>{song.title}<span style={{fontSize: '1rem'}}> ({millisToMinutesAndSeconds(song.duration)})</span></> :  section.name
 
-  const subtitle1 = song ? song.artist :  <>({millisToMinutesAndSeconds(section.start)}-{millisToMinutesAndSeconds(section.start + section.duration)}) ({millisToMinutesAndSeconds(section.duration)})</>
+  const title = song ? <>{song.title}<span style={{ fontSize: '1rem' }}> ({millisToMinutesAndSeconds(song.duration)})</span></> : section.name
 
-  const subtitle2 = song ? <>{song.album}<span style={{fontSize: '1rem'}}> ({song.year.split('-')[0]})</span></> :  <Link className={classes.link} to={`/songs/${section.song.id}`}>{section.song.title}</Link>
+  const subtitle1 = song ? song.artist : <>({millisToMinutesAndSeconds(section.start)}-{millisToMinutesAndSeconds(section.start + section.duration)}) ({millisToMinutesAndSeconds(section.duration)})</>
 
-  const image = song ? song.image : section.song.image 
-  const uploadedImage = song ? song.image : section.song.image 
-  const album = song ? song.album : section.song.album 
+  const subtitle2 = song ? <>{song.album}<span style={{ fontSize: '1rem' }}> ({song.year.split('-')[0]})</span></> : <Link className={classes.link} to={`/songs/${section.song.id}`}>{section.song.title}</Link>
 
-   // constantly check if the user's Spotify player is playing 
+  const image = song ? song.image : section.song.image
+  const uploadedImage = song ? song.image : section.song.image
+  const album = song ? song.album : section.song.album
+
+  // constantly check if the user's Spotify player is playing
   useEffect(() => {
     const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
     if (accessToken) {
@@ -150,13 +151,11 @@ const DetailTitle = ({ song, section }) => {
     }
   }, [accessToken, refreshToken, dispatch])
 
-
   const handlePlayClick = () => {
-    song ?
-    dispatch(playSong(accessToken, spotifyUri, refreshToken, deviceId)) :  
-    
+    song
+      ? dispatch(playSong(accessToken, spotifyUri, refreshToken, deviceId))
 
-    setShowBackdrop(true)
+      : setShowBackdrop(true)
     const timeout = workerTimers.setTimeout(() => {
       dispatch(playSection(accessToken, spotifyUri, refreshToken, section.start, section.duration, deviceId, section.id))
       setShowBackdrop(false)
@@ -182,7 +181,6 @@ const DetailTitle = ({ song, section }) => {
     ? <IconButton className={classes.bigPauseButtonContainer} onClick={handlePauseClick}><PauseCircleOutlineRoundedIcon className={classes.bigPlayButton} /></IconButton>
     : <IconButton className={classes.bigPlayButtonContainer} onClick={handlePlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton} /></IconButton>
 
-
   return (
     <Grid container justify={matches ? 'center' : 'flex-start'} alignItems="center">
       <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
@@ -190,14 +188,14 @@ const DetailTitle = ({ song, section }) => {
         <img
           alt={album}
           className={classes.media}
-          src={image ? image : uploadedImage}
+          src={image || uploadedImage}
         />
       </Grid>
       <Grid item xs={1} ></Grid>
       <Grid item xs={12} md={12} lg={7}>
-        <Typography variant={matches ? 'h6' : 'h5'} className={classes.title}>{title}</Typography> 
+        <Typography variant={matches ? 'h6' : 'h5'} className={classes.title}>{title}</Typography>
         <Typography variant={matches ? 'subtitle1' : 'h6'}>{subtitle1}</Typography>
-        <Typography variant={matches ? 'subtitle1' : 'h6'} style={{ display: 'inline' }}>{subtitle2}</ Typography> 
+        <Typography variant={matches ? 'subtitle1' : 'h6'} style={{ display: 'inline' }}>{subtitle2}</ Typography>
       </Grid>
       <BackDrop className={classes.backdrop} count={4} backdropShow={showBackdrop}/>
     </Grid>

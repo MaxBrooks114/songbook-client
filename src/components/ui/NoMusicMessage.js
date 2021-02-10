@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const NoMusicMessage = ({objectType}) => {
+const NoMusicMessage = ({ objectType }) => {
   const classes = useStyles()
   const location = useLocation()
   return !location.pathname.includes('new')

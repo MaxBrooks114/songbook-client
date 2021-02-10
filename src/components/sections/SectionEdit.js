@@ -6,10 +6,10 @@ import { useParams } from 'react-router-dom'
 
 import { createFile } from '../../actions/files'
 import { editSection } from '../../actions/sections'
+import { normalize, renderText } from '../../helpers/detailHelpers'
 import keys from '../dataToImport/keys'
 import modes from '../dataToImport/modes'
 import SectionForm from './SectionForm'
-import { normalize, renderText } from '../../helpers/detailHelpers'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,13 +28,11 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-
   title: {
     fontSize: '2.8rem',
     fontWeight: 600,
     color: theme.palette.info.main
   },
-
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -45,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1.25em'
     }
-  },
+  }
 }))
 
 const SectionEdit = () => {
@@ -56,8 +54,6 @@ const SectionEdit = () => {
   const instruments = useSelector((state) => state.instruments)
   const classes = useStyles()
 
-  
-  
   const songId = (title) => {
     const song = Object.values(songs).find((song) => song.title === title)
     return song.id
@@ -70,8 +66,6 @@ const SectionEdit = () => {
   const initialValues = section
     ? { ...section, start: section.start / 1000, duration: section.duration / 1000, key: renderText(keys, section.key), mode: renderText(modes, section.mode), song: renderTitle() }
     : null
-
-
 
   const onSubmit = (formValues) => {
     if (!formValues.tempo) {

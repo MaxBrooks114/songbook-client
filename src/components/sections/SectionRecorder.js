@@ -1,10 +1,10 @@
-import React from 'react'
-import DetailAccordion from '../sharedDetails/DetailAccordion'
-import RecordView from '../RecordView'
 import Grid from '@material-ui/core/Grid'
+import React from 'react'
 
-const SectionRecorder = ({section}) => {
+import RecordView from '../RecordView'
+import DetailAccordion from '../sharedDetails/DetailAccordion'
 
+const SectionRecorder = ({ section }) => {
   const renderRecorder = () => {
     return (
       <Grid item xs={12}>

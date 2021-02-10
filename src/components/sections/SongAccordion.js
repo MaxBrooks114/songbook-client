@@ -1,12 +1,13 @@
-import React, {useState} from 'react'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
-import Typography from '@material-ui/core/Typography'
-import { Link, useHistory  } from 'react-router-dom'
-import { makeStyles } from '@material-ui/styles'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ListItem from '@material-ui/core/ListItem'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { makeStyles } from '@material-ui/styles'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+
 import SectionCard from './SectionCard'
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-
   listItem: {
     display: 'block',
     '&:hover': {
@@ -56,8 +56,6 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-
-  
   media: {
     width: 85,
     height: 85,
@@ -88,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
- songLink: {
+  songLink: {
     color: theme.palette.info.main,
     '&:hover': {
       color: theme.palette.common.darkGreen
@@ -99,12 +97,10 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     fontWeight: '600',
     color: theme.palette.info.main
-  },
-
- 
+  }
 
 }))
-const SongAccordion = ({song, sections, transitionDuration}) => {
+const SongAccordion = ({ song, sections, transitionDuration }) => {
   const history = useHistory()
   const classes = useStyles()
   const [expanded, setExpanded] = useState(false)
@@ -116,13 +112,12 @@ const SongAccordion = ({song, sections, transitionDuration}) => {
               <ListItem className={classes.listItem} key={section.id} disableGutters dense onClick={() => {
                 history.push(`/sections/${section.id}`)
               }}>
-                <SectionCard section={section} transitionDuration={transitionDuration}  />
+                <SectionCard section={section} transitionDuration={transitionDuration} />
               </ListItem>
         )
       })
       : null
   }
-
 
   const renderSongTitle = () => {
     return expanded
@@ -132,8 +127,8 @@ const SongAccordion = ({song, sections, transitionDuration}) => {
 
   return (
      <Accordion className={classes.accordion} onChange={(event, expanded) => {
-                  setExpanded(expanded)
-        }}>
+       setExpanded(expanded)
+     }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <img
             alt={song.album}

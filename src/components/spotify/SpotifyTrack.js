@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative'
   },
 
-   button: {
+  button: {
     height: 32,
     width: 32,
     color: theme.palette.background.default,
@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4
 
   },
-
 
   cardContent: {
     color: theme.palette.info.main,
@@ -86,10 +85,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   spacer: {
-    width: 200, 
-    height: 48, 
-    float: 'left', 
-    display: 'inline-block' 
+    width: 200,
+    height: 48,
+    float: 'left',
+    display: 'inline-block'
   },
 
   spinnerContainer: {
@@ -119,8 +118,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'normal'
-  },
-
+  }
 
 }))
 

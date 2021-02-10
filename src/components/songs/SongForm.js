@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-   input: {
+  input: {
     textTransform: 'capitalize'
   },
 
@@ -92,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
   listbox: {
     background: theme.palette.background.default
   },
-
 
   lyrics: {
     '& .MuiOutlinedInput-root': {
@@ -136,9 +135,7 @@ const useStyles = makeStyles((theme) => ({
 
   value: {
     color: theme.palette.info.main
-  },
-
-
+  }
 
 }))
 

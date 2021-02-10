@@ -1,4 +1,3 @@
-import React from 'react'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -6,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
+import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
   accordionTitle: {
     fontWeight: '500'
-  },
+  }
 
 }))
 
-const DetailAccordion = ({title, renderFunction}) => {
+const DetailAccordion = ({ title, renderFunction }) => {
   const classes = useStyles()
   return (
       <Accordion className={classes.accordion}>

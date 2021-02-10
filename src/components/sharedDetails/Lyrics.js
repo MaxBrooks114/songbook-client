@@ -6,17 +6,16 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
+
 import DetailAccordion from './DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
- 
+
   lyrics: {
     textTransform: 'none'
   }
 
 }))
-
-
 
 const Lyrics = ({ lyrics }) => {
   const classes = useStyles()

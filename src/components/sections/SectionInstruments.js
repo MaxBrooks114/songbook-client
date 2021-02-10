@@ -1,14 +1,13 @@
-import React from 'react'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import Grid from '@material-ui/core/Grid'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
-
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -37,11 +36,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-
   accordionTitle: {
     fontWeight: '500'
   },
-
 
   link: {
     textDecoration: 'none',
@@ -49,11 +46,11 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: theme.palette.common.darkGreen
     }
-  },
+  }
 
 }))
 
-const SectionInstruments = ({section}) => {
+const SectionInstruments = ({ section }) => {
   const instruments = useSelector((state) =>
     Object.values(state.instruments).filter((instrument) => section.instruments.includes(instrument.id)))
   const classes = useStyles()

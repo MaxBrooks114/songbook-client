@@ -34,7 +34,7 @@ const DeleteDialog = ({ song, open, setOpen, section, message }) => {
   const classes = useStyles()
   const theme = useTheme()
 
-  const item = song ? song : section
+  const item = song || section
 
   const handleClose = () => {
     setOpen(false)

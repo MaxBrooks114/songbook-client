@@ -17,7 +17,6 @@ import DetailAccordion from '../sharedDetails/DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
 
-
   buttonContainer: {
     marginTop: theme.spacing(2),
     margin: theme.spacing(1)
@@ -73,7 +72,8 @@ const SongSections = ({ song }) => {
   const renderSections = () => {
     return sections
       ? sections.map((section, index) => {
-        return index % 3 === 0 ? (
+        return index % 3 === 0
+          ? (
             <>
               <Grid item xs={2}/>
               <Grid key={section.id} item xs={3}>
@@ -83,14 +83,15 @@ const SongSections = ({ song }) => {
                   </Typography>
               </Grid>
             </>
-        ) : (
+            )
+          : (
           <Grid key={section.id} item xs={3}>
             <Typography>
               <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
               {renderSpotifyOptionSection(section)}
             </Typography>
           </Grid>
-        )
+            )
       })
       : null
   }

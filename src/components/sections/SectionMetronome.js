@@ -1,14 +1,12 @@
-import React from 'react'
-import DetailAccordion from '../sharedDetails/DetailAccordion'
 import './metronome.css'
+
 import Metronome from '@kevinorriss/react-metronome'
 import Grid from '@material-ui/core/Grid'
+import React from 'react'
 
+import DetailAccordion from '../sharedDetails/DetailAccordion'
 
-
-
-const SectionMetronome = ({section}) => {
-
+const SectionMetronome = ({ section }) => {
   const renderMetronome = () => {
     return (
       <Grid item xs={12}>

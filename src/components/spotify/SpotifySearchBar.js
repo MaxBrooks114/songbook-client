@@ -50,8 +50,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  
-
   input: {
     color: 'white',
     background: theme.palette.info.light,
@@ -60,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-    label: {
+  label: {
     color: theme.palette.info.light,
     opacity: '.6',
     '&.shrink': {
@@ -70,8 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
   searchIcon: {
     color: theme.palette.primary.main
-  },
-
+  }
 
 }))
 

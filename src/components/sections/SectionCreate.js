@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { normalize, renderText } from '../../helpers/detailHelpers'
 
 import { createFile } from '../../actions/files'
 import { createSection } from '../../actions/sections'
+import { normalize, renderText } from '../../helpers/detailHelpers'
 import keys from '../dataToImport/keys'
 import modes from '../dataToImport/modes'
 import SectionForm from './SectionForm'
@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-
   title: {
     fontSize: '2.8rem',
     fontWeight: 600,
@@ -40,7 +39,6 @@ const SectionCreate = () => {
   const dispatch = useDispatch()
   const songs = useSelector((state) => state.songs)
   const instruments = useSelector((state) => state.instruments)
-  
 
   const songId = (title) => {
     const song = Object.values(songs).find((song) => song.title === title)
@@ -74,7 +72,7 @@ const SectionCreate = () => {
 
   return Object.values(songs).length
     ? (
-   
+
       <div className={classes.root}>
         <Typography className={classes.title} variant="h2" align="center" >
           Create a Section
@@ -84,7 +82,7 @@ const SectionCreate = () => {
         </Typography>
         <SectionForm songs={songs} instruments={instruments} onSubmit={onSubmit} />
       </div>
-  
+
       )
     : <Redirect to="/songs/new"/>
 }

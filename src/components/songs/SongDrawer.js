@@ -16,11 +16,10 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-   drawerIcon: {
+  drawerIcon: {
     height: 50,
     width: 50
   },
-
 
   drawerIconContainer: {
     backgroundColor: theme.palette.common.gray,
