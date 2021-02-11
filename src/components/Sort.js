@@ -141,8 +141,8 @@ const Sort = ({ objectType }) => {
                       options={ itemProps && itemProps.length ? itemProps.map(prop => prop) : null }
                       onChange={(e, v) => {
                         // redux forms do not allow for submitting forms onChange in a neat way so this is my dirty work around
-                        if (filterForm && filterForm.values) dispatch(setFilter({ sort: v, filter: true }))
-                        if (filterForm && filterForm.values.sort !== filterValues.sort) dispatch(setFilter({ sort: v, filter: true }))
+                        if (filterForm && filterForm.values) dispatch(setFilter({ sort: v,order: filterForm.values.order, filter: true }))
+                        if (filterForm && filterForm.values.sort !== filterValues.sort) dispatch(setFilter({ sort: v, order: filterForm.values.order, filter: true }))
                       }
                       }
 
@@ -162,8 +162,8 @@ const Sort = ({ objectType }) => {
                     component={renderTextField}
                     onChange={(e, v) => {
                       // redux forms do not allow for submitting forms onChange in a neat way so this is my dirty work around
-                      dispatch(setFilter({ order: v, filter: true }))
-                      if (filterForm.values.order !== filterValues.order) dispatch(setFilter({ order: v, filter: true }))
+                      dispatch(setFilter({ order: v, sort: filterForm.values.sort, filter: true }))
+                      if (filterForm.values.order !== filterValues.order) dispatch(setFilter({ order: v, sort: filterForm.values.sort, filter: true }))
                     }
                       }
                     InputLabelProps={{
