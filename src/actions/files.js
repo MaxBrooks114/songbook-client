@@ -1,7 +1,6 @@
 import songbook from '../apis/songbook'
 import { returnErrors } from './messages'
-import { CREATE_FILE, DELETE_FILE, EDIT_FILE, FETCH_FILE, FETCH_FILES } from './types'
-import { loading, notLoading } from './ui'
+import { CREATE_FILE, DELETE_FILE, FETCH_FILES } from './types'
 
 export const createFile = ({ file, extension, section, song }) => async (dispatch) => {
   const formData = new FormData()
@@ -30,7 +29,6 @@ export const fetchFiles = () => async (dispatch) => {
   } catch (error) {
     dispatch(returnErrors(error.response))
   }
-  dispatch(notLoading())
 }
 
 export const deleteFile = (id) => async (dispatch) => {

@@ -139,7 +139,6 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
   const onFormSubmit = (formValues) => {
     onSubmit(formValues)
   }
-  console.log(initialValues)
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
       <Grid container alignItems="flex-end" align="center" justify="center" >

@@ -44,13 +44,13 @@ const Features = ({ song, section }) => {
   const renderFeatures = () => {
     return features.map((feature, index) => {
       return index % 2 === 0
-        ? (<>
-        <Grid item xs={2}/>
+        ? (<React.Fragment key={index}>
+        <Grid item xs={2} />
           <Grid item xs={5}>
-            <Typography variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
-          </Grid> </>)
-        : <Grid item xs={5}>
-            <Typography variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+            <Typography  variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+          </Grid> </React.Fragment>)
+        : <Grid item xs={5} key={index}>
+            <Typography  variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid>
     })
   }

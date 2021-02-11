@@ -1,4 +1,3 @@
-import history from '../history'
 import { CLEAR_FILTER, CLEAR_NON_ARRAY_FIELDS, SET_FILTER } from './types'
 
 export const setFilter = (formValues) => {

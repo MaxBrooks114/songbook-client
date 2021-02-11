@@ -33,12 +33,12 @@ const AudioProperties = ({ song }) => {
     return audioFeatures.map((feature, index) => {
       return index % 2 === 0
         ? (
-        <>
+        <React.Fragment key={feature}>
           {matches ? null : <Grid item xs={2}/>}
-          <Grid item xs={10} md={5} key={feature}>
+          <Grid item xs={10} md={5} >
             <Typography variant={matches ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
            </Grid>
-        </>
+        </React.Fragment>
           )
         : (
         <Grid item xs={10} md={5} key={feature}>

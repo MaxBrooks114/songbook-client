@@ -15,18 +15,14 @@ import Login from './auth/Login'
 import Logout from './auth/Logout'
 import PasswordReset from './auth/PasswordReset'
 import Register from './auth/Register'
-import UserEdit from './auth/UserEdit'
 import UserShow from './auth/UserShow'
 import InstrumentContainer from './instruments/InstrumentContainer'
-import InstrumentCreate from './instruments/InstrumentCreate'
-import InstrumentEdit from './instruments/InstrumentEdit'
+
 import PrivateRoute from './PrivateRoute'
 import SectionContainer from './sections/SectionContainer'
-import SectionCreate from './sections/SectionCreate'
-import SectionEdit from './sections/SectionEdit'
+
 import SongContainer from './songs/SongContainer'
-import SongCreate from './songs/SongCreate'
-import SongEdit from './songs/SongEdit'
+
 import SpotifySearch from './spotify/SpotifySearch'
 import ErrorPage from './ui/ErrorPage'
 import Footer from './ui/Footer'
@@ -64,17 +60,17 @@ const App = () => {
         <div id="body">
           <MuiThemeProvider>
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/register" exact component={Register} />
-                <Route path="/login" exact component={Login} />
-                <PrivateRoute path='/passwordReset' exact component={PasswordReset} />
-                <PrivateRoute path="/users/:id" component={UserShow} />
-                <PrivateRoute exact path="/logout" component={Logout} />
-                <PrivateRoute exact path="/search" component={SpotifySearch} />
-                <PrivateRoute path="/songs" component={SongContainer} />
-                <PrivateRoute path="/sections" component={SectionContainer} />
-                <PrivateRoute path="/instruments" component={InstrumentContainer} />
-                <Route path='*' component={ErrorPage} />
+                <Route exact path="/" comp={Home} />
+                <Route path="/register" exact comp={Register} />
+                <Route path="/login" exact comp={Login} />
+                <PrivateRoute path='/passwordReset' exact comp={PasswordReset} />
+                <PrivateRoute path="/users/:id" comp={UserShow} />
+                <PrivateRoute exact path="/logout" comp={Logout} />
+                <PrivateRoute exact path="/search" comp={SpotifySearch} />
+                <PrivateRoute path="/songs" comp={SongContainer} />
+                <PrivateRoute path="/sections" comp={SectionContainer} />
+                <PrivateRoute path="/instruments" comp={InstrumentContainer} />
+                <Route path='*' comp={ErrorPage} />
               </Switch>
             </MuiThemeProvider>
           </div>

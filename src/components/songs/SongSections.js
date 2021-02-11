@@ -1,11 +1,8 @@
-import Accordion from '@material-ui/core/Accordion'
-import AccordionDetails from '@material-ui/core/AccordionDetails'
-import AccordionSummary from '@material-ui/core/AccordionSummary'
+
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'

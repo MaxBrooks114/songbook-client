@@ -43,8 +43,8 @@ const RecordView = () => {
     <div className="recorder">
       <p>{status}</p>
       {status !== 'recording'
-        ? <IconButton><FiberManualRecordRoundedIcon className={classes.recordButton} onClick={startRecording}/></IconButton>
-        : <IconButton><FiberManualRecordRoundedIcon className={clsx(classes.recordButton, { [classes.flicker]: status === 'recording' })} onClick={stopRecording} /></IconButton>}
+        ? <IconButton  onClick={startRecording}><FiberManualRecordRoundedIcon className={classes.recordButton}/></IconButton>
+        : <IconButton onClick={stopRecording}><FiberManualRecordRoundedIcon className={clsx(classes.recordButton, { [classes.flicker]: status === 'recording' })}  /></IconButton>}
       <audio src={mediaBlobUrl} controls autoPlay loop />
     </div>
   )

@@ -242,7 +242,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
     return () => {
       dispatch(clearNonArrayFields())
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (songs.length === 0) setOpenDrawer(false)

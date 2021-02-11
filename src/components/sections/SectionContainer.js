@@ -251,15 +251,9 @@ const SectionContainer = () => {
       {detailShow
         ? <Grid item xs={12} md={6} lg={6} ref={elementDOM} className={classes.detail}>
           <Switch>
-            <PrivateRoute exact path="/sections/new">
-                <SectionCreate />
-            </PrivateRoute>
-            <PrivateRoute exact path="/sections/:id">
-                <SectionDetail />
-            </PrivateRoute>
-            <PrivateRoute exact path="/sections/edit/:id">
-                <SectionEdit />
-            </PrivateRoute>
+            <PrivateRoute exact path="/sections/new" comp={SectionCreate} />
+            <PrivateRoute exact path="/sections/:id"  comp={SectionDetail} />
+            <PrivateRoute exact path="/sections/edit/:id" comp={SectionEdit}/>
           </Switch>
         </Grid>
         : null }

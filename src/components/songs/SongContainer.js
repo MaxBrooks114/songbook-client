@@ -7,11 +7,9 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Switch, useHistory, useLocation } from 'react-router-dom'
-import * as workerTimers from 'worker-timers'
 
-import { checkIfPlaying } from '../../actions/spotify'
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import useHeight from '../../hooks/useHeight'
 import FilterControl from '../FilterControl'
@@ -242,15 +240,9 @@ const SongContainer = () => {
       {detailShow
         ? <Grid item xs={12} md={6} ref={elementDOM} className={classes.detail}>
           <Switch>
-            <PrivateRoute exact path="/songs/new">
-                <SongCreate />
-            </PrivateRoute>
-            <PrivateRoute exact path="/songs/:id">
-                <SongDetail />
-            </PrivateRoute>
-            <PrivateRoute exact path="/songs/edit/:id">
-                <SongEdit />
-            </PrivateRoute>
+            <PrivateRoute exact path="/songs/new" comp={SongCreate} />
+            <PrivateRoute exact path="/songs/:id"  comp={SongDetail} />
+            <PrivateRoute exact path="/songs/edit/:id" comp={SongEdit}/>
           </Switch>
         </Grid>
         : null }

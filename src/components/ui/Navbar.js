@@ -339,7 +339,7 @@ const Navbar = () => {
                   ? menuOptions.filter(option => option.activeIndex === anchorEl.tabIndex).map((option, i) => (
                   <MenuItem
                     key={option.name}
-                    classes={{ paper: classes.menuItem }}
+                    classes={{ root: classes.menuItem }}
                     style={{ justifyContent: 'center' }}
                     onClick={(e, i) => { handleMenuItemClick(e, i); setValue(option.activeIndex); handleClose() }}
                     selected={i === selectedIndex && value === option.activeIndex}

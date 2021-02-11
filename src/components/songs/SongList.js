@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { getFilteredItems } from '../../selectors/filterSelectors'
@@ -57,7 +57,6 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
   const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'))
   const songs = useSelector((state) => state.songs)
   const history = useHistory()
-  const dispatch = useDispatch()
   const classes = useStyles()
 
   const renderedList = () => {

@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, height }) => {
   const filteredSections = useSelector((state) => getFilteredItems(state, 'sections'))
-  const sections = useSelector((state) => state.sections)
   const songs = useSelector((state) => state.songs)
   const filter = useSelector((state) => state.filter)
   const order = filter.order === 'ascending' ? [1, -1] : [-1, 1]
@@ -56,7 +55,7 @@ const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, he
       ? orderedSongs.map((song) => {
         const sections = filteredSections.filter(section => song.id === section.song.id)
         return sections.length
-          ? <SongAccordion song={song} transitionDuration={transitionDuration} sections={sections} />
+          ? <SongAccordion key ={song.id} song={song} transitionDuration={transitionDuration} sections={sections} />
           : null
       })
       : null
@@ -70,12 +69,13 @@ const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, he
         <div className={classes.sortBar}>
           <Sort objectType='sections'/>
           {listColumnSize === 3
-            ? <IconButton>
-            <NavigateNextIcon onClick={() => {
-              setListColumnSize(8)
-              history.push('/sections')
-            }}/>
-          </IconButton>
+            ? <IconButton 
+                onClick={() => {
+                setListColumnSize(8)
+                history.push('/sections')
+                }}>
+                <NavigateNextIcon />
+              </IconButton>
             : null}
         </div>
         <List className={classes.list} style={{ height: height }}>
