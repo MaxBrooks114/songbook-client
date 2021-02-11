@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { playSection } from '../../actions/spotify'
+import { titleCase } from '../../helpers/detailHelpers'
 import DetailAccordion from '../sharedDetails/DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
@@ -40,10 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const SongSections = ({ song }) => {
+const SongSections = ({ song, instrument }) => {
   const sections = useSelector((state) =>
-    Object.values(state.sections).filter((section) => song.sections.includes(section.id))
-  )
+    Object.values(state.sections).filter((section) => instrument ? song.sections.includes(section.id) && instrument.sections.includes(section.id) : song.sections.includes(section.id)))
   const player = useSelector(state => state.spotifyPlayer)
   const loading = useSelector((state) => state.loading)
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id)
@@ -71,15 +71,15 @@ const SongSections = ({ song }) => {
       ? sections.map((section, index) => {
         return index % 3 === 0
           ? (
-            <>
+            <React.Fragment key={section.id}>
               <Grid item xs={2}/>
-              <Grid key={section.id} item xs={3}>
+              <Grid item xs={3}>
                 <Typography>
                   <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     {renderSpotifyOptionSection(section)}
                   </Typography>
               </Grid>
-            </>
+            </React.Fragment>
             )
           : (
           <Grid key={section.id} item xs={3}>
@@ -93,7 +93,7 @@ const SongSections = ({ song }) => {
       : null
   }
   return (
-   <DetailAccordion title="Sections" renderFunction={renderSections}/>
+   <DetailAccordion title={!instrument ? 'Sections' : <Link className={classes.link} to={`/songs/${song.id}`}>{titleCase(song.title)}</Link>} renderFunction={renderSections}/>
   )
 }
 

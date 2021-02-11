@@ -69,6 +69,7 @@ const SongDetail = () => {
           </IconButton>
           <VertMenu
               song={song}
+              objectType="songs"
               popped={popped}
               anchorEl={anchorEl}
               setAnchorEl={setAnchorEl}
@@ -81,7 +82,7 @@ const SongDetail = () => {
             <NavRow song={song}/>
           </Grid>
           <Grid item xs={12}>
-            <Features song={song} />
+            <Features objectType="section" song={song} />
             <SongSections song={song}/>
             {song.spotify_url
               ? <AudioProperties song={song} />

@@ -69,10 +69,10 @@ const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, he
         <div className={classes.sortBar}>
           <Sort objectType='sections'/>
           {listColumnSize === 3
-            ? <IconButton 
+            ? <IconButton
                 onClick={() => {
-                setListColumnSize(8)
-                history.push('/sections')
+                  setListColumnSize(8)
+                  history.push('/sections')
                 }}>
                 <NavigateNextIcon />
               </IconButton>

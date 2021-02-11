@@ -1,0 +1,29 @@
+import Grid from '@material-ui/core/Grid'
+import React from 'react'
+import { useSelector } from 'react-redux'
+
+import DetailAccordion from '../sharedDetails/DetailAccordion'
+import SongSections from '../songs/SongSections'
+
+const InstrumentSections = ({ instrument }) => {
+  const sections = useSelector(state => Object.values(state.sections).filter(section => section.instruments.includes(instrument.id)))
+  const songs = sections.map(section => section.song)
+
+  const renderSongs = () => {
+    return songs
+      ? songs.map((song) => {
+        return (
+          <Grid item key={song.id} xs={12}>
+            <SongSections song={song} instrument={instrument} />
+          </Grid>
+        )
+      })
+      : null
+  }
+
+  return (
+    <DetailAccordion title="Sections" renderFunction={renderSongs} />
+  )
+}
+
+export default InstrumentSections

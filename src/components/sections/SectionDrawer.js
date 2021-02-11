@@ -43,7 +43,7 @@ const SectionDrawer = ({ sections, filteredSections, songs }) => {
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
 
   const drawerButton = () => {
-    return openDrawer ? <KeyboardArrowDownRoundedIcon  className={classes.drawerIcon}/> : <KeyboardArrowUpRoundedIcon  className={classes.drawerIcon}/>
+    return openDrawer ? <KeyboardArrowDownRoundedIcon className={classes.drawerIcon}/> : <KeyboardArrowUpRoundedIcon className={classes.drawerIcon}/>
   }
   return (
     <div>

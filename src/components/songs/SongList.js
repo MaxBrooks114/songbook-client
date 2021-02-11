@@ -64,9 +64,14 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
       ? filteredSongs.map((song) => {
         transitionDuration += 50
         return (
-              <ListItem onClick={() => {
-                history.push(`/songs/${song.id}`)
-              }} className={classes.listItem} key={song.id} disableGutters dense>
+              <ListItem
+                onClick={() => {
+                  history.push(`/songs/${song.id}`)
+                }}
+                className={classes.listItem}
+                key={song.id}
+                disableGutters
+                dense>
                 <SongCard song={song} transitionDuration={transitionDuration} />
               </ListItem>
         )

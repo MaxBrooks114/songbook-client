@@ -9,10 +9,23 @@ import InstrumentList from './InstrumentList'
 
 const useStyles = makeStyles((theme) => ({
 
+  drawer: {
+    background: theme.palette.background.default,
+    height: '85%',
+    margin: 'auto',
+    marginTop: theme.spacing(8)
+
+  },
+
+  drawerIcon: {
+    height: 50,
+    width: 50
+  },
+
   drawerIconContainer: {
     backgroundColor: theme.palette.common.gray,
-    height: '24px',
-    width: '24px',
+    height: 24,
+    width: 24,
     marginLeft: 0,
     position: 'fixed',
     bottom: '25%',
@@ -22,33 +35,21 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.palette.primary.main
     }
-  },
-
-  drawerIcon: {
-    height: '50px',
-    width: '50px'
-  },
-
-  drawer: {
-    background: theme.palette.background.default,
-    height: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(8)
-
   }
+
 }))
 
-const InstrumentDrawer = ({ instruments }) => {
+const InstrumentDrawer = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
   const classes = useStyles()
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
 
   const drawerButton = () => {
-    return openDrawer ? <KeyboardArrowDownRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon}/> : <KeyboardArrowUpRoundedIcon onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIcon}/>
+    return openDrawer ? <KeyboardArrowDownRoundedIcon className={classes.drawerIcon}/> : <KeyboardArrowUpRoundedIcon className={classes.drawerIcon}/>
   }
   return (
     <div>
-      <IconButton className={classes.drawerIconContainer}>
+      <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
         {drawerButton()}
       </IconButton>
 
@@ -62,7 +63,7 @@ const InstrumentDrawer = ({ instruments }) => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
-        <InstrumentList instruments={instruments} />
+        <InstrumentList />
       </SwipeableDrawer>
 
     </div>

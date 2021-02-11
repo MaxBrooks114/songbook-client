@@ -26,11 +26,15 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     marginTop: 'auto',
     marginLeft: '.6rem'
+  },
+
+  title: {
+    fontWeight: 600
   }
 
 }))
 
-const InstrumentCard = ({ instrument, transitionDuration, handleClick }) => {
+const InstrumentCard = ({ instrument, transitionDuration }) => {
   const classes = useStyles()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'))
@@ -41,9 +45,11 @@ const InstrumentCard = ({ instrument, transitionDuration, handleClick }) => {
   }
   return (
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
-      <Card className={classes.root} onClick={() => handleClick(instrument.id)}>
+      <Card className={classes.root}>
         <CardContent className={classes.cardContent}>
-          <Typography component="p" style={{ fontWeight: '600', verticalAlign: 'middle' }} variant={matches ? 'caption' : 'subtitle2'}>{displayName()} </Typography>
+          <Typography component="p" className={classes.title} variant={matches ? 'h5' : 'h6'}>
+            {displayName()}
+          </Typography>
         </CardContent>
       </Card>
     </Slide>

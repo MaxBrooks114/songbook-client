@@ -180,7 +180,7 @@ const SongContainer = () => {
   const renderList = () => {
     return !smallScreen
       ? (
-      <>
+
         <Grid
           item xs={3} md={listColumnSize}
           className={clsx(classes.list, {
@@ -198,7 +198,7 @@ const SongContainer = () => {
             height={height}
           />
         </Grid>
-      </>)
+        )
       : (
       <SongDrawer renderFilter={renderFilter} transitionDuration={transitionDuration} />)
   }
@@ -241,7 +241,7 @@ const SongContainer = () => {
         ? <Grid item xs={12} md={6} ref={elementDOM} className={classes.detail}>
           <Switch>
             <PrivateRoute exact path="/songs/new" comp={SongCreate} />
-            <PrivateRoute exact path="/songs/:id"  comp={SongDetail} />
+            <PrivateRoute exact path="/songs/:id" comp={SongDetail} />
             <PrivateRoute exact path="/songs/edit/:id" comp={SongEdit}/>
           </Switch>
         </Grid>

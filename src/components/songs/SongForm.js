@@ -152,12 +152,12 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
         <Grid container align="center" alignItems="flex-end" justify="center" >
               <Grid item xs={12} md={6}>
-                <Field 
-                  classes={classes} 
-                  required 
-                  name="title" 
-                  component={renderTextField} 
-                  label="Title" 
+                <Field
+                  classes={classes}
+                  required
+                  name="title"
+                  component={renderTextField}
+                  label="Title"
                   InputLabelProps={{
                     classes: {
                       root: classes.label,
@@ -166,12 +166,12 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                   }}/>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Field 
-                  classes={classes} 
-                  required 
-                  name="artist" 
-                  component={renderTextField} 
-                  label="Artist" 
+                <Field
+                  classes={classes}
+                  required
+                  name="artist"
+                  component={renderTextField}
+                  label="Artist"
                   InputLabelProps={{
                     classes: {
                       root: classes.label,
@@ -180,11 +180,11 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                   }}/>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Field 
-                  classes={classes} 
-                  name="album" 
-                  component={renderTextField} 
-                  label="Album" 
+                <Field
+                  classes={classes}
+                  name="album"
+                  component={renderTextField}
+                  label="Album"
                   InputLabelProps={{
                     classes: {
                       root: classes.label,
@@ -209,29 +209,29 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Field 
-                  options={keys} 
-                  classes={classes} 
-                  name="key" 
-                  inputValue={initialValues ? initialValues.key : undefined} 
-                  component={renderAutoCompleteField} 
-                  label="Key" 
+                <Field
+                  options={keys}
+                  classes={classes}
+                  name="key"
+                  inputValue={initialValues ? initialValues.key : undefined}
+                  component={renderAutoCompleteField}
+                  label="Key"
                   InputLabelProps={{
                     classes: {
                       root: classes.label,
                       shrink: 'shrink'
                     }
-                  }} 
+                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Field 
-                  options={modes} 
-                  classes={classes} 
-                  name="mode" 
-                  inputValue={initialValues ? initialValues.mode : undefined} 
-                  component={renderAutoCompleteField} 
-                  label="Mode" 
+                <Field
+                  options={modes}
+                  classes={classes}
+                  name="mode"
+                  inputValue={initialValues ? initialValues.mode : undefined}
+                  component={renderAutoCompleteField}
+                  label="Mode"
                   InputLabelProps={{
                     classes: {
                       root: classes.label,

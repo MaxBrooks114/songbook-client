@@ -20,7 +20,6 @@ import SectionInstruments from './SectionInstruments'
 import SectionMetronome from './SectionMetronome'
 import SectionRecorder from './SectionRecorder'
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
@@ -71,6 +70,7 @@ const SectionDetail = () => {
                 </IconButton>
                 <VertMenu
                   section={section}
+                  objectType="sections"
                   popped={popped}
                   anchorEl={anchorEl}
                   setAnchorEl={setAnchorEl}
@@ -83,7 +83,7 @@ const SectionDetail = () => {
                     <NavRow section={section}/>
                 </Grid>
                 <Grid item xs={12}>
-                  <Features section={section}/>
+                  <Features objectType="section" section={section}/>
                   <Lyrics lyrics={section.lyrics}/>
                   <SectionInstruments section={section} />
                   <SectionMetronome section={section} />

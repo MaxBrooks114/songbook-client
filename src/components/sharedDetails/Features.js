@@ -17,14 +17,18 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const Features = ({ song, section }) => {
+const Features = ({ song, section, instrument, objectType }) => {
   const classes = useStyles()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'))
 
-  const item = song || section
+  const item = song || section || instrument
 
-  const features = song ? ['genre', 'key', 'tempo', 'time_signature', 'explicit', 'original'] : ['key', 'tempo', 'time_signature', 'learned']
+  const features = {
+    song: ['genre', 'key', 'tempo', 'time_signature', 'explicit', 'original'],
+    section: ['key', 'tempo', 'time_signature', 'learned'],
+    instrument: ['name', 'year', 'make', 'model', 'family', 'tonal_range']
+  }
 
   const renderInfo = (item, feature) => {
     switch (true) {
@@ -42,15 +46,15 @@ const Features = ({ song, section }) => {
   }
 
   const renderFeatures = () => {
-    return features.map((feature, index) => {
+    return features[objectType].map((feature, index) => {
       return index % 2 === 0
         ? (<React.Fragment key={index}>
         <Grid item xs={2} />
           <Grid item xs={5}>
-            <Typography  variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+            <Typography variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid> </React.Fragment>)
         : <Grid item xs={5} key={index}>
-            <Typography  variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+            <Typography variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid>
     })
   }

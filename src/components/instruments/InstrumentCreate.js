@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
 
     color: theme.palette.info.main,
-    width: '50%',
     margin: 'auto',
     padding: '2rem',
     boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
@@ -21,17 +20,6 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       width: '100%'
-    }
-  },
-
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    // marginBottom: '3em',
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '2em'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em'
     }
   },
 
@@ -46,23 +34,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       fontSize: '2rem'
     }
-  },
-
-  container: {
-    minHeight: '110vh',
-    [theme.breakpoints.down('md')]: {
-      minHeight: '100vh'
-    },
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '180vh'
-    }
-
   }
 
 }))
 
 const InstrumentCreate = () => {
   const dispatch = useDispatch()
+  const classes = useStyles()
 
   const onSubmit = (formValues) => {
     dispatch(
@@ -73,11 +51,7 @@ const InstrumentCreate = () => {
     )
   }
 
-  const classes = useStyles()
-
   return (
-    <div className={classes.container}>
-      <div className={classes.toolbarMargin}></div>
       <div className={classes.root}>
         <Typography className={classes.title} component="h1" variant="h2" align="center" >
           Add an Instrument
@@ -87,7 +61,6 @@ const InstrumentCreate = () => {
           </Typography>
         <InstrumentForm onSubmit={onSubmit} />
       </div>
-    </div>
   )
 }
 

@@ -17,12 +17,9 @@ import PasswordReset from './auth/PasswordReset'
 import Register from './auth/Register'
 import UserShow from './auth/UserShow'
 import InstrumentContainer from './instruments/InstrumentContainer'
-
 import PrivateRoute from './PrivateRoute'
 import SectionContainer from './sections/SectionContainer'
-
 import SongContainer from './songs/SongContainer'
-
 import SpotifySearch from './spotify/SpotifySearch'
 import ErrorPage from './ui/ErrorPage'
 import Footer from './ui/Footer'

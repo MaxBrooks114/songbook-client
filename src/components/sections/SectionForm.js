@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-   uploadButton: {
+  uploadButton: {
     background: theme.palette.secondary.dark,
     '&:hover': {
       background: theme.palette.info.main,
@@ -125,8 +125,6 @@ const useStyles = makeStyles((theme) => ({
     background: '#f0f0f0'
   },
 
-
-
   value: {
     color: theme.palette.info.main
   }
@@ -144,12 +142,12 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
       <Grid container alignItems="flex-end" align="center" justify="center" >
 
           <Grid item xs={12} md={6}>
-            <Field 
-              classes={classes} 
-              required 
-              name="name" 
-              component={renderTextField} 
-              label="Name" 
+            <Field
+              classes={classes}
+              required
+              name="name"
+              component={renderTextField}
+              label="Name"
               InputLabelProps={{
                 classes: {
                   root: classes.label,
@@ -158,7 +156,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
               }}/>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field         
+            <Field
               options={_.uniq(Object.values(songs).map(song => song.title))}
               classes={classes}
               name="song"
@@ -210,13 +208,13 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field 
-              options={keys} 
-              classes={classes} 
-              name="key" 
-              inputValue={initialValues && initialValues.key ? initialValues.key : undefined} 
-              component={renderAutoCompleteField} 
-              label="Key" 
+            <Field
+              options={keys}
+              classes={classes}
+              name="key"
+              inputValue={initialValues && initialValues.key ? initialValues.key : undefined}
+              component={renderAutoCompleteField}
+              label="Key"
               InputLabelProps={{
                 classes: {
                   root: classes.label,
@@ -225,27 +223,27 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
               }} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field 
-              options={modes} 
-              classes={classes} 
-              name="mode" 
-              component={renderAutoCompleteField} 
-              inputValue={initialValues && initialValues.mode ? initialValues.mode : undefined} 
-              label="Mode" 
+            <Field
+              options={modes}
+              classes={classes}
+              name="mode"
+              component={renderAutoCompleteField}
+              inputValue={initialValues && initialValues.mode ? initialValues.mode : undefined}
+              label="Mode"
               InputLabelProps={{
-              classes: {
-                root: classes.label,
-                shrink: 'shrink'
-              }
-            }}/>
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }}/>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field 
-              classes={classes} 
-              name="tempo" 
-              inputAdornment="BPM" 
-              component={renderTextField} 
-              label="Tempo" 
+            <Field
+              classes={classes}
+              name="tempo"
+              inputAdornment="BPM"
+              component={renderTextField}
+              label="Tempo"
               InputLabelProps={{
                 classes: {
                   root: classes.label,

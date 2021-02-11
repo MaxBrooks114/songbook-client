@@ -9,10 +9,11 @@ import { instrumentFamilies, instrumentList, instrumentTonalities } from './inst
 
 const useStyles = makeStyles((theme) => ({
   root: {
-
+    margin: 'auto',
     '& .MuiOutlinedInput-root': {
       background: theme.palette.background.default,
       width: 300,
+
       [theme.breakpoints.down('md')]: {
         width: 240
       },
@@ -42,10 +43,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  value: {
-    color: theme.palette.info.main
-  },
-
   autoComplete: {
     color: theme.palette.info.main
   },
@@ -72,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
   listbox: {
     background: theme.palette.background.default
   },
+
   option: {
     color: theme.palette.info.main,
     textTransform: 'capitalize',
@@ -80,10 +78,15 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.primary.main,
       color: theme.palette.background.default
     }
+  },
+
+  value: {
+    color: theme.palette.info.main
   }
+
 }))
 
-const InstrumentForm = ({ onSubmit, handleSubmit }) => {
+const InstrumentForm = ({ onSubmit, handleSubmit, initialValues }) => {
   const classes = useStyles()
 
   const onFormSubmit = (formValues) => {
@@ -92,66 +95,83 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
   return (
 
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-      <Grid container alignItems="flex-end" align="center" justify="flex-end" >
-         <Grid item style={{ marginBottom: '4px' }} xs={12} md={6}>
+      <Grid container alignItems="center" spacing={2} align="center" justify="flex-end" >
+         <Grid item xs={12} md={6}>
             <Field
               classes={classes}
               required
               options={instrumentList.sort()}
               name="name"
+              inputValue={initialValues && initialValues.name ? initialValues.name : undefined}
               component={renderAutoCompleteDataField}
               label="Name"
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <Field classes={classes} name="year" component={renderTextField} label="Year" InputLabelProps={{
-              classes: {
-                root: classes.label,
-                shrink: 'shrink'
-              }
-            }}/>
-          </Grid>
-         <Grid item style={{ marginBottom: '4px' }} xs={12} md={6}>
-            <Field classes={classes} name="make" component={renderTextField} label="Make" InputLabelProps={{
-              classes: {
-                root: classes.label,
-                shrink: 'shrink'
-              }
-            }} />
-          </Grid>
-
-          <Grid item style={{ marginBottom: '4px' }} xs={12} md={6}>
-           <Field classes={classes} name="model" component={renderTextField} label="Model" InputLabelProps={{
-             classes: {
-               root: classes.label,
-               shrink: 'shrink'
-             }
-           }}/>
-          </Grid>
-          <Grid item style={{ marginBottom: '4px' }} xs={12} md={6}>
             <Field
+              classes={classes}
+              name="year"
+              component={renderTextField}
+              label="Year"
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }}/>
+          </Grid>
+         <Grid item xs={12} md={6}>
+            <Field
+              classes={classes}
+              name="make"
+              component={renderTextField}
+              label="Make"
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }} />
+          </Grid>
 
+          <Grid item xs={12} md={6}>
+           <Field
+              classes={classes}
+              name="model"
+              component={renderTextField}
+              label="Model"
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }}/>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Field
               options={instrumentFamilies.sort()}
               classes={classes}
               name="family"
               component={renderAutoCompleteDataField}
+              inputValue={initialValues && initialValues.family ? initialValues.family : undefined}
               label="Family"
-               InputLabelProps={{
-                 classes: {
-                   root: classes.label,
-                   shrink: 'shrink'
-                 }
-               }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.label,
+                  shrink: 'shrink'
+                }
+              }}
             />
           </Grid>
 
-          <Grid item style={{ marginBottom: '4px' }} xs={12} md={6}>
+          <Grid item xs={12} md={6}>
             <Field
               options={instrumentTonalities.sort()}
               classes={classes}
               name="tonal_range"
               component={renderAutoCompleteDataField}
+              inputValue={initialValues && initialValues.tonal_range ? initialValues.tonal_range : undefined}
               label="Tonality"
                InputLabelProps={{
                  classes: {
@@ -162,7 +182,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit }) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={3} style={{ marginTop: '12px' }} >
+          <Grid item xs={12} md={3} >
             <Button type="submit" className={classes.button} variant="contained">
               Submit
             </Button>

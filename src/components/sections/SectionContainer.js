@@ -51,14 +51,49 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
+  detail: {
+    height: '100%',
+    minHeight: '120vh',
+    marginTop: 91,
+    transition: theme.transitions.create('all', {
+      easing: theme.transitions.easing.easeOut,
+      duration: 500
+    })
+  },
+
+  drawer: {
+    width: drawerWidth,
+    height: '100%',
+    flexShrink: 0,
+    marginTop: theme.spacing(9),
+    overflowY: 'scroll',
+    background: theme.palette.common.gray,
     [theme.breakpoints.down('md')]: {
-      marginBottom: '.7rem'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1rem'
+      zIndex: theme.zIndex.modal + 1
     }
+  },
+
+  drawerIcon: {
+    height: 54,
+    width: 54
+  },
+
+  drawerIconContainer: {
+    height: '72px',
+    width: '72px',
+    marginLeft: 0,
+    position: 'fixed',
+    top: '12%',
+    zIndex: 3,
+    left: '1%',
+    '&:hover': {
+      background: theme.palette.background.default
+    },
+    [theme.breakpoints.down('sm')]: {
+      top: '5%',
+      position: 'sticky'
+    }
+
   },
 
   list: {
@@ -103,65 +138,6 @@ const useStyles = makeStyles((theme) => ({
     }),
 
     marginLeft: 244
-  },
-
-  detail: {
-    height: '100%',
-    minHeight: '120vh',
-    marginTop: 91,
-    transition: theme.transitions.create('all', {
-      easing: theme.transitions.easing.easeOut,
-      duration: 500
-    })
-  },
-
-  drawerIconContainer: {
-    height: '72px',
-    width: '72px',
-    marginLeft: 0,
-    position: 'fixed',
-    top: '12%',
-    zIndex: 3,
-    left: '1%',
-    '&:hover': {
-      background: theme.palette.background.default
-    },
-    [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
-    }
-
-  },
-
-  drawerIcon: {
-    height: '54px',
-    width: '54px'
-  },
-
-  drawer: {
-    width: drawerWidth,
-    height: '100%',
-    flexShrink: 0,
-    marginTop: theme.spacing(9),
-    overflowY: 'scroll',
-    background: theme.palette.common.gray,
-    [theme.breakpoints.down('md')]: {
-      zIndex: theme.zIndex.modal + 1
-    }
-  },
-
-  message: {
-    display: 'block',
-    margin: '0 auto',
-
-    overflowWrap: 'normal'
-  },
-
-  graphic: {
-    display: 'block',
-    margin: '50px auto',
-    width: 150,
-    height: 310
   }
 
 }))
@@ -252,7 +228,7 @@ const SectionContainer = () => {
         ? <Grid item xs={12} md={6} lg={6} ref={elementDOM} className={classes.detail}>
           <Switch>
             <PrivateRoute exact path="/sections/new" comp={SectionCreate} />
-            <PrivateRoute exact path="/sections/:id"  comp={SectionDetail} />
+            <PrivateRoute exact path="/sections/:id" comp={SectionDetail} />
             <PrivateRoute exact path="/sections/edit/:id" comp={SectionEdit}/>
           </Switch>
         </Grid>

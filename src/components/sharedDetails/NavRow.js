@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 const NavRow = ({ song, section }) => {
   const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'))
   const filteredSections = useSelector((state) => getFilteredItems(state, 'sections'))
-
   const next = song ? filteredSongs[filteredSongs.indexOf(song) + 1] : filteredSections[filteredSections.indexOf(section) + 1]
   const prev = song ? filteredSongs[filteredSongs.indexOf(song) - 1] : filteredSections[filteredSections.indexOf(section) - 1]
   const objectType = song ? 'songs' : 'sections'

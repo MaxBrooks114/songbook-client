@@ -141,7 +141,7 @@ const Sort = ({ objectType }) => {
                       options={ itemProps && itemProps.length ? itemProps.map(prop => prop) : null }
                       onChange={(e, v) => {
                         // redux forms do not allow for submitting forms onChange in a neat way so this is my dirty work around
-                        if (filterForm && filterForm.values) dispatch(setFilter({ sort: v,order: filterForm.values.order, filter: true }))
+                        if (filterForm && filterForm.values) dispatch(setFilter({ sort: v, order: filterForm.values.order, filter: true }))
                         if (filterForm && filterForm.values.sort !== filterValues.sort) dispatch(setFilter({ sort: v, order: filterForm.values.order, filter: true }))
                       }
                       }

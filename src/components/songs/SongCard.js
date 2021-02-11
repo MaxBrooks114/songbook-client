@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const SongCard = ({ song, transitionDuration, handleClick }) => {
+const SongCard = ({ song, transitionDuration }) => {
   const classes = useStyles()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'))

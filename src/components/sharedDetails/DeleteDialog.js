@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const DeleteDialog = ({ song, open, setOpen, section, message }) => {
+const DeleteDialog = ({ song, instrument, open, setOpen, section, message }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const theme = useTheme()
 
-  const item = song || section
+  const item = song || section || instrument
 
   const handleClose = () => {
     setOpen(false)

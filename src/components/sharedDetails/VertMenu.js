@@ -32,9 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const VertMenu = ({ song, section, popped, setAnchorEl, anchorEl, setOpen }) => {
-  const item = song || section
-  const objectType = song ? 'songs' : 'sections'
+const VertMenu = ({ song, section, instrument, popped, setAnchorEl, anchorEl, setOpen, objectType }) => {
+  const item = song || section || instrument
   const classes = useStyles()
 
   const handleClickOpen = () => {
