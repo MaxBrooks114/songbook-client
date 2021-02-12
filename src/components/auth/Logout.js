@@ -38,7 +38,7 @@ const Logout = () => {
 
   const handleClose = () => {
     setOpen(false)
-    history.push('/songs')
+    history.push('/')
   }
 
   return (

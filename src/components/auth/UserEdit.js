@@ -1,9 +1,4 @@
 import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
@@ -14,11 +9,11 @@ import { Redirect } from 'react-router-dom'
 import { deleteUser, editUser } from '../../actions/auth'
 import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
 import LoginForm from './LoginForm'
+import DeleteDialog from '../sharedDetails/DeleteDialog'
 
 const useStyles = makeStyles((theme) => ({
 
   root: {
-
     color: theme.palette.info.main,
     width: '50%',
     margin: 'auto',
@@ -34,33 +29,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    // marginBottom: '3em',
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '2em'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em'
-    }
-  },
-
-  buttonContainer: {
-    marginTop: '1rem'
-  },
-
-  delete: {
-
-    color: theme.palette.info.main,
-    display: 'inline-block',
-    borderRadius: 4,
-    background: theme.palette.common.orange,
-    '&:hover': {
-      color: theme.palette.common.orange,
-      background: theme.palette.info.main
-    }
-
-  },
   button: {
     color: theme.palette.background.default,
     display: 'inline-block',
@@ -71,6 +39,33 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.info.main
     }
 
+  },
+
+  buttonContainer: {
+    marginTop: '1rem'
+  },
+
+   container: {
+    minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+      minHeight: '100vh'
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '180vh'
+    }
+
+  },
+
+
+  delete: {
+    color: theme.palette.info.main,
+    display: 'inline-block',
+    borderRadius: 4,
+    background: theme.palette.common.orange,
+    '&:hover': {
+      color: theme.palette.common.orange,
+      background: theme.palette.info.main
+    }
   },
 
   link: {
@@ -97,27 +92,28 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  container: {
-    minHeight: '110vh',
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    // marginBottom: '3em',
     [theme.breakpoints.down('md')]: {
-      minHeight: '100vh'
+      marginBottom: '2em'
     },
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '180vh'
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '1.25em'
     }
-
-  }
+  },
 
 }))
 
 const UserEdit = () => {
   const dispatch = useDispatch()
-  const userId = useSelector(state => state.auth.user.id)
+  const user = useSelector(state => state.auth.user)
   const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+
   const onSubmit = (formValues) => {
     dispatch(
-      editUser(userId, {
+      editUser(user.id, {
         ...formValues
       })
     )
@@ -129,9 +125,6 @@ const UserEdit = () => {
     setOpen(true)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-  }
 
   const classes = useStyles()
 
@@ -149,45 +142,24 @@ const UserEdit = () => {
         <fieldset>
           <LoginForm onSubmit={onSubmit} />
         </fieldset>
+        {accessToken ? null :
         <Grid container justify="center" className={classes.buttonContainer}>
             <Button className={classes.button} >
-               <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${userId}`}>Integrate Spotify</a>
+               <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate Spotify</a>
               <img className={classes.spotifyLogo} src={Spotify_Icon_RGB_Green} alt="SpotifyLogo"/>
             </Button>
-        </Grid>
+        </Grid>}
         <Grid container justify="center" className={classes.buttonContainer}>
             <Button className={classes.delete} onClick={handleClickOpen}>
               Delete Account
             </Button>
         </Grid>
-        <Dialog
+        <DeleteDialog 
+          item={user} 
+          message1="Are you sure you want to delete your account?" 
+          message2="You will lose all data associated with your account including songs, instruments and sections." deleteFunction={deleteUser}
           open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete your account?'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              You will lose all data associated with your account including songs, instruments and sections.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              No
-            </Button>
-            <Button
-              onClick={() => {
-                handleClose()
-                dispatch(deleteUser())
-              }}
-              color="primary"
-              autoFocus
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
+          setOpen={setOpen} />
       </div>
     </div>
       )

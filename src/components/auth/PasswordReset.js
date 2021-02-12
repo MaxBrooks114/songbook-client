@@ -70,6 +70,18 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
+  container: {
+    marginTop: 50,
+    minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+      minHeight: '100vh'
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '180vh'
+    }
+
+  },
+
   input: {
     textTransform: 'capitalize'
   },
@@ -81,17 +93,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  container: {
-    marginTop: 50,
-    minHeight: '110vh',
-    [theme.breakpoints.down('md')]: {
-      minHeight: '100vh'
-    },
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '180vh'
-    }
 
-  }
 
 }))
 

@@ -28,16 +28,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  media: {
-    width: '100%',
-    borderRadius: 4
-  },
-
-  link: {
-    textDecoration: 'none',
-    color: theme.palette.info.main
-  },
-
   cardContent1: {
     color: theme.palette.info.main,
     padding: '10px',
@@ -55,6 +45,19 @@ const useStyles = makeStyles((theme) => ({
       height: 80
     }
   },
+
+
+  link: {
+    textDecoration: 'none',
+    color: theme.palette.info.main
+  },
+
+
+  media: {
+    width: '100%',
+    borderRadius: 4
+  },
+
 
   trackInfo: {
     fontWeight: '300',

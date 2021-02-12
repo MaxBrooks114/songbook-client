@@ -19,6 +19,7 @@ import UserShow from './auth/UserShow'
 import InstrumentContainer from './instruments/InstrumentContainer'
 import PrivateRoute from './PrivateRoute'
 import SectionContainer from './sections/SectionContainer'
+import UserEdit from './auth/UserEdit'
 import SongContainer from './songs/SongContainer'
 import SpotifySearch from './spotify/SpotifySearch'
 import ErrorPage from './ui/ErrorPage'
@@ -57,17 +58,18 @@ const App = () => {
         <div id="body">
           <MuiThemeProvider>
               <Switch>
-                <Route exact path="/" comp={Home} />
-                <Route path="/register" exact comp={Register} />
-                <Route path="/login" exact comp={Login} />
+                <Route exact path="/" component={Home} />
+                <Route path="/register" exact component={Register} />
+                <Route path="/login" exact component={Login} />
                 <PrivateRoute path='/passwordReset' exact comp={PasswordReset} />
+                <PrivateRoute exact path="/users/:id/edit" comp={UserEdit} />
                 <PrivateRoute path="/users/:id" comp={UserShow} />
                 <PrivateRoute exact path="/logout" comp={Logout} />
                 <PrivateRoute exact path="/search" comp={SpotifySearch} />
                 <PrivateRoute path="/songs" comp={SongContainer} />
                 <PrivateRoute path="/sections" comp={SectionContainer} />
                 <PrivateRoute path="/instruments" comp={InstrumentContainer} />
-                <Route path='*' comp={ErrorPage} />
+                <Route path='*' component={ErrorPage} />
               </Switch>
             </MuiThemeProvider>
           </div>

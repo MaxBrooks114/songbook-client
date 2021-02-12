@@ -25,6 +25,24 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  container: {
+    minHeight: '110vh',
+    [theme.breakpoints.down('md')]: {
+      minHeight: '100vh'
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '180vh'
+    }
+
+  },
+
+    
+
+  link: {
+    color: theme.palette.info.main
+  },
+
+
   title: {
     fontSize: '2.8rem',
     fontWeight: 600,
@@ -38,20 +56,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  container: {
-    minHeight: '110vh',
-    [theme.breakpoints.down('md')]: {
-      minHeight: '100vh'
-    },
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '180vh'
-    }
-
-  },
-
-  link: {
-    color: theme.palette.info.main
-  },
 
   toolbarMargin: {
     ...theme.mixins.toolbar,

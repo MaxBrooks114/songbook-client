@@ -43,11 +43,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  errorMessages: {
-    color: theme.palette.common.orange
-  },
-
-  button: {
+   button: {
     color: theme.palette.info.main,
     marginTop: '1rem',
     display: 'inline-block',
@@ -59,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
     }
 
   },
+
+  errorMessages: {
+    color: theme.palette.common.orange
+  },
+
+ 
 
   input: {
     textTransform: 'capitalize'
@@ -98,12 +100,12 @@ const LoginForm = ({ onSubmit, handleSubmit }) => {
 
   const renderErrorMessages = () => {
     if (!errorMessages.headers) {
-      return Object.values(errorMessages).map((msg) => <div className={classes.errorMessages}>{msg}</div>)
+      return Object.values(errorMessages).map((msg) => <div key={msg} className={classes.errorMessages}>{msg}</div>)
     }
   }
 
   const renderMessages = () => {
-    return Object.values(messages).map(msg => <div>{msg}</div>)
+    return Object.values(messages).map(msg => <div key={msg}>{msg}</div>)
   }
 
   return (

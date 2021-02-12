@@ -6,13 +6,13 @@ import { makeStyles } from '@material-ui/styles'
 import _ from 'lodash'
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
-import Quaver from '../../assets/Quaver.png'
 import keys from '../../dataToImport/keys'
 import { millisToMinutesAndSeconds, renderText, titleCase } from '../../helpers/detailHelpers'
-import { attrPreference, bottomFive, topFive, topFiveByAttr, topFiveByAttrListLength } from '../../helpers/userMetrics'
+import { attrPreference, bottomFive, topFive, topFiveByAttr, topFiveByAttrListLength } from '../../helpers/userMetricHelpers'
 import ItemCard from './ItemCard'
+import NoMusicMessage from '../ui/NoMusicMessage'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -48,7 +48,7 @@ const UserMetrics = ({ songs, sections }) => {
   const matches = useMediaQuery(theme.breakpoints.down('sm'))
   const spotifySongs = songs.filter(song => song.spotify_url)
 
-  const data = {
+   const data = {
     progress: {
       recentlyAddedSongs: [topFive(songs, 'created_at'), 'image', 'album', 'songs', 'title', 'artist', 'created_at', songs.length],
       recentlyAddedSections: [topFive(sections, 'created_at'), ['song', 'image'], ['song', 'album'], 'sections', 'name', ['song', 'title'], 'created_at', sections.length],
@@ -95,6 +95,7 @@ const UserMetrics = ({ songs, sections }) => {
     }
   }
 
+ 
   const renderInfo = (item, attr) => {
     switch (true) {
       case attr === 'key':
@@ -135,7 +136,7 @@ const UserMetrics = ({ songs, sections }) => {
         }
         return (
 
-               <Grid item xs={6} md={2} style={!matches ? { marginLeft: '30px' } : null}>
+               <Grid item xs={6} md={2} key={index} style={!matches ? { marginLeft: '30px' } : null}>
                 <ItemCard
                     index={index}
                     picture={renderInfo(item, items[1])}
@@ -143,8 +144,8 @@ const UserMetrics = ({ songs, sections }) => {
                     cardTitle={title}
                     cardInfo1={renderInfo(item, items[5])}
                     cardInfo2={renderInfo(item, items[6])}
-                    dispatchKey={whichData === 'favorites' ? items[4] : null}
-                    dispatchValue={whichData === 'favorites' ? dispatchValue : null }
+                    dispatchKey={whichData === 'favorites' ? items[4] : undefined}
+                    dispatchValue={whichData === 'favorites' ? dispatchValue : undefined }
                     type={items[3]}
                     id={item.id} />
               </Grid>
@@ -158,7 +159,7 @@ const UserMetrics = ({ songs, sections }) => {
     return Object.keys(metrics).map(metric => {
       const title = metrics[metric][7] ? `${titleCase(metric)} (${titleCase(metrics[metric][7])})` : titleCase(metric)
       return (
-        <Grid container align={matches ? 'center' : null} justify={matches ? 'center' : 'flex-start'} style={{ margin: '25px auto 0' }}>
+        <Grid container key={title} align={matches ? 'center' : null} justify={matches ? 'center' : 'flex-start'} style={{ margin: '25px auto 0' }}>
             <Grid item xs={12}>
                <Typography className={classes.rowTitle} variant="h5" gutterBottom>{title}</Typography>
             </Grid>
@@ -178,10 +179,7 @@ const UserMetrics = ({ songs, sections }) => {
         <Grid item xs= {12}>
           {songs.length
             ? renderRows(data[whichData])
-            : <div style={{ textAlign: 'center' }}>
-            <img className={classes.graphic} src={Quaver} alt="Quaver"/>
-            <Typography className={classes.message}>You have no songs! Import one by using the Spotify Search function in the navbar or by adding one by following this <Link to="/songs/new">link</Link></Typography>
-          </div> }
+            : <NoMusicMessage objectType="songs" /> }
         </Grid>
       </Grid>
   )
