@@ -7,11 +7,12 @@ import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRo
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { playSection } from '../../actions/spotify'
 import { titleCase } from '../../helpers/detailHelpers'
 import DetailAccordion from '../sharedComponents/DetailAccordion'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -49,6 +50,7 @@ const SongSections = ({ song, instrument }) => {
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id)
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
   const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token)
+  const history = useHistory()
   const dispatch = useDispatch()
   const classes = useStyles()
 
@@ -69,12 +71,13 @@ const SongSections = ({ song, instrument }) => {
   const renderSections = () => {
     return sections
       ? sections.map((section, index) => {
-        return index % 3 === 0
-          ? (
+     
+         return index !== sections.length-1 ? 
+          (
             <React.Fragment key={section.id}>
               <Grid item xs={3}>          
                 <Grid container alignItems="center" justify="center">
-                 <Grid item xs={4}>
+                 <Grid item xs={6}>
                     <Typography>
                       <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     </Typography>
@@ -85,12 +88,11 @@ const SongSections = ({ song, instrument }) => {
                 </Grid>
               </Grid>
             </React.Fragment>
-            )
-        : (
+            ) : (
             <React.Fragment key={section.id}>
               <Grid item xs={3}>          
                   <Grid container  alignItems="center" justify="center">
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                       <Typography>
                         <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                       </Typography>
@@ -100,8 +102,13 @@ const SongSections = ({ song, instrument }) => {
                     </Grid>
                   </Grid>
               </Grid>
+              <Grid item xs={3} style={{textAlign: 'center'}}>
+                <IconButton onClick={() => history.push('/sections/new')}>
+                  <AddRoundedIcon/>
+                </IconButton>
+              </Grid>
             </React.Fragment>
-          )
+          )   
       })
       : null
   }
