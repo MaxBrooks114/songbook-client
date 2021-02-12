@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 
 import { audioFeaturesToText, titleCase } from '../../helpers/detailHelpers'
-import DetailAccordion from '../sharedDetails/DetailAccordion'
+import DetailAccordion from '../sharedComponents/DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
 

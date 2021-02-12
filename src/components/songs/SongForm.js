@@ -8,7 +8,7 @@ import { Field, reduxForm } from 'redux-form'
 import genres from '../../dataToImport/genres'
 import keys from '../../dataToImport/keys'
 import modes from '../../dataToImport/modes'
-import { FileInput, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
+import { FileInput, renderAutoCompleteDataField, renderAutoCompleteField, renderCheckbox, renderTextField } from '../sharedComponents/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
 

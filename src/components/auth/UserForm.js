@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { createMessage } from '../../actions/messages'
-import { renderTextField } from '../../helpers/MaterialUiReduxFormFields'
+import { renderTextField } from '../sharedComponents/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
   root: {

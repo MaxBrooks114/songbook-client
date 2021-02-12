@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { getFilteredItems } from '../../selectors/filterSelectors'
-import Sort from '../Sort'
+import Sort from '../sharedComponents/Sort'
 import SongCard from './SongCard'
 
 const useStyles = makeStyles((theme) => ({

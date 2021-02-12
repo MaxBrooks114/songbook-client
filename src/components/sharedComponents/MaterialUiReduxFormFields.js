@@ -12,8 +12,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { Autocomplete } from '@material-ui/lab'
 import React, { useRef } from 'react'
 
-import RangedSlider from '../components/ui/RangedSlider'
-import { titleCase } from './detailHelpers'
+import RangedSlider from './RangedSlider'
+import { titleCase } from '../../helpers/detailHelpers'
 
 const adaptFileEventToValue = delegate => e => {
   delegate(e.target.files[0])

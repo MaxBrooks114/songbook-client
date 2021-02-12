@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 
-import { renderTextField } from '../../helpers/MaterialUiReduxFormFields'
+import { renderTextField } from '../sharedComponents/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
   root: {

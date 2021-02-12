@@ -3,9 +3,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
-import { setFilter } from '../actions/filter'
-import { renderTextField } from '../helpers/MaterialUiReduxFormFields'
-import { getFilteredItems } from './../selectors/filterSelectors'
+import { setFilter } from '../../actions/filter'
+import { renderTextField } from './MaterialUiReduxFormFields'
+import { getFilteredItems } from '../../selectors/filterSelectors'
 
 const useStyles = makeStyles((theme) => ({
 

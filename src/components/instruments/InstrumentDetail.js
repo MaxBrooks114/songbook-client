@@ -12,9 +12,9 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {deleteInstrument} from '../../actions/instruments'
-import DeleteDialog from '../sharedDetails/DeleteDialog'
-import Features from '../sharedDetails/Features'
-import VertMenu from '../sharedDetails/VertMenu'
+import DeleteDialog from '../sharedComponents/DeleteDialog'
+import Features from '../sharedComponents/Features'
+import VertMenu from '../sharedComponents/VertMenu'
 import InstrumentSections from './InstrumentSections'
 
 const useStyles = makeStyles((theme) => ({

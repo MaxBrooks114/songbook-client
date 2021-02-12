@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom'
 import { deleteUser, editUser } from '../../actions/auth'
 import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
 import LoginForm from './LoginForm'
-import DeleteDialog from '../sharedDetails/DeleteDialog'
+import DeleteDialog from '../sharedComponents/DeleteDialog'
 
 const useStyles = makeStyles((theme) => ({
 

@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 
 import { playSection } from '../../actions/spotify'
 import { titleCase } from '../../helpers/detailHelpers'
-import DetailAccordion from '../sharedDetails/DetailAccordion'
+import DetailAccordion from '../sharedComponents/DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
 

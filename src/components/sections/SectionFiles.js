@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { deleteFile } from '../../actions/files'
 import { titleCase } from '../../helpers/detailHelpers'
-import DetailAccordion from '../sharedDetails/DetailAccordion'
+import DetailAccordion from '../sharedComponents/DetailAccordion'
 import Player from './Player'
 
 const useStyles = makeStyles((theme) => ({

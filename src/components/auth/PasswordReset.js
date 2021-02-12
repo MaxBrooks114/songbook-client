@@ -8,7 +8,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { resetPassword } from '../../actions/auth'
 import { createMessage } from '../../actions/messages'
-import { renderTextField } from '../../helpers/MaterialUiReduxFormFields'
+import { renderTextField } from '../sharedComponents/MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -13,14 +13,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { clearFields, Field, initialize, reduxForm, reset } from 'redux-form'
 
-import { clearFilter, clearNonArrayFields, setFilter } from '../actions/filter'
-import filter_arrow_left from '../assets/filter_arrow_left.svg'
-import Spotify_Icon_RGB_Green from '../assets/Spotify_Icon_RGB_Green.png'
-import keys from '../dataToImport/keys'
-import modes from '../dataToImport/modes'
-import { millisToMinutesAndSeconds, normalize, renderText, titleCase } from '../helpers/detailHelpers'
-import { renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider, renderTextField } from '../helpers/MaterialUiReduxFormFields'
-import { getFilteredItems } from './../selectors/filterSelectors'
+import { clearFilter, clearNonArrayFields, setFilter } from '../../actions/filter'
+import filter_arrow_left from '../../assets/filter_arrow_left.svg'
+import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
+import keys from '../../dataToImport/keys'
+import modes from '../../dataToImport/modes'
+import { millisToMinutesAndSeconds, normalize, renderText, titleCase } from '../../helpers/detailHelpers'
+import { renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider, renderTextField } from './MaterialUiReduxFormFields'
+import { getFilteredItems } from '../../selectors/filterSelectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {

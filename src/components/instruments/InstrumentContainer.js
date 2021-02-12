@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { Switch, useHistory, useLocation } from 'react-router-dom'
 
 import useHeight from '../../hooks/useHeight'
-import PrivateRoute from '../PrivateRoute'
+import PrivateRoute from '../auth/PrivateRoute'
 import NoMusicMessage from '../ui/NoMusicMessage'
 import InstrumentCreate from './InstrumentCreate'
 import InstrumentDetail from './InstrumentDetail'

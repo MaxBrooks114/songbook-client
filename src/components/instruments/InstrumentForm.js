@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-import { renderAutoCompleteDataField, renderTextField } from '../../helpers/MaterialUiReduxFormFields'
+import { renderAutoCompleteDataField, renderTextField } from '../sharedComponents/MaterialUiReduxFormFields'
 import { instrumentFamilies, instrumentList, instrumentTonalities } from './instruments'
 
 const useStyles = makeStyles((theme) => ({

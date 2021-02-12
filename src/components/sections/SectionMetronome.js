@@ -3,7 +3,7 @@ import Metronome from '@kevinorriss/react-metronome'
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 
-import DetailAccordion from '../sharedDetails/DetailAccordion'
+import DetailAccordion from '../sharedComponents/DetailAccordion'
 
 const SectionMetronome = ({ section }) => {
   const renderMetronome = () => {

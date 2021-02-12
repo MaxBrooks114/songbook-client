@@ -2,8 +2,8 @@ import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import DetailAccordion from '../sharedDetails/DetailAccordion'
-import SongSections from '../songs/SongSections'
+import DetailAccordion from '../sharedComponents/DetailAccordion'
+import SongSections from '../sharedComponents/SongSections'
 
 const InstrumentSections = ({ instrument }) => {
   const sections = useSelector(state => Object.values(state.sections).filter(section => section.instruments.includes(instrument.id)))
