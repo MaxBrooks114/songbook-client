@@ -9,6 +9,14 @@ import { useReactMediaRecorder } from 'react-media-recorder'
 
 const useStyles = makeStyles((theme) => ({
 
+  flicker: {
+    animationName: '$flicker',
+    animationDuration: '250ms',
+    animationIterationCount: 'infinite',
+    animationDirection: 'alternate',
+    animationTimingFunction: 'ease-in-out'
+  },
+
   recordButton: {
     color: theme.palette.common.orange
 
@@ -22,15 +30,10 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.4
     }
   },
-  flicker: {
-    animationName: '$flicker',
-    animationDuration: '250ms',
-    animationIterationCount: 'infinite',
-    animationDirection: 'alternate',
-    animationTimingFunction: 'ease-in-out'
-  }
+
 
 }))
+
 const RecordView = () => {
   const {
     status,
