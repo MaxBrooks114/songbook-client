@@ -72,23 +72,36 @@ const SongSections = ({ song, instrument }) => {
         return index % 3 === 0
           ? (
             <React.Fragment key={section.id}>
-              <Grid item xs={2}/>
-              <Grid item xs={3}>
-                <Typography>
-                  <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
+              <Grid item xs={3}>          
+                <Grid container alignItems="center" justify="center">
+                 <Grid item xs={4}>
+                    <Typography>
+                      <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
                     {renderSpotifyOptionSection(section)}
-                  </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
             </React.Fragment>
             )
-          : (
-          <Grid key={section.id} item xs={3}>
-            <Typography>
-              <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
-              {renderSpotifyOptionSection(section)}
-            </Typography>
-          </Grid>
-            )
+        : (
+            <React.Fragment key={section.id}>
+              <Grid item xs={3}>          
+                  <Grid container  alignItems="center" justify="center">
+                  <Grid item xs={4}>
+                      <Typography>
+                        <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                      {renderSpotifyOptionSection(section)}
+                    </Grid>
+                  </Grid>
+              </Grid>
+            </React.Fragment>
+          )
       })
       : null
   }
