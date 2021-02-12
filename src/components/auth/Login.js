@@ -67,7 +67,7 @@ const Login = () => {
 
   return isAuthenticated && user
     ? (
-    <Redirect to={`/users/${user.id}`} />
+    <Redirect to={`/users/${user.id}/progress`} />
       )
     : (
     <div className={classes.container}>

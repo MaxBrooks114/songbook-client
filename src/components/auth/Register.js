@@ -84,7 +84,7 @@ const Register = () => {
 
   return isAuthenticated
     ? (
-    <Redirect to={`/users/${user.Id}`} />
+    <Redirect to={`/`} />
       )
     : (
       <div className={classes.container}>
@@ -95,7 +95,7 @@ const Register = () => {
         </Typography>
         <UserForm onSubmit={onSubmit} />
         <div className={classes.toolbarMargin}></div>
-        <Typography className={classes.title} variant="subtitle1" align="center">
+        <Typography variant="subtitle1" align="center">
           Already have an account?{' '}
           <Link className={classes.link} component={RouterLink} to="/login">
             Log in

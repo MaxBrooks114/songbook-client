@@ -73,6 +73,7 @@ export const register = (formValues) => async (dispatch) => {
       type: REGISTER_USER,
       payload: response.data
     })
+    history.push('/')
   } catch (error) {
     if (error.response) {
       dispatch(returnErrors(error.response.data, error.response.status))
@@ -128,7 +129,7 @@ export const logout = () => (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    await songbook.delete('/auth/user/edit')
+    await songbook.delete(`/auth/user/delete/${id}/`)
 
     dispatch({ type: CLEAR_ALL })
     dispatch({
