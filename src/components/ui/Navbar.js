@@ -216,7 +216,7 @@ const Navbar = () => {
     if(menuFound){
       setValue(menuFound.activeIndex)
       setSelectedIndex(menuFound.selectedIndex)
-    } else if (found === undefined){
+    } else if (!menuFound && !found){
       setValue(false)
     } else {
       setValue(menuFound.activeIndex)
