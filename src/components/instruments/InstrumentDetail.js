@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-
+import {deleteInstrument} from '../../actions/instruments'
 import DeleteDialog from '../sharedDetails/DeleteDialog'
 import Features from '../sharedDetails/Features'
 import VertMenu from '../sharedDetails/VertMenu'
@@ -89,7 +89,7 @@ const InstrumentDetail = () => {
               <Features instrument={instrument} objectType='instrument'/>
               <InstrumentSections instrument={instrument} />
           </Grid>
-        <DeleteDialog instrument={instrument} open={open} setOpen={setOpen} message=" By deleting this instrument you will also lose any affiliation with the sections you have listed for this instrument."/>
+        <DeleteDialog item={instrument} deleteFunction={deleteInstrument} open={open} setOpen={setOpen} message1="Are you sure you want to delete this isntrument?" message2=" By deleting this instrument you will also lose any affiliation with the sections you have listed for this instrument."/>
       </Paper>
     </Slide>
       )

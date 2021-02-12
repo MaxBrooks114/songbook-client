@@ -9,11 +9,9 @@ import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRo
 import { makeStyles } from '@material-ui/styles'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import * as workerTimers from 'worker-timers'
 
 import { checkIfPlaying, playSection, playSong, pressPausePlayer } from '../../actions/spotify'
-import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
 import BackDrop from '../ui/BackDrop'
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const DetailTitle = ({ song, section }) => {
+const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album, spotifyUri, song, section}) => {
   const player = useSelector(state => state.spotifyPlayer)
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id)
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
@@ -129,19 +127,6 @@ const DetailTitle = ({ song, section }) => {
   const matches = useMediaQuery(theme.breakpoints.down('md'))
   const [showBackdrop, setShowBackdrop] = useState(false)
 
-  const spotifyUri = song ? song.spotify_url : section.song.spotify_url
-
-  const title = song ? <>{song.title}<span style={{ fontSize: '1rem' }}> ({millisToMinutesAndSeconds(song.duration)})</span></> : section.name
-
-  const subtitle1 = song ? song.artist : <>({millisToMinutesAndSeconds(section.start)}-{millisToMinutesAndSeconds(section.start + section.duration)}) ({millisToMinutesAndSeconds(section.duration)})</>
-
-  const subtitle2 = song ? <>{song.album}<span style={{ fontSize: '1rem' }}> ({song.year.split('-')[0]})</span></> : <Link className={classes.link} to={`/songs/${section.song.id}`}>{section.song.title}</Link>
-
-  const image = song ? song.image : section.song.image
-  const uploadedImage = song ? song.image : section.song.image
-  const album = song ? song.album : section.song.album
-
-  // constantly check if the user's Spotify player is playing
   useEffect(() => {
     const intervalId = accessToken ? workerTimers.setInterval(() => { dispatch(checkIfPlaying(accessToken, refreshToken)) }, 1000) : null
     if (accessToken) {

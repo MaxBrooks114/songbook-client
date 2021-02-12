@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-
+import {deleteSong} from '../../actions/songs'
 import DeleteDialog from '../sharedDetails/DeleteDialog'
 import DetailTitle from '../sharedDetails/DetailTitle'
 import Features from '../sharedDetails/Features'
@@ -17,6 +17,8 @@ import NavRow from '../sharedDetails/NavRow'
 import VertMenu from '../sharedDetails/VertMenu'
 import AudioProperties from './AudioProperties'
 import SongSections from './SongSections'
+import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +78,16 @@ const SongDetail = () => {
               setOpen={setOpen}
           />
           <Grid item xs={12}>
-            <DetailTitle song={song}/>
+            <DetailTitle 
+              song={song}
+              title={`${song.title} (${millisToMinutesAndSeconds(song.duration)})`}
+              subtitle1={song.artist}
+              subtitle2={`${song.album} (${song.year.split('-')[0]})`}
+              image={song.image}
+              uploadedImage={song.uploaded_image}
+              album={song.album}
+              spotifyUri={song.spotify_url}
+            />
           </Grid>
           <Grid item xs={6} md={3} >
             <NavRow song={song}/>
@@ -90,7 +101,7 @@ const SongDetail = () => {
             <Lyrics lyrics={song.lyrics} />
           </Grid>
         </Grid>
-        <DeleteDialog song={song} open={open} setOpen={setOpen} message="By deleting this song you will also delete all affiliated sections."/>
+        <DeleteDialog item={song} deleteFunction={deleteSong} open={open} setOpen={setOpen} message1="Are you sure you want to delete this song?" message2="By deleting this song you will also delete all affiliated sections."/>
       </Paper>
     </Slide>
       )

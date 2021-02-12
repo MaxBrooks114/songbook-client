@@ -7,8 +7,9 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-
+import { useParams, Link } from 'react-router-dom'
+import { deleteSection} from '../../actions/sections'
+import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
 import DeleteDialog from '../sharedDetails/DeleteDialog'
 import DetailTitle from '../sharedDetails/DetailTitle'
 import Features from '../sharedDetails/Features'
@@ -55,6 +56,7 @@ const SectionDetail = () => {
     setAnchorEl(event.currentTarget)
   }
 
+
   return section
     ? (
         <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
@@ -77,7 +79,16 @@ const SectionDetail = () => {
                   setOpen={setOpen}
                 />
                 <Grid item xs={12}>
-                   <DetailTitle section={section}/>
+                   <DetailTitle 
+                      title={section.name} 
+                      subtitle1={`(${millisToMinutesAndSeconds(section.start)}-${millisToMinutesAndSeconds(section.start + section.duration)}) (${millisToMinutesAndSeconds(section.duration)})`} 
+                      section={section}
+                      image={section.song.image}
+                      album={section.song.album}
+                      spotifyUri={section.song.spotify_url}
+                      subtitle2={<Link className={classes.link} to={`/songs/${section.song.id}`}>{section.song.title}</Link>}
+
+                      />
                 </Grid>
                 <Grid item xs={3} >
                     <NavRow section={section}/>
@@ -92,7 +103,7 @@ const SectionDetail = () => {
                   <SectionFiles section={section} fileType="sheet music/tabs"/>
                 </Grid>
               </Grid>
-           <DeleteDialog section={SectionDetail} open={open} setOpen={setOpen} message="You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again."/>
+           <DeleteDialog item={section} deleteFuntion={deleteSection} open={open} setOpen={setOpen} message1="Are you sure you want to delete this section?" message2="You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again."/>
       </Paper>
     </Slide>
       )

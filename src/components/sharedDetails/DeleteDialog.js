@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { deleteSong } from '../../actions/songs'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -29,12 +28,11 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const DeleteDialog = ({ song, instrument, open, setOpen, section, message }) => {
+const DeleteDialog = ({ item, open, setOpen,  message1, message2, deleteFunction }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const theme = useTheme()
 
-  const item = song || section || instrument
 
   const handleClose = () => {
     setOpen(false)
@@ -48,10 +46,10 @@ const DeleteDialog = ({ song, instrument, open, setOpen, section, message }) => 
           aria-describedby="alert-dialog-description"
           className={classes.dialog}
         >
-          <DialogTitle id="alert-dialog-title">{'Are you sure you want to delete this song?'}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{message1}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              {message}
+              {message2}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -61,7 +59,7 @@ const DeleteDialog = ({ song, instrument, open, setOpen, section, message }) => 
             <Button
               onClick={() => {
                 handleClose()
-                dispatch(deleteSong(item.id, item))
+                dispatch(deleteFunction(item.id, item))
               }}
               color="primary"
               style={{ color: theme.palette.common.orange }}
