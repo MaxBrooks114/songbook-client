@@ -25,14 +25,47 @@ import SpotifySearchBar from '../spotify/SpotifySearchBar'
 import Progressbar from './Progressbar'
 
 const useStyles = makeStyles((theme) => ({
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '.5rem'
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '1rem'
+
+  appBar: {
+    background: theme.palette.common.gray,
+    zIndex: theme.zIndex.modal + 2
+  },
+
+   drawer: {
+    background: theme.palette.common.gray,
+    display: 'flex',
+    alignItems: 'flex-start',
+    color: theme.palette.info.main,
+    '& .PrivateSwipeArea-anchorLeft-24': {
+      width: '0px !important'
     }
+  },
+
+  drawerIcon: {
+    height: 50,
+    width: 50
+  },
+
+  drawerIconContainer: {
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
+  },
+
+  drawerItem: {
+    color: theme.palette.info.main,
+    minWidth: 10,
+    opacity: 1
+  },
+  
+  drawerItemSelected: {
+    '& .MuiListItemText-root': {
+      opacity: 1
+    }
+  },
+
+  listButton: {
+    ...theme.button
   },
 
   logo: {
@@ -44,64 +77,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       height: '3rem'
     }
-  },
-
-  tabContainer: {
-    marginLeft: 'auto'
-
-  },
-
-  tab: {
-    ...theme.typography.tab,
-    marginLeft: '2rem',
-    color: theme.palette.info.main,
-    minWidth: 10,
-    opacity: 1,
-    alignText: 'left'
-  },
-
-  drawerIconContainer: {
-    '&:hover': {
-      backgroundColor: 'transparent'
-    }
-  },
-
-  drawerIcon: {
-    height: '50px',
-    width: '50px'
-  },
-
-  listButton: {
-    ...theme.button
-
-  },
-
-  drawer: {
-    background: theme.palette.common.gray,
-    display: 'flex',
-    alignItems: 'flex-start',
-    color: theme.palette.info.main,
-    '& .PrivateSwipeArea-anchorLeft-24': {
-      width: '0px !important'
-    }
-  },
-
-  drawerItem: {
-    color: theme.palette.info.main,
-    minWidth: 10,
-    opacity: 1
-
-  },
-
-  drawerItemSelected: {
-    '& .MuiListItemText-root': {
-      opacity: 1
-    }
-  },
-
-  appBar: {
-    background: theme.palette.common.gray,
-    zIndex: theme.zIndex.modal + 2
   },
 
   menu: {
@@ -127,6 +102,31 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 14,
     [theme.breakpoints.down('md')]: {
       marginTop: 8
+    }
+  },
+
+   tab: {
+    ...theme.typography.tab,
+    marginLeft: '2rem',
+    color: theme.palette.info.main,
+    minWidth: 10,
+    opacity: 1,
+    alignText: 'left'
+  },
+
+
+  tabContainer: {
+    marginLeft: 'auto'
+  },
+
+
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '.5rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '1rem'
     }
   }
 }))
@@ -183,12 +183,9 @@ const Navbar = () => {
         { name: 'New Section', link: '/sections/new', activeIndex: 1, selectedIndex: 3 },
         { name: 'Instruments', link: '/instruments', activeIndex: 1, selectedIndex: 4 },
         { name: 'New Instrument', link: '/instruments/new', activeIndex: 1, selectedIndex: 5 },
-        { name: 'Progress', link: `/users/${user.id}/progress`, activeIndex: 2, selectedIndex: 6 },
-        { name: 'Favorites', link: `/users/${user.id}/favorites`, activeIndex: 2, selectedIndex: 7 },
-        { name: 'Timing', link: `/users/${user.id}/timing`, activeIndex: 2, selectedIndex: 8 },
-        { name: 'Audio Preferences', link: `/users/${user.id}/audioPreferences`, activeIndex: 2, selectedIndex: 9 },
-        { name: 'Manage Account', link: `/users/${user.id}/edit`, activeIndex: 2, selectedIndex: 10 },
-        { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 11 }
+        { name: 'Statistics', link: `/users/${user.id}/progress`, activeIndex: 2, selectedIndex: 6 },
+        { name: 'Manage Account', link: `/users/${user.id}/edit`, activeIndex: 2, selectedIndex: 7 },
+        { name: 'Log out', link: '/logout', activeIndex: 2, selectedIndex: 8 }
       ]
     : [
         { name: 'Register', link: '/register', activeIndex: 0 },
@@ -211,22 +208,24 @@ const Navbar = () => {
 
   const routes = isAuthenticated && user ? authRoutes : guestRoutes
 
+
+  const activeIndex = () => {
+    const found = routes.find(({link}) => link === location.pathname)
+    const menuFound = menuOptions.find(({link}) => link === location.pathname)
+
+    if(menuFound){
+      setValue(menuFound.activeIndex)
+      setSelectedIndex(menuFound.selectedIndex)
+    } else if (found === undefined){
+      setValue(false)
+    } else {
+      setValue(menuFound.activeIndex)
+    }
+  }
+
   useEffect(() => {
-    [...menuOptions, ...routes].forEach((route) => {
-      switch (window.location.pathname) {
-        case `${route.link}`:
-          if (value !== route.activeIndex) {
-            setValue(route.activeIndex)
-            if (route.selectedIndex && route.selectedIndex !== selectedIndex && location.pathname !== '/search') {
-              setSelectedIndex(route.selectedIndex)
-            }
-          }
-          break
-        default:
-          break
-      }
-    })
-  }, [value, menuOptions, selectedIndex, routes, location.pathname])
+    activeIndex()
+  })
 
   const tabs = (
     <>
@@ -312,7 +311,7 @@ const Navbar = () => {
         <Toolbar disableGutters>
           <Grid container alignItems="center" justify="space-between">
             <Grid item xs={4}>
-           <Button component={RouterLink} to="/" onClick={e => setValue(0)} >
+           <Button component={RouterLink} to="/"  >
               <img alt="logo" src={logo} variant="h6" className={classes.logo}/>
             </Button>
             </Grid>
@@ -341,8 +340,7 @@ const Navbar = () => {
                     key={option.name}
                     classes={{ root: classes.menuItem }}
                     style={{ justifyContent: 'center' }}
-                    onClick={(e, i) => { handleMenuItemClick(e, i); setValue(option.activeIndex); handleClose() }}
-                    selected={i === selectedIndex && value === option.activeIndex}
+                    onClick={(e, i) => { handleMenuItemClick(e, i);   handleClose() }}
                     component={RouterLink}
                     to={option.link}>
                     {option.name}
