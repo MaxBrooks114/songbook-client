@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 
   songLink: {
     color: theme.palette.info.main,
+    textDecoration: 'none',
     '&:hover': {
       color: theme.palette.common.darkGreen
     }
@@ -121,7 +122,7 @@ const SongAccordion = ({ song, sections, transitionDuration }) => {
 
   const renderSongTitle = () => {
     return expanded
-      ? <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} style={{ textDecoration: 'none' }} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography>
+      ? <Typography className={classes.songTitle} component="p"><Link className={classes.songLink} to={`/songs/${song.id}`}>{song.title} ({sections.length})</Link></Typography>
       : <Typography className={classes.songTitle} component="p">{song.title} ({sections.length})</Typography>
   }
 

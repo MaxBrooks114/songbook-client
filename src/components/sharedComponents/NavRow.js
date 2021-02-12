@@ -11,6 +11,10 @@ import { getFilteredItems } from '../../selectors/filterSelectors'
 
 const useStyles = makeStyles((theme) => ({
 
+  buttonContainer: {
+    textAlign: 'center'
+  },
+
   navRow: {
     boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
     borderRadius: 4
@@ -37,7 +41,7 @@ const NavRow = ({ song, section }) => {
   const classes = useStyles()
   return (
     <Grid container justify="space-between" className={classes.navRow}>
-              <Grid item xs={2}>
+              <Grid item xs={3} className={classes.buttonContainer}>
                  {prev
                    ? <IconButton
                     onClick={(event) => history.push(`/${objectType}/${prev.id}`)}
@@ -45,7 +49,7 @@ const NavRow = ({ song, section }) => {
                 </IconButton>
                    : null }
               </Grid>
-                <Grid item xs={2} style={{ marginRight: 18 }}>
+                <Grid item xs={3} className={classes.buttonContainer} >
                   {next
                     ? <IconButton
                         onClick={(event) => history.push(`/${objectType}/${next.id}`)}

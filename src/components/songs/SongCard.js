@@ -69,7 +69,7 @@ const SongCard = ({ song, transitionDuration }) => {
           <Typography component="p" className={classes.title} variant={matches ? 'caption' : 'subtitle2'}>
             {song.title}
           </Typography>
-          <Typography style={{ fontWeight: 400 }} variant="caption">
+          <Typography  variant="caption">
             {song.artist}
           </Typography>
         </CardContent>

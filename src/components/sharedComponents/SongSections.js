@@ -61,7 +61,7 @@ const SongSections = ({ song, instrument }) => {
   const renderSpotifyOptionSection = (section) => {
     if (accessToken && accessToken !== '') {
       if (loading.loading && section.id === player.sectionId) {
-        return <IconButton><CircularProgress thickness={2.4} size={20} style={{ color: 'white' }} /></IconButton>
+        return <IconButton><CircularProgress thickness={2.4} size={20}  /></IconButton>
       } else {
         return <IconButton onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton>
       }
@@ -76,7 +76,7 @@ const SongSections = ({ song, instrument }) => {
           (
             <React.Fragment key={section.id}>
               <Grid item xs={3}>          
-                <Grid container alignItems="center" justify="center">
+                <Grid container alignItems="center" align="center" justify="center">
                  <Grid item xs={6}>
                     <Typography>
                       <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
@@ -91,7 +91,7 @@ const SongSections = ({ song, instrument }) => {
             ) : (
             <React.Fragment key={section.id}>
               <Grid item xs={3}>          
-                  <Grid container  alignItems="center" justify="center">
+                  <Grid container  alignItems="center" align="center" justify="center">
                   <Grid item xs={6}>
                       <Typography>
                         <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
@@ -102,7 +102,7 @@ const SongSections = ({ song, instrument }) => {
                     </Grid>
                   </Grid>
               </Grid>
-              <Grid item xs={3} style={{textAlign: 'center'}}>
+              <Grid item xs={3} >
                 <IconButton onClick={() => history.push('/sections/new')}>
                   <AddRoundedIcon/>
                 </IconButton>

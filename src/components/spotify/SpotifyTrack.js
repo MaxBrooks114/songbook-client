@@ -91,6 +91,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block'
   },
 
+  spinner: {
+    color: theme.palette.background.default
+  },
+
   spinnerContainer: {
     marginTop: '25%',
     display: 'flex',
@@ -100,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 
   trackInfo: {
     color: theme.palette.info.main,
-    fontWeight: '600',
+    fontWeight: 600,
     boxOrient: 'vertical',
     display: '-webkit-box',
     lineClamp: '2',
@@ -153,7 +157,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
             </Typography>
           </CardContent>
           <CardContent className={classes.cardContent}>
-            <Typography className={classes.trackInfo} style={{ fontWeight: '600' }} variant="subtitle2">
+            <Typography className={classes.trackInfo}  variant="subtitle2">
               {track.artists[0].name} < br/>
               {track.album.name}
             </Typography>
@@ -169,7 +173,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
               dispatch(importSpotifyTrack(track.id))
             }}
           >
-           {loading.loading && importer.importedSong === track.id ? <div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={20} style={{ color: 'white' }} /></div> : <GetAppIcon className={classes.button}/> }
+           {loading.loading && importer.importedSong === track.id ? <div className={classes.spinnerContainer}><CircularProgress thickness={2.4} size={20} className={classes.spinner} /></div> : <GetAppIcon className={classes.button}/> }
           </IconButton>
         </CardActions>
       </Card>

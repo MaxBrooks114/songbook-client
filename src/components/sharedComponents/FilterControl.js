@@ -279,7 +279,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
       ? fields.map(field => {
         return (
            <Grid item sm={12} xs={12} key={field}>
-              <Field classes={classes} style={{ width: '80%' }} name={field} label={titleCase(field)}
+              <Field classes={classes}  name={field} label={titleCase(field)}
                    InputLabelProps={{
                      classes: {
                        root: classes.label,
@@ -478,7 +478,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                   label="Time Signature" />
             </Grid>
 
-            <Grid item xs={12} style={{ margin: 'auto' }}>
+            <Grid item xs={12} >
               <Grid container direction="row" justify={objectType === 'songs' ? 'flex-start' : 'center'}>
                 { renderRadioFields() }
               </Grid>

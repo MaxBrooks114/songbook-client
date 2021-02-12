@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
   title: {
     fontWeight: 600
+  },
+
+  titleContainer: {
+    textAlign: 'center'
   }
 
 }))
@@ -81,7 +85,7 @@ const InstrumentDetail = () => {
               setAnchorEl={setAnchorEl}
               setOpen={setOpen}
             />
-            <Grid item xs={8} style={{ textAlign: 'center' }}>
+            <Grid item xs={8} className={classes.titleContainer}>
               <Typography variant={matches ? 'h6' : 'h5'} className={classes.title}>{instrument.name}</Typography>
             </Grid>
           </Grid>

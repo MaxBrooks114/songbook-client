@@ -9,7 +9,6 @@ import { instrumentFamilies, instrumentList, instrumentTonalities } from './inst
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 'auto',
     '& .MuiOutlinedInput-root': {
       background: theme.palette.background.default,
       width: 300,

@@ -16,6 +16,24 @@ import NoMusicMessage from '../ui/NoMusicMessage'
 
 const useStyles = makeStyles((theme) => ({
 
+  container: {
+      margin: '25px auto 0'
+  }, 
+  
+
+  graphic: {
+    display: 'block',
+    margin: '50px auto',
+    width: 150,
+    height: 310
+  },
+
+  message: {
+    display: 'inline-block',
+    margin: '0 auto',
+    overflowWrap: 'normal'
+  },
+
   rowTitle: {
     marginLeft: 29,
     marginBottom: '1rem',
@@ -25,18 +43,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  message: {
-    display: 'inline-block',
-    margin: '0 auto',
-    overflowWrap: 'normal'
-  },
 
-  graphic: {
-    display: 'block',
-    margin: '50px auto',
-    width: 150,
-    height: 310
-  }
+  
 
 }))
 
@@ -159,7 +167,7 @@ const UserMetrics = ({ songs, sections }) => {
     return Object.keys(metrics).map(metric => {
       const title = metrics[metric][7] ? `${titleCase(metric)} (${titleCase(metrics[metric][7])})` : titleCase(metric)
       return (
-        <Grid container key={title} align={matches ? 'center' : null} justify={matches ? 'center' : 'flex-start'} style={{ margin: '25px auto 0' }}>
+        <Grid container key={title} align={matches ? 'center' : null} justify={matches ? 'center' : 'flex-start'} className={classes.container}>
             <Grid item xs={12}>
                <Typography className={classes.rowTitle} variant="h5" gutterBottom>{title}</Typography>
             </Grid>

@@ -91,8 +91,15 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.default,
       color: theme.palette.common.darkGreen,
       filter: 'brightness(150%)'
-    }
+    },
+  },
 
+  ctaContainer: {
+      textAlign: "center"
+  },
+
+  svgContainer: {
+    margin: '2rem 0'
   }
 
 }))
@@ -170,15 +177,15 @@ const Home = () => {
           <Typography variant="h2" className={classes.title} gutterBottom>Welcome To SongBook</Typography>
           <Typography variant="subtitle1" gutterBottom className={classes.subtitle}>SongBook is a musical library web app for musicians to organize their song repertoire, instrument collection, and learning progress. </Typography>
         </Grid>
-        <Grid item xs={10} md={5} style={{ textAlign: 'center' }}>
+        <Grid item xs={10} md={5} className={classes.ctaContainer}>
           <Button className={classes.cta} onClick={() => {
               user ? history.push('/search') : history.push('/register')
           }}>
-              <span style={{ fontWeight: 600 }}>{ user ? 'Start Adding Songs Now' : 'Register Now'}</span>
+             { user ? 'Start Adding Songs Now' : 'Register Now'}
           </Button>
         </Grid>
       </Grid>
-      <Grid style={{ margin: '2rem 0' }} container justify="space-evenly" alignItems="center">
+      <Grid className={classes.svgContainer} container justify="space-evenly" alignItems="center">
         {renderSvgs()}
       </Grid>
       <Blurb blurb={blurbs[blurbShow]}/>

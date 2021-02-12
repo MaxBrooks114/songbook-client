@@ -182,6 +182,7 @@ export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLa
             {...params}
             label={label}
             size="small"
+            style={{height: '44px'}}
             color="secondary"
             variant="outlined"
             fullWidth={fullWidth}

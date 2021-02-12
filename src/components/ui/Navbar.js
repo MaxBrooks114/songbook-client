@@ -88,14 +88,13 @@ const useStyles = makeStyles((theme) => ({
   menuItem: {
     ...theme.typography.tab,
     font: 'bold',
-    '& .MuiMenuItem-root': {
-      justifyContent: 'center'
-    }
+    justifyContent: 'center',
+    
   },
 
   profileIcon: {
-    height: '36px',
-    width: '36px'
+    height: 36,
+    width: 36
   },
 
   progressbar: {
@@ -339,7 +338,6 @@ const Navbar = () => {
                   <MenuItem
                     key={option.name}
                     classes={{ root: classes.menuItem }}
-                    style={{ justifyContent: 'center' }}
                     onClick={(e, i) => { handleMenuItemClick(e, i);   handleClose() }}
                     component={RouterLink}
                     to={option.link}>

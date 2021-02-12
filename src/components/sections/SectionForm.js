@@ -161,7 +161,6 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
               classes={classes}
               name="song"
               inputValue={initialValues && initialValues.song ? initialValues.song : undefined}
-              style={{ height: '44px' }}
               component={renderAutoCompleteDataField}
               label="Song"
               required

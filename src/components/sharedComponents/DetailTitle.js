@@ -180,7 +180,7 @@ const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album,
       <Grid item xs={12} md={12} lg={7}>
         <Typography variant={matches ? 'h6' : 'h5'} className={classes.title}>{title}</Typography>
         <Typography variant={matches ? 'subtitle1' : 'h6'}>{subtitle1}</Typography>
-        <Typography variant={matches ? 'subtitle1' : 'h6'} style={{ display: 'inline' }}>{subtitle2}</ Typography>
+        <Typography variant={matches ? 'subtitle1' : 'h6'}>{subtitle2}</ Typography>
       </Grid>
       <BackDrop showBackdrop={showBackdrop}/>
     </Grid>

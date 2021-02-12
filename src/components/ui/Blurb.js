@@ -17,8 +17,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
    subtitle: {
+    fontSize: '1.5rem',
     [theme.breakpoints.down('md')]: {
-      fontSize: '1.5rem'
+      fontSize: '1rem'
     },
     [theme.breakpoints.down('sm')]: {
       fontSize: '1rem'
@@ -52,16 +53,16 @@ const Blurb = ({ blurb }) => {
   const classes = useStyles()
   return (
    <Grid container justify="space-around" alignItems="center">
-          <Grid item xs={10} lg={6}>
-            <Typography variant='h3' className={classes.title} gutterBottom>{blurb.title}</Typography>
-            <Typography variant='h4' className={classes.subtitle} gutterBottom>{blurb.subtitle}</Typography>
-            <Typography variant='subtitle1' className={classes.desc}gutterBottom>{blurb.desc}
-            </Typography>
-          </Grid>
-          <Grid item xs={10} lg={5}>
-            <video className={classes.video} autoPlay="true" preload="auto" loop src={blurb.video}/>
-          </Grid>
-        </Grid>
+      <Grid item xs={10} lg={6}>
+        <Typography variant='h3' className={classes.title} gutterBottom>{blurb.title}</Typography>
+        <Typography variant='h4' className={classes.subtitle} gutterBottom>{blurb.subtitle}</Typography>
+        <Typography variant='subtitle1' className={classes.desc}gutterBottom>{blurb.desc}
+        </Typography>
+      </Grid>
+      <Grid item xs={10} lg={5}>
+        <video className={classes.video} autoPlay={true} preload="auto" loop src={blurb.video}/>
+      </Grid>
+  </Grid>
   )
 }
 
