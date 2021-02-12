@@ -1,7 +1,7 @@
 import songbook from '../apis/songbook'
 import history from '../history'
 import { returnErrors } from './messages'
-import { CREATE_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT, FETCH_INSTRUMENT, FETCH_INSTRUMENTS } from './types'
+import { CREATE_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT,  FETCH_INSTRUMENTS } from './types'
 import { loading, notLoading, showSuccessSnackbar } from './ui'
 
 export const createInstrument = (formValues) => async (dispatch) => {
@@ -35,25 +35,6 @@ export const fetchInstruments = () => async (dispatch) => {
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status))
   }
-  dispatch(notLoading())
-}
-
-export const fetchInstrument = (id) => async (dispatch) => {
-  dispatch(loading())
-
-  try {
-    const response = await songbook.get(`/instruments/${id}/`)
-    dispatch({
-      type: FETCH_INSTRUMENT,
-      payload: response.data
-    })
-    if (!history.location.pathname.includes('edit')) {
-      history.push(`/instruments/${id}`)
-    }
-  } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status))
-  }
-
   dispatch(notLoading())
 }
 

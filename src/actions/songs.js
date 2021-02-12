@@ -1,7 +1,7 @@
 import songbook from '../apis/songbook'
 import history from '../history'
 import { returnErrors } from './messages'
-import { CREATE_SONG, DELETE_SECTION, DELETE_SONG, EDIT_SONG, FETCH_SONG, FETCH_SONGS } from './types'
+import { CREATE_SONG, DELETE_SECTION, DELETE_SONG, EDIT_SONG, FETCH_SONGS } from './types'
 import { loading, notLoading, showSuccessSnackbar } from './ui'
 
 export const createSong = (formValues) => async (dispatch) => {
@@ -49,24 +49,6 @@ export const fetchSongs = () => async (dispatch) => {
       type: FETCH_SONGS,
       payload: response.data
     })
-  } catch (error) {
-    dispatch(returnErrors(error.response.data, error.response.status))
-  }
-  dispatch(notLoading())
-}
-
-export const fetchSong = (id) => async (dispatch) => {
-  dispatch(loading())
-  try {
-    const response = await songbook.get(`/songs/${id}/`)
-
-    dispatch({
-      type: FETCH_SONG,
-      payload: response.data
-    })
-    if (!history.location.pathname.includes('edit')) {
-      history.push(`/songs/${id}`)
-    }
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status))
   }
