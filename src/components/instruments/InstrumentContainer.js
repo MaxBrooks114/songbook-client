@@ -149,7 +149,7 @@ const InstrumentContainer = () => {
       <Grid container justify='space-evenly' className={classes.cardGrid}>
         {Object.values(instruments).length
           ? renderList()
-          : <NoMusicMessage objectType="songs"/>
+          : <NoMusicMessage objectType="instruments"/>
 
         }
         {detailShow
