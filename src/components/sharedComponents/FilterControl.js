@@ -199,12 +199,26 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   const songs = Object.values(useSelector(state => state.songs))
   const location = useLocation()
   const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
-  const items = useSelector((state) => getFilteredItems(state, objectType))
+  const items = Object.values(useSelector((state) => state[objectType]))
   const userId = useSelector(state => state.auth.user.id)
   const songOrSections = location.pathname.split('/')[1]
   const booleans = {
     true: true,
     false: false
+  }
+
+  const initializeSliders = () => {
+    if (filterValues) {
+          if (!filterValues.duration.length || filterValues.duration.some(val => val === null)) {
+            dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))] }))
+          }
+          if (!filterValues.tempo.length || filterValues.tempo.some(val => val === null)) {
+            dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
+          }
+          if (!filterValues.year.length || filterValues.year.some(val => val === null)) {
+            dispatch(setFilter({ year: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt((item.year)) + 1))] }))
+          }
+    }
   }
 
   useEffect(() => {
@@ -215,17 +229,8 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   }, [songOrSections])
 
   useEffect(() => {
-    if (filterValues) {
-      if (!filterValues.duration.length || filterValues.duration.some(val => val === null)) {
-        dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))] }))
-      }
-      if (!filterValues.tempo.length || filterValues.tempo.some(val => val === null)) {
-        dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
-      }
-      if (!filterValues.year.length || filterValues.year.some(val => val === null)) {
-        dispatch(setFilter({ year: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt((item.year)) + 1))] }))
-      }
 
+      initializeSliders()
       if (filterForm && !filterForm.values) {
         dispatch(initialize('FilterForm', {
           ...filterValues,
@@ -235,8 +240,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
           key: ''
         }))
       }
-    }
-  }, [objectType, dispatch, songs, items, filterForm, filterValues, location.pathname])
+  }, [objectType, dispatch, items, filterForm, filterValues])
 
   useEffect(() => {
     return () => {
@@ -302,7 +306,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                   options={_.uniq(songs.map((song) => song[field])).sort()}
                   classes={classes}
                   name={field}
-
+                  value={filterForm && filterForm.values ? filterForm.values[field] : ''}
                   component={renderAutoCompleteDataField}
                   label={titleCase(field)}
                    InputLabelProps={{
@@ -431,6 +435,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
              dispatch(reset('FilterForm'))
              dispatch(clearFields('FilterForm'))
              dispatch(clearFilter())
+             initializeSliders()
            }} variant="contained">
                     clear
             </Button>

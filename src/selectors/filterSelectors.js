@@ -19,45 +19,45 @@ export const getFilteredItems = (state, objectType) => {
     return Object.values(filterables).filter(f => {
       const fk = filterKeys.filter(k => (k === 'learned' && filterProperties[k] !== '') || (k === 'original' && filterProperties[k] !== '') || (k === 'explicit' && filterProperties[k] !== '') || (filterProperties[k] && f[k]) || (filterProperties[k] && f[k] === 0) || (objectType === 'sections' && k === 'instrument' && filterProperties[k] !== ''))
       return fk.every(prop => {
-        switch (prop) {
-          case 'key':
-          case 'time_signature' :
-            return parseInt(f[prop]) === parseInt(filterProperties[prop])
-          case 'mode' :
-            return renderText(modes, f[prop]).toLowerCase() === renderText(modes, filterProperties[prop]).toLowerCase()
-          case 'original':
-          case 'explicit':
-          case 'learned':
-            return f[prop] === filterProperties[prop]
-          case 'acousticness' :
-          case 'danceability' :
-          case 'instrumentalness' :
-          case 'energy' :
-          case 'liveness' :
-          case 'speechiness' :
-          case 'valence' :
-            return (audioFeaturesToNumbers(f[prop]) >= filterProperties[prop][0] && audioFeaturesToNumbers(f[prop]) <= filterProperties[prop][1])
-          case 'tempo' :
-          case 'duration' :
-            return (f[prop] >= parseInt(filterProperties[prop][0]) && f[prop] <= parseInt(filterProperties[prop][1]))
-          case 'year':
-            return f[prop].split('-')[0] >= filterProperties[prop][0] && f[prop].split('-')[0] <= filterProperties[prop][1]
-          case 'title':
-          case 'artist':
-          case 'album':
-          case 'genre':
-          case 'name':
-            return f[prop].toLowerCase().includes(filterProperties[prop].toLowerCase())
-          case 'instrument':
-            // nested serializers in django are annoying. instead of displaying the whole object in state, need to grab from separate piece of state
+          switch (prop) {
+            case 'key':
+            case 'time_signature' :
+              return parseInt(f[prop]) === parseInt(filterProperties[prop])
+            case 'mode' :
+              return renderText(modes, f[prop]).toLowerCase() === renderText(modes, filterProperties[prop]).toLowerCase()
+            case 'original':
+            case 'explicit':
+            case 'learned':
+              return f[prop] === filterProperties[prop]
+            case 'acousticness' :
+            case 'danceability' :
+            case 'instrumentalness' :
+            case 'energy' :
+            case 'liveness' :
+            case 'speechiness' :
+            case 'valence' :
+              return (audioFeaturesToNumbers(f[prop]) >= filterProperties[prop][0] && audioFeaturesToNumbers(f[prop]) <= filterProperties[prop][1])
+            case 'tempo' :
+            case 'duration' :
+              return (f[prop] >= parseInt(filterProperties[prop][0]) && f[prop] <= parseInt(filterProperties[prop][1]))
+            case 'year':
+              return f[prop].split('-')[0] >= filterProperties[prop][0] && f[prop].split('-')[0] <= filterProperties[prop][1]
+            case 'title':
+            case 'artist':
+            case 'album':
+            case 'genre':
+            case 'name':
+              return f[prop].toLowerCase().includes(filterProperties[prop].toLowerCase()) && f[prop] !== ''
+            case 'instrument':
+              // nested serializers in django are annoying. instead of displaying the whole object in state, need to grab from separate piece of state
 
-            const instrument = Object.values(instruments).filter(instrument => instrument.name.toLowerCase() === filterProperties[prop].toLowerCase())[0]
-            return f.instruments.includes(instrument.id)
-          case 'song':
-            return f[prop].title.toLowerCase().includes(filterProperties[prop].toLowerCase())
-          default:
-            return false
-        }
+              const instrument = Object.values(instruments).filter(instrument => instrument.name.toLowerCase() === filterProperties[prop].toLowerCase())[0]
+              return f.instruments.includes(instrument.id)
+            case 'song':
+              return f[prop].title.toLowerCase().includes(filterProperties[prop].toLowerCase())
+            default:
+              return false
+          }
       })
     }).sort((a, b) => (a[filterProperties.sort] > b[filterProperties.sort] ? orderArray[0] : orderArray[1]))
   } else if (!filterProperties.sort || filterProperties.sort === 'song') {

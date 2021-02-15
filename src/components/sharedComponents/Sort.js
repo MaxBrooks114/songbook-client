@@ -5,8 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { setFilter } from '../../actions/filter'
 import { renderTextField } from './MaterialUiReduxFormFields'
-import { getFilteredItems } from '../../selectors/filterSelectors'
-
+ 
 const useStyles = makeStyles((theme) => ({
 
   root: {
@@ -110,23 +109,23 @@ const useStyles = makeStyles((theme) => ({
 const Sort = ({ objectType }) => {
   const filterValues = useSelector(state => state.filter)
   const filterForm = useSelector(state => state.form.FilterForm)
-  const omitFields = ['id', 'spotify_url', 'spotify_id', 'image', 'sections', 'instruments', 'lyrics']
-  const items = useSelector((state) => getFilteredItems(state, objectType))
-  const itemProps = Object.keys(items[0]).filter(k => !omitFields.includes(k))
+  const songProps = ['title', 'artist', 'album', 'genre', 'tempo', 'time_signature', 'duration', 'year', 'valence', 'instrumentalness', 'energy', 'acousticness', 'created_at', 'updated_at', 'loudness', 'speechiness', 'liveness', 'danceability', 'key', 'mode']
+  const sectionProps = ['name', 'start', 'tempo', 'time_signature', 'duration','created_at', 'updated_at', 'song', 'key', 'mode']
+  const itemProps = objectType === 'songs' ? songProps : sectionProps
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (!filterValues.sort && !filterValues.filter) {
       if (objectType === 'songs') {
-        dispatch(setFilter({ sort: 'artist' }))
+        dispatch(setFilter({ sort: 'artist', order: 'ascending' }))
       } else {
-        dispatch(setFilter({ sort: 'song' }))
+        dispatch(setFilter({ sort: 'song',  order: 'ascending' }))
       }
     }
 
     if (!itemProps.includes(filterValues.sort)) {
-      dispatch(setFilter({ sort: 'created_at', order: 'descending' }))
+      dispatch(setFilter({ sort: 'created_at', order: 'ascending' }))
     }
   }, [filterValues.sort, filterValues.filter, objectType, itemProps, dispatch])
 
@@ -139,7 +138,7 @@ const Sort = ({ objectType }) => {
                       label="Sort"
                       component={renderTextField}
                       select
-                      options={ itemProps && itemProps.length ? itemProps.map(prop => prop) : null }
+                      options={ itemProps && itemProps.length ? itemProps.map(prop => prop).sort() : null }
                       onChange={(e, v) => {
                         // redux forms do not allow for submitting forms onChange in a neat way so this is my dirty work around
                         if (filterForm && filterForm.values) dispatch(setFilter({ sort: v, order: filterForm.values.order, filter: true }))

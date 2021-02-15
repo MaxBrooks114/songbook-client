@@ -139,13 +139,13 @@ export const renderSlider = ({
     />
   )
 }
-export const renderAutoCompleteField = ({ options, classes, input, label, fullWidth, inputValue, ...custom }) => {
+export const renderAutoCompleteField = ({ options, classes, input, label, fullWidth, defaultValue, ...custom }) => {
   return (
       <Autocomplete
       options={options}
       getOptionLabel={(option) => option[Object.keys(option)]}
       classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
-      inputValue={inputValue}
+      defaultValue={defaultValue}
       renderInput={(params) => (
         <TextField
         {...params}
@@ -168,14 +168,16 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
   )
 }
 
-export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, inputValue, ...custom }) => {
+export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, value, defaultValue, ...custom }) => {
   return (
           <Autocomplete
           options={options}
           getOptionLabel={getOptionLabel}
           renderOption= {renderOption}
           onSelect={onChange}
-          inputValue={inputValue}
+          defaultValue={defaultValue}
+          //controls the component with redux form 
+          value={options.find((option) => option === input.value) || ''}
           classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
           renderInput={(params) => (
             <TextField
