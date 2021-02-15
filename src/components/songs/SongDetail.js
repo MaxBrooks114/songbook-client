@@ -89,7 +89,7 @@ const SongDetail = () => {
               spotifyUri={song.spotify_url}
             />
           </Grid>
-          <Grid item xs={6} md={3} >
+          <Grid item xs={12} lg={3}>
             <NavRow song={song}/>
           </Grid>
           <Grid item xs={12}>

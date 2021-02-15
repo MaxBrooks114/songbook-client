@@ -13,14 +13,18 @@ import DetailAccordion from './DetailAccordion'
 const useStyles = makeStyles((theme) => ({
 
   info: {
-    fontSize: '.9rem'
+    fontSize: '.9rem',
+    [theme.breakpoints.down('sm')]: {
+       fontSize: '.8rem',
+      
+    }
   }
 
 }))
 const Features = ({ song, section, instrument, objectType }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('md'))
+  const medScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const item = song || section || instrument
 
@@ -51,10 +55,10 @@ const Features = ({ song, section, instrument, objectType }) => {
         ? (<React.Fragment key={index}>
         <Grid item xs={2} />
           <Grid item xs={5}>
-            <Typography variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+            <Typography variant={medScreen ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid> </React.Fragment>)
         : <Grid item xs={5} key={index}>
-            <Typography variant={matches ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+            <Typography variant={medScreen ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid>
     })
   }

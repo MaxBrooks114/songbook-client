@@ -4,10 +4,34 @@ import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRo
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
+import filter_arrow_right from '../../assets/filter_arrow_right.svg'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import SongList from './SongList'
 
 const useStyles = makeStyles((theme) => ({
+
+  addIcon: {
+    height: 42,
+    width: 42
+  },
+
+  addIconContainer: {
+    height: 24,
+    width: 24,
+    marginLeft: 0,
+    position: 'fixed',
+    bottom: '12%',
+    zIndex: theme.zIndex.drawer + 1,
+    right: '6%',
+
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main
+    }
+  },
+
+
   drawer: {
     background: theme.palette.background.default,
     height: '85%',
@@ -21,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     width: 50
   },
 
+
   drawerIconContainer: {
     backgroundColor: theme.palette.common.gray,
     height: 24,
@@ -29,15 +54,38 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: '25%',
     zIndex: theme.zIndex.drawer + 1,
-    right: 0,
+    right: '6%',
 
     '&:hover': {
       backgroundColor: theme.palette.primary.main
     }
-  }
+  },
+
+  filterIcon: {
+    height: 48,
+    width: 48
+  },
+
+  filterIconContainer: {
+    height: 24,
+    width: 24,
+    marginLeft: 0,
+    position: 'fixed',
+    bottom: '18%',
+    zIndex: theme.zIndex.drawer + 1,
+    right: '5%',
+
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main
+    }
+  },
+
+
 
 }))
-const SongDrawer = () => {
+const SongDrawer = ({openFilter, setOpenFilter}) => {
+  const location = useLocation()
+  const history = useHistory()
   const classes = useStyles()
   const [openDrawer, setOpenDrawer] = useState(false)
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
@@ -50,7 +98,17 @@ const SongDrawer = () => {
       <IconButton className={classes.drawerIconContainer}>
         {drawerButton()}
       </IconButton>
-
+      {!openFilter ? (
+        <IconButton className={classes.filterIconContainer} onClick={() => setOpenFilter(true)}>
+          <img className={classes.filterIcon} src={filter_arrow_right} alt="filter_button" />
+        </IconButton>
+      ) : null }
+      {!location.pathname.includes('new') ? 
+      (
+        <IconButton onClick={() => history.push('/songs/new')} className={classes.addIconContainer}>
+          <AddRoundedIcon className={classes.addIcon}/>
+        </IconButton>
+      ) : null }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}

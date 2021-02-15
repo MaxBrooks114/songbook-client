@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
       width: 120,
       marginRight: 15,
       [theme.breakpoints.down('md')]: {
-        marginRight: 0
+        marginRight: 0,
+        width: 100
       }
     },
 
@@ -60,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiFormControlLabel-label': {
       color: theme.palette.info.main,
       fontSize: '.8rem',
-      [theme.breakpoints.down('sm')]: {
-        fontSize: '.8rem'
+      [theme.breakpoints.down('md')]: {
+        fontSize: '.3rem',
       }
     },
 

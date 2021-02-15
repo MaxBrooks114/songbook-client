@@ -64,6 +64,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1)
   },
 
+  container: {
+    [theme.breakpoints.down('md')]: {
+      display: 'block',
+      margin: 'auto' ,
+      
+    }
+  },
+
   link: {
     textDecoration: 'none',
     color: theme.palette.info.main,
@@ -124,7 +132,7 @@ const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album,
   const dispatch = useDispatch()
   const classes = useStyles()
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('md'))
+  const medScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [showBackdrop, setShowBackdrop] = useState(false)
 
   useEffect(() => {
@@ -167,7 +175,7 @@ const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album,
     : <IconButton className={classes.bigPlayButtonContainer} onClick={handlePlayClick}><PlayCircleOutlineRoundedIcon className={classes.bigPlayButton} /></IconButton>
 
   return (
-    <Grid container justify={matches ? 'center' : 'flex-start'} alignItems="center">
+    <Grid container justify={medScreen ? 'center' : 'flex-start'} className={classes.container} align={medScreen ? 'center' : undefined} alignItems="center">
       <Grid item xs={10} sm={8} md={6} lg={3} className={classes.albumContainer}>
         {renderSpotifyOption()}
         <img
@@ -178,9 +186,9 @@ const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album,
       </Grid>
       <Grid item xs={1} ></Grid>
       <Grid item xs={12} md={12} lg={7}>
-        <Typography variant={matches ? 'h6' : 'h5'} className={classes.title}>{title}</Typography>
-        <Typography variant={matches ? 'subtitle1' : 'h6'}>{subtitle1}</Typography>
-        <Typography variant={matches ? 'subtitle1' : 'h6'}>{subtitle2}</ Typography>
+        <Typography variant={medScreen ? 'h6' : 'h5'} className={classes.title}>{title}</Typography>
+        <Typography variant={medScreen ? 'subtitle1' : 'h6'}>{subtitle1}</Typography>
+        <Typography variant={medScreen ? 'subtitle1' : 'h6'}>{subtitle2}</ Typography>
       </Grid>
       <BackDrop showBackdrop={showBackdrop}/>
     </Grid>

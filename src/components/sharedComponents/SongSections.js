@@ -75,9 +75,9 @@ const SongSections = ({ song, instrument }) => {
          return index !== sections.length-1 ? 
           (
             <React.Fragment key={section.id}>
-              <Grid item xs={3}>          
+              <Grid item xs={12} md={3}>          
                 <Grid container alignItems="center" align="center" justify="center">
-                 <Grid item xs={6}>
+                 <Grid item xs={3} md={6}>
                     <Typography>
                       <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     </Typography>
@@ -90,9 +90,9 @@ const SongSections = ({ song, instrument }) => {
             </React.Fragment>
             ) : (
             <React.Fragment key={section.id}>
-              <Grid item xs={3}>          
+              <Grid item xs={12} md={3}>          
                   <Grid container  alignItems="center" align="center" justify="center">
-                  <Grid item xs={6}>
+                  <Grid item xs={3} md={6}>
                       <Typography>
                         <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                       </Typography>

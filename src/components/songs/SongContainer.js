@@ -31,15 +31,20 @@ const useStyles = makeStyles((theme) => ({
     width: 72,
     marginLeft: 0,
     position: 'fixed',
-    top: '12%',
+    top: '10%',
     zIndex: 3,
     right: '1%',
     '&:hover': {
       background: theme.palette.background.default
     },
+    
+    [theme.breakpoints.down('md')]: {
+      top: '7%',
+      
+    },
     [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
+      top: '75%',
+      right: 0
     }
 
   },
@@ -74,7 +79,11 @@ const useStyles = makeStyles((theme) => ({
 
   drawerIcon: {
     height: 54,
-    width: 54
+    width: 54,
+    [theme.breakpoints.down('md')]: {
+      height: 48,
+    width: 48,
+    }
   },
 
   drawerIconContainer: {
@@ -82,15 +91,20 @@ const useStyles = makeStyles((theme) => ({
     width: 72,
     marginLeft: 0,
     position: 'fixed',
-    top: '12%',
+    top: '10%',
     zIndex: 3,
     left: '1%',
     '&:hover': {
       background: theme.palette.background.default
     },
+
+    [theme.breakpoints.down('md')]: {
+      top: '7%',
+      
+    },
     [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
+      top: '10%',
+      left: 0
     }
 
   },
@@ -200,18 +214,18 @@ const SongContainer = () => {
         </Grid>
         )
       : (
-      <SongDrawer renderFilter={renderFilter} transitionDuration={transitionDuration} />)
+      <SongDrawer openFilter={openDrawer} setOpenFilter={setOpenDrawer} />)
   }
 
   return (
     <div >
-      {Object.values(songs).length
+      {Object.values(songs).length && !smallScreen
         ? <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
             <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
         </IconButton>
         : null
       }
-      {location.pathname !== '/songs/new'
+      {location.pathname !== '/songs/new' && !smallScreen
         ? <IconButton
           onClick={() => history.push('/songs/new')}
           className={classes.addIconContainer}

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const AudioProperties = ({ song }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('md'))
+  const medScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const songFeatureIcons = {
     low: <><MusicNoteRoundedIcon/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/><MusicNoteRoundedIcon className={classes.grayedOutMusicNote}/></>,
@@ -34,15 +34,15 @@ const AudioProperties = ({ song }) => {
       return index % 2 === 0
         ? (
         <React.Fragment key={feature}>
-          {matches ? null : <Grid item xs={2}/>}
+          {medScreen ? null : <Grid item xs={2}/>}
           <Grid item xs={10} md={5} >
-            <Typography variant={matches ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
+            <Typography variant={medScreen ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
            </Grid>
         </React.Fragment>
           )
         : (
         <Grid item xs={10} md={5} key={feature}>
-          <Typography variant={matches ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
+          <Typography variant={medScreen ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
         </Grid>
           )
     })

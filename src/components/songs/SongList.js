@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
   list: {
     paddingTop: 0,
-    height: '80%',
+    height: '95%',
     overflow: 'scroll'
 
   },
@@ -49,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
   sortBar: {
     width: '95%',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+     [theme.breakpoints.down('md')]: {
+      width: '100%'
+    }
   }
 
 }))

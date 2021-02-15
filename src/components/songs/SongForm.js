@@ -18,13 +18,14 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.default,
       width: 300,
       [theme.breakpoints.down('md')]: {
-        width: 240
+        width: 150
       },
       [theme.breakpoints.down('sm')]: {
         width: 200
       },
       '& fieldset': {
-        borderColor: theme.palette.info.main
+        borderColor: theme.palette.info.main,
+      
       },
       '&:hover fieldset': {
         borderColor: theme.palette.secondary.dark
@@ -33,7 +34,10 @@ const useStyles = makeStyles((theme) => ({
     },
 
     '& .MuiInputBase-input': {
-      fontSize: '1rem'
+      fontSize: '1rem',
+      [theme.breakpoints.down('md')]: {
+        fontSize: '.6rem'
+      }
     },
 
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
@@ -41,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
     },
     ' & .MuiFormHelperText-contained': {
       color: theme.palette.common.orange
-    },
-
-    '& .MuiFormLabel-asterisk': {
-      color: theme.palette.common.orange,
-      fontSize: 20
     },
 
     '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
@@ -83,7 +82,9 @@ const useStyles = makeStyles((theme) => ({
 
   label: {
     color: theme.palette.info.main,
-
+    [theme.breakpoints.down('md')]: {
+        fontSize: '.8rem'
+      },
     '&.shrink': {
       color: theme.palette.info.main
     }
@@ -106,7 +107,9 @@ const useStyles = makeStyles((theme) => ({
   option: {
     color: theme.palette.info.main,
     textTransform: 'capitalize',
-
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '.8rem'
+      },
     '&[data-focus="true"]': {
       background: theme.palette.primary.main,
       color: theme.palette.background.default
@@ -121,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
     },
     margin: '1rem',
     width: 400,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: 'auto'
     }
   },
@@ -130,7 +133,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     borderColor: theme.palette.info.main,
     borderWidth: 'thin',
-    background: theme.palette.background.default
+    background: theme.palette.background.default,
+    [theme.breakpoints.down('md')]: {
+        width: 322,
+        padding: 0
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: 200
+      },
   },
 
   value: {
@@ -150,7 +160,7 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
   return (
 
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-        <Grid container align="center" alignItems="flex-end" justify="center" >
+        <Grid container align="center"  alignItems="center" justify="center" >
               <Grid item xs={12} md={6}>
                 <Field
                   classes={classes}
