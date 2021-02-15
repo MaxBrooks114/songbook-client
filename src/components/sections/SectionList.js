@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 
   list: {
     paddingTop: 0,
-    minHeight: '100vh',
     height: '80%',
     overflow: 'scroll',
     borderRadius: 4
