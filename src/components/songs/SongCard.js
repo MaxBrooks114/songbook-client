@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     width: 85,
     height: 85,
     objectFit: 'fill',
-    borderRadius: '4px',
+    borderRadius: 4,
     [theme.breakpoints.down('md')]: {
       width: 0
     },

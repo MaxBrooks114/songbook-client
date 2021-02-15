@@ -130,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   uploadFieldSet: {
-    borderRadius: '4px',
+    borderRadius: 4,
     borderColor: theme.palette.info.main,
     borderWidth: 'thin',
     background: theme.palette.background.default,

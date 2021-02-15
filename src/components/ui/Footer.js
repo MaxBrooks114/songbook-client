@@ -6,7 +6,7 @@ import footerLogo from '../../assets/footerLogo.png'
 const useStyles = makeStyles((theme) => ({
    copy: {
     display: 'inline-block',
-    width: '210px',
+    width: 210,
     wordWrap: 'break-word',
     whiteSpace: 'normal'
   },
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    height: '60px',
+    height: 60,
     zIndex: theme.zIndex.modal + 1,
     color: theme.palette.info.main,
     clear: 'both'

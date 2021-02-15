@@ -39,13 +39,9 @@ const useStyles = makeStyles((theme) => ({
     },
     
     [theme.breakpoints.down('md')]: {
-      top: '7%',
-      
+      top: '7%',    
     },
-    [theme.breakpoints.down('sm')]: {
-      top: '75%',
-      right: 0
-    }
+   
 
   },
 
@@ -102,10 +98,7 @@ const useStyles = makeStyles((theme) => ({
       top: '7%',
       
     },
-    [theme.breakpoints.down('sm')]: {
-      top: '10%',
-      left: 0
-    }
+  
 
   },
 

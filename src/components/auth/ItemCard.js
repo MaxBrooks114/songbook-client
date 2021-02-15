@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
   cardContent1: {
     color: theme.palette.info.main,
-    padding: '10px',
+    padding: 10,
     height: 80,
     [theme.breakpoints.down('sm')]: {
       height: 60
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
   cardContent2: {
     color: theme.palette.info.main,
-    padding: '10px',
+    padding: 10,
     height: 120,
     [theme.breakpoints.down('sm')]: {
       height: 80

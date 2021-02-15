@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
   bigPauseButtonContainer: {
     position: 'absolute',
     top: '0',
-    bottom: '4px',
+    bottom: 4,
     left: '0',
     right: '0',
     opacity: '.6',
-    borderRadius: '4px',
+    borderRadius: 4,
     transition: '.3s ease',
     '&:hover': {
       background: theme.palette.info.main
@@ -46,11 +46,11 @@ const useStyles = makeStyles((theme) => ({
   bigPlayButtonContainer: {
     position: 'absolute',
     top: '0',
-    bottom: '4px',
+    bottom: 4,
     left: '0',
     right: '0',
     opacity: '.7',
-    borderRadius: '4px',
+    borderRadius: 4,
 
     transition: '.3s ease',
     '&:hover': {
@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
   media: {
     objectFit: 'fill',
-    borderRadius: '4px',
+    borderRadius: 4,
     height: '100%',
     width: '100%'
 

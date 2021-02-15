@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('sm')]: {
-      height: '32px',
-      width: '32px'
+      height: 32,
+      width: 32
     }
   },
 
@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.gray
     },
     [theme.breakpoints.down('sm')]: {
-      height: '32px',
-      width: '32px'
+      height: 32,
+      width: 32
     }
   },
 
@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.gray
     },
     [theme.breakpoints.down('sm')]: {
-      height: '32px',
-      width: '32px'
+      height: 32,
+      width: 32
     }
 
   },
@@ -59,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.gray
     },
     [theme.breakpoints.down('sm')]: {
-      height: '32px',
-      width: '32px'
+      height: 32,
+      width: 32
     }
   },
 
@@ -69,15 +69,15 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.common.gray
     },
     [theme.breakpoints.down('sm')]: {
-      height: '32px',
-      width: '32px'
+      height: 32,
+      width: 32
     }
   },
 
   volumeSlider: {
     [theme.breakpoints.down('sm')]: {
-      height: '32px',
-      width: '32px'
+      height: 32,
+      width: 32
     }
   },
   progressTime: {

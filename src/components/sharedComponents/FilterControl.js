@@ -129,8 +129,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   drawerIcon: {
-    height: '54px',
-    width: '54px'
+    height: 54,
+    width: 54
   },
 
   drawerIconContainer: {

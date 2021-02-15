@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     height: 34,
     width: 34,
-    bottom: '10px',
+    bottom: 10,
     right: '.5rem',
     borderRadius: 4
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
   cardContent: {
     color: theme.palette.info.main,
-    height: '64px'
+    height: 64
   },
 
   dialog: {
