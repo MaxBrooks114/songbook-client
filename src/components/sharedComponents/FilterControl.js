@@ -306,7 +306,6 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                   options={_.uniq(songs.map((song) => song[field])).sort()}
                   classes={classes}
                   name={field}
-                  value={filterForm && filterForm.values ? filterForm.values[field] : ''}
                   component={renderAutoCompleteDataField}
                   label={titleCase(field)}
                    InputLabelProps={{
@@ -461,10 +460,10 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
             <Grid item xs={12} sm={12}>
               <Field
 
-                  options={modes}
+                  options={modes.map(mode => Object.values(mode)[0])}
                   classes={classes}
                   name="mode"
-                  component={renderAutoCompleteField}
+                  component={renderAutoCompleteDataField}
                   label="Mode"
                   InputLabelProps={{
                     classes: {
