@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
     '& > * + *': {
       marginTop: theme.spacing(10)
     },
-    position: 'fixed'
+    position: 'fixed',
+    zIndex: 1400
   }
 }))
 
@@ -18,7 +19,7 @@ const Progressbar = () => {
   const loading = useSelector((state) => state.loading.loading)
 
   const renderBar = () => {
-    return loading ? <LinearProgress variant="indeterminate" color="secondary" /> : ''
+    return loading ? <LinearProgress variant="indeterminate" color="primary" /> : ''
   }
 
   return <div className={classes.root}>{renderBar()}</div>

@@ -22,7 +22,6 @@ import { Link as RouterLink, useLocation } from 'react-router-dom'
 
 import logo from '../../assets/logo.png'
 import SpotifySearchBar from '../spotify/SpotifySearchBar'
-import Progressbar from './Progressbar'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -349,14 +348,13 @@ const Navbar = () => {
               : null}
             </Grid>
         </Toolbar>
-
+        
+                
       </AppBar>
+     
       </ElevationScroll>
-
       <div className={classes.toolbarMargin}/>
-      <div className={classes.progressbar}>
-        <Progressbar />
-      </div>
+    
     </>
 
   )

@@ -28,6 +28,7 @@ import Home from './ui/Home'
 import Navbar from './ui/Navbar'
 import SuccessSnackBar from './ui/SuccessSnackBar'
 import theme from './ui/theme'
+import Progressbar from './ui/Progressbar'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -53,7 +54,9 @@ const App = () => {
       <CssBaseline />
 
       <Router history={history}>
+        <Progressbar />  
         <div id="container">
+
           <Navbar />
         <div id="body">
           <MuiThemeProvider>
