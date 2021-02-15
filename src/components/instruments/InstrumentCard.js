@@ -47,7 +47,7 @@ const InstrumentCard = ({ instrument, transitionDuration }) => {
     <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
       <Card className={classes.root}>
         <CardContent className={classes.cardContent}>
-          <Typography component="p" className={classes.title} variant={matches ? 'h5' : 'h6'}>
+          <Typography component="p" className={classes.title} variant={matches ? 'subtitle2' : 'h6'}>
             {displayName()}
           </Typography>
         </CardContent>
