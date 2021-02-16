@@ -208,17 +208,12 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   }
 
   const initializeSliders = () => {
-    if (filterValues) {
-          if (!filterValues.duration.length || filterValues.duration.some(val => val === null)) {
             dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))] }))
-          }
-          if (!filterValues.tempo.length || filterValues.tempo.some(val => val === null)) {
+          
             dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
-          }
-          if (!filterValues.year.length || filterValues.year.some(val => val === null)) {
+          
             dispatch(setFilter({ year: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt((item.year)) + 1))] }))
-          }
-    }
+          
   }
 
   useEffect(() => {
@@ -229,8 +224,6 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   }, [songOrSections])
 
   useEffect(() => {
-
-      initializeSliders()
       if (filterForm && !filterForm.values) {
         dispatch(initialize('FilterForm', {
           ...filterValues,
@@ -239,6 +232,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
           album: '',
           key: ''
         }))
+
       }
   }, [objectType, dispatch, items, filterForm, filterValues])
 
@@ -251,6 +245,10 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   useEffect(() => {
     if (songs.length === 0) setOpenDrawer(false)
   })
+
+  useEffect(() => {
+    initializeSliders()
+  }, [location.pathname])
 
   const renderAdvancedFilters = () => {
     const advancedOptions = objectType === 'songs' ? ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'] : []
@@ -326,16 +324,15 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
     return fields.length > 0
       ? fields.map((field) => {
         return (
-
           <Grid container direction="row" justify="center" key={field}>
-          <Grid item xs={8}>
-            <Field classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{
-              classes: {
-                formControlLabel: classes.label,
-                label: classes.label
-              }
-            }} />
-          </Grid>
+            <Grid item xs={8}>
+              <Field classes={classes} name={field} title={field} component={renderRadioGroup} InputLabelProps={{
+                classes: {
+                  formControlLabel: classes.label,
+                  label: classes.label
+                }
+              }} />
+            </Grid>
         </Grid>
         )
       })
@@ -482,11 +479,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                   label="Time Signature" />
             </Grid>
 
-            <Grid item xs={12} >
-              <Grid container direction="row" justify={objectType === 'songs' ? 'flex-start' : 'center'}>
-                { renderRadioFields() }
-              </Grid>
-          </Grid>
+           
           <Grid container justify="center" align="center" alignItems="center">
           <Grid item sm={12} xs={10}>
               <Field
@@ -502,7 +495,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                 />
               </Grid>
               {renderYearField()}
-            <Grid item sm={10} xs={10} >
+          <Grid item sm={10} xs={10} >
               <Field classes={classes}
                     min={Math.min(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))}
                     max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo)) || item.tempo === 0).map((item) => parseInt(item.tempo)))}
@@ -511,10 +504,14 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                     component={renderSlider}
                     label="Tempo"
                     />
-            </Grid>
           </Grid>
-            {renderSongAndInstrumentFields()}
-
+          </Grid>
+          {renderSongAndInstrumentFields()}
+          <Grid item xs={12} >
+              <Grid container direction="row" justify={objectType === 'songs' ? 'flex-start' : 'center'}>
+                { renderRadioFields() }
+              </Grid>
+          </Grid>
         { objectType === 'songs'
           ? <Grid item xs={12}>
              <Accordion className={classes.accordion}>
