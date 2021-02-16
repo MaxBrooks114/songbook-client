@@ -96,7 +96,7 @@ const ItemCard = ({ index, picture, album, cardTitle, cardInfo1, cardInfo2, type
   return (
       <Card className={classes.root} onClick={() => {
         history.push(`/${type}/${id}`)
-        if (dispatchKey && dispatchValue) {
+        if (dispatchKey && (dispatchValue || dispatchValue === 0)) {
           dispatch({
             type: SET_FILTER,
             payload: {
