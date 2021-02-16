@@ -55,6 +55,7 @@ const UserMetrics = ({ songs, sections }) => {
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('sm'))
   const spotifySongs = songs.filter(song => song.spotify_url)
+ 
 
    const data = {
     progress: {
@@ -68,8 +69,8 @@ const UserMetrics = ({ songs, sections }) => {
     favorites: {
       favoriteArtists: [topFiveByAttr(songs, 'artist'), 'image', 'album', 'songs', 'artist', 'title', 'album', _.uniq(songs.map(song => song.artist)).length, topFiveByAttrListLength(songs, 'artist')],
       favoriteGenres: [topFiveByAttr(songs, 'genre'), 'image', 'album', 'songs', 'genre', 'title', 'artist', _.uniq(songs.map(song => song.genre)).length, topFiveByAttrListLength(songs, 'genre')],
-      favoriteKeys: [topFiveByAttr(songs.filter(song => song.key), 'key'), 'image', 'album', 'songs', 'key', 'artist', 'album', _.uniq(songs.map(song => song.key)).length, topFiveByAttrListLength(songs, 'key')],
-      favoriteAlbums: [topFiveByAttr(songs.filter(song => song.key), 'album'), 'image', 'album', 'songs', 'album', 'title', 'artist', _.uniq(songs.map(song => song.album)).length, topFiveByAttrListLength(songs, 'album')]
+      favoriteKeys: [topFiveByAttr(songs.filter(song => song.key !== null && song.key !== ''), 'key'), 'image', 'album', 'songs', 'key', 'artist', 'album', _.uniq(songs.map(song => song.key)).length, topFiveByAttrListLength(songs, 'key')],
+      favoriteAlbums: [topFiveByAttr(songs.filter(song => song.album), 'album'), 'image', 'album', 'songs', 'album', 'title', 'artist', _.uniq(songs.map(song => song.album)).length, topFiveByAttrListLength(songs, 'album')]
     },
 
     timing: {
@@ -139,7 +140,7 @@ const UserMetrics = ({ songs, sections }) => {
       ? items[0].map((item, index) => {
         const title = items[8] ? `${renderInfo(item, items[4])} (${items[8][index]} Songs)` : renderInfo(item, items[4])
         let dispatchValue
-        if (item[items[4]]) {
+        if (item[items[4]] || item[items[4]] === 0) {
           dispatchValue = typeof item[items[4]] === 'string' ? item[items[4]] : item[items[4]].toString()
         }
         return (
