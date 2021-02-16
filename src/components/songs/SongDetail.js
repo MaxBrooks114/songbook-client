@@ -93,7 +93,7 @@ const SongDetail = () => {
             <NavRow song={song}/>
           </Grid>
           <Grid item xs={12}>
-            <Features objectType="section" song={song} />
+            <Features objectType="song" song={song} />
             <SongSections song={song}/>
             {song.spotify_url
               ? <AudioProperties song={song} />
