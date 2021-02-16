@@ -206,7 +206,7 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
                 <Field
                   options={genres.sort()}
                   classes={classes}
-                  defaultValue={initialValues ? initialValues.genre : undefined}
+                  defaultValue={initialValues && initialValues.genre ? initialValues.genre : undefined}
                   name="genre"
                   component={renderAutoCompleteDataField}
                   label="Genre"
@@ -236,11 +236,11 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Field
-                  options={modes}
+                  options={modes.map(mode => Object.values(mode)[0])}
                   classes={classes}
                   name="mode"
                   defaultValue={initialValues ? initialValues.mode : undefined}
-                  component={renderAutoCompleteField}
+                  component={renderAutoCompleteDataField}
                   label="Mode"
                   InputLabelProps={{
                     classes: {
