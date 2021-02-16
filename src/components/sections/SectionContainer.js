@@ -31,17 +31,15 @@ const useStyles = makeStyles((theme) => ({
     width: 72,
     marginLeft: 0,
     position: 'fixed',
-    top: '12%',
+    top: '10%',
     zIndex: 3,
     right: '1%',
     '&:hover': {
       background: theme.palette.background.default
+  },
+   [theme.breakpoints.down('md')]: {
+      top: '7%',    
     },
-    [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
-    }
-
   },
 
   cardGrid: {
@@ -75,29 +73,33 @@ const useStyles = makeStyles((theme) => ({
 
   drawerIcon: {
     height: 54,
-    width: 54
+    width: 54,
+    [theme.breakpoints.down('md')]: {
+      height: 48,
+    width: 48,
+    }
   },
 
   drawerIconContainer: {
-    height: '72px',
-    width: '72px',
+    height: 72,
+    width: 72,
     marginLeft: 0,
     position: 'fixed',
-    top: '12%',
+    top: '10%',
     zIndex: 3,
     left: '1%',
     '&:hover': {
       background: theme.palette.background.default
     },
-    [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
-    }
+
+    [theme.breakpoints.down('md')]: {
+      top: '7%',   
+    },
 
   },
 
   list: {
-    marginTop: '7px',
+    marginTop: 7,
     minHeight: '100vh',
     flexGrow: 1,
     transition: theme.transitions.create('all', {
@@ -189,17 +191,17 @@ const SectionContainer = () => {
            />
           </Grid>
         </>
-      : <SectionDrawer renderFilter={renderFilter} transitionDuration={transitionDuration}/>
+      : <SectionDrawer openFilter={openDrawer} setOpenFilter={setOpenDrawer}/>
   }
 
   return (
     <div className={classes.root}>
-     {Object.values(sections).length
+     {Object.values(sections).length && !smallScreen
        ? <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
           <img src={filter_arrow_right} alt='filter-open-button' className={classes.drawerIcon}/>
       </IconButton>
        : null }
-      {location.pathname !== '/sections/new'
+      {location.pathname !== '/sections/new' && !smallScreen
         ? <IconButton
           onClick={() => history.push('/sections/new')}
           className={classes.addIconContainer}

@@ -17,18 +17,18 @@ const useStyles = makeStyles((theme) => ({
     width: 48,
     color: theme.palette.common.orange,
     border: theme.palette.primary.main,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       height: 32,
       width: 32
     }
   },
 
   sheetmusic: {
-    height: 640,
-    width: 520,
-    [theme.breakpoints.down('sm')]: {
-      height: 320,
-      width: 260
+    height: 580,
+    width: 480,
+    [theme.breakpoints.down('md')]: {
+      height: 280,
+      width: 200
     }
   }
 
@@ -49,7 +49,7 @@ const SectionFiles = ({ section, fileType }) => {
           <Grid item xs={10} key={file.id}>
            {src}
           </Grid>
-          <Grid item>
+          <Grid item xs={2}>
             <IconButton onClick={() => dispatch(deleteFile(file.id))}>
               <DeleteForeverRoundedIcon className={classes.deleteRecordingButton} />
             </IconButton>

@@ -53,18 +53,18 @@ const Features = ({ song, section, instrument, objectType }) => {
     return features[objectType].map((feature, index) => {
       return index % 2 === 0
         ? (<React.Fragment key={index}>
-        <Grid item xs={2} />
-          <Grid item xs={5}>
-            <Typography variant={medScreen ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+        <Grid item xs={0} lg={2} />
+          <Grid item xs={7} lg={5}>
+            <Typography>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid> </React.Fragment>)
-        : <Grid item xs={5} key={index}>
-            <Typography variant={medScreen ? 'caption' : 'subtitle1' }>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
+        : <Grid item xs={7} lg={5} key={index}>
+            <Typography>{titleCase(feature)}: <span className={classes.info}>{renderInfo(item, feature)}</span></Typography>
           </Grid>
     })
   }
 
   return (
-    <DetailAccordion title="Features" renderFunction={renderFeatures} />
+    <DetailAccordion title="Features" justify="center" renderFunction={renderFeatures} />
   )
 }
 

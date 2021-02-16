@@ -9,11 +9,11 @@ const SectionMetronome = ({ section }) => {
   const renderMetronome = () => {
     return (
       <>
-      <Grid item xs={3}/>
-      <Grid item xs={6}>
+      <Grid item xs={2} lg={3}/>
+      <Grid item xs={8} lg={6}  >
         <Metronome
           playPauseStyle={{ background: '#f0f0f0', color: 'black', marginLeft: '1rem' }}
-          bpmStyle= {{ fontFamily: 'Spartan' }}
+          bpmStyle= {{ fontSize: '1rem', fontFamily: 'Spartan' }}
           bpmTagStyle={{ fontFamily: 'Spartan' }}
           plusStyle	=	{{
             background: '#f0f0f0',
@@ -30,7 +30,7 @@ const SectionMetronome = ({ section }) => {
           key={section.id}
           startBpm={section.tempo}/>
       </Grid>
-      <Grid item xs={3}/>
+      <Grid item xs={2} lg={3}/>
     </>
     )
   }

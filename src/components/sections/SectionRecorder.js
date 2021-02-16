@@ -7,7 +7,7 @@ import DetailAccordion from '../sharedComponents/DetailAccordion'
 const SectionRecorder = ({ section }) => {
   const renderRecorder = () => {
     return (
-      <Grid item xs={12}>
+      <Grid item xs={10} sm={12}>
         <RecordView className="recorder" key={section.id} />
       </Grid>
     )

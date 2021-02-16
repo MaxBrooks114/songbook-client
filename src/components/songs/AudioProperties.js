@@ -35,20 +35,20 @@ const AudioProperties = ({ song }) => {
         ? (
         <React.Fragment key={feature}>
           {medScreen ? null : <Grid item xs={2}/>}
-          <Grid item xs={10} md={5} >
-            <Typography variant={medScreen ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
+          <Grid item xs={10} lg={5} >
+            <Typography> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
            </Grid>
         </React.Fragment>
           )
         : (
-        <Grid item xs={10} md={5} key={feature}>
-          <Typography variant={medScreen ? 'caption' : 'subtitle1' }> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
+        <Grid item xs={10} lg={5} key={feature}>
+          <Typography> {titleCase(feature)}: {songFeatureIcons[audioFeaturesToText(song[feature])]}</Typography>
         </Grid>
           )
     })
   }
   return (
-    <DetailAccordion title="Audio Properties" renderFunction={renderAudioProperties}/>
+    <DetailAccordion title="Audio Properties" justify="center" renderFunction={renderAudioProperties}/>
   )
 }
 

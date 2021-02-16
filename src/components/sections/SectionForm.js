@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.default,
       width: 300,
       [theme.breakpoints.down('md')]: {
-        width: 240
+        width: 150
       },
       [theme.breakpoints.down('sm')]: {
         width: 200
@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
       }
     },
     '& .MuiInputAdornment-root .MuiTypography-colorTextSecondary': {
-      color: theme.palette.info.main
+      color: theme.palette.info.main,
+      [theme.breakpoints.down('md')]: {
+        fontSize: '.6rem'
+      },
     },
     ' & .MuiFormHelperText-contained': {
       color: theme.palette.common.orange
@@ -81,7 +84,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     '&.shrink': {
       color: theme.palette.info.main
-    }
+    },
+
+    [theme.breakpoints.down('md')]: {
+        fontSize: '.8rem'
+      },
   },
 
   listbox: {
@@ -113,8 +120,16 @@ const useStyles = makeStyles((theme) => ({
     },
     margin: '1rem',
     width: 400,
-    [theme.breakpoints.down('sm')]: {
-      width: 'auto'
+    maxWidth: 400,
+    [theme.breakpoints.down('md')]: {
+      width: 'auto',
+      maxWidth: 360,
+    },
+     [theme.breakpoints.down('sm')]: {
+      maxWidth: 200
+    },
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: 180
     }
   },
 
@@ -122,7 +137,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     borderColor: theme.palette.info.main,
     borderWidth: 'thin',
-    background: '#f0f0f0'
+    background: '#f0f0f0',
+    [theme.breakpoints.down('md')]: {
+      width: 'auto',
+      
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 305
+    },
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: 212
+    }
   },
 
   value: {
@@ -160,7 +185,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
               options={_.uniq(Object.values(songs).map(song => song.title))}
               classes={classes}
               name="song"
-              inputValue={initialValues && initialValues.song ? initialValues.song : undefined}
+              defaultValue={initialValues && initialValues.song ? initialValues.song : undefined}
               component={renderAutoCompleteDataField}
               label="Song"
               required
@@ -211,7 +236,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
               options={keys}
               classes={classes}
               name="key"
-              inputValue={initialValues && initialValues.key ? initialValues.key : undefined}
+              defaultValue={initialValues && initialValues.key ? initialValues.key : undefined}
               component={renderAutoCompleteField}
               label="Key"
               InputLabelProps={{
@@ -227,7 +252,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
               classes={classes}
               name="mode"
               component={renderAutoCompleteField}
-              inputValue={initialValues && initialValues.mode ? initialValues.mode : undefined}
+              defaultValue={initialValues && initialValues.mode ? initialValues.mode : undefined}
               label="Mode"
               InputLabelProps={{
                 classes: {
@@ -321,13 +346,10 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
                 </fieldset>
               </Grid>
             <Grid container alignItems="flex-end" justify="space-between">
-              <Grid item xs={12} sm={2}>
-                <Field classes={classes} name="original" component={renderCheckbox} label="Original" />
+              <Grid item xs={4}  >
+                <Field classes={classes} name="learned" component={renderCheckbox} label="Learned" />
               </Grid>
-              <Grid item xs={12} sm={2} >
-                <Field classes={classes} name="learned" component={renderCheckbox} label="learned" />
-              </Grid>
-              <Grid item xs={12} sm={2}>
+              <Grid item xs={4} >
                 <Button type="submit" className={classes.button} variant="contained">
                   Submit
                 </Button>

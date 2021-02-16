@@ -5,8 +5,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles'
 
 import React from 'react'
 
@@ -37,22 +35,32 @@ const useStyles = makeStyles((theme) => ({
   },
 
   accordionTitle: {
-    fontWeight: '500'
+    fontWeight: 500,
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 200
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 180
+    },
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: 120
+    },
+
+    
   }
 
 }))
 
-const DetailAccordion = ({ title, renderFunction }) => {
+const DetailAccordion = ({ title, renderFunction, justify }) => {
   const classes = useStyles()
-  const theme = useTheme()
-  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
       <Accordion className={classes.accordion}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-        <Typography className={classes.accordionTitle}>{title}</Typography>
+        <Typography noWrap className={classes.accordionTitle}>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Grid container justify={smallScreen ? "center" : null} alignItems="center">
+        <Grid container justify={justify} alignItems="center">
           {renderFunction()}
         </Grid>
       </AccordionDetails>
