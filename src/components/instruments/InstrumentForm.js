@@ -11,14 +11,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiOutlinedInput-root': {
       background: theme.palette.background.default,
-      width: 300,
-
+       width: 300,
       [theme.breakpoints.down('md')]: {
-        width: 240
+        width: 160
       },
-      [theme.breakpoints.down('sm')]: {
-        width: 200
-      },
+     
       '& fieldset': {
         borderColor: theme.palette.info.main
       },
@@ -101,7 +98,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit, initialValues }) => {
               required
               options={instrumentList.sort()}
               name="name"
-              inputValue={initialValues && initialValues.name ? initialValues.name : undefined}
+              defaultValue={initialValues && initialValues.name ? initialValues.name : undefined}
               component={renderAutoCompleteDataField}
               label="Name"
             />
@@ -153,7 +150,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit, initialValues }) => {
               classes={classes}
               name="family"
               component={renderAutoCompleteDataField}
-              inputValue={initialValues && initialValues.family ? initialValues.family : undefined}
+              defaultValue={initialValues && initialValues.family ? initialValues.family : undefined}
               label="Family"
               InputLabelProps={{
                 classes: {
@@ -170,7 +167,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit, initialValues }) => {
               classes={classes}
               name="tonal_range"
               component={renderAutoCompleteDataField}
-              inputValue={initialValues && initialValues.tonal_range ? initialValues.tonal_range : undefined}
+              defaultValue={initialValues && initialValues.tonal_range ? initialValues.tonal_range : undefined}
               label="Tonality"
                InputLabelProps={{
                  classes: {

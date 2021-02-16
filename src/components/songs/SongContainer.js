@@ -22,7 +22,7 @@ import SongEdit from './SongEdit'
 import SongList from './SongList'
 
 const drawerWidth = 244
-const transitionDuration = 50
+let transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 

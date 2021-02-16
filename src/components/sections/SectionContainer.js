@@ -22,7 +22,7 @@ import SectionEdit from './SectionEdit'
 import SectionList from './SectionList'
 
 const drawerWidth = 244
-const transitionDuration = 50
+let transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 

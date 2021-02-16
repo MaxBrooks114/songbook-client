@@ -18,13 +18,18 @@ import InstrumentDrawer from './InstrumentDrawer'
 import InstrumentEdit from './InstrumentEdit'
 import InstrumentList from './InstrumentList'
 
-const transitionDuration = 50
+let transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
   addIcon: {
     height: 54,
-    width: 54
+    width: 54,
+
+    [theme.breakpoints.down('md')]: {
+      height: 36,
+      width: 36,
+    }
   },
   addIconContainer: {
     height: 72,
@@ -38,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.default
     },
     [theme.breakpoints.down('sm')]: {
-      top: '5%',
-      position: 'sticky'
+      top: '80%',
+      right: 0
     }
   },
 
@@ -137,7 +142,7 @@ const InstrumentContainer = () => {
 
   return (
     <>
-       {location.pathname !== '/instruments/new'
+       {location.pathname !== '/instruments/new' && !smallScreen
          ? <IconButton
           onClick={() => history.push('/instruments/new')}
           className={classes.addIconContainer}

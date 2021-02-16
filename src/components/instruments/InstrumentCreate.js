@@ -11,16 +11,12 @@ const useStyles = makeStyles((theme) => ({
 
     color: theme.palette.info.main,
     margin: 'auto',
+    width: '100%',
     padding: '2rem',
     boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
     backgroundColor: theme.palette.primary.main,
     borderRadius: 4,
-    [theme.breakpoints.down('md')]: {
-      width: '75%'
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
+ 
   },
 
   title: {

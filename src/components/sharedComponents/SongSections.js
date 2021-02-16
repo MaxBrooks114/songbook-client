@@ -77,7 +77,7 @@ const SongSections = ({ song, instrument }) => {
             <React.Fragment key={section.id}>
               <Grid item xs={12} lg={3}>          
                 <Grid container alignItems="center" align="center" justify="center">
-                 <Grid item xs={3} lg={6}>
+                 <Grid item xs={4} sm={3} lg={6}>
                     <Typography>
                       <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                     </Typography>
@@ -92,7 +92,7 @@ const SongSections = ({ song, instrument }) => {
             <React.Fragment key={section.id}>
               <Grid item xs={12} lg={3}>          
                   <Grid container  alignItems="center" align="center" justify="center">
-                  <Grid item xs={3} lg={6}>
+                  <Grid item xs={4} sm={3} lg={6}>
                       <Typography>
                         <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
                       </Typography>

@@ -4,10 +4,32 @@ import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRo
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import InstrumentList from './InstrumentList'
 
 const useStyles = makeStyles((theme) => ({
+
+  addIcon: {
+    height: 42,
+    width: 42
+  },
+
+  addIconContainer: {
+    height: 24,
+    width: 24,
+    marginLeft: 0,
+    position: 'fixed',
+    bottom: '12%',
+    zIndex: theme.zIndex.drawer + 1,
+    right: '6%',
+
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main
+    }
+  },
+
 
   drawer: {
     background: theme.palette.background.default,
@@ -28,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
     width: 24,
     marginLeft: 0,
     position: 'fixed',
-    bottom: '25%',
+    bottom: '18%',
     zIndex: theme.zIndex.drawer + 1,
-    right: 0,
+    right: '6%',
 
     '&:hover': {
       backgroundColor: theme.palette.primary.main
@@ -40,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const InstrumentDrawer = () => {
+  const location = useLocation()
+  const history = useHistory()
   const [openDrawer, setOpenDrawer] = useState(false)
   const classes = useStyles()
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
@@ -52,7 +76,12 @@ const InstrumentDrawer = () => {
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
         {drawerButton()}
       </IconButton>
-
+       {!location.pathname.includes('new') ? 
+      (
+        <IconButton onClick={() => history.push('/songs/new')} className={classes.addIconContainer}>
+          <AddRoundedIcon className={classes.addIcon}/>
+        </IconButton>
+      ) : null }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}

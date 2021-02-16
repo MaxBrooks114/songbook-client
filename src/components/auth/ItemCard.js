@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     whiteSpace: 'normal',
     [theme.breakpoints.down('sm')]: {
-      lineClamp: '2'
+      lineClamp: '1'
     }
   },
 

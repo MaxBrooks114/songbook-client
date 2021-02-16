@@ -4,11 +4,10 @@ import { useSelector } from 'react-redux'
 
 import DetailAccordion from '../sharedComponents/DetailAccordion'
 import SongSections from '../sharedComponents/SongSections'
-
+import _ from 'lodash'
 const InstrumentSections = ({ instrument }) => {
   const sections = useSelector(state => Object.values(state.sections).filter(section => section.instruments.includes(instrument.id)))
-  const songs = sections.map(section => section.song)
-
+  const songs = _.uniqBy(sections.map(section => section.song), 'id')
   const renderSongs = () => {
     return songs
       ? songs.map((song) => {
