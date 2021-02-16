@@ -81,7 +81,7 @@ export const editSong = (id, formValues) => async (dispatch) => {
   for (const field in formValues) {
     if (field === 'sections') {
       formData.append('sections[]', [])
-    } else if (!formValues[field]) {
+    } else if (!formValues[field] && field !== 'original') {
       continue
     } else {
       formData.append(field, formValues[field])
