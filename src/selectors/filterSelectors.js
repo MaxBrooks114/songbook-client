@@ -13,8 +13,8 @@ export const getFilteredItems = (state, objectType) => {
   const instruments = getInstruments(state)
   const filterKeys = Object.keys(filterProperties).filter(key => key !== 'filter' && key !== 'loudness')
   const orderArray = filterProperties.order === 'ascending' ? [1, -1] : [-1, 1]
-
   const filterables = objectType === 'songs' ? songs : sections
+
   if (filterProperties.filter) {
     return Object.values(filterables).filter(f => {
       const fk = filterKeys.filter(k => (k === 'learned' && filterProperties[k] !== '') || (k === 'original' && filterProperties[k] !== '') || (k === 'explicit' && filterProperties[k] !== '') || (filterProperties[k] && f[k]) || (filterProperties[k] && f[k] === 0) || (objectType === 'sections' && k === 'instrument' && filterProperties[k] !== ''))
@@ -22,7 +22,7 @@ export const getFilteredItems = (state, objectType) => {
           switch (prop) {
             case 'key':
             case 'time_signature' :
-              return parseInt(f[prop]) === parseInt(filterProperties[prop])
+              return f[prop] !== null && f[prop] !== '' && parseInt(f[prop]) === parseInt(filterProperties[prop])
             case 'mode' :
               return renderText(modes, f[prop]).toLowerCase() === renderText(modes, filterProperties[prop]).toLowerCase()
             case 'original':
