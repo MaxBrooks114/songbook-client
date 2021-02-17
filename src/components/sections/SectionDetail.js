@@ -91,7 +91,7 @@ const SectionDetail = () => {
                       />
                 </Grid>
                 <Grid item xs={12} lg={3} >
-                    <NavRow section={section}/>
+                    <NavRow item={section} objectType="sections"/>
                 </Grid>
                 <Grid item xs={12}>
                   <Features objectType="section" section={section}/>
@@ -103,7 +103,7 @@ const SectionDetail = () => {
                   <SectionFiles section={section} fileType="sheet music/tabs"/>
                 </Grid>
               </Grid>
-           <DeleteDialog item={section} deleteFuntion={deleteSection} open={open} setOpen={setOpen} message1="Are you sure you want to delete this section?" message2="You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again."/>
+           <DeleteDialog item={section} deleteFunction={deleteSection} open={open} setOpen={setOpen} message1="Are you sure you want to delete this section?" message2="You will no longer have access to any of its data which includes any associated recordings and sheet music, you can always create it again."/>
       </Paper>
     </Slide>
       )

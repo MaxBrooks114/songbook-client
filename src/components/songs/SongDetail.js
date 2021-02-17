@@ -90,7 +90,7 @@ const SongDetail = () => {
             />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <NavRow song={song}/>
+            <NavRow item={song} objectType="songs"/>
           </Grid>
           <Grid item xs={12}>
             <Features objectType="song" song={song} />
