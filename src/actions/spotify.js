@@ -2,7 +2,6 @@ import * as workerTimers from 'worker-timers'
 
 import songbook from '../apis/songbook'
 import spotify from '../apis/spotify'
-import { getToken } from '../apis/spotifyToken'
 import history from '../history'
 import { returnErrors } from './messages'
 import { createSection } from './sections'
@@ -12,10 +11,15 @@ import { loading, notLoading, showSuccessSnackbar } from './ui'
 
 let timeoutId
 
+export const getSpotifyToken = async() => {
+  const response = await songbook.get('/spotify/token')
+  return response.data
+}
+
 export const fetchSpotifyTracks = (query) => async (dispatch) => {
   dispatch(loading())
   try {
-    const token = await getToken()
+    const token = await getSpotifyToken()
 
     const response = await spotify.get('/search', {
       headers: {
@@ -60,7 +64,7 @@ export const importSpotifyTrack = (id) => async (dispatch, getState) => {
       type: IMPORT_SPOTIFY_TRACK,
       payload: id
     })
-    const token = await getToken()
+    const token = await getSpotifyToken()
 
     const trackData = await spotify.get(`/tracks/${id}`, {
       headers: {
@@ -163,6 +167,8 @@ export const refreshAccessToken = (refreshToken) => async (dispatch) => {
     dispatch(returnErrors(error))
   }
 }
+
+
 
 export const getDeviceId = (accessToken) => async (dispatch) => {
   try {
