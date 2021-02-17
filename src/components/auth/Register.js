@@ -70,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Register = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.auth.user)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
   const onSubmit = (formValues) => {
     dispatch(
