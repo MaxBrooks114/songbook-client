@@ -113,7 +113,7 @@ const SongSections = ({ song, instrument }) => {
       : null
   }
   return (
-   <DetailAccordion title={!instrument ? 'Sections' : <Link className={classes.link} to={`/songs/${song.id}`}>{titleCase(song.title)}</Link>} justify="space-evenly" renderFunction={renderSections}/>
+   <DetailAccordion title={!instrument ? 'Sections' : <Link className={classes.link} to={`/songs/${song.id}`}>{titleCase(song.title)}</Link>} justify="flex-start" renderFunction={renderSections}/>
   )
 }
 
