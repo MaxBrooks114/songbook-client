@@ -201,7 +201,6 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
           <Grid item xs={12} md={6}>
             <Field
               classes={classes}
-              required
               name="start"
               component={renderTextField}
               label="Start"
@@ -218,7 +217,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
           <Grid item xs={12} md={6}>
             <Field
               classes={classes}
-              required
+              
               name="duration"
               component={renderTextField}
               label="Duration"
@@ -362,7 +361,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
 
 const validate = (formValues) => {
   const errors = {}
-  const requiredFields = ['name', 'start', 'duration', 'song']
+  const requiredFields = ['name', 'song']
   requiredFields.forEach((field) => {
     if (!formValues[field]) {
       errors[field] = 'Required'
