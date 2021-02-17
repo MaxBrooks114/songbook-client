@@ -10,7 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import TextField from '@material-ui/core/TextField'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { Autocomplete } from '@material-ui/lab'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 import RangedSlider from './RangedSlider'
 import { titleCase } from '../../helpers/detailHelpers'
@@ -169,23 +169,27 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
   )
 }
 
-export const renderAutoCompleteDataField = ({ options, renderOption, getOptionLabel, classes, input, onChange, label, fullWidth, value, defaultValue, ...custom }) => {
+
+
+export const renderAutoCompleteDataField = ({ options, nonfilter, renderOption, getOptionSelected, getOptionLabel, classes, input, onChange, label, fullWidth, value, defaultValue, ...custom }) => {
+
   return (
           <Autocomplete
           options={options}
           getOptionLabel={getOptionLabel}
           renderOption= {renderOption}
+          getOptionSelected={getOptionSelected}
           onSelect={onChange}
           defaultValue={defaultValue}
           //controls the component with redux form 
-          value={options.find((option) => option === input.value) || defaultValue}
+          value={!defaultValue ? (options.find((option) => option === input.value) || '') : options.find((option) => option === input.value) || defaultValue}
           classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
           renderInput={(params) => (
             <TextField
             {...params}
             label={label}
             size="small"
-            color="secondary"
+            color="secdondary"
             variant="outlined"
             fullWidth={fullWidth}
             InputProps={{

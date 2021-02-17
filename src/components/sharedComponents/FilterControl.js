@@ -207,8 +207,9 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
     false: false
   }
 
+
   const initializeSliders = () => {
-            dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))] }))
+            dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => item !== 0 && !isNaN(parseInt(item.duration))).map((item) => parseInt((item.duration)) + 1))] }))
           
             dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
           
@@ -249,6 +250,10 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   useEffect(() => {
     initializeSliders()
   }, [location.pathname])
+
+  useEffect(() => {
+    if(filterValues.duration.some(val => val === null)) initializeSliders()
+  })
 
   const renderAdvancedFilters = () => {
     const advancedOptions = objectType === 'songs' ? ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence'] : []
@@ -301,7 +306,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
         return (
            <Grid item sm={12} xs={12} key={field}>
               <Field
-                  options={_.uniq(songs.map((song) => song[field])).sort()}
+                  options={_.uniq(songs.filter(song => song[field]).map((song) => song[field] )).sort()}
                   classes={classes}
                   name={field}
                   component={renderAutoCompleteDataField}
@@ -472,7 +477,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
             <Grid item sm={12} xs={12}>
               <Field
 
-                  options={_.uniq(items.map((item) => `${item.time_signature}/4`))}
+                  options={_.uniq(items.filter(item => !isNaN(parseInt(item.time_signature))).map((item) => `${item.time_signature}/4`))}
                   classes={classes}
                   name="time_signature"
                   component={renderAutoCompleteDataField}
@@ -485,7 +490,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
               <Field
                 classes={classes}
                 min={0}
-                max={Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.duration)) + 1))}
+                max={Math.max(...items.filter(item => !isNaN(parseInt(item.duration))).map((item) => parseInt((item.duration)) + 1))}
                 name="duration"
                 valueLabelDisplay='auto'
                 valueLabelFormat={x => millisToMinutesAndSeconds(x) }
