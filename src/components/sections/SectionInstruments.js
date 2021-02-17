@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+
 import DetailAccordion from '../sharedComponents/DetailAccordion'
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +67,7 @@ const SectionInstruments = ({ section }) => {
       : null
   }
 
-  return <DetailAccordion title="Instruments" renderFunction={renderInstruments}  justify="center" />
+  return <DetailAccordion title="Instruments" renderFunction={renderInstruments} justify="center" />
 }
 
 export default SectionInstruments

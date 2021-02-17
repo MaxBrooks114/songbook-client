@@ -14,21 +14,21 @@ import history from '../history'
 import Login from './auth/Login'
 import Logout from './auth/Logout'
 import PasswordReset from './auth/PasswordReset'
+import PrivateRoute from './auth/PrivateRoute'
 import Register from './auth/Register'
+import UserEdit from './auth/UserEdit'
 import UserShow from './auth/UserShow'
 import InstrumentContainer from './instruments/InstrumentContainer'
-import PrivateRoute from './auth/PrivateRoute'
 import SectionContainer from './sections/SectionContainer'
-import UserEdit from './auth/UserEdit'
 import SongContainer from './songs/SongContainer'
 import SpotifySearch from './spotify/SpotifySearch'
 import ErrorPage from './ui/ErrorPage'
 import Footer from './ui/Footer'
 import Home from './ui/Home'
 import Navbar from './ui/Navbar'
+import Progressbar from './ui/Progressbar'
 import SuccessSnackBar from './ui/SuccessSnackBar'
 import theme from './ui/theme'
-import Progressbar from './ui/Progressbar'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -54,7 +54,7 @@ const App = () => {
       <CssBaseline />
 
       <Router history={history}>
-        <Progressbar />  
+        <Progressbar />
         <div id="container">
 
           <Navbar />

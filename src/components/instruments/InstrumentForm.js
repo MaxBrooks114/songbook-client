@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiOutlinedInput-root': {
       background: theme.palette.background.default,
-       width: 300,
+      width: 300,
       [theme.breakpoints.down('md')]: {
         width: 160
       },
-     
+
       '& fieldset': {
         borderColor: theme.palette.info.main
       },

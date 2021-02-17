@@ -7,8 +7,9 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams, Link } from 'react-router-dom'
-import { deleteSection} from '../../actions/sections'
+import { Link, useParams } from 'react-router-dom'
+
+import { deleteSection } from '../../actions/sections'
 import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
 import DeleteDialog from '../sharedComponents/DeleteDialog'
 import DetailTitle from '../sharedComponents/DetailTitle'
@@ -56,7 +57,6 @@ const SectionDetail = () => {
     setAnchorEl(event.currentTarget)
   }
 
-
   return section
     ? (
         <Slide direction="up" mountOnEnter unmountOnExit in transition={150}>
@@ -79,9 +79,9 @@ const SectionDetail = () => {
                   setOpen={setOpen}
                 />
                 <Grid item xs={12}>
-                   <DetailTitle 
-                      title={section.name} 
-                      subtitle1={`(${millisToMinutesAndSeconds(section.start)}-${millisToMinutesAndSeconds(section.start + section.duration)}) (${millisToMinutesAndSeconds(section.duration)})`} 
+                   <DetailTitle
+                      title={section.name}
+                      subtitle1={`(${millisToMinutesAndSeconds(section.start)}-${millisToMinutesAndSeconds(section.start + section.duration)}) (${millisToMinutesAndSeconds(section.duration)})`}
                       section={section}
                       image={section.song.image}
                       album={section.song.album}

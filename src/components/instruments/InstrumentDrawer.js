@@ -1,10 +1,10 @@
 import IconButton from '@material-ui/core/IconButton'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded'
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import InstrumentList from './InstrumentList'
@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.main
     }
   },
-
 
   drawer: {
     background: theme.palette.background.default,
@@ -76,12 +75,13 @@ const InstrumentDrawer = () => {
       <IconButton onClick={() => setOpenDrawer(!openDrawer)} className={classes.drawerIconContainer}>
         {drawerButton()}
       </IconButton>
-       {!location.pathname.includes('new') ? 
-      (
+       {!location.pathname.includes('new')
+         ? (
         <IconButton onClick={() => history.push('/songs/new')} className={classes.addIconContainer}>
           <AddRoundedIcon className={classes.addIcon}/>
         </IconButton>
-      ) : null }
+           )
+         : null }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}

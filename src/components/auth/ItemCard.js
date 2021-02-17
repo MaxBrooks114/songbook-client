@@ -46,18 +46,15 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-
   link: {
     textDecoration: 'none',
     color: theme.palette.info.main
   },
 
-
   media: {
     width: '100%',
     borderRadius: 4
   },
-
 
   trackInfo: {
     fontWeight: '300',

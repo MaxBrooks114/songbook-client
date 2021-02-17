@@ -3,6 +3,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
@@ -12,7 +13,6 @@ import { Link, useHistory } from 'react-router-dom'
 import { playSection } from '../../actions/spotify'
 import { titleCase } from '../../helpers/detailHelpers'
 import DetailAccordion from '../sharedComponents/DetailAccordion'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -61,7 +61,7 @@ const SongSections = ({ song, instrument }) => {
   const renderSpotifyOptionSection = (section) => {
     if (accessToken && accessToken !== '') {
       if (loading.loading && section.id === player.sectionId) {
-        return <IconButton><CircularProgress thickness={2.4} size={20}  /></IconButton>
+        return <IconButton><CircularProgress thickness={2.4} size={20} /></IconButton>
       } else {
         return <IconButton onClick={() => handleSectionPlayClick(section)}><PlayCircleOutlineRoundedIcon className={classes.playButton} /></IconButton>
       }
@@ -71,11 +71,10 @@ const SongSections = ({ song, instrument }) => {
   const renderSections = () => {
     return sections
       ? sections.map((section, index) => {
-     
-         return index !== sections.length-1 ? 
-          (
+        return index !== sections.length - 1
+          ? (
             <React.Fragment key={section.id}>
-              <Grid item xs={12} lg={3}>          
+              <Grid item xs={12} lg={3}>
                 <Grid container alignItems="center" align="center" justify="center">
                  <Grid item xs={4} sm={3} lg={6}>
                     <Typography>
@@ -88,10 +87,11 @@ const SongSections = ({ song, instrument }) => {
                 </Grid>
               </Grid>
             </React.Fragment>
-            ) : (
+            )
+          : (
             <React.Fragment key={section.id}>
-              <Grid item xs={12} lg={3}>          
-                  <Grid container  alignItems="center" align="center" justify="center">
+              <Grid item xs={12} lg={3}>
+                  <Grid container alignItems="center" align="center" justify="center">
                   <Grid item xs={4} sm={3} lg={6}>
                       <Typography>
                         <Link className={classes.link} to={`/sections/${section.id}`}>{section.name}</Link>
@@ -108,7 +108,7 @@ const SongSections = ({ song, instrument }) => {
                 </IconButton>
               </Grid>
             </React.Fragment>
-          )   
+            )
       })
       : null
   }

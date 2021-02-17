@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     [theme.breakpoints.down('md')]: {
       display: 'block',
-      margin: 'auto' ,
-      
+      margin: 'auto'
+
     }
   },
 
@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album, spotifyUri, song, section}) => {
+const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album, spotifyUri, song, section }) => {
   const player = useSelector(state => state.spotifyPlayer)
   const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id)
   const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)

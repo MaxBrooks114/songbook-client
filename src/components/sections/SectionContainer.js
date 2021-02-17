@@ -12,8 +12,8 @@ import { Switch, useHistory, useLocation } from 'react-router-dom'
 
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import useHeight from '../../hooks/useHeight'
-import FilterControl from '../sharedComponents/FilterControl'
 import PrivateRoute from '../auth/PrivateRoute'
+import FilterControl from '../sharedComponents/FilterControl'
 import NoMusicMessage from '../ui/NoMusicMessage'
 import SectionCreate from './SectionCreate'
 import SectionDetail from './SectionDetail'
@@ -22,7 +22,7 @@ import SectionEdit from './SectionEdit'
 import SectionList from './SectionList'
 
 const drawerWidth = 244
-let transitionDuration = 50
+const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
     right: '1%',
     '&:hover': {
       background: theme.palette.background.default
-  },
-   [theme.breakpoints.down('md')]: {
-      top: '7%',    
     },
+    [theme.breakpoints.down('md')]: {
+      top: '7%'
+    }
   },
 
   cardGrid: {
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     width: 54,
     [theme.breakpoints.down('md')]: {
       height: 48,
-    width: 48,
+      width: 48
     }
   },
 
@@ -93,8 +93,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('md')]: {
-      top: '7%',   
-    },
+      top: '7%'
+    }
 
   },
 

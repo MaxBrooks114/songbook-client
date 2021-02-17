@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal + 2
   },
 
-   drawer: {
+  drawer: {
     background: theme.palette.common.gray,
     display: 'flex',
     alignItems: 'flex-start',
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 10,
     opacity: 1
   },
-  
+
   drawerItemSelected: {
     '& .MuiListItemText-root': {
       opacity: 1
@@ -87,8 +87,8 @@ const useStyles = makeStyles((theme) => ({
   menuItem: {
     ...theme.typography.tab,
     font: 'bold',
-    justifyContent: 'center',
-    
+    justifyContent: 'center'
+
   },
 
   profileIcon: {
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-   tab: {
+  tab: {
     ...theme.typography.tab,
     marginLeft: '2rem',
     color: theme.palette.info.main,
@@ -112,11 +112,9 @@ const useStyles = makeStyles((theme) => ({
     alignText: 'left'
   },
 
-
   tabContainer: {
     marginLeft: 'auto'
   },
-
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -206,15 +204,14 @@ const Navbar = () => {
 
   const routes = isAuthenticated && user ? authRoutes : guestRoutes
 
-
   const activeIndex = () => {
-    const found = routes.find(({link}) => link === location.pathname)
-    const menuFound = menuOptions.find(({link}) => link === location.pathname)
+    const found = routes.find(({ link }) => link === location.pathname)
+    const menuFound = menuOptions.find(({ link }) => link === location.pathname)
 
-    if(menuFound){
+    if (menuFound) {
       setValue(menuFound.activeIndex)
       setSelectedIndex(menuFound.selectedIndex)
-    } else if (!menuFound && !found){
+    } else if (!menuFound && !found) {
       setValue(false)
     } else {
       setValue(menuFound.activeIndex)
@@ -309,7 +306,7 @@ const Navbar = () => {
         <Toolbar disableGutters>
           <Grid container alignItems="center" justify="space-between">
             <Grid item xs={4}>
-           <Button component={RouterLink} to="/"  >
+           <Button component={RouterLink} to="/" >
               <img alt="logo" src={logo} variant="h6" className={classes.logo}/>
             </Button>
             </Grid>
@@ -337,7 +334,7 @@ const Navbar = () => {
                   <MenuItem
                     key={option.name}
                     classes={{ root: classes.menuItem }}
-                    onClick={(e, i) => { handleMenuItemClick(e, i);   handleClose() }}
+                    onClick={(e, i) => { handleMenuItemClick(e, i); handleClose() }}
                     component={RouterLink}
                     to={option.link}>
                     {option.name}
@@ -348,13 +345,12 @@ const Navbar = () => {
               : null}
             </Grid>
         </Toolbar>
-        
-                
+
       </AppBar>
-     
+
       </ElevationScroll>
       <div className={classes.toolbarMargin}/>
-    
+
     </>
 
   )

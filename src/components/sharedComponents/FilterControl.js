@@ -206,14 +206,12 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
     false: false
   }
 
-
   const initializeSliders = () => {
-            dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => item !== 0 && !isNaN(parseInt(item.duration))).map((item) => parseInt((item.duration)) + 1))] }))
-          
-            dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
-          
-            dispatch(setFilter({ year: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt((item.year)) + 1))] }))
-          
+    dispatch(setFilter({ duration: [0, Math.max(...items.filter(item => item !== 0 && !isNaN(parseInt(item.duration))).map((item) => parseInt((item.duration)) + 1))] }))
+
+    dispatch(setFilter({ tempo: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.tempo))).map((item) => parseInt((item.tempo)) + 1))] }))
+
+    dispatch(setFilter({ year: [0, Math.max(...items.filter(item => !isNaN(parseInt(item.year))).map((item) => parseInt((item.year)) + 1))] }))
   }
 
   useEffect(() => {
@@ -224,16 +222,15 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   }, [songOrSections])
 
   useEffect(() => {
-      if (filterForm && !filterForm.values) {
-        dispatch(initialize('FilterForm', {
-          ...filterValues,
-          artist: '',
-          genre: '',
-          album: '',
-          key: ''
-        }))
-
-      }
+    if (filterForm && !filterForm.values) {
+      dispatch(initialize('FilterForm', {
+        ...filterValues,
+        artist: '',
+        genre: '',
+        album: '',
+        key: ''
+      }))
+    }
   }, [objectType, dispatch, items, filterForm, filterValues])
 
   useEffect(() => {
@@ -251,7 +248,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
   }, [location.pathname])
 
   useEffect(() => {
-    if(filterValues.duration.some(val => val === null)) initializeSliders()
+    if (filterValues.duration.some(val => val === null)) initializeSliders()
   })
 
   const renderAdvancedFilters = () => {
@@ -285,7 +282,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
       ? fields.map(field => {
         return (
            <Grid item sm={12} xs={12} key={field}>
-              <Field classes={classes}  name={field} label={titleCase(field)}
+              <Field classes={classes} name={field} label={titleCase(field)}
                    InputLabelProps={{
                      classes: {
                        root: classes.label,
@@ -305,7 +302,7 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
         return (
            <Grid item sm={12} xs={12} key={field}>
               <Field
-                  options={_.uniq(songs.filter(song => song[field]).map((song) => song[field] )).sort()}
+                  options={_.uniq(songs.filter(song => song[field]).map((song) => song[field])).sort()}
                   classes={classes}
                   name={field}
                   component={renderAutoCompleteDataField}
@@ -483,7 +480,6 @@ const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) 
                   label="Time Signature" />
             </Grid>
 
-           
           <Grid container justify="center" align="center" alignItems="center">
           <Grid item sm={12} xs={10}>
               <Field

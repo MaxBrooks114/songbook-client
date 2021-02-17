@@ -10,7 +10,7 @@ const SectionMetronome = ({ section }) => {
     return (
       <>
       <Grid item xs={2} lg={3}/>
-      <Grid item xs={8} lg={6}  >
+      <Grid item xs={8} lg={6} >
         <Metronome
           playPauseStyle={{ background: '#f0f0f0', color: 'black', marginLeft: '1rem' }}
           bpmStyle= {{ fontSize: '1rem', fontFamily: 'Spartan' }}

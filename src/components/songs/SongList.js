@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: '95%',
     display: 'flex',
     justifyContent: 'flex-end',
-     [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('md')]: {
       width: '100%'
     }
   }

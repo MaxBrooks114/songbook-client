@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.info.main,
       [theme.breakpoints.down('md')]: {
         fontSize: '.6rem'
-      },
+      }
     },
     ' & .MuiFormHelperText-contained': {
       color: theme.palette.common.orange
@@ -87,8 +87,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('md')]: {
-        fontSize: '.8rem'
-      },
+      fontSize: '.8rem'
+    }
   },
 
   listbox: {
@@ -123,9 +123,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 400,
     [theme.breakpoints.down('md')]: {
       width: 'auto',
-      maxWidth: 360,
+      maxWidth: 360
     },
-     [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: 200
     },
     [theme.breakpoints.down('xs')]: {
@@ -139,8 +139,8 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 'thin',
     background: '#f0f0f0',
     [theme.breakpoints.down('md')]: {
-      width: 'auto',
-      
+      width: 'auto'
+
     },
     [theme.breakpoints.down('sm')]: {
       maxWidth: 305
@@ -217,7 +217,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
           <Grid item xs={12} md={6}>
             <Field
               classes={classes}
-              
+
               name="duration"
               component={renderTextField}
               label="Duration"
@@ -345,7 +345,7 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
                 </fieldset>
               </Grid>
             <Grid container alignItems="flex-end" justify="space-between">
-              <Grid item xs={4}  >
+              <Grid item xs={4} >
                 <Field classes={classes} name="learned" component={renderCheckbox} label="Learned" />
               </Grid>
               <Grid item xs={4} >

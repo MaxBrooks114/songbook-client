@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
-
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
@@ -44,9 +43,8 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: 120
-    },
+    }
 
-    
   }
 
 }))

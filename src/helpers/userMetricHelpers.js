@@ -7,7 +7,6 @@ export const topFiveByAttrListLength = (list, attr) => {
   return Object.values(_.groupBy(list, el => el[attr])).sort((a, b) => a.length < b.length ? 1 : -1).map(arr => arr.length).slice(0, 5)
 }
 
-
 export const sectionsLearned = (sections) => {
   return sections.filter(section => section.learned).length
 }
@@ -39,5 +38,3 @@ export const topFive = (items, attr) => {
 export const bottomFive = (items, attr) => {
   return items.sort((a, b) => a[attr] > b[attr] ? 1 : -1).slice(0, 5)
 }
-
-

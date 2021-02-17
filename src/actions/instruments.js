@@ -1,7 +1,7 @@
 import songbook from '../apis/songbook'
 import history from '../history'
 import { returnErrors } from './messages'
-import { CREATE_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT,  FETCH_INSTRUMENTS } from './types'
+import { CREATE_INSTRUMENT, DELETE_INSTRUMENT, EDIT_INSTRUMENT, FETCH_INSTRUMENTS } from './types'
 import { loading, notLoading, showSuccessSnackbar } from './ui'
 
 export const createInstrument = (formValues) => async (dispatch) => {

@@ -8,8 +8,8 @@ import { Redirect } from 'react-router-dom'
 
 import { deleteUser, editUser } from '../../actions/auth'
 import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
-import LoginForm from './LoginForm'
 import DeleteDialog from '../sharedComponents/DeleteDialog'
+import LoginForm from './LoginForm'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1rem'
   },
 
-   container: {
+  container: {
     minHeight: '110vh',
     [theme.breakpoints.down('md')]: {
       minHeight: '100vh'
@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
   },
-
 
   delete: {
     color: theme.palette.info.main,
@@ -101,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1.25em'
     }
-  },
+  }
 
 }))
 
@@ -125,7 +124,6 @@ const UserEdit = () => {
     setOpen(true)
   }
 
-
   const classes = useStyles()
 
   return !isAuthenticated
@@ -142,8 +140,9 @@ const UserEdit = () => {
         <fieldset>
           <LoginForm onSubmit={onSubmit} />
         </fieldset>
-        {accessToken ? null :
-        <Grid container justify="center" className={classes.buttonContainer}>
+        {accessToken
+          ? null
+          : <Grid container justify="center" className={classes.buttonContainer}>
             <Button className={classes.button} >
                <a className={classes.link} href={`http://localhost:8000/api/spotify/login/${user.id}`}>Integrate Spotify</a>
               <img className={classes.spotifyLogo} src={Spotify_Icon_RGB_Green} alt="SpotifyLogo"/>
@@ -154,9 +153,9 @@ const UserEdit = () => {
               Delete Account
             </Button>
         </Grid>
-        <DeleteDialog 
-          item={user} 
-          message1="Are you sure you want to delete your account?" 
+        <DeleteDialog
+          item={user}
+          message1="Are you sure you want to delete your account?"
           message2="You will lose all data associated with your account including songs, instruments and sections." deleteFunction={deleteUser}
           open={open}
           setOpen={setOpen} />

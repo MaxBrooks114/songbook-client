@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { setFilter } from '../../actions/filter'
 import { renderTextField } from './MaterialUiReduxFormFields'
- 
+
 const useStyles = makeStyles((theme) => ({
 
   root: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.info.main,
       fontSize: '.8rem',
       [theme.breakpoints.down('md')]: {
-        fontSize: '.3rem',
+        fontSize: '.3rem'
       }
     },
 
@@ -110,7 +110,7 @@ const Sort = ({ objectType }) => {
   const filterValues = useSelector(state => state.filter)
   const filterForm = useSelector(state => state.form.FilterForm)
   const songProps = ['title', 'artist', 'album', 'genre', 'tempo', 'time_signature', 'duration', 'year', 'valence', 'instrumentalness', 'energy', 'acousticness', 'created_at', 'updated_at', 'loudness', 'speechiness', 'liveness', 'danceability', 'key', 'mode']
-  const sectionProps = ['name', 'start', 'tempo', 'time_signature', 'duration','created_at', 'updated_at', 'song', 'key', 'mode']
+  const sectionProps = ['name', 'start', 'tempo', 'time_signature', 'duration', 'created_at', 'updated_at', 'song', 'key', 'mode']
   const itemProps = objectType === 'songs' ? songProps : sectionProps
 
   const dispatch = useDispatch()
@@ -120,7 +120,7 @@ const Sort = ({ objectType }) => {
       if (objectType === 'songs') {
         dispatch(setFilter({ sort: 'artist', order: 'ascending' }))
       } else {
-        dispatch(setFilter({ sort: 'song',  order: 'ascending' }))
+        dispatch(setFilter({ sort: 'song', order: 'ascending' }))
       }
     }
 

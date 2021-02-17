@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
         width: 200
       },
       '& fieldset': {
-        borderColor: theme.palette.info.main,
-      
+        borderColor: theme.palette.info.main
+
       },
       '&:hover fieldset': {
         borderColor: theme.palette.secondary.dark
@@ -83,8 +83,8 @@ const useStyles = makeStyles((theme) => ({
   label: {
     color: theme.palette.info.main,
     [theme.breakpoints.down('md')]: {
-        fontSize: '.8rem'
-      },
+      fontSize: '.8rem'
+    },
     '&.shrink': {
       color: theme.palette.info.main
     }
@@ -108,8 +108,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     textTransform: 'capitalize',
     [theme.breakpoints.down('sm')]: {
-        fontSize: '.8rem'
-      },
+      fontSize: '.8rem'
+    },
     '&[data-focus="true"]': {
       background: theme.palette.primary.main,
       color: theme.palette.background.default
@@ -135,12 +135,12 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 'thin',
     background: theme.palette.background.default,
     [theme.breakpoints.down('md')]: {
-        width: 322,
-        padding: 0
-      },
-      [theme.breakpoints.down('sm')]: {
-        width: 200
-      },
+      width: 322,
+      padding: 0
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: 200
+    }
   },
 
   value: {
@@ -160,7 +160,7 @@ const SongForm = ({ onSubmit, handleSubmit, initialValues }) => {
   return (
 
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
-        <Grid container align="center"  alignItems="center" justify="center" >
+        <Grid container align="center" alignItems="center" justify="center" >
               <Grid item xs={12} md={6}>
                 <Field
                   classes={classes}

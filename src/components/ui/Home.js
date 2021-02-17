@@ -91,11 +91,11 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.default,
       color: theme.palette.common.darkGreen,
       filter: 'brightness(150%)'
-    },
+    }
   },
 
   ctaContainer: {
-      textAlign: "center"
+    textAlign: 'center'
   },
 
   svgContainer: {
@@ -160,10 +160,10 @@ const Home = () => {
     return pngs.map((png, index) => {
       return (
           <Grid key={index} item xs={2} lg={1}>
-            <img 
-                onClick={() => setBlurbShow(index)} 
-                className={clsx(classes.graphic, { [classes.graphicActive]: blurbShow === index })} 
-                src={png} 
+            <img
+                onClick={() => setBlurbShow(index)}
+                className={clsx(classes.graphic, { [classes.graphicActive]: blurbShow === index })}
+                src={png}
                 alt={`${png}`}/>
           </Grid>
       )
@@ -179,7 +179,7 @@ const Home = () => {
         </Grid>
         <Grid item xs={10} md={5} className={classes.ctaContainer}>
           <Button className={classes.cta} onClick={() => {
-              user ? history.push('/search') : history.push('/register')
+            user ? history.push('/search') : history.push('/register')
           }}>
              { user ? 'Start Adding Songs Now' : 'Register Now'}
           </Button>

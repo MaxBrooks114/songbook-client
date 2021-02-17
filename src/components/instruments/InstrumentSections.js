@@ -1,10 +1,11 @@
 import Grid from '@material-ui/core/Grid'
+import _ from 'lodash'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
 import DetailAccordion from '../sharedComponents/DetailAccordion'
 import SongSections from '../sharedComponents/SongSections'
-import _ from 'lodash'
+
 const InstrumentSections = ({ instrument }) => {
   const sections = useSelector(state => Object.values(state.sections).filter(section => section.instruments.includes(instrument.id)))
   const songs = _.uniqBy(sections.map(section => section.song), 'id')

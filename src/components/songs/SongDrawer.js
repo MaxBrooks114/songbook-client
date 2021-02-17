@@ -1,13 +1,13 @@
 import IconButton from '@material-ui/core/IconButton'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded'
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
-import filter_arrow_right from '../../assets/filter_arrow_right.svg'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { useHistory, useLocation } from 'react-router-dom'
 
+import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import SongList from './SongList'
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-
   drawer: {
     background: theme.palette.background.default,
     height: '85%',
@@ -44,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
     height: 50,
     width: 50
   },
-
 
   drawerIconContainer: {
     backgroundColor: theme.palette.common.gray,
@@ -78,12 +76,10 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.palette.primary.main
     }
-  },
-
-
+  }
 
 }))
-const SongDrawer = ({openFilter, setOpenFilter}) => {
+const SongDrawer = ({ openFilter, setOpenFilter }) => {
   const location = useLocation()
   const history = useHistory()
   const classes = useStyles()
@@ -98,17 +94,20 @@ const SongDrawer = ({openFilter, setOpenFilter}) => {
       <IconButton className={classes.drawerIconContainer}>
         {drawerButton()}
       </IconButton>
-      {!openFilter ? (
+      {!openFilter
+        ? (
         <IconButton className={classes.filterIconContainer} onClick={() => setOpenFilter(true)}>
           <img className={classes.filterIcon} src={filter_arrow_right} alt="filter_button" />
         </IconButton>
-      ) : null }
-      {!location.pathname.includes('new') ? 
-      (
+          )
+        : null }
+      {!location.pathname.includes('new')
+        ? (
         <IconButton onClick={() => history.push('/songs/new')} className={classes.addIconContainer}>
           <AddRoundedIcon className={classes.addIcon}/>
         </IconButton>
-      ) : null }
+          )
+        : null }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}

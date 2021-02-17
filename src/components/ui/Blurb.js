@@ -5,8 +5,6 @@ import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
 
- 
-
   desc: {
     [theme.breakpoints.down('md')]: {
       fontSize: '1rem'
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-   subtitle: {
+  subtitle: {
     fontSize: '1.5rem',
     [theme.breakpoints.down('md')]: {
       fontSize: '1rem'
@@ -25,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '1rem'
     }
   },
-
 
   title: {
     fontSize: '1.8rem',
@@ -37,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '1.4rem'
     }
   },
-
 
   video: {
     outline: 'none',

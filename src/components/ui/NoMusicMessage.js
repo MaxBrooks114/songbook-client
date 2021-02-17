@@ -7,7 +7,7 @@ import trebleClef from '../../assets/trebleClef.png'
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: 70, 
+    marginTop: 70,
     textAlign: 'center'
   },
 

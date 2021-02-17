@@ -11,15 +11,14 @@ import { useLocation } from 'react-router-dom'
 import keys from '../../dataToImport/keys'
 import { millisToMinutesAndSeconds, renderText, titleCase } from '../../helpers/detailHelpers'
 import { attrPreference, bottomFive, topFive, topFiveByAttr, topFiveByAttrListLength } from '../../helpers/userMetricHelpers'
-import ItemCard from './ItemCard'
 import NoMusicMessage from '../ui/NoMusicMessage'
+import ItemCard from './ItemCard'
 
 const useStyles = makeStyles((theme) => ({
 
   container: {
-      margin: '25px auto 0'
-  }, 
-  
+    margin: '25px auto 0'
+  },
 
   graphic: {
     display: 'block',
@@ -41,10 +40,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
       fontSize: '1rem'
     }
-  },
-
-
-  
+  }
 
 }))
 
@@ -55,9 +51,8 @@ const UserMetrics = ({ songs, sections }) => {
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('sm'))
   const spotifySongs = songs.filter(song => song.spotify_url)
- 
 
-   const data = {
+  const data = {
     progress: {
       recentlyAddedSongs: [topFive(songs, 'created_at'), 'image', 'album', 'songs', 'title', 'artist', 'created_at', songs.length],
       recentlyAddedSections: [topFive(sections, 'created_at'), ['song', 'image'], ['song', 'album'], 'sections', 'name', ['song', 'title'], 'created_at', sections.length],
@@ -104,7 +99,6 @@ const UserMetrics = ({ songs, sections }) => {
     }
   }
 
- 
   const renderInfo = (item, attr) => {
     switch (true) {
       case attr === 'key':

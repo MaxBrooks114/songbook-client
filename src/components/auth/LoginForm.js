@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-   button: {
+  button: {
     color: theme.palette.info.main,
     marginTop: '1rem',
     display: 'inline-block',
@@ -59,8 +59,6 @@ const useStyles = makeStyles((theme) => ({
   errorMessages: {
     color: theme.palette.common.orange
   },
-
- 
 
   input: {
     textTransform: 'capitalize'

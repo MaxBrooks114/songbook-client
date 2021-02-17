@@ -36,12 +36,9 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-    
-
   link: {
     color: theme.palette.info.main
   },
-
 
   title: {
     fontSize: '2.8rem',
@@ -55,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '2rem'
     }
   },
-
 
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -83,7 +79,7 @@ const Register = () => {
 
   return isAuthenticated
     ? (
-    <Redirect to={`/`} />
+    <Redirect to={'/'} />
       )
     : (
       <div className={classes.container}>

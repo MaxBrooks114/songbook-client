@@ -18,7 +18,7 @@ import InstrumentDrawer from './InstrumentDrawer'
 import InstrumentEdit from './InstrumentEdit'
 import InstrumentList from './InstrumentList'
 
-let transitionDuration = 50
+const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down('md')]: {
       height: 36,
-      width: 36,
+      width: 36
     }
   },
   addIconContainer: {

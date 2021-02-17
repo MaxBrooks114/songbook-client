@@ -8,17 +8,17 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import {deleteSong} from '../../actions/songs'
+
+import { deleteSong } from '../../actions/songs'
+import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
 import DeleteDialog from '../sharedComponents/DeleteDialog'
 import DetailTitle from '../sharedComponents/DetailTitle'
 import Features from '../sharedComponents/Features'
 import Lyrics from '../sharedComponents/Lyrics'
 import NavRow from '../sharedComponents/NavRow'
+import SongSections from '../sharedComponents/SongSections'
 import VertMenu from '../sharedComponents/VertMenu'
 import AudioProperties from './AudioProperties'
-import SongSections from '../sharedComponents/SongSections'
-import { millisToMinutesAndSeconds } from '../../helpers/detailHelpers'
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +78,7 @@ const SongDetail = () => {
               setOpen={setOpen}
           />
           <Grid item xs={12}>
-            <DetailTitle 
+            <DetailTitle
               song={song}
               title={`${song.title} (${millisToMinutesAndSeconds(song.duration)})`}
               subtitle1={song.artist}

@@ -1,8 +1,8 @@
 import songbook from '../apis/songbook'
 import history from '../history'
 import { returnErrors } from './messages'
-import {fetchSongs} from './songs'
-import { CREATE_SECTION, DELETE_SECTION, EDIT_SECTION,  FETCH_SECTIONS } from './types'
+import { fetchSongs } from './songs'
+import { CREATE_SECTION, DELETE_SECTION, EDIT_SECTION, FETCH_SECTIONS } from './types'
 import { loading, notLoading, showSuccessSnackbar } from './ui'
 
 export const createSection = (formValues) => async (dispatch) => {
@@ -41,7 +41,6 @@ export const fetchSections = () => async (dispatch) => {
   }
   dispatch(notLoading())
 }
-
 
 export const deleteSection = (id) => async (dispatch) => {
   try {

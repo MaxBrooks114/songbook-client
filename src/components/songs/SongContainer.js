@@ -12,8 +12,8 @@ import { Switch, useHistory, useLocation } from 'react-router-dom'
 
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
 import useHeight from '../../hooks/useHeight'
-import FilterControl from '../sharedComponents/FilterControl'
 import PrivateRoute from '../auth/PrivateRoute'
+import FilterControl from '../sharedComponents/FilterControl'
 import NoMusicMessage from '../ui/NoMusicMessage'
 import SongCreate from './SongCreate'
 import SongDetail from './SongDetail'
@@ -22,7 +22,7 @@ import SongEdit from './SongEdit'
 import SongList from './SongList'
 
 const drawerWidth = 244
-let transitionDuration = 50
+const transitionDuration = 50
 
 const useStyles = makeStyles((theme) => ({
 
@@ -37,11 +37,10 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       background: theme.palette.background.default
     },
-    
+
     [theme.breakpoints.down('md')]: {
-      top: '7%',    
-    },
-   
+      top: '7%'
+    }
 
   },
 
@@ -78,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     width: 54,
     [theme.breakpoints.down('md')]: {
       height: 48,
-    width: 48,
+      width: 48
     }
   },
 
@@ -95,10 +94,9 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.down('md')]: {
-      top: '7%',
-      
-    },
-  
+      top: '7%'
+
+    }
 
   },
 

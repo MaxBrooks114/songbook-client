@@ -4,15 +4,13 @@ import React from 'react'
 import footerLogo from '../../assets/footerLogo.png'
 
 const useStyles = makeStyles((theme) => ({
-   copy: {
+  copy: {
     display: 'inline-block',
     width: 210,
     wordWrap: 'break-word',
     whiteSpace: 'normal'
   },
-  
-  
-  
+
   footer: {
     backgroundColor: theme.palette.common.gray,
     width: '100%',
@@ -29,9 +27,8 @@ const useStyles = makeStyles((theme) => ({
     height: '4em',
     verticalAlign: 'bottom',
     marginLeft: '1em'
-  },
+  }
 
- 
 }))
 
 const Footer = () => {

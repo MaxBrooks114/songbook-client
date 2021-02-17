@@ -31,9 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 const NavRow = ({ item, objectType }) => {
   const filteredItems = useSelector((state) => getFilteredItems(state, objectType))
-  const next = filteredItems[filteredItems.indexOf(item) + 1] 
-  const prev = filteredItems[filteredItems.indexOf(item) - 1] 
-  
+  const next = filteredItems[filteredItems.indexOf(item) + 1]
+  const prev = filteredItems[filteredItems.indexOf(item) - 1]
 
   const history = useHistory()
 

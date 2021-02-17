@@ -12,8 +12,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { Autocomplete } from '@material-ui/lab'
 import React, { useRef } from 'react'
 
-import RangedSlider from './RangedSlider'
 import { titleCase } from '../../helpers/detailHelpers'
+import RangedSlider from './RangedSlider'
 
 const adaptFileEventToValue = delegate => e => {
   delegate(e.target.files[0])
@@ -169,10 +169,7 @@ export const renderAutoCompleteField = ({ options, classes, input, label, fullWi
   )
 }
 
-
-
 export const renderAutoCompleteDataField = ({ options, nonfilter, renderOption, getOptionSelected, getOptionLabel, classes, input, onChange, label, fullWidth, value, defaultValue, ...custom }) => {
-
   return (
           <Autocomplete
           options={options}
@@ -181,7 +178,7 @@ export const renderAutoCompleteDataField = ({ options, nonfilter, renderOption, 
           getOptionSelected={getOptionSelected}
           onSelect={onChange}
           defaultValue={defaultValue}
-          //controls the component with redux form 
+          // controls the component with redux form
           value={!defaultValue ? (options.find((option) => option === input.value) || '') : options.find((option) => option === input.value) || defaultValue}
           classes={{ listbox: classes.listbox, input: classes.input, option: classes.option }}
           renderInput={(params) => (

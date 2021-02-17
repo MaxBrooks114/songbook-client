@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
-  
-
   autoComplete: {
     color: theme.palette.info.main
   },
@@ -70,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
   value: {
     color: theme.palette.info.main
-  },
+  }
 
 }))
 
@@ -117,18 +115,18 @@ const UserForm = ({ onSubmit, handleSubmit }) => {
             }}/>
           </Grid>
           <Grid item xs={12}>
-            <Field 
-              classes={classes} 
-              type="password" 
-              name="password" 
-              component={renderTextField} 
-              label="Password" 
+            <Field
+              classes={classes}
+              type="password"
+              name="password"
+              component={renderTextField}
+              label="Password"
               InputLabelProps={{
                 classes: {
                   root: classes.label,
                   shrink: 'shrink'
                 }
-            }} />
+              }} />
           </Grid>
           <Grid item xs={12}>
             <Field

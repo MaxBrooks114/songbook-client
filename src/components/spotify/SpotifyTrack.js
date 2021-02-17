@@ -157,7 +157,7 @@ const SpotifyTrack = ({ track, transitionDuration }) => {
             </Typography>
           </CardContent>
           <CardContent className={classes.cardContent}>
-            <Typography className={classes.trackInfo}  variant="subtitle2">
+            <Typography className={classes.trackInfo} variant="subtitle2">
               {track.artists[0].name} < br/>
               {track.album.name}
             </Typography>

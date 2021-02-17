@@ -91,9 +91,7 @@ const useStyles = makeStyles((theme) => ({
     '&.shrink': {
       color: theme.palette.info.main
     }
-  },
-
-
+  }
 
 }))
 

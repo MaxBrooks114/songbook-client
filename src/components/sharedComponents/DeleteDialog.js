@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-
 const useStyles = makeStyles((theme) => ({
 
   dialog: {
@@ -28,11 +27,10 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
-const DeleteDialog = ({ item, open, setOpen,  message1, message2, deleteFunction }) => {
+const DeleteDialog = ({ item, open, setOpen, message1, message2, deleteFunction }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const theme = useTheme()
-
 
   const handleClose = () => {
     setOpen(false)

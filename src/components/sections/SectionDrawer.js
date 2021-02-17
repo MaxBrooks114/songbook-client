@@ -1,12 +1,13 @@
 import IconButton from '@material-ui/core/IconButton'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded'
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import SectionList from './SectionList'
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8)
   },
 
-    filterIcon: {
+  filterIcon: {
     height: 48,
     width: 48
   },
@@ -74,9 +75,9 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.palette.primary.main
     }
-  },
+  }
 }))
-const SectionDrawer = ({openFilter, setOpenFilter}) => {
+const SectionDrawer = ({ openFilter, setOpenFilter }) => {
   const location = useLocation()
   const history = useHistory()
   const [openDrawer, setOpenDrawer] = useState(false)
@@ -91,17 +92,20 @@ const SectionDrawer = ({openFilter, setOpenFilter}) => {
       <IconButton className={classes.drawerIconContainer} onClick={() => setOpenDrawer(!openDrawer)}>
         {drawerButton()}
       </IconButton>
-       {!openFilter ? (
+       {!openFilter
+         ? (
         <IconButton className={classes.filterIconContainer} onClick={() => setOpenFilter(true)}>
           <img className={classes.filterIcon} src={filter_arrow_right} alt="filter_button" />
         </IconButton>
-      ) : null }
-      {!location.pathname.includes('new') ? 
-      (
+           )
+         : null }
+      {!location.pathname.includes('new')
+        ? (
         <IconButton onClick={() => history.push('/songs/new')} className={classes.addIconContainer}>
           <AddRoundedIcon className={classes.addIcon}/>
         </IconButton>
-      ) : null }
+          )
+        : null }
       <SwipeableDrawer
         classes={{ paper: classes.drawer }}
         disableBackdropTransition={!iOS}
@@ -112,7 +116,7 @@ const SectionDrawer = ({openFilter, setOpenFilter}) => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
       >
-        <SectionList  />
+        <SectionList />
       </SwipeableDrawer>
 
     </div>

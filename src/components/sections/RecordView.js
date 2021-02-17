@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
     to: {
       opacity: 0.4
     }
-  },
-
+  }
 
 }))
 
