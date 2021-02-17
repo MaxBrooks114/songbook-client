@@ -24,8 +24,11 @@ export const getFilteredItems = (state, objectType) => {
 
   if (filterAttributes.filter) {
     return Object.values(items).filter(item => {
-      const fk = filterKeys.filter(attr =>  (filterAttributes[attr] && item[attr]) || (filterAttributes[attr] && item[attr] === 0) || filterAttributes[attr] && Object.keys(item).includes(attr) || (objectType === 'sections' && attr === 'instrument' && filterAttributes['instrument'] !== '' && filterAttributes['instrument'] !== null))
-      console.log(fk)
+      const fk = filterKeys.filter(attr =>  
+        (filterAttributes[attr] && item[attr]) || 
+        (filterAttributes[attr] && item[attr] === 0) || 
+        (filterAttributes[attr] && Object.keys(item).includes(attr)) || 
+        (objectType === 'sections' && attr === 'instrument' && filterAttributes['instrument'] !== '' && filterAttributes['instrument'] !== null))
       return fk.every(prop => {
          
           switch (true) {

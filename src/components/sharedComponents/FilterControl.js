@@ -19,8 +19,7 @@ import Spotify_Icon_RGB_Green from '../../assets/Spotify_Icon_RGB_Green.png'
 import keys from '../../dataToImport/keys'
 import modes from '../../dataToImport/modes'
 import { millisToMinutesAndSeconds, normalize, renderText, titleCase } from '../../helpers/detailHelpers'
-import { renderAutoCompleteDataField, renderAutoCompleteField, renderRadioGroup, renderSlider, renderTextField } from './MaterialUiReduxFormFields'
-import { getFilteredItems } from '../../selectors/filterSelectors'
+import { renderAutoCompleteDataField, renderRadioGroup, renderSlider, renderTextField } from './MaterialUiReduxFormFields'
 
 const useStyles = makeStyles((theme) => ({
   root: {

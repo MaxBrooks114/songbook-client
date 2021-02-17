@@ -10,7 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import TextField from '@material-ui/core/TextField'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { Autocomplete } from '@material-ui/lab'
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 
 import RangedSlider from './RangedSlider'
 import { titleCase } from '../../helpers/detailHelpers'

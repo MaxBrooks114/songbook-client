@@ -1,7 +1,5 @@
 import Grid from '@material-ui/core/Grid'
-import { useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 
@@ -23,8 +21,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 const Features = ({ song, section, instrument, objectType }) => {
   const classes = useStyles()
-  const theme = useTheme()
-  const medScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const item = song || section || instrument
 
