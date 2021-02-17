@@ -1,6 +1,7 @@
 import songbook from '../apis/songbook'
 import history from '../history'
 import { returnErrors } from './messages'
+import {fetchSongs} from './songs'
 import { CREATE_SECTION, DELETE_SECTION, EDIT_SECTION,  FETCH_SECTIONS } from './types'
 import { loading, notLoading, showSuccessSnackbar } from './ui'
 
@@ -17,6 +18,7 @@ export const createSection = (formValues) => async (dispatch) => {
       history.push(`/sections/${response.data.id}`)
       dispatch(showSuccessSnackbar('Section Created'))
     }
+    dispatch(fetchSongs())
     dispatch(fetchSections())
   } catch (error) {
     dispatch(returnErrors(error.response.data, error.response.status))
