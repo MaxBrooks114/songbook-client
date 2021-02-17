@@ -22,9 +22,9 @@ In music, a section is defined as a complete, but not independent, musical idea.
 
 As an optional feature of SongBook, you can add any instrument imaginable to your page and link it to any of your sections. This feature is perfect for multi-instrumentalists who know a section or song on more than one instrument. When viewing an instrument, you can see a list of all the songs and sections you know on that specific instrument.
 
-### StatisticsUncover
+### Statistics
 
-#### Trends In your own Tastes
+#### Uncover Trends In your own Tastes
 
 SongBook keeps track of all the music you add and aggregates that data to tell you more about your musical tastes, as well as track your progress. Everything from how many songs you have added to a list of your favorite artists can be found in your profile section of SongBook. Furthermore, every song imported from Spotify has the following audio metrics: Valence, Energy, Acousticness, Danceability, Instrumentalness, Speechiness and Loudness among others. SongBook tracks your preferences for those too to see what kind of music you prefer to play.
 
