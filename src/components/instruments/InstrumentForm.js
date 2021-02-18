@@ -76,6 +76,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+   songFieldContainer: {
+      height: 49, 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+  },
+
   value: {
     color: theme.palette.info.main
   }
@@ -92,7 +99,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit, initialValues }) => {
 
     <form onSubmit={handleSubmit(onFormSubmit)} className={classes.root}>
       <Grid container alignItems="center" spacing={2} align="center" justify="flex-end" >
-         <Grid item xs={12} md={6}>
+         <Grid item xs={12} md={6} >
             <Field
               classes={classes}
               required
@@ -104,7 +111,7 @@ const InstrumentForm = ({ onSubmit, handleSubmit, initialValues }) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} className={classes.songFieldContainer}>
             <Field
               classes={classes}
               name="year"

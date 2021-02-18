@@ -112,6 +112,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  songFieldContainer: {
+      height: 49, 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center'
+  },
+
   uploadButton: {
     background: theme.palette.secondary.dark,
     '&:hover': {
@@ -180,11 +187,12 @@ const SectionForm = ({ songs, onSubmit, handleSubmit, instruments, initialValues
                 }
               }}/>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} className={classes.songFieldContainer}>
             <Field
               options={_.uniq(Object.values(songs).map(song => song.title))}
               classes={classes}
               name="song"
+              style={{display: 'block', margin: 'auto'}}
               defaultValue={initialValues && initialValues.song ? initialValues.song : undefined}
               component={renderAutoCompleteDataField}
               label="Song"
