@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   detail: {
     height: '100%',
     minHeight: '120vh',
-    marginTop: 91,
+    marginTop: 107,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
       duration: 500
@@ -100,8 +100,8 @@ const useStyles = makeStyles((theme) => ({
 
   list: {
     marginTop: 7,
-    minHeight: '80vh',
-    overflow: 'hidden',
+    minHeight: '93vh',
+    overflow: 'scroll',
     flexGrow: 1,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
@@ -115,7 +115,6 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
-    maxHeight: 700,
     marginLeft: 46
   },
 
