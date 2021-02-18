@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
     display: 'inline-block',
     borderRadius: 4,
-    background: theme.palette.common.gray
+    background: theme.palette.common.gray,
+    marginTop: '1rem'
   },
 
   input: {
