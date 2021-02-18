@@ -1,5 +1,4 @@
 import IconButton from '@material-ui/core/IconButton'
-import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
@@ -65,7 +64,6 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
   const listLength = filteredSongs.length 
   const history = useHistory()
   const classes = useStyles()
-  console.log('render')
   const Row =  ({index, style}) => (<ListItem
                 style={style}
                 onClick={() => {
@@ -97,7 +95,7 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
           </IconButton>
             : null}
         </div>
-        <FixedSizeList itemSize={100} itemCount={parseInt(listLength)} className={classes.list} height={height || 750}>
+        <FixedSizeList itemSize={100} itemCount={parseInt(listLength)} className={classes.list} height={height || 600}>
             {Row}
         </FixedSizeList>
       </>

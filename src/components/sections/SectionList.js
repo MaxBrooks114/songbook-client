@@ -1,5 +1,4 @@
 import IconButton from '@material-ui/core/IconButton'
-import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import { makeStyles } from '@material-ui/styles'
@@ -86,7 +85,7 @@ const SectionList = ({ listColumnSize, setListColumnSize, transitionDuration, he
               </IconButton>
             : null}
         </div>
-        <FixedSizeList itemSize={130} itemCount={listLength} className={classes.list} height={height || 700}>
+        <FixedSizeList itemSize={130} itemCount={listLength} className={classes.list} height={height || 800}>
           {Row}
         </FixedSizeList>
       </>
