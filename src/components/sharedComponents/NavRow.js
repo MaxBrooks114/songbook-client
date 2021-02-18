@@ -4,7 +4,7 @@ import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded'
 import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, shallowEqual } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { getFilteredItems } from '../../selectors/filterSelectors'
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const NavRow = ({ item, objectType }) => {
-  const filteredItems = useSelector((state) => getFilteredItems(state, objectType))
+  const filteredItems = useSelector((state) => getFilteredItems(state, objectType), shallowEqual)
   const next = filteredItems[filteredItems.indexOf(item) + 1]
   const prev = filteredItems[filteredItems.indexOf(item) - 1]
 

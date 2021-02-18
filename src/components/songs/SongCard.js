@@ -48,13 +48,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const SongCard = ({ song, transitionDuration }) => {
+const SongCard = ({ song }) => {
   const classes = useStyles()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
-    <Slide direction="up" mountOnEnter in timeout={transitionDuration}>
+    <Slide direction="up" mountOnEnter in >
       <Card className={classes.root} >
         <CardMedia>
            <img

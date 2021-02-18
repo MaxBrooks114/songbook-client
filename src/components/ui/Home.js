@@ -159,7 +159,7 @@ const Home = () => {
   const renderSvgs = () => {
     return pngs.map((png, index) => {
       return (
-          <Grid key={index} item xs={2} lg={1}>
+          <Grid key={png} item xs={2} lg={1}>
             <img
                 onClick={() => setBlurbShow(index)}
                 className={clsx(classes.graphic, { [classes.graphicActive]: blurbShow === index })}

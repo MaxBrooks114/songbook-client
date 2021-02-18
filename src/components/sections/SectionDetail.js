@@ -6,7 +6,7 @@ import Slide from '@material-ui/core/Slide'
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, shallowEqual } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 
 import { deleteSection } from '../../actions/sections'
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SectionDetail = () => {
   const params = useParams()
-  const section = useSelector(state => state.sections[params.id])
+  const section = useSelector(state => state.sections[params.id], shallowEqual)
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)

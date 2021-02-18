@@ -8,7 +8,7 @@ import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutline
 import PlayCircleOutlineRoundedIcon from '@material-ui/icons/PlayCircleOutlineRounded'
 import { makeStyles } from '@material-ui/styles'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import * as workerTimers from 'worker-timers'
 
 import { checkIfPlaying, playSection, playSong, pressPausePlayer } from '../../actions/spotify'
@@ -124,10 +124,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DetailTitle = ({ title, subtitle1, subtitle2, image, uploadedImage, album, spotifyUri, song, section }) => {
-  const player = useSelector(state => state.spotifyPlayer)
-  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id)
-  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token)
-  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token)
+  const player = useSelector(state => state.spotifyPlayer, shallowEqual)
+  const deviceId = useSelector((state) => state.auth.user.spotify_info.device_id, shallowEqual)
+  const accessToken = useSelector((state) => state.auth.user.spotify_info.access_token, shallowEqual)
+  const refreshToken = useSelector((state) => state.auth.user.spotify_info.refresh_token, shallowEqual)
   const loading = useSelector((state) => state.loading)
   const dispatch = useDispatch()
   const classes = useStyles()

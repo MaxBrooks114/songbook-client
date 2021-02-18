@@ -57,7 +57,7 @@ const SectionInstruments = ({ section }) => {
     return instruments.length
       ? instruments.map((instrument) => {
         return (
-            <Grid item xs={2}>
+            <Grid item key={instrument.id} xs={2}>
               <Typography>
                 <Link className={classes.link} to={`/instruments/${instrument.id}`}>{instrument.name}</Link>
               </Typography>

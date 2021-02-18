@@ -79,7 +79,7 @@ const UserForm = ({ onSubmit, handleSubmit }) => {
   const errorMessages = useSelector((state) => state.errors.msg)
   const renderErrorMessages = () => {
     if (!errorMessages.headers) {
-      return Object.values(errorMessages).map((msg) => <div className={classes.errorMessages}>{msg}</div>)
+      return Object.values(errorMessages).map((msg) => <div key={msg} className={classes.errorMessages}>{msg}</div>)
     }
   }
 

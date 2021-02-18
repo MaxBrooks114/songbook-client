@@ -5,12 +5,13 @@ import Typography from '@material-ui/core/Typography'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, shallowEqual } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-
+import {FixedSizeList} from 'react-window'
 import { getFilteredItems } from '../../selectors/filterSelectors'
 import Sort from '../sharedComponents/Sort'
 import SongCard from './SongCard'
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   listItem: {
+   
     '&:hover': {
       transform: 'translate(10px, 10px)',
       transition: 'transform 0.2s ease 0s',
@@ -56,32 +58,29 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }))
+
+
 const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, height }) => {
-  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'))
-  const songs = useSelector((state) => state.songs)
+  const filteredSongs = useSelector((state) => getFilteredItems(state, 'songs'), shallowEqual)
+  const listLength = filteredSongs.length 
   const history = useHistory()
   const classes = useStyles()
-
-  const renderedList = () => {
-    return Object.values(songs).length > 0
-      ? filteredSongs.map((song) => {
-        transitionDuration += 50
-        return (
-              <ListItem
+  console.log('render')
+  const Row =  ({index, style}) => (<ListItem
+                style={style}
                 onClick={() => {
-                  history.push(`/songs/${song.id}`)
+                  history.push(`/songs/${filteredSongs[index].id}`)
                 }}
                 className={classes.listItem}
-                key={song.id}
+                key={filteredSongs[index].id}
                 disableGutters
                 dense>
-                <SongCard song={song} transitionDuration={transitionDuration} />
+                <SongCard song={filteredSongs[index]} />
               </ListItem>
         )
-      })
-      : null
-  }
-
+     
+  
+    
   return (
       <>
         <Typography variant="h5" className={classes.title}>
@@ -98,9 +97,9 @@ const SongList = ({ listColumnSize, setListColumnSize, transitionDuration, heigh
           </IconButton>
             : null}
         </div>
-        <List className={classes.list} style={{ height: height }}>
-          {renderedList()}
-        </List>
+        <FixedSizeList itemSize={100} itemCount={parseInt(listLength)} className={classes.list} height={height || 750}>
+            {Row}
+        </FixedSizeList>
       </>
   )
 }

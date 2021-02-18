@@ -1,7 +1,7 @@
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import { createFile } from '../../actions/files'
@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SectionCreate = () => {
   const dispatch = useDispatch()
-  const songs = useSelector((state) => state.songs)
-  const instruments = useSelector((state) => state.instruments)
+  const songs = useSelector((state) => state.songs, shallowEqual)
+  const instruments = useSelector((state) => state.instruments, shallowEqual)
 
   const songId = (title) => {
     const song = Object.values(songs).find((song) => song.title === title)

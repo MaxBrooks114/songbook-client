@@ -7,7 +7,7 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { makeStyles } from '@material-ui/styles'
 import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, shallowEqual } from 'react-redux'
 import { Switch, useHistory, useLocation } from 'react-router-dom'
 
 import filter_arrow_right from '../../assets/filter_arrow_right.svg'
@@ -100,7 +100,8 @@ const useStyles = makeStyles((theme) => ({
 
   list: {
     marginTop: 7,
-    minHeight: '100vh',
+    minHeight: '80vh',
+    overflow: 'hidden',
     flexGrow: 1,
     transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeOut,
@@ -114,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
-
+    maxHeight: 700,
     marginLeft: 46
   },
 
@@ -145,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const SectionContainer = () => {
-  const sections = useSelector((state) => state.sections)
+  const sections = useSelector((state) => state.sections, shallowEqual)
   const location = useLocation()
   const history = useHistory()
 

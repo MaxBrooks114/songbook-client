@@ -139,7 +139,7 @@ const UserMetrics = ({ songs, sections }) => {
         }
         return (
 
-               <Grid item xs={6} md={2} key={index} style={!matches ? { marginLeft: '30px' } : null}>
+               <Grid item xs={6} md={2} key={item} style={!matches ? { marginLeft: '30px' } : null}>
                 <ItemCard
                     index={index}
                     picture={renderInfo(item, items[1])}

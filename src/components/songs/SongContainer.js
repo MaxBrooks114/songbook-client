@@ -101,7 +101,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-    minHeight: '100vh',
+    minHeight: '80vh',
+    overflow: 'hidden',
     marginTop: 7,
     flexGrow: 1,
     transition: theme.transitions.create('all', {
@@ -116,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: 500
     }),
-
+    maxHeight: 800,
     marginLeft: 47
   },
 

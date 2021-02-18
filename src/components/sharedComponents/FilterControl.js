@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/styles'
 import _ from 'lodash'
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { clearFields, Field, initialize, reduxForm, reset } from 'redux-form'
 
@@ -192,13 +192,13 @@ const useStyles = makeStyles((theme) => ({
 
 const FilterControl = ({ objectType, handleSubmit, setOpenDrawer, openDrawer }) => {
   const dispatch = useDispatch()
-  const filterForm = useSelector(state => state.form.FilterForm)
-  const filterValues = useSelector(state => state.filter)
-  const instruments = useSelector(state => state.instruments)
-  const songs = Object.values(useSelector(state => state.songs))
+  const filterForm = useSelector(state => state.form.FilterForm, shallowEqual)
+  const filterValues = useSelector(state => state.filter, shallowEqual)
+  const instruments = useSelector(state => state.instruments, shallowEqual)
+  const songs = Object.values(useSelector(state => state.songs), shallowEqual)
   const location = useLocation()
-  const accessToken = useSelector(state => state.auth.user.spotify_info.access_token)
-  const items = Object.values(useSelector((state) => state[objectType]))
+  const accessToken = useSelector(state => state.auth.user.spotify_info.access_token, shallowEqual)
+  const items = Object.values(useSelector((state) => state[objectType]), shallowEqual)
   const userId = useSelector(state => state.auth.user.id)
   const songOrSections = location.pathname.split('/')[1]
   const booleans = {
