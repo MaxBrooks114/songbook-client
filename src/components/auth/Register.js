@@ -86,7 +86,7 @@ const Register = () => {
         <div className={classes.toolbarMargin}></div>
         <div className={classes.root}>
         <Typography className={classes.title} variant="h2" align="center" gutterBottom>
-          Register your Songbook
+          Register your SongBook
         </Typography>
         <UserForm onSubmit={onSubmit} />
         <div className={classes.toolbarMargin}></div>

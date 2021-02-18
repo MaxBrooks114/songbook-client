@@ -119,7 +119,7 @@ const Home = () => {
     {
       title: 'Sections',
       subtitle: 'The building blocks of music',
-      desc: 'In music, a section is defined as a complete, but not independent, musical idea. Examples of sections include verse, chorus, bridge, solo etc. SongBook helps to organize and catalogue those various sections that you as a musician either write, or learn. For every song you add, you can add any number of sections and the musical properties for that section such as the key, mode, tempo, start, duration, lyrics, etc.. Songbook also gives you access to useful tools such as a metronome, an audio recorder, the ability to upload sheet music and/or tabs, and more!',
+      desc: 'In music, a section is defined as a complete, but not independent, musical idea. Examples of sections include verse, chorus, bridge, solo etc. SongBook helps to organize and catalogue those various sections that you as a musician either write, or learn. For every song you add, you can add any number of sections and the musical properties for that section such as the key, mode, tempo, start, duration, lyrics, etc.. SongBook also gives you access to useful tools such as a metronome, an audio recorder, the ability to upload sheet music and/or tabs, and more!',
       video: SectionDemo
     },
     {
