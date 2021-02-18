@@ -40,6 +40,13 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main
   },
 
+  title: {
+    fontWeight: 600,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '2rem'
+    }
+  },
+
   toolbarMargin: {
     ...theme.mixins.toolbar,
     [theme.breakpoints.down('md')]: {
@@ -74,11 +81,11 @@ const Login = () => {
       <div className={classes.toolbarMargin}></div>
       <div className={classes.root}>
         <Typography className={classes.title} variant="h2" align="center" gutterBottom>
-          Log in To Songbook
+          Log in to SongBook
         </Typography>
         <LoginForm onSubmit={onSubmit} />
         <div className={classes.toolbarMargin}></div>
-        <Typography className={classes.title} variant="subtitle1" align="center">
+        <Typography  variant="subtitle1" align="center">
           Don't have an account?{' '}
           <Link className={classes.link} component={RouterLink} to="/register">
             Register
